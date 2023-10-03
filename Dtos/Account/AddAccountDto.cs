@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace dotnet_rpg.Dtos.Character
+namespace Project_C.Dtos.Character
 {
     public class AddAccountDto
     {
