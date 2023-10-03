@@ -1,0 +1,43 @@
+version: '3'
+
+services: 
+  # Postgres
+  postgresserver:
+    image: postgres
+    command: -c shared_buffers=256MB -c max_connections=200
+    ports: 
+      - 5432:5432
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - mynetwork
+    logging:
+      driver: none
+  
+  # PGAdmin
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@ad.min
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - '8081:80'
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - "postgresserver"
+    networks:
+      - mynetwork
+    logging:
+      driver: none
+  
+volumes:
+  pgdata:
+  pgadmin-data:
+
+networks:
+  mynetwork:
+    driver: bridge
