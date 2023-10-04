@@ -7,6 +7,8 @@ namespace Project_C.models
 {
     public class Account
     {
-        
+        public int Id { get; set; }
+        public string Name { get; set; } =  "test";
+        //public AccountType Class { get; set; } = AccountType.Client;
     }
 }

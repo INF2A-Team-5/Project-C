@@ -1,6 +1,6 @@
 global using Project_C.models;
-global using Project_C.Services.CharacterService;
-global using Project_C.Dtos.Character;
+global using Project_C.Services.AccountService;
+global using Project_C.Dtos.Account;
 global using AutoMapper;
 global using Microsoft.EntityFrameworkCore;
 global using Project_C.Data;
