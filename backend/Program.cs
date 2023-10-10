@@ -1,0 +1,67 @@
+using Microsoft.EntityFrameworkCore;
+using backend.Models;
+
+
+// var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddDbContext<DataContext>(option=> option.UseNpgsql(builder.Configuration.GetConnectionString("connection")));
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options => {
+    options.AddPolicy("Default", policy =>{
+        policy.AllowAnyOrigin();
+    });
+});
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseCors("Default");
+
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
+
+// string adminname = "adminname";
+// string adminpw = "adminpw";
+// AccountType adminClass = AccountType.Admin;
+
+// string empname = "empname";
+// string emppw = "emppw";
+// AccountType empClass = AccountType.ServiceEmployee;
+
+// string clientname = "clientname";
+// string clientpw = "clientpw";
+// AccountType clientClass = AccountType.Client;
+
+// Account Client = new Account {Name = clientname, Password = clientpw, Class = clientClass };
+// Account Employee = new Account {Name = empname, Password = emppw, Class = empClass };
+// Account Admin = new Account {Name = adminname, Password = adminpw, Class = adminClass };
+// List<Account> accounts = new List<Account>{Client, Employee, Admin};
+
+// var db = new DataContext();
+
+// foreach (Account account in accounts)
+// {
+//     db.Add(account);
+//     db.SaveChanges();
+// }
