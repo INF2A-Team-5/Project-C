@@ -1,38 +1,35 @@
 import Header from '../foundations/header'
 import Input from '../foundations/input'
 import Button from '../foundations/button'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import axios from 'axios'
 
-function fetchData() {
-    const promise = axios.get("https://localhost:7168/api/Accounts")
-    const datapromise = promise.then((response) => {  });
-    console.log(datapromise)
-    return datapromise;
-     // Handle the response
-     // Handle the error
+async function fetchData(username: string, pw: string) {
+    let promise = axios.get("http://localhost:5119/api/accounts").then((response) => response.data)
+    let MappedData = new Map<string, string>();
+    for (let account of await promise)
+    {
+      MappedData.set(account.name, account.password)
+    }
+    if (MappedData.has(username) && MappedData.get(username) == pw)
+    {
+      alert("loggin in...");
+      window.location.assign('/tickets');
+      //useHref("/tickets");
+    }
+    else
+    {
+      alert("invalid credentials");
+    }
 }
 
 function LogIn() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    let [username, setUsername] = useState('');
+    let [password, setPassword] = useState('');
 
     const handleSubmit = () => 
     {
-      fetchData().then(data => { data} )
-      if (username == "test" && password == "testpw")
-      {
-        // window.location.href = "/tickets";
-        //<Tickets />
-        //Tickets()
-        alert("nice");
-        window.location.assign('/tickets');
-        //useHref("/tickets");
-      }
-      else
-      {
-        alert("invalid credentials");
-      }
+      fetchData(username, password)
     }
 
   return (
@@ -46,7 +43,7 @@ function LogIn() {
           
           {/* <label htmlFor="username"></label> */}
           <Input hierarchy='xl' name='username' placeholder='Enter Username'
-          onChange={e => setUsername((e.target as HTMLInputElement).value)}
+          onChange={e => setUsername(e.currentTarget.value)}
           //onChange={e => setUsername(e.target.value)}
           />
         </div>
@@ -54,7 +51,7 @@ function LogIn() {
         <div>
           {/* <label htmlFor="password"></label> */}
           <Input hierarchy='xl' name='password' placeholder='Enter Password'
-          onChange={e => setPassword((e.target as HTMLInputElement).value)}
+          onChange={e => setPassword(e.currentTarget.value)}
           />
         </div>
         {/* <label>

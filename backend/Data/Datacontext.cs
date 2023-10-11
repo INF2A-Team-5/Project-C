@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using backend.Entities;
 
-namespace AccountsAPI.Models;
+namespace backend.Data;
 public class DataContext :  DbContext
 {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
@@ -18,8 +19,8 @@ public class DataContext :  DbContext
         builder.UseNpgsql(@"Host=localhost:5432;Username=postgres;Password=1234;Database=ProjectC_Database;Maximum Pool Size=200");
         builder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Debug);
         }  
-        // protected override void OnModelCreating(ModelBuilder modelBuilder)
-        // {
-        //     modelBuilder.Entity<Account>().HasKey(x => x.AccountId);
-        // }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Account>().HasKey(x => x.Id);
+        }
 }
