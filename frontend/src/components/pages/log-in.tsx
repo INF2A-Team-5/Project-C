@@ -2,31 +2,24 @@ import Header from '../foundations/header'
 import Input from '../foundations/input'
 import Button from '../foundations/button'
 import React, { useState } from 'react'
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
 
-const res: AxiosResponse<Account[]> = await axios.get('http://localhost:5000/api/Accounts', {
-    responseType: 'text',
-    transformResponse: [v => v]
-  });
-    // const datapromise = promise.then((response) => {  });
+function fetchData() {
+    const promise = axios.get("https://localhost:7168/api/Accounts")
+    const datapromise = promise.then((response) => {  });
+    console.log(datapromise)
+    return datapromise;
      // Handle the response
      // Handle the error
-
-type Account = {
-  accounedId: Int16Array;
-  name: string;
-  password: string;
-  class: string;
 }
 
 function LogIn() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [accounts, setAccounts] = useState([]);
 
     const handleSubmit = () => 
     {
-      console.log(typeof(res))
+      fetchData().then(data => { data} )
       if (true)
       {
         // window.location.href = "/tickets";

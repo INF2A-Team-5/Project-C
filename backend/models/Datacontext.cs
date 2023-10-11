@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace backend.Models;
+namespace AccountsAPI.Models;
 public class DataContext :  DbContext
 {
         public DataContext(DbContextOptions<DataContext> options) : base(options)

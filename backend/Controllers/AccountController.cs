@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using backend.Models;
+using AccountsAPI.Models;
 
-namespace backend.Controllers
+namespace AccountsAPI.Controllers
 {
     [Route("api/Accounts")]
     [ApiController]
