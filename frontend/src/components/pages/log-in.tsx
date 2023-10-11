@@ -20,13 +20,13 @@ function LogIn() {
     const handleSubmit = () => 
     {
       fetchData().then(data => { data} )
-      if (true)
+      if (username == "test" && password == "testpw")
       {
         // window.location.href = "/tickets";
         //<Tickets />
         //Tickets()
         alert("nice");
-        //window.location.assign('/tickets');
+        window.location.assign('/tickets');
         //useHref("/tickets");
       }
       else
