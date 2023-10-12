@@ -77,6 +77,16 @@ button
   color: var(--primary-foreground);
 }
 
+input{
+  /* background-color: transparent; */
+  border-color: var(--input);
+  border: 2px solid var(--input);
+}
+input:focus{
+  margin: 5px;
+  outline: 5px solid var(--primary);
+}
+
 .input-sm {
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
