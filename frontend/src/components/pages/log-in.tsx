@@ -13,6 +13,17 @@ function fetchData() {
      // Handle the error
 }
 
+function toggleTheme(){
+  const htmlElement = document.documentElement;
+  const isDarkMode = htmlElement.classList.contains("dark");
+
+  if (isDarkMode) {
+    htmlElement.classList.remove("dark");
+  } else {
+    htmlElement.classList.add("dark");
+  }
+}
+
 function LogIn() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -37,7 +48,7 @@ function LogIn() {
 
   return (
     
-    <div>
+    <div className='content'>
       {/* <form onSubmit={handleSubmit}> */}
         <Header></Header>
         <h2>Login</h2>
@@ -62,6 +73,7 @@ function LogIn() {
         </label> */}
         <br />
         <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">Log in</Button>
+        <Button hierarchy='xl' intent="primary" onClick={toggleTheme} rounded="slight">theme</Button>
       {/* </form> */}
     </div>
   )
