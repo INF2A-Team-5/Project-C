@@ -2,36 +2,31 @@ import Header from '../foundations/header'
 import Input from '../foundations/input'
 import Button from '../foundations/button'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
-async function fetchData(username: string, pw: string) {
-    let promise = axios.get("http://localhost:5119/api/accounts").then((response) => response.data)
-    let MappedData = new Map<string, string>();
-    for (let account of await promise)
-    {
-      MappedData.set(account.name, account.password)
-    }
-    if (MappedData.has(username) && MappedData.get(username) == pw)
-    {
-      alert("loggin in...");
-      window.location.assign('/tickets');
-      //useHref("/tickets");
-    }
-    else
-    {
-      alert("invalid credentials");
-    }
-}
-
 function LogIn() {
-    let [username, setUsername] = useState('');
-    let [password, setPassword] = useState('');
-
-    const handleSubmit = () => 
-    {
-      fetchData(username, password)
-    }
-
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+    
+    async function handleSubmit() {
+      let promise = axios.get("http://localhost:5119/api/accounts").then((response) => response.data)
+      let MappedData = new Map<string, string>();
+      for (let account of await promise)
+      {
+        MappedData.set(account.name, account.password)
+      }
+      if (MappedData.has(username) && MappedData.get(username) == password)
+      {
+        alert("loggin in...");
+        navigate('/tickets');
+      }
+      else
+      {
+        alert("invalid credentials");
+      }
+  }
   return (
     
     <div>
