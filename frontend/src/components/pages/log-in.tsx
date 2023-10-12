@@ -48,8 +48,9 @@ function LogIn() {
 
   return (
     
-    <div className='content'>
-      {/* <form onSubmit={handleSubmit}> */}
+    <div className='content grid-container'>
+      <div className='grid-item login-left'></div>
+      <div className='grid-item'>
         <Header></Header>
         <h2>Login</h2>
         <h3>Username</h3>
@@ -75,6 +76,7 @@ function LogIn() {
         <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">Log in</Button>
         <Button hierarchy='xl' intent="primary" onClick={toggleTheme} rounded="slight">theme</Button>
       {/* </form> */}
+      </div>
     </div>
   )
 }
