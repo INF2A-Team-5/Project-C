@@ -4,6 +4,7 @@ import Button from '../foundations/button'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import React, { useEffect } from "react";
 
 function toggleTheme(){
   const htmlElement = document.documentElement;
@@ -45,11 +46,12 @@ function LogIn() {
         <div className='wrapper'>
           <h1>Fully designing your process in</h1>
           <div className='words'>
-            <h1 >flowers & plants</h1>
+            <h1>flowers & plants</h1>
             <h1>fruit & vegetables</h1>
             <h1>poultry</h1>
             <h1>insect farming</h1>
             <h1>intralogistics</h1>
+            {/* <h1>flowers & plants</h1> */}
           </div>
         </div>
       </div>
@@ -77,9 +79,10 @@ function LogIn() {
         </label> */}
         <br />
         <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">Log in</Button>
-        <Button hierarchy='xl' intent="primary" onClick={toggleTheme} rounded="slight">theme</Button>
+        <Button hierarchy='xl' intent="primary" onClick={toggleTheme} rounded="slight">theme</Button>    
       {/* </form> */}
       </div>
+      
     </div>
   )
 }

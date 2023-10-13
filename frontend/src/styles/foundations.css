@@ -26,47 +26,60 @@ body {
   display: flex;
   box-shadow: 0 20px 25px rgba(0, 0, 0, 0,2);
 }
-
+/* animation origineel 6s */
 .words h1{
+  text-align: left;
   color: var(--primary);
   display: block;
   height: 100%;
   padding-left: 10px;
-  border: 1px solid orange;
-  animation: spin_words 60s infinite;
+  /* border: 1px solid orange; */
+  animation: spin_words 12s infinite;  
+  place-items: center;
 }
 
 .words {
-  /* overflow: hidden; */
+ overflow: hidden;
 }
+
+
+/* -112, -130, -269%, -390, -520%*/
 /* keyframes aanpassen voor juiste hoogte */
 @keyframes spin_words {
   10% {
     transform: translateY(-112%);
+
   }
   25% {
-    transform: translateY(-100%);
+    transform: translateY(-130%);
+
   }
+
   35% {
-    transform: translateY(-212%);
+    transform: translateY(-118%);
+
   }
   50% {
-    transform: translateY(-200%);
+    transform: translateY(-269%);
+
   }
   60% {
-    transform: translateY(-312%);
+    transform: translateY(-257%);
+
   }
   75% {
-    transform: translateY(-300%);
+    transform: translateY(-390%);
+
   }
   85% {
-    transform: translateY(-412%);
+    transform: translateY(-378%);
+
   }
   100% {
-    transform: translateY(-600%);
+    transform: translateY(-520%);
+
   }
 }
-
 
 button {
   color: var(--background);
