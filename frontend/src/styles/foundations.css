@@ -97,7 +97,7 @@
 }
 
 .input-xxl {
-  text-align:left;
+
   padding: 4.0rem 3.0rem;
   font-size: 1.5rem;
   border-radius: 0.25rem;
@@ -142,16 +142,45 @@
 }
 
 .block-xl {
+  margin-left:auto;
   padding: 7rem 7rem;
   font-size: 1.5rem;
 
 }
 
+.left {
+  background-color:#555;
+  position: absolute;
+  left: 0px;
+  width: 550px;
+  height: 70%;
+  text-align: center;
+}
+
+.right {
+  background-color:#555;
+  position: absolute;
+  right: 0px;
+  width: 550px;
+  height: 70%;
+  text-align: center;
+}
+
+.mid {
+  background-color: #555;
+  position: absolute;
+  left:700px;
+  width: 550px;
+  height: 70%;
+  text-align: center;
+}
 
 
 
-
-
+.top {
+  width: 100%;
+  height: 20%;
+}
 
 
 
