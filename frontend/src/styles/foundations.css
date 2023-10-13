@@ -1,10 +1,13 @@
+body {
+  margin: 0;
+}
 .grid-container {
   display: grid;
   grid-template-columns: 50% 50%;
 }
 
 .grid-item {
-  height: 100%;
+  height: 100vh;
 }
 
 .login-left {
@@ -102,9 +105,9 @@ input:focus{
   outline: 5px solid var(--primary);
 }
 
-select:focus {
-  /* background-color: red; */
-}
+/* select:focus {
+  background-color: red;
+} */
 
 .input-sm {
   padding: 0.5rem 1rem;
