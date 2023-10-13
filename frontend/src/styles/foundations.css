@@ -4,16 +4,69 @@ body {
 .grid-container {
   display: grid;
   grid-template-columns: 50% 50%;
+  height: 100vh;
 }
 
 .grid-item {
-  height: 100vh;
+
 }
 
 .login-left {
   background-color: blue;
   left: 50%;
+  display: grid;
+  place-items: center;
 }
+
+.wrapper {
+  box-sizing: content-box;
+  /* background-color: var(--background); */
+  height: 70px;
+  padding: 50px 30px;
+  display: flex;
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0,2);
+}
+
+.words h1{
+  color: var(--primary);
+  display: block;
+  height: 100%;
+  padding-left: 10px;
+  border: 1px solid orange;
+  animation: spin_words 60s infinite;
+}
+
+.words {
+  /* overflow: hidden; */
+}
+/* keyframes aanpassen voor juiste hoogte */
+@keyframes spin_words {
+  10% {
+    transform: translateY(-112%);
+  }
+  25% {
+    transform: translateY(-100%);
+  }
+  35% {
+    transform: translateY(-212%);
+  }
+  50% {
+    transform: translateY(-200%);
+  }
+  60% {
+    transform: translateY(-312%);
+  }
+  75% {
+    transform: translateY(-300%);
+  }
+  85% {
+    transform: translateY(-412%);
+  }
+  100% {
+    transform: translateY(-600%);
+  }
+}
+
 
 button {
   color: var(--background);
@@ -38,9 +91,6 @@ button {
   outline: none;
   box-shadow: 0 0 0 3px var(--ring);
   border-color: var(--ring);
-  /* border-width: 0.75rem; */
-  /* padding: 4rem; */
-  /* background-color: var(--destructive); */
 }
 
 .button-secondary {
@@ -104,10 +154,6 @@ input:focus{
   margin: 5px;
   outline: 5px solid var(--primary);
 }
-
-/* select:focus {
-  background-color: red;
-} */
 
 .input-sm {
   padding: 0.5rem 1rem;

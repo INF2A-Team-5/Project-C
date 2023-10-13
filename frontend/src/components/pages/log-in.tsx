@@ -41,7 +41,18 @@ function LogIn() {
   return (
     
     <div className='content grid-container'>
-      <div className='grid-item login-left'></div>
+      <div className='grid-item login-left'>
+        <div className='wrapper'>
+          <h1>Fully designing your process in</h1>
+          <div className='words'>
+            <h1 >flowers & plants</h1>
+            <h1>fruit & vegetables</h1>
+            <h1>poultry</h1>
+            <h1>insect farming</h1>
+            <h1>intralogistics</h1>
+          </div>
+        </div>
+      </div>
       <div className='grid-item'>
         <Header></Header>
         <h2>Login</h2>
