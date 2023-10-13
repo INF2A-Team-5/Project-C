@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AccountsAPI.Models;
+using backend.Data;
+using backend.Entities;
 
-namespace AccountsAPI.Controllers
+namespace backend.Controllers
 {
     [Route("api/Accounts")]
     [ApiController]
@@ -49,7 +50,7 @@ namespace AccountsAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAccount(long id, Account account)
         {
-            if (id != account.AccountId)
+            if (id != account.Id)
             {
                 return BadRequest();
             }
@@ -88,7 +89,7 @@ namespace AccountsAPI.Controllers
             await _context.SaveChangesAsync();
 
             // return CreatedAtAction("GetAccount", new { id = account.AccountId }, account);
-            return CreatedAtAction(nameof(GetAccount), new { id = account.AccountId }, account);
+            return CreatedAtAction(nameof(GetAccount), new { id = account.Id }, account);
         }
 
         // DELETE: api/Account/5
@@ -113,7 +114,7 @@ namespace AccountsAPI.Controllers
 
         private bool AccountExists(long id)
         {
-            return (_context.Accounts?.Any(e => e.AccountId == id)).GetValueOrDefault();
+            return (_context.Accounts?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
