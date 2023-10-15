@@ -98,7 +98,7 @@
 
 .input-xxl {
 
-  padding: 4.0rem 3.0rem;
+  padding: 5.0rem 5.0rem;
   font-size: 1.5rem;
   border-radius: 0.25rem;
 }
@@ -114,39 +114,6 @@
   /* background-color: var(--destructive); */
 }
 
-.block-gray {
-  border: 1px solid transparent;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: var(--secondary);
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-
-.block-sm {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-
-}
-
-.block-md {
-  padding: 1rem 1.5rem;
-  font-size: 1rem;
-
-}
-
-.block-lg {
-  padding: 1rem 2rem;
-  font-size: 1.25rem;
-
-}
-
-.block-xl {
-  margin-left:auto;
-  padding: 7rem 7rem;
-  font-size: 1.5rem;
-
-}
 
 .left {
   background-color:#555;
