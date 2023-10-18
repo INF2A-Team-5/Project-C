@@ -1,5 +1,9 @@
 body {
   margin: 0;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  gap: 0;
+  margin: 0;
+  padding: 0;
 }
 .grid-container {
   display: grid;
@@ -11,74 +15,95 @@ body {
 
 }
 
+.resize-img {
+  background-size: auto 100%;
+  padding-left: 500px;
+  
+}
+
 .login-left {
-  background-color: blue;
+  background-color: var(--background);
+  /* background-image: url("https://www.synergia.nl/files/webp/files/ItemFields/cropped/1650x1170/spark-20201204-1631-viscon-4941-118.jpg.webp"); */
+  background-repeat: no-repeat;
+  object-fit: fill;
   left: 50%;
   display: grid;
   place-items: center;
+  gap: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .wrapper {
-  box-sizing: content-box;
-  /* background-color: var(--background); */
-  height: 70px;
-  padding: 50px 30px;
+  height: 20vh;
   display: flex;
-  box-shadow: 0 20px 25px rgba(0, 0, 0, 0,2);
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: left;
+  padding-left: 75px;
+  padding-right: 75px;  
+}
+
+.wrapper h1{
+  font-size: 45px;
+  line-height: 50px;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 /* animation origineel 6s */
+.words{
+  
+  border: 0px solid var(--background);
+  height: 50px;
+  line-height: 50px;
+  font-size: 45px;
+
+  text-transform: uppercase;
+  overflow: hidden;
+  
+}
+
 .words h1{
-  text-align: left;
+  position: relative;
   color: var(--primary);
-  display: block;
-  height: 100%;
-  padding-left: 10px;
-  /* border: 1px solid orange; */
-  animation: spin_words 12s infinite;  
-  place-items: center;
+  animation: rotate_words 15s ease infinite;
+  margin: 0;
 }
 
-.words {
- overflow: hidden;
-}
-
-
-/* -112, -130, -269%, -390, -520%*/
-/* keyframes aanpassen voor juiste hoogte */
-@keyframes spin_words {
+@keyframes rotate_words {
+  0%,
+  100% {
+    top: 0;
+  }
   10% {
-    transform: translateY(-112%);
-
+    top: 0;
   }
-  25% {
-    transform: translateY(-130%);
-
+  20% {
+    top: -50px;
   }
-
   35% {
-    transform: translateY(-118%);
-
+    top: -50px;
   }
-  50% {
-    transform: translateY(-269%);
-
+  40% {
+    top: -100px;
+  }
+  55% {
+    top: -100px;
   }
   60% {
-    transform: translateY(-257%);
-
+    top: -150px;
   }
   75% {
-    transform: translateY(-390%);
-
+    top: -150px;
   }
-  85% {
-    transform: translateY(-378%);
-
+  80% {
+    top: -200px;
   }
-  100% {
-    transform: translateY(-520%);
-
+  95% {
+    top: -200px;
   }
+
 }
 
 button {

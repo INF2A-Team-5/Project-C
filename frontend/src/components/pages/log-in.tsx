@@ -42,7 +42,7 @@ function LogIn() {
   return (
     
     <div className='content grid-container'>
-      <div className='grid-item login-left'>
+      <div className='grid-item login-left resize-img'>
         <div className='wrapper'>
           <h1>Fully designing your process in</h1>
           <div className='words'>
@@ -51,7 +51,6 @@ function LogIn() {
             <h1>poultry</h1>
             <h1>insect farming</h1>
             <h1>intralogistics</h1>
-            {/* <h1>flowers & plants</h1> */}
           </div>
         </div>
       </div>
