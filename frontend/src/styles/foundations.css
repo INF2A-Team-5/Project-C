@@ -11,19 +11,9 @@ body {
   height: 100vh;
 }
 
-.grid-item {
-
-}
-
-.resize-img {
-  background-size: auto 100%;
-  padding-left: 500px;
-  
-}
-
 .login-left {
   background-color: var(--background);
-  /* background-image: url("https://www.synergia.nl/files/webp/files/ItemFields/cropped/1650x1170/spark-20201204-1631-viscon-4941-118.jpg.webp"); */
+  background-image: url("https://viscongroup.eu/app/uploads/2023/01/MicrosoftTeams-image-77-scaled.jpg");
   background-repeat: no-repeat;
   object-fit: fill;
   left: 50%;
@@ -53,15 +43,12 @@ body {
 }
 /* animation origineel 6s */
 .words{
-  
   border: 0px solid var(--background);
   height: 50px;
   line-height: 50px;
   font-size: 45px;
-
   text-transform: uppercase;
   overflow: hidden;
-  
 }
 
 .words h1{
