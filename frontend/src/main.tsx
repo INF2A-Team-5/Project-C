@@ -13,6 +13,9 @@ import ServiceEmployee from "./components/pages/serviceEmployee";
 
 //import { router } from "./lib/router/router.tsx";
 
+import './translations/i18n';
+
+
 const router = createBrowserRouter([
   {
     path: "/",

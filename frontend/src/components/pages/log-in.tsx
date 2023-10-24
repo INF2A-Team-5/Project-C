@@ -5,6 +5,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import React, { useEffect } from "react";
+import { useTranslation } from 'react-i18next';
+
 
 function toggleTheme(){
   const htmlElement = document.documentElement;
@@ -18,6 +20,19 @@ function toggleTheme(){
 }
 
 function LogIn() {
+    const { t, i18n } = useTranslation();
+
+    useEffect(() => {
+      const lng = navigator.language;
+      i18n.changeLanguage(lng);
+    }, [])
+
+    const lng = navigator.language;
+    const changeLanguage = (lng: string) => {
+      i18n.changeLanguage(lng)
+    }
+
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -44,27 +59,27 @@ function LogIn() {
     <div className='content grid-container'>
       <div className='login-left'>
         <div className='wrapper'>
-          <h1>Fully designing your process in</h1>
+          <h1>{t('login.txt_rotation0')}</h1>
           <div className='words'>
-            <h1>flowers & plants</h1>
-            <h1>fruit & vegetables</h1>
-            <h1>poultry</h1>
-            <h1>insect farming</h1>
-            <h1>intralogistics</h1>
+            <h1>{t('login.txt_rotation1')}</h1>
+            <h1>{t('login.txt_rotation2')}</h1>
+            <h1>{t('login.txt_rotation3')}</h1>
+            <h1>{t('login.txt_rotation4')}</h1>
+            <h1>{t('login.txt_rotation5')}</h1>
           </div>
         </div>
       </div>
       <div className='login-right'>
         <Header></Header>
         <div className='login-form'>
-          <h2>Login</h2>
-          <h3>Username</h3>
+          <h2>{t('login.login')}</h2>
+          <h3>{t('login.username')}</h3>
           <div>
             <Input hierarchy='xl' name='username' placeholder='Client1'
             onChange={e => setUsername(e.currentTarget.value)}
             />
           </div>
-          <h3>Password</h3>
+          <h3>{t('login.password')}</h3>
           <div>
             <Input hierarchy='xl' name='password' placeholder='******'
             onChange={e => setPassword(e.currentTarget.value)}
@@ -74,8 +89,10 @@ function LogIn() {
             {/* <input type="checkbox" className="checkbox" name="remember"/> Remember me */}
           </label>
           <br />
-          <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">Log in</Button>
-          <Button hierarchy='xl' intent="primary" onClick={toggleTheme} rounded="slight">theme</Button>    
+          <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">{t('login.log_in')}</Button>
+          <Button hierarchy='xl' intent="primary" onClick={toggleTheme} rounded="slight">{t('login.theme')}</Button>    
+          <Button hierarchy='xl' intent="primary" onClick={() => changeLanguage("nl")} rounded="slight">lang_nl</Button>    
+          <Button hierarchy='xl' intent="primary" onClick={() => changeLanguage("en")} rounded="slight">lang_en</Button>    
         </div>
       </div>
       
