@@ -20,9 +20,9 @@ body {
   left: 50%;
   display: grid;
   place-items: center;
-  gap: 0;
+  /* gap: 0;
   margin: 0;
-  padding: 0;
+  padding: 0; */
 }
 
 .wrapper {
@@ -91,7 +91,18 @@ body {
   95% {
     top: -200px;
   }
+}
 
+.login-right {
+  /* display: grid;
+  place-items: center; */
+}
+
+.login-form {
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center; */
 }
 
 button {
@@ -131,6 +142,7 @@ button {
 
 .button-sm {
   padding: 0.5rem 1rem;
+  width: 1rem;
   font-size: 0.875rem;
 
 }
@@ -150,7 +162,7 @@ button {
 .button-xl {
   padding: 1.25rem 2.5rem;
   font-size: 1.5rem;
-
+  
 }
 
 .button-rounded-full {
@@ -203,4 +215,19 @@ input:focus{
   padding: 1.25rem 2.5rem;
   font-size: 1.5rem;
   border-radius: 0.25rem;
+}
+
+.checkbox {
+  cursor: pointer;
+  border: 20px;
+  border-color: var(--primary);
+}
+
+.checkbox:focus {
+  outline: none;
+}
+
+.checkbox input[type="checkbox"]:checked {
+  background-color: red;
+  border: 1px solid red;
 }
