@@ -1,23 +1,12 @@
 import Header from '../foundations/header'
 import Input from '../foundations/input'
 import Button from '../foundations/button'
+import Settings from '../foundations/settings'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import React, { useEffect } from "react";
 import { useTranslation } from 'react-i18next';
-
-
-function toggleTheme(){
-  const htmlElement = document.documentElement;
-  const isDarkMode = htmlElement.classList.contains("dark");
-
-  if (isDarkMode) {
-    htmlElement.classList.remove("dark");
-  } else {
-    htmlElement.classList.add("dark");
-  }
-}
 
 function LogIn() {
     const { t, i18n } = useTranslation();
@@ -89,10 +78,11 @@ function LogIn() {
             {/* <input type="checkbox" className="checkbox" name="remember"/> Remember me */}
           </label>
           <br />
+          <Settings></Settings>
           <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">{t('login.log_in')}</Button>
-          <Button hierarchy='xl' intent="primary" onClick={toggleTheme} rounded="slight">{t('login.theme')}</Button>    
+          {/* <Button hierarchy='xl' intent="primary" onClick={toggleTheme} rounded="slight">{t('login.theme')}</Button>    
           <Button hierarchy='xl' intent="primary" onClick={() => changeLanguage("nl")} rounded="slight">lang_nl</Button>    
-          <Button hierarchy='xl' intent="primary" onClick={() => changeLanguage("en")} rounded="slight">lang_en</Button>    
+          <Button hierarchy='xl' intent="primary" onClick={() => changeLanguage("en")} rounded="slight">lang_en</Button>     */}
         </div>
       </div>
       
