@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import Button from './button';
 
@@ -25,12 +25,30 @@ function Settings() {
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng)
     }
+
+    const [open, setOpen] = useState<boolean>(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const handleDropdownFocus = (state:boolean) => {
+        setOpen(!state)
+    };
     
     return (
         <div className="setting">
-            <Button hierarchy='xl' intent="primary" onClick={toggleTheme} rounded="slight">{t('login.theme')}</Button>    
-            <Button hierarchy='xl' intent="primary" onClick={() => changeLanguage("nl")} rounded="slight">lang_nl</Button>    
-            <Button hierarchy='xl' intent="primary" onClick={() => changeLanguage("en")} rounded="slight">lang_en</Button>
+            <div className="dropdown-container">
+                <button className="dropdown" onClick={e => handleDropdownFocus(open)} ref={dropdownRef}></button>
+                {open && (
+                    <ul>
+                        <li>test</li>
+                        <li>test2</li>
+                        <li><Button hierarchy='' intent="primary" onClick={toggleTheme} rounded="slight">{t('login.theme')}</Button></li>
+                        <li>test3</li>
+                        <li><Button hierarchy='' intent="primary" onClick={() => changeLanguage("en")} rounded="slight">lang_en</Button></li>
+                    </ul>
+                )}
+                {/* <Button hierarchy='xl' intent="primary" onClick={toggleTheme} rounded="slight">{t('login.theme')}</Button>    
+                <Button hierarchy='xl' intent="primary" onClick={() => changeLanguage("nl")} rounded="slight">lang_nl</Button>    
+                <Button hierarchy='xl' intent="primary" onClick={() => changeLanguage("en")} rounded="slight">lang_en</Button> */}
+            </div>
         </div>
         );
 }
