@@ -15,7 +15,7 @@ namespace backend.AccountService
         private static List<Account> accounts = new List<Account>
         {
             new Account(),
-            new Account { Id = 1, Name = "admin"}
+            new Account { AccountId = 1, Name = "admin"}
         };
         private readonly IMapper _mapper;
         private readonly DataContext _context;
@@ -29,7 +29,7 @@ namespace backend.AccountService
         {
             var serviceResponse = new ServiceResponse<List<GetAccountDto>>();
             var account = _mapper.Map<Account>(newAccount);
-            account.Id = accounts.Max(c => c.Id) + 1;
+            account.AccountId = accounts.Max(c => c.AccountId) + 1;
             accounts.Add(account);
             serviceResponse.Data = accounts.Select(c => _mapper.Map<GetAccountDto>(c)).ToList();
             return serviceResponse;
@@ -41,7 +41,7 @@ namespace backend.AccountService
 
             try
             {
-                var account = accounts.FirstOrDefault(c => c.Id == id);
+                var account = accounts.FirstOrDefault(c => c.AccountId == id);
                 if(account is null){
                     throw new Exception($"Character with Id '{id}' not found.");
                 }
@@ -70,7 +70,7 @@ namespace backend.AccountService
         public async Task<ServiceResponse<GetAccountDto>> GetAccountById(int id)
         {
             var serviceResponse = new ServiceResponse<GetAccountDto>();
-            var DbAccount = await _context.Accounts.FirstOrDefaultAsync(c => c.Id == id);
+            var DbAccount = await _context.Accounts.FirstOrDefaultAsync(c => c.AccountId == id);
             serviceResponse.Data = _mapper.Map<GetAccountDto>(DbAccount);
             return serviceResponse;
         }
@@ -81,13 +81,13 @@ namespace backend.AccountService
 
             try
             {
-                var account = accounts.FirstOrDefault(c => c.Id == updatedAccount.Id);
+                var account = accounts.FirstOrDefault(c => c.AccountId == updatedAccount.Id);
                 if(account is null){
                     throw new Exception($"Character with Id '{updatedAccount.Id}' not found.");
                 }
 
                 account.Name = updatedAccount.Name;
-                account.Id = updatedAccount.Id;
+                account.AccountId = updatedAccount.Id;
 
                 serviceResponse.Data = _mapper.Map<GetAccountDto>(account);
 

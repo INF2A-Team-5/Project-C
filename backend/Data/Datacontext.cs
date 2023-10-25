@@ -12,8 +12,8 @@ public class DataContext :  DbContext
         {
             
         }
-        // //public DbSet<Machine> Machine {get; set; } = null!; 
-        public DbSet<Account> Accounts {get; set; } = null !;
+        public DbSet<Account> Accounts {get; set; } = null!;
+        public DbSet<Machine> Machines {get; set; } = null!; 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
         builder.UseNpgsql(@"Host=localhost:5432;Username=postgres;Password=1234;Database=ProjectC_Database;Maximum Pool Size=200");
@@ -21,6 +21,7 @@ public class DataContext :  DbContext
         }  
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Account>().HasKey(x => x.Id);
+            modelBuilder.Entity<Account>().HasKey(x => x.AccountId);
+            modelBuilder.Entity<Machine>().HasKey(x => x.MachineId);
         }
 }
