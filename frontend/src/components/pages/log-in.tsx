@@ -3,7 +3,6 @@ import Input from '../foundations/input'
 import Button from '../foundations/button'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 
 function LogIn() {
     const [username, setUsername] = useState('');
@@ -11,13 +10,9 @@ function LogIn() {
     const navigate = useNavigate();
     
     async function handleSubmit() {
-      let promise = axios.get("http://localhost:5119/api/accounts").then((response) => response.data)
-      let MappedData = new Map<string, string>();
-      for (let account of await promise)
-      {
-        MappedData.set(account.name, account.password)
-      }
-      if (MappedData.has(username) && MappedData.get(username) == password)
+      const account = await fetch("http://localhost:5119/api/accounts").then((res) => res.json())
+        .then(accounts => accounts.find((acc: any) => acc.name == username && acc.password == password))
+      if (account !== undefined)
       {
         alert("loggin in...");
         navigate('/tickets');
