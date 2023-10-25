@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import Button from './button';
+import { ExitIcon } from '@radix-ui/react-icons'
 
 function toggleTheme(){
     const htmlElement = document.documentElement;
@@ -36,15 +37,17 @@ function Settings() {
         <div className="setting">
             <div className="dropdown-container">
                 <button className="dropdown" onClick={e => handleDropdownFocus(open)} ref={dropdownRef}></button>
-                {open && (
+                <div className="dropdown-menu">{open && (
                     <ul>
-                        <li>test</li>
+                        <li>Profiel---------------------</li>
                         <li>test2</li>
-                        <li><Button hierarchy='' intent="primary" onClick={toggleTheme} rounded="slight">{t('login.theme')}</Button></li>
-                        <li>test3</li>
-                        <li><Button hierarchy='' intent="primary" onClick={() => changeLanguage("en")} rounded="slight">lang_en</Button></li>
+                        <li><Button hierarchy='ad' intent="secondary" onClick={toggleTheme} rounded="slight">{t('login.theme')}</Button></li>
+                        <li><Button hierarchy='ad' intent="secondary" onClick={() => changeLanguage("nl")} rounded="slight">lang_nl</Button></li>
+                        <li><Button hierarchy='ad' intent="secondary" onClick={() => changeLanguage("en")} rounded="slight">lang_en</Button></li>
+                        <li><Button hierarchy='ad' intent="secondary" onClick={() => changeLanguage("en")} rounded="slight"><ExitIcon className="icon"/>exit</Button></li>
+                        
                     </ul>
-                )}
+                )}</div>
                 {/* <Button hierarchy='xl' intent="primary" onClick={toggleTheme} rounded="slight">{t('login.theme')}</Button>    
                 <Button hierarchy='xl' intent="primary" onClick={() => changeLanguage("nl")} rounded="slight">lang_nl</Button>    
                 <Button hierarchy='xl' intent="primary" onClick={() => changeLanguage("en")} rounded="slight">lang_en</Button> */}

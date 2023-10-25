@@ -3,7 +3,7 @@ import React from 'react';
 interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   intent?: "primary" | "secondary" | "tertiary";
   rounded?: "none" | "slight" | "full";
-  hierarchy?: "sm" | "md" | "lg" | "xl";
+  hierarchy?: "ad" | "sm" | "md" | "lg" | "xl";
 }
 
 const styles = {
@@ -18,6 +18,7 @@ const styles = {
     none: "button-rounded-none",
   },
   hierarchy: {
+    ad: "button-adaptive",
     sm: "button-sm",
     md: "button-md",
     lg: "button-lg",
