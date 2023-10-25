@@ -50,7 +50,7 @@ namespace backend.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAccount(long id, Account account)
         {
-            if (id != account.Id)
+            if (id != account.AccountId)
             {
                 return BadRequest();
             }
@@ -89,7 +89,7 @@ namespace backend.Controllers
             await _context.SaveChangesAsync();
 
             // return CreatedAtAction("GetAccount", new { id = account.AccountId }, account);
-            return CreatedAtAction(nameof(GetAccount), new { id = account.Id }, account);
+            return CreatedAtAction(nameof(GetAccount), new { id = account.AccountId }, account);
         }
 
         // DELETE: api/Account/5
@@ -114,7 +114,7 @@ namespace backend.Controllers
 
         private bool AccountExists(long id)
         {
-            return (_context.Accounts?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Accounts?.Any(e => e.AccountId == id)).GetValueOrDefault();
         }
     }
 }
