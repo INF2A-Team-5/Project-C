@@ -4,6 +4,7 @@ import LogIn from "./components/pages/log-in";
 // import ServiceEmployee from "./components/pages/serviceEmployee";
 import Tickets from "./components/pages/tickets";
 import App from "./App";
+import PopupScreen from "./components/pages/popup";
 // import React from "react";
 
 
@@ -26,7 +27,7 @@ export const router = createBrowserRouter([
     element: <Tickets />,
   },
   {
-    path: "/tickets",
-    element: <Tickets />,
+    path: "/popup",
+    element: <PopupScreen />,
   },
 ]);

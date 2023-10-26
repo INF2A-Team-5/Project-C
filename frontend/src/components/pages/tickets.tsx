@@ -1,7 +1,7 @@
 import Button from '../foundations/button'
 import Header from '../foundations/header'
 import Input from '../foundations/input'
-import React, { ComponentProps } from 'react';
+import React, { ComponentProps, useEffect } from 'react';
 import Badge from'../foundations/badge'
 import Block from'../foundations/block'
 import { useState } from 'react'
@@ -25,11 +25,14 @@ function myFunction() {
 // }
 
 function Tickets() {
-  const [information, setInformation] = useState('');
+  const [problem, setProblem] = useState('');
+  const [mustbedoing, setMustBeDoing] = useState('');
+  const [havetried, setHaveTried] = useState('');
   const [phonenumber, setPhonenumber] = useState('');
   const [pictures, setPictures] = useState('');
   const navigate = useNavigate();
 
+  
   const upload = (file: File, onUploadProgress: any): Promise<any> => {
     let formData = new FormData();
   
@@ -54,8 +57,11 @@ function Tickets() {
   }
 
   async function handleSubmit() {
-    if (information != null && phonenumber != null)
+    if (problem.length != 0 && phonenumber.length != 0 && mustbedoing.length != 0 && havetried.length != 0)
     {
+      if (problem.length < 20) {
+        alert("Fill in at least 20 words.")
+      }
       alert("Ticket submitted");
       navigate('/tickets');
     }
@@ -65,8 +71,21 @@ function Tickets() {
     }
   }
 
+    
+  // async function Popup() 
+  // {
+  //   alert("First, we have a few questions (fill in the first block):'\n1. Is the machine turned on?\n2. Does the machine still move(for a part)?")
+  // }
+
+  // useEffect(() => {
+  //   Popup(); // Call the Popup function when the component mounts
+  // }, []);
+
   return (
+    
     <><div className='flex-container'>
+
+
       {/* <Button onClick={ChooseMachine}>choose machine</Button> */}
       {/* <div><Header></Header></div> */}
       <div><label><h1>Report error</h1></label></div>
@@ -77,13 +96,13 @@ function Tickets() {
 
           {/* <Block size = "xl" color = "gray"> <label><h2>What do you see?</h2></label></Block> */}
           <h2>What do you see?*</h2>
-          <Input hierarchy='xxl' onChange={e => setInformation(e.currentTarget.value)}/>
-          <h2>What should it do?</h2>
-          <Input hierarchy='xxl'></Input>
+          <Input hierarchy='xxl' onChange={e => setProblem(e.currentTarget.value)}/>
+          <h2>What should it do?*</h2>
+          <Input hierarchy='xxl'onChange={e => setMustBeDoing(e.currentTarget.value)}/>
         </div></div>
         <div><div>
           <h2>What have you tried?*</h2>
-          <Input hierarchy='xxl'></Input>
+          <Input hierarchy='xxl'onChange={e => setHaveTried(e.currentTarget.value)}/>
           <h2>Enter phone number</h2>
           <Input hierarchy='xxl' onChange={e => setPhonenumber(e.currentTarget.value)}/>
         </div></div>
