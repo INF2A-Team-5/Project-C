@@ -42,9 +42,9 @@ function Settings() {
                         <li>Profiel---------------------</li>
                         <li>test2</li>
                         <li><Button hierarchy='ad' intent="secondary" onClick={toggleTheme} rounded="slight">{t('login.theme')}</Button></li>
-                        <li><Button hierarchy='ad' intent="secondary" onClick={() => changeLanguage("nl")} rounded="slight">lang_nl</Button></li>
-                        <li><Button hierarchy='ad' intent="secondary" onClick={() => changeLanguage("en")} rounded="slight">lang_en</Button></li>
-                        <li><Button hierarchy='ad' intent="secondary" onClick={() => changeLanguage("en")} rounded="slight"><ExitIcon className="icon"/>exit</Button></li>
+                        <li><Button hierarchy='ad' intent="secondary" onClick={() => changeLanguage("nl")} rounded="slight">Lang_nl</Button></li>
+                        <li><Button hierarchy='ad' intent="secondary" onClick={() => changeLanguage("en")} rounded="slight">Lang_en</Button></li>
+                        <li><Button hierarchy='ad' intent="secondary" onClick={() => changeLanguage("en")} rounded="slight"><ExitIcon className="icon"/>Exit</Button></li>
                         
                     </ul>
                 )}</div>

@@ -116,6 +116,16 @@ body {
 
 .dropdown-container {
   /* border: 1px solid red; */
+  /* padding-right: 0;
+  margin-right: 0;
+  justify-content: left; */
+}
+
+.dropdown button{
+  padding-right: 0;
+  margin-right: 0;
+  justify-content: right;
+  text-align: right;
 }
 
 .dropdown-container ul{
@@ -132,6 +142,7 @@ body {
   border: 1px solid red;
   padding: 0;
   margin: 0;
+  text-align: left;
 }
 
 
@@ -146,6 +157,7 @@ body {
   background-position: center center;
   /* background-color: red; */
   /* background-image: ; */
+
   cursor: pointer;
   border: none;
 }
@@ -154,7 +166,7 @@ body {
   position: relative;
   color: red;
   background-color: transparent;
-  right: 100px;
+  /* right: 100px; */
 }
 
 
@@ -201,7 +213,7 @@ button {
 .button-adaptive {
   height: 2rem;
   width: 100%;
-  text-align: right;
+  text-align: left;
   padding: 8px 8px 8px 8px;
   /* vertical-align: middle; */
 }
