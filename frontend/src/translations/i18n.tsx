@@ -29,8 +29,8 @@ i18n
         translation: {
           login: {
             login: "Login",
-            username: "Username",
-            password: "Password",
+            username: "Enter username",
+            password: "Enter password",
             log_in: "Log in",
             theme: "theme",
             txt_rotation0: "Fully designing your process in",
@@ -39,6 +39,17 @@ i18n
             txt_rotation3: "poultry",
             txt_rotation4: "insect farming",
             txt_rotation5: "intralogistics",
+          },
+          setting: {
+            account: "Edit Account",
+            theme: "Theme",
+            themeL: "Light",
+            themeD: "Dark",
+            lang: "Language",
+            langNl: "Dutch",
+            langEn: "English",
+            langPl: "Polish",
+            logOut: "Log Out",
           }
         }
       },
@@ -46,16 +57,27 @@ i18n
         translation: {
             login: {
               login: "Login",
-              username: "Gebruikersnaam",
-              password: "Wachtwoord",
+              username: "Voer gebruikersnaam in",
+              password: "Voer wachtwoord in",
               log_in: "Log in",
               theme: "thema",
-              txt_rotation0: "Het volledig inrichten van uw proces in",
+              txt_rotation0: "Het volledig inrichten van uw proces",
               txt_rotation1: "bloemen & planten",
               txt_rotation2: "groente & fruit",
               txt_rotation3: "gevogelte",
               txt_rotation4: "insecten kweken",
               txt_rotation5: "intralogistiek",
+          },
+          setting: {
+            account: "Account Aanpassen",
+            theme: "Thema",
+            themeL: "Light",
+            themeD: "Donker",
+            lang: "Taal",
+            langNl: "Nederlands",
+            langEn: "Engels",
+            langPl: "Pools",
+            logOut: "Log Uit",
           }
         }
       }

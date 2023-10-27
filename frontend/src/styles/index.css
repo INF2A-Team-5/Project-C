@@ -1,6 +1,7 @@
 @layer base {
   :root {
     --background: hsl(0 0% 100%);
+    --bgtransparant: rgba(255, 255, 255, 0.6);
     --foreground: hsl(222.2 84% 4.9%);
     --card: hsl(0 0% 100%);
     --card-foreground: hsl(222.2 84% 4.9%);
@@ -25,6 +26,7 @@
 
   .dark {
     --background: hsl(222.2 84% 4.9%);
+    --bgtransparant: rgba(2, 8, 23, 0.8);;
     --foreground: hsl(210 40% 98%);
     --card: hsl(222.2 84% 4.9%);
     --card-foreground: hsl(210 40% 98%);

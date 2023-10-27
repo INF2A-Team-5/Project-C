@@ -59,7 +59,7 @@ function LogIn() {
         </div>
       </div>
       <div className='login-right'>
-        <Header></Header>
+        {/* <Header></Header> */}
         <div className='login-form'>
           <h2>{t('login.login')}</h2>
           <h3>{t('login.username')}</h3>

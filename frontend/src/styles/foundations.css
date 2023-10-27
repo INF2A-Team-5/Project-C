@@ -32,8 +32,12 @@ body {
   justify-content: center;
   align-content: center;
   text-align: left;
-  padding-left: 75px;
-  padding-right: 75px;  
+  padding: 0px 40px 0 40px;
+  /* padding-left: 25px;
+  padding-right: 25px;   */
+  background-color: var(--bgtransparant);
+  /* background-color: transparent; */
+  border-radius: 24px;
 }
 
 .wrapper h1{
@@ -41,6 +45,10 @@ body {
   line-height: 50px;
   margin-bottom: 5px;
   margin-top: 5px;
+  background-color: transparent;
+  /* text-shadow: 2px 2px 2px red;  */
+  /* padding-left: 25px;
+  padding-right: 25px; */
 }
 /* animation origineel 6s */
 .words{
@@ -50,6 +58,7 @@ body {
   font-size: 45px;
   text-transform: uppercase;
   overflow: hidden;
+  background-color: transparent;
 }
 
 .words h1{
@@ -94,24 +103,22 @@ body {
 }
 
 .login-right {
-  /* display: grid;
-  place-items: center; */
+  align-items: center;
+  justify-content: center;
+  display: flex;
 }
 
-.login-form {
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center; */
+.login-form h3{
+  font-weight: normal;
+  color: var(--muted-foreground);
 }
 
 .setting {
-  position: fixed;
+  /* position: fixed;
   top: 0;
   right: 0;
-  /* background-color: #f00; */
   padding: 10px; 
-  background-size: cover;
+  background-size: cover; */
 }
 
 .dropdown-container {
@@ -122,53 +129,48 @@ body {
 }
 
 .dropdown button{
-  padding-right: 0;
+  /* padding-right: 0;
   margin-right: 0;
   justify-content: right;
-  text-align: right;
+  text-align: right; */
 }
 
 .dropdown-container ul{
-  list-style: none;
+  /* list-style: none; */
 }
 
 .dropdown-menu {
-  border: 1px solid red;
-  border: 0;
+  /* border: 1px solid red;
+  border: 0; */
 }
 
 .dropdown-menu ul{
-  border-radius: 4px;
+  /* border-radius: 4px;
   border: 1px solid red;
   padding: 0;
   margin: 0;
-  text-align: left;
+  text-align: left; */
 }
 
 
 .dropdown {
-  width: 60px;
+  /* width: 60px;
   height: 60px;
   border-radius: 100px;
   background-image: url('../images/viscon_logo_transparant.png');
-  /* background-color: ; */
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
-  /* background-color: red; */
-  /* background-image: ; */
-
   cursor: pointer;
-  border: none;
+  border: none; */
 }
 
-.icon {
-  background-color: transparent;
-}
 
 
 button {
+  all: unset;
   color: var(--background);
+  /* align-items: center; */
 }
 
 .button-primary {
@@ -207,14 +209,6 @@ button {
   
 }
 
-.button-adaptive {
-  height: 2rem;
-  width: 100%;
-  text-align: left;
-  padding: 8px 8px 8px 8px;
-  /* vertical-align: middle; */
-}
-
 .button-sm {
   padding: 0.5rem 1rem;
   width: 1rem;
@@ -232,8 +226,11 @@ button {
 }
 
 .button-xl {
-  padding: 1.25rem 2.5rem;
+  padding: 1rem 2.5rem;
   font-size: 1.5rem;
+  /* padding: 0 0 0 0; */
+  height: 30px;
+  width: 272px;
 }
 
 .button-rounded-full {
@@ -254,14 +251,16 @@ button {
 }
 
 input{
+  all: unset;
+  text-align: left;
   background-color: transparent;
-  border-color: var(--input);
+  /* border-color: red; */
   border: 2px solid var(--input);
 }
 
 input:focus{
   margin: 5px;
-  outline: 5px solid var(--primary);
+  outline: 5px solid var(--ring);
 }
 
 .input-sm {
@@ -283,9 +282,10 @@ input:focus{
 }
 
 .input-xl {
-  padding: 1.25rem 2.5rem;
+  padding: 1rem 2.5rem;
   font-size: 1.5rem;
   border-radius: 0.25rem;
+  height: 30px;
 }
 
 .checkbox {
@@ -303,12 +303,29 @@ input:focus{
   border: 1px solid red;
 }
 
+.transparant {
+  background-color: transparent;
+}
+
+.icon {
+  color: var(--primary);
+}
+
+.dropdown-menu {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+
 .DropdownMenuContent,
 .DropdownMenuSubContent {
+  position: relative;
+  top: -10px;
   min-width: 220px;
   background-color: var(--background);
   border-radius: 6px;
   padding: 5px;
+  border: 1px solid var(--border);
   /* box-shadow: 0px 10px 38px -10px var(--foreground), 0px 10px 20px -15px var(--foreground); */
   animation-duration: 400ms;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
@@ -335,13 +352,13 @@ input:focus{
 .DropdownMenuCheckboxItem,
 .DropdownMenuRadioItem,
 .DropdownMenuSubTrigger {
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1;
   color: var(--primary);
   border-radius: 3px;
   display: flex;
   align-items: center;
-  height: 25px;
+  height: 27px;
   padding: 0 5px;
   position: relative;
   padding-left: 25px;
@@ -376,7 +393,7 @@ input:focus{
 
 .DropdownMenuSeparator {
   height: 1px;
-  background-color: var(--foreground);
+  background-color: var(--border);
   margin: 5px;
 }
 
@@ -390,20 +407,26 @@ input:focus{
 }
 
 .DropdownMenuArrow {
-  fill: var(--foreground);
+  fill: var(--border);
 }
 
 .IconButton {
+  /* bottom: unset; */
+  /* background-color: transparent; */
   font-family: inherit;
   border-radius: 100%;
-  height: 35px;
-  width: 35px;
+  border-color: 10px solid red;
+  scale: 2;
+  height: 50px;
+  width: 50px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: red;
+  /* color: red; */
   background-color: var(--background);
-  box-shadow: 0 2px 10px var(--foreground);
+  box-shadow: 0 2px 10px var(--background);
+  /* box-shadow: none; */
+  /* box-shadow: unset; */
 }
 .IconButton:hover {
   /* background-color: var(--muted-foreground); */

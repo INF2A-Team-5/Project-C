@@ -1,25 +1,31 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from 'react-i18next';
-import Button from './button';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import {
   HamburgerMenuIcon,
-  DotFilledIcon,
-  CheckIcon,
-  ChevronRightIcon,
   ExitIcon,
+  Pencil1Icon,
+  GlobeIcon,
+  MagicWandIcon,
+  SunIcon,
+  MoonIcon,
 } from '@radix-ui/react-icons';
 
-function toggleTheme(){
+function toggleThemeLight(){
     const htmlElement = document.documentElement;
-    const isDarkMode = htmlElement.classList.contains("dark");
-  
-    if (isDarkMode) {
-      htmlElement.classList.remove("dark");
-    } else {
-      htmlElement.classList.add("dark");
-    }
+    htmlElement.classList.remove("dark");
 }
+
+function toggleThemeDark(){
+    const htmlElement = document.documentElement;
+    htmlElement.classList.add("dark");
+}
+
+function logOut(){}
+
+function editAccount(){}
+
+
 function Settings(){
     const { t, i18n } = useTranslation();
     useEffect(() => {
@@ -39,60 +45,98 @@ function Settings(){
     };
     const [bookmarksChecked, setBookmarksChecked] = React.useState(true);
     const [urlsChecked, setUrlsChecked] = React.useState(false);
-    const [person, setPerson] = React.useState('pedro');
+    const [person, setPerson] = React.useState('');
+    const [icon, setIcon ] = React.useState('');
 
     return (
-        <DropdownMenu.Root>
-        <DropdownMenu.Trigger asChild>
-            <button className="IconButton" aria-label="Customise options">
-            <HamburgerMenuIcon />
-            </button>
-        </DropdownMenu.Trigger>
+        <div className="dropdown-menu">
+            <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild>
+                <button className="IconButton" aria-label="Customise options">
+                <HamburgerMenuIcon />
+                {/* <GearIcon /> */}
+                </button>
+            </DropdownMenu.Trigger>
+            
+            <DropdownMenu.Portal>
+                <DropdownMenu.Content className="DropdownMenuContent" sideOffset={5}>
+                <DropdownMenu.RadioGroup value={''} onValueChange={editAccount}>
+                    <DropdownMenu.RadioItem className="DropdownMenuRadioItem" value="" disabled>
+                    <DropdownMenu.ItemIndicator className="DropdownMenuItemIndicator transparant">
+                        <Pencil1Icon className="transparant"/>
+                    </DropdownMenu.ItemIndicator>
+                    {t('setting.account')}
+                    </DropdownMenu.RadioItem>
+                </DropdownMenu.RadioGroup>
+                <DropdownMenu.Separator className="DropdownMenuSeparator" />
+                <DropdownMenu.Sub>
+                    <DropdownMenu.SubTrigger className="DropdownMenuSubTrigger">
+                    <div className="DropdownMenuItemIndicator transparant">
+                        <MagicWandIcon className="transparant"/>
+                    </div>
+                    {t('setting.theme')}
+                    </DropdownMenu.SubTrigger>
+                    <DropdownMenu.Portal>
+                    <DropdownMenu.SubContent
+                        className="DropdownMenuSubContent"
+                        sideOffset={2}
+                        alignOffset={-5}
+                    >
+                        <DropdownMenu.CheckboxItem className="DropdownMenuItem" onClick={toggleThemeLight}>
+                        <div className="DropdownMenuItemIndicator transparant">
+                            <SunIcon className="transparant"/>
+                        </div>
+                        {t('setting.themeL')}
+                        </DropdownMenu.CheckboxItem>
+                        <DropdownMenu.CheckboxItem className="DropdownMenuItem" onClick={toggleThemeDark}>
+                        <div className="DropdownMenuItemIndicator transparant">
+                            <MoonIcon className="transparant"/>
+                        </div>
+                        {t('setting.themeD')}
+                        </DropdownMenu.CheckboxItem>
+                    </DropdownMenu.SubContent>
+                    </DropdownMenu.Portal>
+                </DropdownMenu.Sub>
+                <DropdownMenu.Sub>
+                    <DropdownMenu.SubTrigger className="DropdownMenuSubTrigger">
+                    <div className="DropdownMenuItemIndicator transparant">
+                        <GlobeIcon className="transparant"/>
+                    </div>
+                    {t('setting.lang')}
+                    </DropdownMenu.SubTrigger>
+                    <DropdownMenu.Portal>
+                    <DropdownMenu.SubContent
+                        className="DropdownMenuSubContent"
+                        sideOffset={2}
+                        alignOffset={-5}
+                    >
+                        <DropdownMenu.CheckboxItem className="DropdownMenuItem" onClick={() => changeLanguage("nl")}>
+                            {t('setting.langNl')}
+                        </DropdownMenu.CheckboxItem>
+                        <DropdownMenu.CheckboxItem className="DropdownMenuItem" onClick={() => changeLanguage("en")}>
+                            {t('setting.langEn')}
+                        </DropdownMenu.CheckboxItem>
+                        <DropdownMenu.Item className="DropdownMenuItem" disabled>
+                            {t('setting.langPl')}
+                        </DropdownMenu.Item>
+                    </DropdownMenu.SubContent>
+                    </DropdownMenu.Portal>
+                </DropdownMenu.Sub>
+                <DropdownMenu.Separator className="DropdownMenuSeparator" />
+                <DropdownMenu.RadioGroup value={''} onValueChange={logOut}>
+                    <DropdownMenu.RadioItem className="DropdownMenuRadioItem" value="" disabled>
+                    <DropdownMenu.ItemIndicator className="DropdownMenuItemIndicator transparant">
+                        <ExitIcon className='transparant'/>
+                    </DropdownMenu.ItemIndicator>
+                        {t('setting.logOut')}
+                    </DropdownMenu.RadioItem>
+                </DropdownMenu.RadioGroup>
 
-        <DropdownMenu.Portal>
-            <DropdownMenu.Content className="DropdownMenuContent" sideOffset={5}>
-            <DropdownMenu.RadioGroup value={person} onValueChange={setPerson}>
-                <DropdownMenu.RadioItem className="DropdownMenuRadioItem" value="pedro" disabled>
-                Account Aanpassen
-                </DropdownMenu.RadioItem>
-
-            </DropdownMenu.RadioGroup>
-            <DropdownMenu.CheckboxItem className="DropdownMenuItem" onClick={toggleTheme}>
-                Thema
-            </DropdownMenu.CheckboxItem>
-            <DropdownMenu.Sub>
-                <DropdownMenu.SubTrigger className="DropdownMenuSubTrigger">
-                Taal
-                <div className="RightSlot">
-                    <ChevronRightIcon />
-                </div>
-                </DropdownMenu.SubTrigger>
-                <DropdownMenu.Portal>
-                <DropdownMenu.SubContent
-                    className="DropdownMenuSubContent"
-                    sideOffset={2}
-                    alignOffset={-5}
-                >
-                    <DropdownMenu.CheckboxItem className="DropdownMenuItem" onClick={() => changeLanguage("nl")}>Nederlands</DropdownMenu.CheckboxItem>
-                    <DropdownMenu.CheckboxItem className="DropdownMenuItem" onClick={() => changeLanguage("en")}>Engels</DropdownMenu.CheckboxItem>
-                    <DropdownMenu.Item className="DropdownMenuItem" disabled>Pools</DropdownMenu.Item>
-                </DropdownMenu.SubContent>
-                </DropdownMenu.Portal>
-            </DropdownMenu.Sub>
-            <DropdownMenu.Separator className="DropdownMenuSeparator" />
-            <DropdownMenu.RadioGroup value={person} onValueChange={setPerson}>
-                <DropdownMenu.RadioItem className="DropdownMenuRadioItem" value="pedro" disabled>
-                <DropdownMenu.ItemIndicator className="DropdownMenuItemIndicator">
-                    <ExitIcon className='icon'/>
-                </DropdownMenu.ItemIndicator>
-                Log out
-                </DropdownMenu.RadioItem>
-            </DropdownMenu.RadioGroup>
-
-            <DropdownMenu.Arrow className="DropdownMenuArrow" />
-            </DropdownMenu.Content>
-        </DropdownMenu.Portal>
-        </DropdownMenu.Root>
+                <DropdownMenu.Arrow className="DropdownMenuArrow" />
+                </DropdownMenu.Content>
+            </DropdownMenu.Portal>
+            </DropdownMenu.Root>
+        </div>
     );
 };
 
