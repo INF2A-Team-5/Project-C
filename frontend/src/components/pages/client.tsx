@@ -1,6 +1,5 @@
 import Button from "../foundations/button";
 import React from 'react';
-import data from "../../../test_data.json";
 
 async function Addtable() {
   let Client = "Client1";
