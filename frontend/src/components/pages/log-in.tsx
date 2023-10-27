@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import React, { useEffect } from "react";
 import { useTranslation } from 'react-i18next';
+import { EyeOpenIcon } from '@radix-ui/react-icons'
 
 function LogIn() {
     const { t, i18n } = useTranslation();
@@ -59,7 +60,7 @@ function LogIn() {
         </div>
       </div>
       <div className='login-right'>
-        {/* <Header></Header> */}
+        <Header></Header>
         <div className='login-form'>
           <h2>{t('login.login')}</h2>
           <h3>{t('login.username')}</h3>
@@ -71,8 +72,10 @@ function LogIn() {
           <h3>{t('login.password')}</h3>
           <div>
             <Input hierarchy='xl' name='password' placeholder='******'
+            // ●●●●●●●● als je circels wilt
             onChange={e => setPassword(e.currentTarget.value)}
             />
+            {/* <EyeOpenIcon className='hidepw'/> */}
           </div>
           <label>
             {/* <input type="checkbox" className="checkbox" name="remember"/> Remember me */}
