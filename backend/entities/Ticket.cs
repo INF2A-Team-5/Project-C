@@ -10,7 +10,7 @@ namespace backend.Entities;
         public string Status {get; set;} = null! ;
         public DateTime Date_Created {get; set;}
         public Dictionary<string, string> Information {get; set;} = null! ;
-        public string Solution {get; set;} = null! ;
+        public string Solution {get; set;}
         public string Pictures {get; set;}
         public int PhoneNumber {get;set;}
         public string Notes {get; set;}
