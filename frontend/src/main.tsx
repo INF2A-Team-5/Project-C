@@ -10,9 +10,6 @@ import App from "./App";
 import Tickets from "./components/pages/tickets";
 import Client from "./components/pages/client";
 import ServiceEmployee from "./components/pages/serviceEmployee";
-
-//import { router } from "./lib/router/router.tsx";
-
 import './translations/i18n';
 
 
