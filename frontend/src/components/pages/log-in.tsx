@@ -7,21 +7,17 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import React, { useEffect } from "react";
 import { useTranslation } from 'react-i18next';
-import { EyeOpenIcon } from '@radix-ui/react-icons'
 
 function LogIn() {
     const { t, i18n } = useTranslation();
-
     useEffect(() => {
       const lng = navigator.language;
       i18n.changeLanguage(lng);
     }, [])
-
     const lng = navigator.language;
     const changeLanguage = (lng: string) => {
       i18n.changeLanguage(lng)
     }
-
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -75,7 +71,6 @@ function LogIn() {
             // ●●●●●●●● als je circels wilt
             onChange={e => setPassword(e.currentTarget.value)}
             />
-            {/* <EyeOpenIcon className='hidepw'/> */}
           </div>
           <label>
             {/* <input type="checkbox" className="checkbox" name="remember"/> Remember me */}
@@ -83,9 +78,6 @@ function LogIn() {
           <br />
           <Settings></Settings>
           <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">{t('login.log_in')}</Button>
-          {/* <Button hierarchy='xl' intent="primary" onClick={toggleTheme} rounded="slight">{t('login.theme')}</Button>    
-          <Button hierarchy='xl' intent="primary" onClick={() => changeLanguage("nl")} rounded="slight">lang_nl</Button>    
-          <Button hierarchy='xl' intent="primary" onClick={() => changeLanguage("en")} rounded="slight">lang_en</Button>     */}
         </div>
       </div>
       

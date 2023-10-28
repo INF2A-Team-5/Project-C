@@ -21,9 +21,9 @@ function toggleThemeDark(){
     htmlElement.classList.add("dark");
 }
 
-function logOut(){}
+function logOut() {}
 
-function editAccount(){}
+function editAccount() {}
 
 
 function Settings(){
@@ -44,9 +44,7 @@ function Settings(){
         setOpen(!state)
     };
     const [bookmarksChecked, setBookmarksChecked] = React.useState(true);
-    const [urlsChecked, setUrlsChecked] = React.useState(false);
     const [person, setPerson] = React.useState('');
-    const [icon, setIcon ] = React.useState('');
 
     return (
         <div className="dropdown-menu">
