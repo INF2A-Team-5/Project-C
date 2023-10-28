@@ -2,10 +2,9 @@ import Header from '../foundations/header'
 import Input from '../foundations/input'
 import Button from '../foundations/button'
 import Settings from '../foundations/settings'
-import { useState } from 'react'
+import { useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import React, { useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 
 function LogIn() {

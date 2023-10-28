@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import {
@@ -38,21 +38,12 @@ function Settings(){
         i18n.changeLanguage(lng)
     }
 
-    const [open, setOpen] = useState<boolean>(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
-    const handleDropdownFocus = (state:boolean) => {
-        setOpen(!state)
-    };
-    const [bookmarksChecked, setBookmarksChecked] = React.useState(true);
-    const [person, setPerson] = React.useState('');
-
     return (
         <div className="dropdown-menu">
             <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
                 <button className="IconButton" aria-label="Customise options">
-                <HamburgerMenuIcon />
-                {/* <GearIcon /> */}
+                    <HamburgerMenuIcon />
                 </button>
             </DropdownMenu.Trigger>
             
