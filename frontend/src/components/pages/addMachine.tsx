@@ -14,7 +14,7 @@ function AddMachine() {
       .then(machines => machines.find((mach: any) => mach.name == name))
 
     if (machine !== undefined){
-      alert("Username already exists");
+      alert("Machine name already exists");
     }
     
     else if (name == "")

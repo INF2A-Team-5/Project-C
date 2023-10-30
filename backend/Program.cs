@@ -59,32 +59,29 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.Run();
 
-// Machine Machine1 = new() { Name = "Machine1", Description = "This is machine 1", AccountId = 7};
-// Machine Machine2 = new() { Name = "Machine2", Description = "This is machine 2", AccountId = 7 };
-// Machine Machine3 = new() { Name = "Machine3", Description = "This is machine 3", AccountId = 8 };
-// Machine Machine4 = new() { Name = "Machine3", Description = "This is machine 4", AccountId = 8 };
-// Machine Machine5 = new() { Name = "Machine3", Description = "This is machine 5", AccountId = 9 };
-// Machine Machine6 = new() { Name = "Machine3", Description = "This is machine 6", AccountId = 9 };
+// string adminname = "adminname";
+// string adminpw = "adminpw";
+// AccountType adminClass = AccountType.Admin;
 
-// List<Machine> machines = new() { Machine1, Machine2, Machine3, Machine4, Machine5, Machine6 };
+// string empname = "empname";
+// string emppw = "emppw";
+// AccountType empClass = AccountType.ServiceEmployee;
 
+// string clientname = "clientname";
+// string clientpw = "clientpw";
+// AccountType clientClass = AccountType.Client;
 
-// Account Client = new() { Name = "clientname", Password = "clientpw", Class = AccountType.Client };
-// Account Employee = new() { Name = "empname", Password = "emppw", Class = AccountType.ServiceEmployee };
-// Account Admin = new() { Name = "adminname", Password = "adminpw", Class = AccountType.Admin };
-// List<Account> accounts = new() {Client, Employee, Admin };
+// Account Client = new Account {Name = clientname, Password = clientpw, Class = clientClass };
+// Account Employee = new Account {Name = empname, Password = emppw, Class = empClass };
+// Account Admin = new Account {Name = adminname, Password = adminpw, Class = adminClass };
+// List<Account> accounts = new List<Account>{Client, Employee, Admin};
 
 // var db = new DataContext();
-// foreach (Machine machine in machines)
-// {
-//     db.Add(machine);
-// }
+
 // foreach (Account account in accounts)
 // {
 //     db.Add(account);
 // }
-
 // db.SaveChanges();
-
-app.Run();

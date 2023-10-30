@@ -13,6 +13,8 @@ import ServiceEmployee from "./components/pages/serviceEmployee";
 import Admin from "./components/pages/admin";
 import AddAccount from "./components/pages/addAccount";
 import AddMachine from "./components/pages/addMachine";
+import AddDepartment from "./components/pages/addDepartment";
+import AddSolution from "./components/pages/AddSolution";
 
 //import { router } from "./lib/router/router.tsx";
 
@@ -44,6 +46,14 @@ const router = createBrowserRouter([
   {
     path: "add-machine",
     element: <AddMachine />
+  },
+  {
+    path: "add-department",
+    element: <AddDepartment />
+  },
+  {
+    path: "add-solution",
+    element: <AddSolution />
   }
 ])
 
