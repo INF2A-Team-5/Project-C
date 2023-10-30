@@ -3,7 +3,7 @@ import React from 'react';
 
 async function Addtable() {
   let Client = "Client1";
-  let typeOfAccount = "Client";
+  let typeOfAccount = "ServiceEmployee";
   let tickets;
   var table = "<table>";
 
@@ -32,6 +32,23 @@ async function Addtable() {
       </tr>`;
   }
 
+  tickets.sort((a: { status: string; ticketId: number; }, b: { status: string; ticketId: number; }) => {
+    if (a.status === b.status) {
+      return a.ticketId - b.ticketId;
+    }
+
+    if (a.status === 'Open') {
+      return -1;
+    }
+    if (b.status === 'Open') {
+      return 1;
+    }
+    if (a.status === 'InProcess') {
+      return -1;
+    }
+    return 1;
+  });
+
   console.log(tickets);
   console.log(tickets.length);
 
@@ -46,7 +63,7 @@ async function Addtable() {
     }
     tr += `<td>${tickets[i].date}</td>`;
     tr += `<td>${tickets[i].status}</td>`;
-    tr += `<td class="edit"><Button onClick={alert(${tickets[i].id})}>Edit</Button></td>`
+    tr += `<td class="edit"><Button onClick={alert(${tickets[i].ticketId})}>Edit</Button></td>`
     tr += "<tr>";
   }
 
@@ -61,7 +78,6 @@ function Client() {
   return (
     <div>
       <h1>Client</h1>
-      <Button>Refresh</Button>
     </div>
   );
 }
