@@ -12,8 +12,7 @@
   background-color: var(--primary-hover);
 }
 
-.button-primary:active 
-{
+.button-primary:active {
   outline: none;
   box-shadow: 0 0 0 3px var(--ring);
   border-color: var(--ring);
@@ -95,4 +94,20 @@
   padding: 1.25rem 2.5rem;
   font-size: 1.5rem;
   border-radius: 0.25rem;
+}
+
+tr:hover {
+  background-color: #2563eb;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+td.edit {
+  width: 0%;
+  text-align: right;
 }
