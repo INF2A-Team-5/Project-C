@@ -62,11 +62,12 @@ app.UseAuthorization();
 app.MapControllers();
 
 
-// Ticket ticket1 = new() { Client = "Client1", Date = "25-10-2023" };
-// Ticket ticket2 = new() { Client = "Client2", Date = "26-10-2023", Status = StatusType.InProcess };
-// Ticket ticket3 = new() { Client = "Client3", Date = "27-10-2023", Priority = PriorityType.Critical };
-// Ticket ticket4 = new() { Client = "Client2", Date = "28-10-2023" };
-// Ticket ticket5 = new() { Client = "Client1", Date = "29-10-2023", Priority = PriorityType.Critical };
+// Ticket ticket1 = new() { Machine_Id = 3, Costumer_Id = 1, Assigned_Id = 2, Priority = "Critical", Status = "In Process", Date_Created = DateTime.UtcNow, Solution = "Test", Pictures = "Test", PhoneNumber = "0612345678", Notes = "Test" };
+// Ticket ticket2 = new() { Machine_Id = 3, Costumer_Id = 1, Assigned_Id = 3, Priority = "Non critical", Status = "In Process", Date_Created = DateTime.UtcNow, Solution = "Test", Pictures = "Test", PhoneNumber = "0612345678", Notes = "Test" };
+// Ticket ticket3 = new() { Machine_Id = 3, Costumer_Id = 1, Assigned_Id = 2, Priority = "Critical", Status = "Clossed", Date_Created = DateTime.UtcNow, Solution = "Test", Pictures = "Test", PhoneNumber = "0612345678", Notes = "Test" };
+// Ticket ticket4 = new() { Machine_Id = 3, Costumer_Id = 1, Assigned_Id = 2, Priority = "Critical", Status = "In Process", Date_Created = DateTime.UtcNow, Solution = "Test", Pictures = "Test", PhoneNumber = "0612345678", Notes = "Test" };
+// Ticket ticket5 = new() { Machine_Id = 3, Costumer_Id = 2, Assigned_Id = 3, Priority = "Non critical", Status = "Open", Date_Created = DateTime.UtcNow, Solution = "Test", Pictures = "Test", PhoneNumber = "0612345678", Notes = "Test" };
+
 // List<Ticket> tickets = new() { ticket1, ticket2, ticket3, ticket4, ticket5 };
 
 // Machine Machine1 = new() { Name = "Machine1", Description = "This is machine 1", AccountId = 7 };

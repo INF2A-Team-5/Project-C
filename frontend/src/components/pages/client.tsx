@@ -1,9 +1,15 @@
 import Button from "../foundations/button";
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
+function ToTickets() {
+  const navigate = useNavigate();
+  navigate('/tickets');
+}
 
 async function Addtable() {
-  let Client = "Client1";
-  let typeOfAccount = "ServiceEmployee";
+  let Client = "1";
+  let typeOfAccount = "Client";
   let tickets;
   var table = "<table>";
 
@@ -21,7 +27,7 @@ async function Addtable() {
   }
   else {
     tickets = await fetch("http://localhost:5119/api/Tickets").then((res) => res.json())
-      .then(tickets => tickets.filter((client: any) => client.client == Client));
+      .then(tickets => tickets.filter((client: any) => client.costumer_Id == Client));
 
     table += `<tr>
       <th>Id</th>
@@ -43,7 +49,7 @@ async function Addtable() {
     if (b.status === 'Open') {
       return 1;
     }
-    if (a.status === 'InProcess') {
+    if (a.status === 'In Process') {
       return -1;
     }
     return 1;
@@ -59,9 +65,9 @@ async function Addtable() {
     tr += `<td>${tickets[i].ticketId}</td>`;
     tr += `<td>${tickets[i].priority}</td>`;
     if (typeOfAccount == "ServiceEmployee" || typeOfAccount == "Admin") {
-      tr += `<td>${tickets[i].client}</td>`;
+      tr += `<td>${tickets[i].costumer_Id}</td>`;
     }
-    tr += `<td>${tickets[i].date}</td>`;
+    tr += `<td>${tickets[i].date_Created.slice(0, 10)}</td>`;
     tr += `<td>${tickets[i].status}</td>`;
     tr += `<td class="edit"><Button onClick={alert(${tickets[i].ticketId})}>Edit</Button></td>`
     tr += "<tr>";
@@ -78,6 +84,7 @@ function Client() {
   return (
     <div>
       <h1>Client</h1>
+      <Button hierarchy='xl' intent="primary" onClick={ToTickets} rounded="slight">New Ticket</Button>
     </div>
   );
 }
