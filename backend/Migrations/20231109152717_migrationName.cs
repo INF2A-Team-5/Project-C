@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -6,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class test : Migration
+    public partial class migrationName : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -40,6 +41,28 @@ namespace backend.Migrations
                 {
                     table.PrimaryKey("PK_Machines", x => x.MachineId);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Tickets",
+                columns: table => new
+                {
+                    TicketId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Machine_Id = table.Column<int>(type: "integer", nullable: false),
+                    Costumer_Id = table.Column<int>(type: "integer", nullable: false),
+                    Assigned_Id = table.Column<int>(type: "integer", nullable: false),
+                    Priority = table.Column<string>(type: "text", nullable: false),
+                    Status = table.Column<string>(type: "text", nullable: false),
+                    Date_Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Solution = table.Column<string>(type: "text", nullable: false),
+                    Pictures = table.Column<string>(type: "text", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: false),
+                    Notes = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tickets", x => x.TicketId);
+                });
         }
 
         /// <inheritdoc />
@@ -50,6 +73,9 @@ namespace backend.Migrations
 
             migrationBuilder.DropTable(
                 name: "Machines");
+
+            migrationBuilder.DropTable(
+                name: "Tickets");
         }
     }
 }
