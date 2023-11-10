@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom'
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
 
+
 const upload = (file: File, onUploadProgress: any): Promise<any> => {
   let formData = new FormData();
 
   formData.append("file", file);
 
-  return http.post("/upload", formData, {
+  return axios.post("/upload", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
@@ -17,7 +18,7 @@ const upload = (file: File, onUploadProgress: any): Promise<any> => {
 };
 
 const getFiles = () : Promise<any> => {
-  return http.get("/files");
+  return axios.get("/files");
 };
 
 const FileUploadService = {
