@@ -4,6 +4,7 @@ import Input from '../foundations/input'
 import React, { ComponentProps, useEffect } from 'react';
 import Badge from'../foundations/badge'
 import Block from'../foundations/block'
+import UploadService from "../foundations/FileUploadService";
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -25,25 +26,16 @@ function Tickets() {
   const [pictures, setPictures] = useState('');
   const navigate = useNavigate();
 
+  const ImagesUpload: React.FC = () => {
+    const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
+    const [imagePreviews, setImagePreviews] = useState<Array<string>>([]);
+    const [progressInfos, setProgressInfos] = useState<Array<ProgressInfo>>([]);
+    const [message, setMessage] = useState<Array<string>>([]);
+    const [imageInfos, setImageInfos] = useState<Array<IFile>>([]);
+    const progressInfosRef = useRef<any>(null);
+  }
+
   // Hiermee aan het kutten, maar is nog niet gefixt 
-  const upload = (file: File, onUploadProgress: any): Promise<any> => {
-    let formData = new FormData();
-  
-    formData.append("file", file);
-  
-    return axios.post("/upload", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      onUploadProgress,
-    });
-  };
-
-  const getFiles = () : Promise<any> => {
-    return axios.get("/files");
-  };
-
-
 
   async function ChooseMachine() {
     const account = await fetch("http://localhost:5119/api/accounts").then((res) => res.json()).then(accounts => accounts.find((acc: any) => acc.accountId == 1))
@@ -85,7 +77,6 @@ function Tickets() {
       alert("Ticket submitted");
       navigate('/tickets');
 
-      
       }
     }
     else
@@ -128,10 +119,7 @@ function Tickets() {
         <label className="tgl-btn" htmlFor="cb1-6"></label><label>Use from account</label>
         </div>
         <Input hierarchy='xxl' onChange={e => setPhonenumber(e.currentTarget.value)}/>
-        
-
-        
-
+      
           <h2>Upload videos/pictures</h2>
           <Input hierarchy='xxl' onChange={e => setPictures(e.currentTarget.value)}/><br></br><br></br>
           <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
