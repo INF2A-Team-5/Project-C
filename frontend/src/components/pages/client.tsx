@@ -1,11 +1,5 @@
 import Button from "../foundations/button";
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-
-function ToTickets() {
-  const navigate = useNavigate();
-  navigate('/tickets');
-}
 
 async function Addtable() {
   let Client = "1";
@@ -84,7 +78,6 @@ function Client() {
   return (
     <div>
       <h1>Client</h1>
-      <Button hierarchy='xl' intent="primary" onClick={ToTickets} rounded="slight">New Ticket</Button>
     </div>
   );
 }
