@@ -15,8 +15,8 @@ import AddAccount from "./components/pages/addAccount";
 import AddMachine from "./components/pages/addMachine";
 import AddDepartment from "./components/pages/addDepartment";
 import AddSolution from "./components/pages/AddSolution";
+import './translations/i18n';
 
-//import { router } from "./lib/router/router.tsx";
 
 const router = createBrowserRouter([
   {
