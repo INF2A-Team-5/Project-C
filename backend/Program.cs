@@ -61,7 +61,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-
 // Ticket ticket1 = new() { Machine_Id = 3, Costumer_Id = 1, Assigned_Id = 2, Priority = "Critical", Status = "In Process", Date_Created = DateTime.UtcNow, Solution = "Test", Pictures = "Test", PhoneNumber = "0612345678", Notes = "Test" };
 // Ticket ticket2 = new() { Machine_Id = 3, Costumer_Id = 1, Assigned_Id = 3, Priority = "Non critical", Status = "In Process", Date_Created = DateTime.UtcNow, Solution = "Test", Pictures = "Test", PhoneNumber = "0612345678", Notes = "Test" };
 // Ticket ticket3 = new() { Machine_Id = 3, Costumer_Id = 1, Assigned_Id = 2, Priority = "Critical", Status = "Clossed", Date_Created = DateTime.UtcNow, Solution = "Test", Pictures = "Test", PhoneNumber = "0612345678", Notes = "Test" };
@@ -79,22 +78,33 @@ app.MapControllers();
 
 // List<Machine> machines = new() { Machine1, Machine2, Machine3, Machine4, Machine5, Machine6 };
 
+// string adminname = "adminname";
+// string adminpw = "adminpw";
+// AccountType adminClass = AccountType.Admin;
 
-// Account Client = new() { Name = "clientname", Password = "clientpw", Class = AccountType.Client };
-// Account Employee = new() { Name = "empname", Password = "emppw", Class = AccountType.ServiceEmployee };
-// Account Admin = new() { Name = "adminname", Password = "adminpw", Class = AccountType.Admin };
-// List<Account> accounts = new() { Client, Employee, Admin };
+// string empname = "empname";
+// string emppw = "emppw";
+// AccountType empClass = AccountType.ServiceEmployee;
+
+// string clientname = "clientname";
+// string clientpw = "clientpw";
+// AccountType clientClass = AccountType.Client;
+
+// Account Client = new Account {Name = clientname, Password = clientpw, Class = clientClass };
+// Account Employee = new Account {Name = empname, Password = emppw, Class = empClass };
+// Account Admin = new Account {Name = adminname, Password = adminpw, Class = adminClass };
+// List<Account> accounts = new List<Account>{Client, Employee, Admin};
 
 // var db = new DataContext();
-// foreach (Machine machine in machines)
-// {
-//     db.Add(machine);
-// }
+
 // foreach (Account account in accounts)
 // {
 //     db.Add(account);
 // }
-
+// foreach (Machine machine in machines)
+// {
+//     db.Add(machine);
+// }
 // foreach (Ticket ticket in tickets)
 // {
 //     db.Add(ticket);
@@ -103,3 +113,4 @@ app.MapControllers();
 // db.SaveChanges();
 
 app.Run();
+
