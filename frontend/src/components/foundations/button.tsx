@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
-  intent?: "primary" | "secondary" | "tertiary";
+  intent?: "primary" | "secondary" | "tertiary" | "destructive";
   rounded?: "none" | "slight" | "full";
   hierarchy?: "sm" | "md" | "lg" | "xl";
 }
@@ -11,6 +11,7 @@ const styles = {
     primary: "button-primary",
     secondary: "button-secondary",
     tertiary: "button-tertiary",
+    destructive: "button-destructive",
   },
   rounded: {
     full: "button-rounded-full",

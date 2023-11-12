@@ -63,6 +63,23 @@ namespace backend.Migrations
                     b.ToTable("Departments");
                 });
 
+            modelBuilder.Entity("backend.Entities.Department", b =>
+                {
+                    b.Property<int>("DepartmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DepartmentId"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("DepartmentId");
+
+                    b.ToTable("Departments");
+                });
+
             modelBuilder.Entity("backend.Entities.Machine", b =>
                 {
                     b.Property<int>("MachineId")
