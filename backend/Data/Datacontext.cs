@@ -14,10 +14,10 @@ public class DataContext :  DbContext
         }
         public DbSet<Account> Accounts {get; set; } = null!;
         public DbSet<Machine> Machines {get; set; } = null!; 
-        public DbSet<Ticket> Tickets {get; set;} = null!;
-
         public DbSet<Department> Departments {get; set; } = null!;
         public DbSet<Solution> Solutions {get; set; } = null!;
+        public DbSet<Ticket> Tickets {get; set;} = null!;
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
@@ -28,9 +28,9 @@ public class DataContext :  DbContext
         {
             modelBuilder.Entity<Account>().HasKey(x => x.AccountId);
             modelBuilder.Entity<Machine>().HasKey(x => x.MachineId);
-            modelBuilder.Entity<Ticket>().HasKey(x => x.TicketId);
             modelBuilder.Entity<Department>().HasKey(x => x.DepartmentId);
             modelBuilder.Entity<Solution>().HasKey(x => x.SolutionId);
+            modelBuilder.Entity<Ticket>().HasKey(x => x.TicketId);
 
         }
 }

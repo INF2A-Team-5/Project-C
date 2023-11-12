@@ -87,7 +87,31 @@ namespace backend.Migrations
                     b.ToTable("Machines");
                 });
 
-            modelBuilder.Entity("backend.Entities.Ticket", b =>
+            modelBuilder.Entity("backend.Entities.Solution", b =>
+                {
+                    b.Property<int>("SolutionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SolutionId"));
+
+                    b.Property<string>("ProblemDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SolutionDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("TicketId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("SolutionId");
+
+                    b.ToTable("Solutions");
+                });
+
+modelBuilder.Entity("backend.Entities.Ticket", b =>
                 {
                     b.Property<int>("TicketId")
                         .ValueGeneratedOnAdd()
@@ -132,32 +156,9 @@ namespace backend.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("TicketId");
-
+                    
                     b.ToTable("Tickets");
 });
-            modelBuilder.Entity("backend.Entities.Solution", b =>
-                {
-                    b.Property<int>("SolutionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SolutionId"));
-
-                    b.Property<string>("ProblemDescription")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("SolutionDescription")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("TicketId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("SolutionId");
-
-                    b.ToTable("Solutions");
-                });
 #pragma warning restore 612, 618
         }
     }
