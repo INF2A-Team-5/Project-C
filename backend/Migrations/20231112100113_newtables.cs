@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class migrationName : Migration
+    public partial class newtables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -49,7 +49,7 @@ namespace backend.Migrations
                     TicketId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Machine_Id = table.Column<int>(type: "integer", nullable: false),
-                    Costumer_Id = table.Column<int>(type: "integer", nullable: false),
+                    Customer_Id = table.Column<int>(type: "integer", nullable: false),
                     Assigned_Id = table.Column<int>(type: "integer", nullable: false),
                     Priority = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false),

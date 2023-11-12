@@ -1,7 +1,7 @@
 import Button from '../foundations/button'
 import Header from '../foundations/header'
 import Input from '../foundations/input'
-import React, { ComponentProps, useEffect, useRef } from 'react';
+import React, { ComponentProps, SetStateAction, useEffect, useRef } from 'react';
 import Badge from'../foundations/badge'
 import Block from'../foundations/block'
 import UploadService from "../../services/FileUploadService";
@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
 import IFile from "../../services/File";
-
+import DropDown from "../foundations/DropDown";
 
 // export interface Machine {
 //   MachineId: number; Name: string; Description: string; AccountId: number
@@ -27,8 +27,19 @@ function Tickets() {
   const [phonenumber, setPhonenumber] = useState('');
   const [pictures, setPictures] = useState('');
   const navigate = useNavigate();
-
-  // async function uploadimages() {
+  const [machinenames, SetMachineNames] = useState<string[]>([""]);
+  const [account, SetAccount] = useState('');
+  class Machine {
+    name: string;
+    id: number;
+    constructor(name: string, id: number)
+    {
+      this.name = name;
+      this.id = id
+    }
+   }
+   var allmachines: Machine[] = [];
+   // async function uploadimages() {
   //   ImagesUpload
   // }
   
@@ -195,45 +206,60 @@ function Tickets() {
 
   // Hiermee aan het kutten, maar is nog niet gefixt 
 
-  async function ChooseMachine() {
-    const account = await fetch("http://localhost:5119/api/accounts").then((res) => res.json()).then(accounts => accounts.find((acc: any) => acc.accountId == 1))
-    let machines = await fetch("http://localhost:5119/api/machines").then((res) => res.json()).then(machines => machines.filter((machine: any) => machine.accountId == account.accountId))
-    console.log(machines)
-  }
+  async function ChooseMachine()
+  {
+    let currentaccount = await fetch("http://localhost:5119/api/accounts")
+    .then((res) => res.json())
+    .then(accounts => accounts.find((acc: any) => acc.accountId == 3));
 
+    let machinelist = await fetch("http://localhost:5119/api/machines")
+    .then((res) => res.json())
+    .then(machines => machines.filter((machine: any) => machine.accountId == currentaccount.accountId));
+    for (var machine of machinelist)
+    {
+      allmachines.push(new Machine(machine.name, machine.machineId));
+    }
+    SetAccount(currentaccount.accountId);
+    SetMachineNames((allmachines.map(x => x.name + ", Id: " + x.id)));
+  }
   async function handleSubmit() {
+
     if (problem.length != 0 && phonenumber.length != 0 && mustbedoing.length != 0 && havetried.length != 0)
     {
       if (problem.length < 100 || mustbedoing.length < 100) {
         alert("The first 2 answers must contain atleast 90 characters")
         navigate('/tickets');
       }
+      if (selectMachine == "")
+      {
+        alert("Please choose a machine");
+        navigate('/tickets');
+      }
       else
       {
-      let information = {"Problem" : problem, "Must be doing": mustbedoing, "Have tried": havetried};
-      var ticket = 
-      {
-        Machine_Id: 1,
-        Customer_Id: 1,
-        Priority: "unknown",
-        Status: "To do",
-        Date_Created: new Date(),
-        Information: information,
-        Solution: "x",
-        Pictures: "x",
-        PhoneNumber: phonenumber,
-        Notes: ""
-      }
+        let information = {"Problem" : problem, "Must be doing": mustbedoing, "Have tried": havetried};
+        var ticket = 
+        {
+          Machine_Id: selectMachine.split("Id: ")[1],
+          Customer_Id: account,
+          Priority: "unknown",
+          Status: "To do",
+          Date_Created: new Date(),
+          Information: information,
+          Solution: "x",
+          Pictures: "x",
+          PhoneNumber: phonenumber,
+          Notes: ""
+        }
 
-      const pushticket = axios.put("http://localhost:5119/api/tickets", [1, ticket])
-      .then(res => 
-          {console.log("Message successfully updated", res);})
-      .catch(err => 
-          {console.log("Message could not be updated", err)});
-      pushticket
-          
-      alert("Ticket submitted");
-      navigate('/tickets');
+        const pushticket = await axios.post('http://localhost:5119/api/tickets/', ticket)
+        .then(res => 
+            {console.log("Message successfully updated", res);})
+        .catch(err => 
+            {console.log("Message could not be updated", err)});
+        pushticket
+        alert("Ticket submitted");
+        navigate('/tickets');
 
       }
     }
@@ -255,12 +281,69 @@ function Tickets() {
   // useEffect(() => {
   //   uploadimages(); // Call the Popup function when the component mounts
   // }, []);
-
+    const [showDropDown, setShowDropDown] = useState<boolean>(false);
+    const [selectMachine, setSelectMachine] = useState<string>("");
+    const machines = () => {
+      return machinenames;
+    };
+    /**
+     * Toggle the drop down menu
+     */
+    const toggleDropDown = () => {
+      setShowDropDown(!showDropDown);
+      ChooseMachine();
+    };
+    /**
+     * Hide the drop down menu if click occurs
+     * outside of the drop-down element.
+     *
+     * @param event  The mouse event
+     */
+    const dismissHandler = (event: React.FocusEvent<HTMLButtonElement>): void => {
+      if (event.currentTarget === event.target) {
+        setShowDropDown(false);
+      }
+    };
+  
+    /**
+     * Callback function to consume the
+     * machine name from the child component
+     *
+     * @param machine  The selected machine
+     */
+    const machineSelection = (machine: string): void => {
+      setSelectMachine(machine);
+    };
   return (
     
     <div>
-      {/* <Button onClick={ChooseMachine}>choose machine</Button> */}
-      {/* <div><Header></Header></div> */}
+        <div className="announcement">
+          <div>
+            {selectMachine
+              ? `You selected ${selectMachine}`
+              : "Select your machine"}
+          </div>
+        </div>
+        <button
+          className={showDropDown ? "active" : undefined}
+          onClick={(): void => toggleDropDown()}
+          onBlur={(e: React.FocusEvent<HTMLButtonElement>): void =>
+            dismissHandler(e)
+          }
+        >
+          <div>{selectMachine ? "Select: " + selectMachine : "Select ..."} </div>
+          {showDropDown && (
+            <DropDown
+              machines={machines()}
+              showDropDown={false}
+              toggleDropDown={(): void => toggleDropDown()}
+              machineSelection={machineSelection}
+            />
+          )}
+        </button>
+              {/* <Button onClick={ChooseMachine}>choose machine</Button> */}
+
+      <div><Header></Header></div>
       ImagesUpload
       <div><label><h1>Report error</h1></label></div>
           {/* <Button hierarchy='xl' intent="primary" onClick={myFunction} rounded="slight">Pop up<span className="popuptext" id="myPopup">Popup text...</span></Button> */}
@@ -290,4 +373,5 @@ function Tickets() {
 
   )
   }
+  
 export default Tickets

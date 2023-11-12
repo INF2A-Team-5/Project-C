@@ -12,8 +12,8 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231109152717_migrationName")]
-    partial class migrationName
+    [Migration("20231112100113_newtables")]
+    partial class newtables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -84,7 +84,7 @@ namespace backend.Migrations
                     b.Property<int>("Assigned_Id")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Costumer_Id")
+                    b.Property<int>("Customer_Id")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("Date_Created")
