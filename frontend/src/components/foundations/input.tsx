@@ -13,11 +13,15 @@ const styles = {
     xl: "input-xl",
     xxl: "input-xxl"
   },
+  name: {
+    username: "username",
+    password: "password",
+  },
 };
 //function Input({ hierarchy = "md", type="username", ...props }: InputProps) {
-function Input({ hierarchy = "md",...props }: InputProps) {
+function Input({ hierarchy = "md",name = "username",...props }: InputProps) {
   return (
-    <input type="text" className={`${styles.hierarchy[hierarchy]}`} {...props}>
+    <input type={`${styles.name[name]}`} className={`${styles.hierarchy[hierarchy]}`} {...props}>
       {/* {children} */}
     </input>
   );
