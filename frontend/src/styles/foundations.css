@@ -167,6 +167,30 @@ button {
   background-color: var(--secondary);
 }
 
+.button-destructive {
+  border: 1px solid transparent;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--destructive);
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+.button-destructive:hover {
+
+  background-color: var(--destructive-hover);
+}
+
+.button-destructive:active 
+{
+  outline: none;
+  box-shadow: 0 0 0 3px var(--ring);
+  border-color: var(--ring);
+  /* border-width: 0.75rem; */
+  /* padding: 4rem; */
+  /* background-color: var(--destructive); */
+}
+
 .button-sm {
   padding: 0.5rem 1rem;
   width: 1rem;
