@@ -61,6 +61,8 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.Run();
+
 
 Machine Machine1 = new() { Name = "Machine1", Description = "This is machine 1", AccountId = 1 };
 Machine Machine2 = new() { Name = "Machine2", Description = "This is machine 2", AccountId = 2 };
@@ -70,6 +72,19 @@ Machine Machine5 = new() { Name = "Machine5", Description = "This is machine 5",
 Machine Machine6 = new() { Name = "Machine6", Description = "This is machine 6", AccountId = 3 };
 
 List<Machine> machines = new() { Machine1, Machine2, Machine3, Machine4, Machine5, Machine6 };
+
+// string adminname = "adminname";
+// string adminpw = "adminpw";
+// AccountType adminClass = AccountType.Admin;
+
+// string empname = "empname";
+// string emppw = "emppw";
+// AccountType empClass = AccountType.ServiceEmployee;
+
+
+// string clientname = "clientname";
+// string clientpw = "clientpw";
+// AccountType clientClass = AccountType.Client;
 
 
 Account Client = new() { Name = "clientname", Password = "clientpw", Class = AccountType.Client };
@@ -95,10 +110,22 @@ foreach (Account account in accounts)
     db.Add(account);
 }
 // foreach (Ticket ticket in tickets)
+
+// Account Client = new Account {Name = clientname, Password = clientpw, Class = clientClass };
+// Account Employee = new Account {Name = empname, Password = emppw, Class = empClass };
+// Account Admin = new Account {Name = adminname, Password = adminpw, Class = adminClass };
+// List<Account> accounts = new List<Account>{Client, Employee, Admin};
+
+// var db = new DataContext();
+
+// foreach (Account account in accounts)
+
 // {
 //     db.Add(ticket);
 // }
 
+
 db.SaveChanges();
 
 app.Run();
+

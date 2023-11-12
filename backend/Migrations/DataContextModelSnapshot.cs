@@ -46,6 +46,23 @@ namespace backend.Migrations
                     b.ToTable("Accounts");
                 });
 
+            modelBuilder.Entity("backend.Entities.Department", b =>
+                {
+                    b.Property<int>("DepartmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DepartmentId"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("DepartmentId");
+
+                    b.ToTable("Departments");
+                });
+
             modelBuilder.Entity("backend.Entities.Machine", b =>
                 {
                     b.Property<int>("MachineId")
@@ -117,6 +134,29 @@ namespace backend.Migrations
                     b.HasKey("TicketId");
 
                     b.ToTable("Tickets");
+});
+            modelBuilder.Entity("backend.Entities.Solution", b =>
+                {
+                    b.Property<int>("SolutionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SolutionId"));
+
+                    b.Property<string>("ProblemDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("SolutionDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("TicketId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("SolutionId");
+
+                    b.ToTable("Solutions");
                 });
 #pragma warning restore 612, 618
         }
