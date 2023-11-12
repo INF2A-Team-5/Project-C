@@ -4,8 +4,8 @@ import React from 'react';
 function Admin() {
     return (
       <div>
-      <h1>Client</h1>
-      <Button>Admin</Button>
+      <h1>Admin</h1>
+      <Button>Refresh</Button>
     </div>
     );
   }
