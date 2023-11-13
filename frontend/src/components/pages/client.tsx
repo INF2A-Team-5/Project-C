@@ -21,7 +21,7 @@ async function Addtable() {
   }
   else {
     tickets = await fetch("http://localhost:5119/api/Tickets").then((res) => res.json())
-      .then(tickets => tickets.filter((client: any) => client.costumer_Id == Client));
+      .then(tickets => tickets.filter((client: any) => client.customer_Id == Client));
 
     table += `<tr>
       <th>Id</th>
@@ -59,7 +59,7 @@ async function Addtable() {
     tr += `<td>${tickets[i].ticketId}</td>`;
     tr += `<td>${tickets[i].priority}</td>`;
     if (typeOfAccount == "ServiceEmployee" || typeOfAccount == "Admin") {
-      tr += `<td>${tickets[i].costumer_Id}</td>`;
+      tr += `<td>${tickets[i].customer_Id}</td>`;
     }
     tr += `<td>${tickets[i].date_Created.slice(0, 10)}</td>`;
     tr += `<td>${tickets[i].status}</td>`;
