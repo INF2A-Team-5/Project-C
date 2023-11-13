@@ -21,8 +21,8 @@ async function Addtable() {
                 </tr>`;
   }
   else {
-    tickets = await fetch("http://localhost:5119/api/Tickets/").then((res) => res.json())
-      .then(tickets => tickets.filter((client: any) => client.custumer_Id == Client));
+    tickets = await fetch("http://localhost:5119/api/Tickets").then((res) => res.json())
+      .then(tickets => tickets.filter((client: any) => client.customer_Id == Client));
 
     table += `<tr>
       <th>Id</th>
@@ -78,7 +78,6 @@ function Client() {
   window.onload = Addtable;
   return (
     <div>
-      
       <Settings></Settings>
       <h1>Client</h1>
     </div>

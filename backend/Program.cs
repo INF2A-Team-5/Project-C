@@ -61,24 +61,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Ticket ticket1 = new() { Machine_Id = 3, Costumer_Id = 1, Assigned_Id = 2, Priority = "Critical", Status = "In Process", Date_Created = DateTime.UtcNow, Solution = "Test", Pictures = "Test", PhoneNumber = "0612345678", Notes = "Test" };
-// Ticket ticket2 = new() { Machine_Id = 3, Costumer_Id = 1, Assigned_Id = 3, Priority = "Non critical", Status = "In Process", Date_Created = DateTime.UtcNow, Solution = "Test", Pictures = "Test", PhoneNumber = "0612345678", Notes = "Test" };
-// Ticket ticket3 = new() { Machine_Id = 3, Costumer_Id = 1, Assigned_Id = 2, Priority = "Critical", Status = "Clossed", Date_Created = DateTime.UtcNow, Solution = "Test", Pictures = "Test", PhoneNumber = "0612345678", Notes = "Test" };
-// Ticket ticket4 = new() { Machine_Id = 3, Costumer_Id = 1, Assigned_Id = 2, Priority = "Critical", Status = "In Process", Date_Created = DateTime.UtcNow, Solution = "Test", Pictures = "Test", PhoneNumber = "0612345678", Notes = "Test" };
-// Ticket ticket5 = new() { Machine_Id = 3, Costumer_Id = 2, Assigned_Id = 3, Priority = "Non critical", Status = "Open", Date_Created = DateTime.UtcNow, Solution = "Test", Pictures = "Test", PhoneNumber = "0612345678", Notes = "Test" };
-
-// List<Ticket> tickets = new() { ticket1, ticket2, ticket3, ticket4, ticket5 };
-
-// Machine Machine1 = new() { Name = "Machine1", Description = "This is machine 1", AccountId = 7 };
-// Machine Machine2 = new() { Name = "Machine2", Description = "This is machine 2", AccountId = 7 };
-// Machine Machine3 = new() { Name = "Machine3", Description = "This is machine 3", AccountId = 8 };
-// Machine Machine4 = new() { Name = "Machine3", Description = "This is machine 4", AccountId = 8 };
-// Machine Machine5 = new() { Name = "Machine3", Description = "This is machine 5", AccountId = 9 };
-// Machine Machine6 = new() { Name = "Machine3", Description = "This is machine 6", AccountId = 9 };
-
-// List<Machine> machines = new() { Machine1, Machine2, Machine3, Machine4, Machine5, Machine6 };
-
-
 // Machine Machine1 = new() { Name = "Machine1", Description = "This is machine 1", AccountId = 1 };
 // Machine Machine2 = new() { Name = "Machine2", Description = "This is machine 2", AccountId = 2 };
 // Machine Machine3 = new() { Name = "Machine3", Description = "This is machine 3", AccountId = 2 };
