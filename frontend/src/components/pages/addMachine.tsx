@@ -2,6 +2,7 @@ import Input from '../foundations/input'
 import Button from '../foundations/button'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Settings from '../foundations/settings'
 
 function AddMachine() {
   const [name, setName] = useState('');
@@ -69,6 +70,7 @@ function AddMachine() {
           />
         </div>
         <br />
+        <Settings></Settings>
         <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">Add Machine</Button>
         <h3></h3>
         <Button hierarchy='md' intent="destructive" onClick={() => window.location.href='/admin'} rounded="slight">Back</Button>
