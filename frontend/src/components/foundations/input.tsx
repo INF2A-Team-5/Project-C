@@ -1,7 +1,7 @@
 import React from "react";
 
 interface InputProps extends React.HTMLAttributes<HTMLInputElement> {
-  hierarchy?: "sm" | "md" | "lg" | "xl";
+  hierarchy?: "sm" | "md" | "lg" | "xl"| "xxl";
   name?: "username" | "password";
 }
 
@@ -11,6 +11,7 @@ const styles = {
     md: "input-md",
     lg: "input-lg",
     xl: "input-xl",
+    xxl: "input-xxl"
   },
   name: {
     username: "username",
