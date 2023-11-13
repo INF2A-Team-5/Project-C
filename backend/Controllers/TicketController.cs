@@ -16,6 +16,19 @@ namespace backend.Controllers
             _context = context;
         }
 
+
+        // GET: api/Account
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Ticket>>> GetTickets()
+        {
+            if (_context.Accounts == null)
+            {
+                return NotFound();
+            }
+            return await _context.Tickets.ToListAsync();
+        }
+    }
+}
         // GET: api/Ticket
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Ticket>>> GetTickets()
