@@ -27,18 +27,6 @@ namespace backend.Controllers
             }
             return await _context.Tickets.ToListAsync();
         }
-    }
-}
-        // GET: api/Ticket
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Ticket>>> GetTickets()
-        {
-          if (_context.Tickets == null)
-          {
-              return NotFound();
-          }
-            return await _context.Tickets.ToListAsync();
-        }
 
         // GET: api/Tickets/5
         [HttpGet("{id}")]
