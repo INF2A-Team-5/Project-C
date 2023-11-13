@@ -2,6 +2,7 @@ import Input from '../foundations/input'
 import Button from '../foundations/button'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Settings from '../foundations/settings'
 
 function AddAccount() {
   const [username, setUsername] = useState('');
@@ -71,6 +72,7 @@ function AddAccount() {
         </select>
       </div>
         <br />
+        <Settings></Settings>
         <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">Add Account</Button>
         <h3></h3>
         <Button hierarchy='md' intent="destructive" onClick={() => window.location.href='/admin'} rounded="slight">Back</Button>

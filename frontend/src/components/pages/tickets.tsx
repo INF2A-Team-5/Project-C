@@ -7,10 +7,11 @@ import Block from'../foundations/block'
 import UploadService from "../../services/FileUploadService";
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
 import IFile from "../../services/File";
 import DropDown from "../foundations/DropDown";
+import Settings from '../foundations/settings'
 
 // export interface Machine {
 //   MachineId: number; Name: string; Description: string; AccountId: number
@@ -259,7 +260,7 @@ function Tickets() {
             {console.log("Message could not be updated", err)});
         pushticket
         alert("Ticket submitted");
-        navigate('/tickets');
+        navigate('/client');
 
       }
     }
@@ -270,14 +271,14 @@ function Tickets() {
   }
 
     
-  async function Popup() 
-  {
-    alert("First, we have a few questions (fill in the first block):'\n1. Is the machine turned on?\n2. Does the machine still move(for a part)?")
-  }
+  // async function Popup() 
+  // {
+  //   alert("First, we have a few questions (fill in the first block):'\n1. Is the machine turned on?\n2. Does the machine still move(for a part)?")
+  // }
 
-  useEffect(() => {
-    Popup(); // Call the Popup function when the component mounts
-  }, []);
+  // useEffect(() => {
+  //   Popup(); // Call the Popup function when the component mounts
+  // }, []);
   // useEffect(() => {
   //   uploadimages(); // Call the Popup function when the component mounts
   // }, []);
@@ -318,11 +319,9 @@ function Tickets() {
     
     <div>
         <div className="announcement">
-          <div>
-            {selectMachine
-              ? `You selected ${selectMachine}`
-              : "Select your machine"}
-          </div>
+          <div>{"First, we have a few questions (fill in the first block):"}</div>
+          <div>{"1. Is the machine turned on?"}</div>
+          <div>{"2. Does the machine still move(for a part)?"}</div>
         </div>
         <button
           className={showDropDown ? "active" : undefined}
@@ -366,6 +365,7 @@ function Tickets() {
         <Input hierarchy='xxl' onChange={e => setPhonenumber(e.currentTarget.value)}/>
       
           <h2>Upload videos/pictures</h2>
+          <Settings></Settings>
           <Input hierarchy='xxl' onChange={e => setPictures(e.currentTarget.value)}/><br></br><br></br>
           <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
       </div>
