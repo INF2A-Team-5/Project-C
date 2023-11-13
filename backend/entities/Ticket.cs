@@ -4,7 +4,7 @@ public class Ticket
 {
     public int TicketId { get; set; }
     public int Machine_Id { get; set; }
-    public int Costumer_Id { get; set; }
+    public int Customer_Id { get; set; }
     public int Assigned_Id { get; set; }
     public string Priority { get; set; } = null!;
     public string Status { get; set; } = null!;

@@ -27,8 +27,18 @@ function LogIn() {
         .then(accounts => accounts.find((acc: any) => acc.name == username && acc.password == password))
       if (account !== undefined)
       {
-        alert("loggin in...");
-        navigate('/tickets');
+        alert("Logging in...")
+        switch (account.class) {
+          case "Client":
+            navigate('/tickets');
+            break;
+          case "Admin":
+            navigate('/admin');
+            break;
+          case "ServiceEmployee":
+            navigate('/serviceEmployee');          
+            break;
+        }
       }
       else
       {
