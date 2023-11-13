@@ -1,5 +1,6 @@
 import Button from "../foundations/button";
 import React from 'react';
+import Settings from '../foundations/settings'
 
 async function Addtable() {
   let Client = "1";
@@ -59,7 +60,7 @@ async function Addtable() {
     tr += `<td>${tickets[i].ticketId}</td>`;
     tr += `<td>${tickets[i].priority}</td>`;
     if (typeOfAccount == "ServiceEmployee" || typeOfAccount == "Admin") {
-      tr += `<td>${tickets[i].customer_Id}</td>`;
+      tr += `<td>${tickets[i].custumer_Id}</td>`;
     }
     tr += `<td>${tickets[i].date_Created.slice(0, 10)}</td>`;
     tr += `<td>${tickets[i].status}</td>`;
@@ -77,6 +78,7 @@ function Client() {
   window.onload = Addtable;
   return (
     <div>
+      <Settings></Settings>
       <h1>Client</h1>
     </div>
   );
