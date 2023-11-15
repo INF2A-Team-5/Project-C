@@ -82,7 +82,7 @@ function LogIn() {
           </label>
           <br />
           <Settings></Settings>
-          <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">{t('login.log_in')}</Button>
+          <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">{t('login.log_in')}</Button>
         </div>
       </div>
       
