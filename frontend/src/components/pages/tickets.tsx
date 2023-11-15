@@ -26,10 +26,12 @@ function Tickets() {
   const [mustbedoing, setMustBeDoing] = useState('');
   const [havetried, setHaveTried] = useState('');
   const [phonenumber, setPhonenumber] = useState('');
-  const [pictures, setPictures] = useState('');
   const navigate = useNavigate();
   const [machinenames, SetMachineNames] = useState<string[]>([""]);
   const [account, SetAccount] = useState('');
+  const [file, setFile] = useState<File | undefined>();
+  const [preview, setPreview] = useState<"string" | undefined>();
+
   class Machine {
     name: string;
     id: number;
@@ -40,172 +42,7 @@ function Tickets() {
     }
    }
    var allmachines: Machine[] = [];
-   // async function uploadimages() {
-  //   ImagesUpload
-  // }
-  
-  // const ImagesUpload: React.FC = () => {
-  //   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
-  //   const [imagePreviews, setImagePreviews] = useState<Array<string>>([]);
-  //   const [progressInfos, setProgressInfos] = useState<Array<ProgressInfo>>([]);
-  //   const [message, setMessage] = useState<Array<string>>([]);
-  //   const [imageInfos, setImageInfos] = useState<Array<IFile>>([]);
-  //   const progressInfosRef = useRef<any>(null);
-    
-  //   const selectImages = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //     let images: Array<string> = [];
-  //     let files = event.target.files;
-  
-  //     if (files) {
-  //       for (let i = 0; i < files.length; i++) {
-  //         images.push(URL.createObjectURL(files[i]));
-  //       }
-    
-  //       setSelectedFiles(files);
-  //       setImagePreviews(images);
-  //       setProgressInfos([]);
-  //       setMessage([]);
-  //     }
-  //   };
-  //   const uploadImages = () => {
-  //     if (selectedFiles != null) {
-  //       const files = Array.from(selectedFiles);
-  
-  //       let _progressInfos = files.map((file) => ({
-  //         percentage: 0,
-  //         fileName: file.name
-  //       }));
-  
-  //       progressInfosRef.current = _progressInfos;
-  
-  //       const uploadPromises = files.map((file, i) => upload(i, file));
-  
-  //       Promise.all(uploadPromises)
-  //         .then(() => UploadService.getFiles())
-  //         .then((images) => {
-  //           setImageInfos(images.data);
-  //         });
-  
-  //       setMessage([]);
-  //     }
-  //   };
 
-  //   const upload = (idx: number, file: File) => {
-  //     let _progressInfos = [...progressInfosRef.current];
-  //     return UploadService.upload(file, (event: { loaded: number; total: number; }) => {
-  //       _progressInfos[idx].percentage = Math.round(
-  //         (100 * event.loaded) / event.total
-  //       );
-  //       setProgressInfos(_progressInfos);
-  //     })
-  //       .then(() => {
-  //         setMessage((prevMessage) => [
-  //           ...prevMessage,
-  //           file.name + ": Successful!"
-  //         ]);
-  //       })
-  //       .catch((err: any) => {
-  //         _progressInfos[idx].percentage = 0;
-  //         setProgressInfos(_progressInfos);
-  
-  //         let msg = file.name + ": Failed!";
-  //         if (err.response && err.response.data && err.response.data.message) {
-  //           msg += " " + err.response.data.message;
-  //         }
-  
-  //         setMessage((prevMessage) => [
-  //           ...prevMessage,
-  //           msg
-  //         ]);
-  //       });
-  //   };
-
-  //   useEffect(() => {
-  //     UploadService.getFiles().then((response) => {
-  //       setImageInfos(response.data);
-  //     });
-  //   }, []);
-
-  //   return (
-  //     <div>
-  //       {progressInfos &&
-  //         progressInfos.length > 0 &&
-  //         progressInfos.map((progressInfo: ProgressInfo, index: number) => (
-  //           <div className="mb-2" key={index}>
-  //             <span>{progressInfo.fileName}</span>
-  //             <div className="progress">
-  //               <div
-  //                 className="progress-bar progress-bar-info"
-  //                 role="progressbar"
-  //                 aria-valuenow={progressInfo.percentage}
-  //                 aria-valuemin={0}
-  //                 aria-valuemax={100}
-  //                 style={{ width: progressInfo.percentage + "%" }}
-  //               >
-  //                 {progressInfo.percentage}%
-  //               </div>
-  //             </div>
-  //           </div>
-  //         ))}
-  
-  //       <div className="row my-3">
-  //         <div className="col-8">
-  //           <label className="btn btn-default p-0">
-  //             <input type="file" multiple accept="image/*" onChange={selectImages} />
-  //           </label>
-  //         </div>
-  
-  //         <div className="col-4">
-  //           <button
-  //             className="btn btn-success btn-sm"
-  //             disabled={!selectedFiles}
-  //             onClick={uploadImages}
-  //           >
-  //             Upload
-  //           </button>
-  //         </div>
-  //       </div>
-  
-  //       {imagePreviews && (
-  //         <div>
-  //           {imagePreviews.map((img, i) => {
-  //             return (
-  //               <img className="preview" src={img} alt={"image-" + i} key={i} />
-  //             );
-  //           })}
-  //         </div>
-  //       )}
-  
-  //       {message.length > 0 && (
-  //         <div className="alert alert-secondary mt-2" role="alert">
-  //           <ul>
-  //             {message.map((item, i) => {
-  //               return <li key={i}>{item}</li>;
-  //             })}
-  //           </ul>
-  //         </div>
-  //       )}
-  
-  //       {imageInfos.length > 0 && (
-  //         <div className="card mt-3">
-  //           <div className="card-header">List of Images</div>
-  //           <ul className="list-group list-group-flush">
-  //             {imageInfos.map((img, index) => (
-  //               <li className="list-group-item" key={index}>
-  //                 <p>
-  //                   <a href={img.url}>{img.name}</a>
-  //                 </p>
-  //                 <img src={img.url} alt={img.name} height="80px" />
-  //               </li>
-  //             ))}
-  //           </ul>
-  //         </div>
-  //       )}
-  //     </div>
-  //   );
-  // }
-
-  // Hiermee aan het kutten, maar is nog niet gefixt 
 
   async function ChooseMachine()
   {
@@ -223,7 +60,28 @@ function Tickets() {
     SetAccount(currentaccount.accountId);
     SetMachineNames((allmachines.map(x => x.name + ", Id: " + x.id)));
   }
+
+  async function HandleOnChange(e: React.FormEvent<HTMLInputElement>){
+    const target = e.target as HTMLInputElement & {
+      files: FileList;
+    }
+    setFile(target.files[0]);
+    
+    const file = new FileReader;
+
+    file.onload = function() {
+      console.log('file', file.result);
+    }
+
+    file.readAsDataURL(target.files[0])
+  }
+
   async function handleSubmit() {
+
+    if (typeof file == "undefined") return;
+    const Pictures: { [key: string]: any } = {};
+
+    Pictures['file'] = file;
 
     if (problem.length != 0 && phonenumber.length != 0 && mustbedoing.length != 0 && havetried.length != 0)
     {
@@ -248,7 +106,7 @@ function Tickets() {
           Date_Created: new Date(),
           Information: information,
           Solution: "x",
-          Pictures: "x",
+          Pictures: Pictures,
           PhoneNumber: phonenumber,
           Notes: ""
         }
@@ -257,7 +115,7 @@ function Tickets() {
         .then(res => 
             {console.log("Message successfully updated", res);})
         .catch(err => 
-            {console.log("Message could not be updated", err)});
+            {console.log("Message could not be updated", err.response || err.Message)});
         pushticket
         alert("Ticket submitted");
         navigate('/client');
@@ -270,18 +128,7 @@ function Tickets() {
     }
   }
 
-    
-  // async function Popup() 
-  // {
-  //   alert("First, we have a few questions (fill in the first block):'\n1. Is the machine turned on?\n2. Does the machine still move(for a part)?")
-  // }
 
-  // useEffect(() => {
-  //   Popup(); // Call the Popup function when the component mounts
-  // }, []);
-  // useEffect(() => {
-  //   uploadimages(); // Call the Popup function when the component mounts
-  // }, []);
     const [showDropDown, setShowDropDown] = useState<boolean>(false);
     const [selectMachine, setSelectMachine] = useState<string>("");
     const machines = () => {
@@ -366,8 +213,18 @@ function Tickets() {
       
           <h2>Upload videos/pictures</h2>
           <Settings></Settings>
-          <Input hierarchy='xxl' onChange={e => setPictures(e.currentTarget.value)}/><br></br><br></br>
+          {/* <Input hierarchy='xxl' onChange={e => setPictures(e.currentTarget.value)}/><br></br><br></br> */}
+          <input 
+          type="file" 
+          name="image" 
+          accept="image/png, image/jpg"
+          onChange={HandleOnChange}
+          multiple
+          /><br></br>
+
           <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
+
+          
       </div>
       
 
