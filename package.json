@@ -10,7 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/icons": "^4.11.3",
     "bootstrap": "^5.3.2",
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "material-ui": "^0.20.2",
+    "react-data-table-component": "^7.5.4"
   }
 }
