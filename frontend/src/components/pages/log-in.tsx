@@ -66,13 +66,13 @@ function LogIn() {
           <h2>{t('login.login')}</h2>
           <h3>{t('login.username')}</h3>
           <div>
-            <Input hierarchy='xl' name='username' placeholder='Client1'
+            <Input hierarchy='md' name='username' placeholder='Client1'
             onChange={e => setUsername(e.currentTarget.value)}
             />
           </div>
           <h3>{t('login.password')}</h3>
           <div>
-            <Input hierarchy='xl' name='password' placeholder='******'
+            <Input hierarchy='md' name='password' placeholder='******'
             // ●●●●●●●● als je circels wilt
             onChange={e => setPassword(e.currentTarget.value)}
             />

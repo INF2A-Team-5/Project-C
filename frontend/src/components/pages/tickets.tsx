@@ -349,24 +349,24 @@ function Tickets() {
 
           {/* <Block size = "xl" color = "gray"> <label><h2>What do you see?</h2></label></Block> */}
         <h2>What do you see?* (Atleast 20 words)</h2>
-        <Input hierarchy='xxl' onChange={e => setProblem(e.currentTarget.value)}/>
+        <Input hierarchy='lg' onChange={e => setProblem(e.currentTarget.value)}/>
 
         <h2>What should it do?* (Atleast 20 words)</h2>
-        <Input hierarchy='xxl'onChange={e => setMustBeDoing(e.currentTarget.value)}/>
+        <Input hierarchy='lg'onChange={e => setMustBeDoing(e.currentTarget.value)}/>
 
         <h2>What have you tried?*</h2>
-        <Input hierarchy='xxl'onChange={e => setHaveTried(e.currentTarget.value)}/>
+        <Input hierarchy='lg'onChange={e => setHaveTried(e.currentTarget.value)}/>
 
         <h2>Enter phone number</h2>
         <div className="checkbox-wrapper-6">
         <input className="tgl tgl-light" id="cb1-6" type="checkbox"/>
         <label className="tgl-btn" htmlFor="cb1-6"></label><label>Use from account</label>
         </div>
-        <Input hierarchy='xxl' onChange={e => setPhonenumber(e.currentTarget.value)}/>
+        <Input hierarchy='lg' onChange={e => setPhonenumber(e.currentTarget.value)}/>
       
           <h2>Upload videos/pictures</h2>
           <Settings></Settings>
-          <Input hierarchy='xxl' onChange={e => setPictures(e.currentTarget.value)}/><br></br><br></br>
+          <Input hierarchy='lg' onChange={e => setPictures(e.currentTarget.value)}/><br></br><br></br>
           <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
       </div>
       

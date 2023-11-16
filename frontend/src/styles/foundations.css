@@ -127,7 +127,7 @@ body {
   color: var(--muted-foreground);
 }
 
-button {
+/* button {
   all: unset;
   color: var(--background);
 }
@@ -186,9 +186,6 @@ button {
   outline: none;
   box-shadow: 0 0 0 3px var(--ring);
   border-color: var(--ring);
-  /* border-width: 0.75rem; */
-  /* padding: 4rem; */
-  /* background-color: var(--destructive); */
 }
 
 .button-sm {
@@ -224,14 +221,14 @@ button {
 
 .button-rounded-none {
   border-radius: 0px;
-}
+} */
 
 .badge-primary {
   background-color: var(--primary);
   color: var(--primary-foreground);
 }
 
-input{
+/* input{
   all: unset;
   text-align: left;
   background-color: transparent;
@@ -267,7 +264,7 @@ input:focus{
   border-radius: 0.25rem;
   width: 20vw;
   height: 30px;
-}
+} */
 
 tr:hover {
   background-color: #2563eb;
@@ -285,12 +282,12 @@ td.edit {
   text-align: right;
 }
 
-.input-xxl {
+/* .input-xxl {
 
   padding: 5.0rem 5.0rem;
   font-size: 1.5rem;
   border-radius: 0.25rem;
-}
+} */
 
 
 .block-primary:active 
