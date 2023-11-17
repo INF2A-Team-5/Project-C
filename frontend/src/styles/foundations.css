@@ -386,7 +386,7 @@ td.edit {
   width: 25px;
   background-color: #eee;
 } */
-
+/* 
 .flex-container {
   display: flex;
   flex-direction:row;
@@ -404,7 +404,7 @@ td.edit {
 
 .flex-item-right {
   flex: 50%;
-}
+} */
 
 @media (max-width: 100%) {
   .flex-item-right, .flex-item-left {

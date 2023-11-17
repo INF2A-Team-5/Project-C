@@ -53,27 +53,27 @@ function AddMachine() {
     <div>
         <h2>Add Machine</h2>
         <div>
-          <Input hierarchy='xl' name='username' placeholder='Enter Machine Name'
+          <Input hierarchy='md' name='username' placeholder='Enter Machine Name'
           onChange={e => setName(e.currentTarget.value)}
           />
         </div>
         <h3></h3>
         <div>
-          <Input hierarchy='xl' name='username' placeholder='Enter Description'
+          <Input hierarchy='md' name='username' placeholder='Enter Description'
           onChange={e => setDescription(e.currentTarget.value)}
           />
         </div>
         <h3></h3>
         <div>
-          <Input hierarchy='xl' name='username' placeholder='Enter Account ID'
+          <Input hierarchy='md' name='username' placeholder='Enter Account ID'
           onChange={e => setAccountId(parseInt(e.currentTarget.value))}
           />
         </div>
         <br />
         <Settings></Settings>
-        <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">Add Machine</Button>
+        <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Add Machine</Button>
         <h3></h3>
-        <Button hierarchy='md' intent="destructive" onClick={() => window.location.href='/admin'} rounded="slight">Back</Button>
+        <Button hierarchy='md' type="destructive" onClick={() => window.location.href='/admin'} rounded="slight">Back</Button>
     </div>
   );
 }
