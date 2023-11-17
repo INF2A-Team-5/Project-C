@@ -161,6 +161,31 @@ namespace backend.Migrations
 
                     b.ToTable("Tickets");
                 });
+
+            modelBuilder.Entity("backend.Entities.TicketFile", b =>
+                {
+                    b.Property<int>("FileId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FileId"));
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FilePath")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FileType")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Ticket_Id")
+                        .HasColumnType("integer");
+
+                    b.HasKey("FileId");
+
+                    b.ToTable("Files");
+                });
 #pragma warning restore 612, 618
         }
     }

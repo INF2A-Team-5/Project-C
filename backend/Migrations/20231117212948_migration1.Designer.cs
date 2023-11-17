@@ -13,7 +13,7 @@ using backend.Data;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231117144405_migration1")]
+    [Migration("20231117212948_migration1")]
     partial class migration1
     {
         /// <inheritdoc />
@@ -163,6 +163,31 @@ namespace backend.Migrations
                     b.HasKey("TicketId");
 
                     b.ToTable("Tickets");
+                });
+
+            modelBuilder.Entity("backend.Entities.TicketFile", b =>
+                {
+                    b.Property<int>("FileId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("FileId"));
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FilePath")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FileType")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Ticket_Id")
+                        .HasColumnType("integer");
+
+                    b.HasKey("FileId");
+
+                    b.ToTable("Files");
                 });
 #pragma warning restore 612, 618
         }

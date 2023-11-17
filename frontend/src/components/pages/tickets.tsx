@@ -9,7 +9,6 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 // import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
-import IFile from "../../services/File";
 import DropDown from "../foundations/DropDown";
 import Settings from '../foundations/settings'
 
@@ -78,19 +77,25 @@ function Tickets() {
 
   async function handleSubmit() {
 
-    if (typeof file == "undefined") return;
-    let files: string[] = [file.name, file.type]
-    // const Pictures: { [key: string]: any } = {};
-
-    // Pictures['file'] = file;
+    console.log('File:', file);
+    console.log('Problem:', problem);
+    console.log('PhoneNumber:', phonenumber);
+    console.log('MustBeDoing:', mustbedoing);
+    console.log('HaveTried:', havetried);
+    console.log('SelectMachine:', selectMachine);
+  
+    if (typeof file === "undefined") {
+      console.log('File is undefined');
+      return;
+    }
 
     if (problem.length != 0 && phonenumber.length != 0 && mustbedoing.length != 0 && havetried.length != 0)
     {
       if (problem.split(" ").length < 20 || mustbedoing.split(" ").length < 20) {
-        alert("The first 2 answers must contain atleast 90 characters")
+        alert("The first 2 answers must contain at least 20 words")
         navigate('/tickets');
       }
-      if (selectMachine == "")
+      else if (selectMachine == "")
       {
         alert("Please choose a machine");
         navigate('/tickets');
@@ -98,29 +103,44 @@ function Tickets() {
       else
       {
         let information = {"Problem" : problem, "Must be doing": mustbedoing, "Have tried": havetried};
-        var ticket = 
-        {
-          Machine_Id: selectMachine.split("Id: ")[1],
-          Customer_Id: account,
-          Priority: "unknown",
-          Status: "To do",
-          Date_Created: new Date(),
-          Information: information,
-          Solution: "x",
-          Pictures: files,
-          PhoneNumber: phonenumber,
-          Notes: ""
+        
+        const reader = new FileReader();
+        reader.onloadend = async () => {
+          const filedata = reader.result?.toString();
+          if (filedata) {
+            console.log([file.name, file.type, filedata]);
+            const base64Content = filedata.split(',')[1];
+            const img = new Image();
+            img.src = 'data:image/png;base64,' + base64Content; // Reconstruct the data URL to display the image
+            document.body.appendChild(img); 
+            const ticket = 
+            {
+              Machine_Id: selectMachine.split("Id: ")[1],
+              Customer_Id: account,
+              Priority: "unknown",
+              Status: "To do",
+              Date_Created: new Date(),
+              Information: information,
+              Solution: "x",
+              Files: [file.name, file.type, filedata],
+              PhoneNumber: phonenumber,
+              Notes: ""
+            };
+        try {
+          const pushticket = await axios.post('http://localhost:5119/api/tickets/', ticket);
+            console.log("Message successfully updated", pushticket);
+            alert("Ticket submitted");
+            navigate('/client');
+          }
+          catch(error) {
+            console.error("Message could not be updated", Error);
+            alert("Error submitting ticket");
+            navigate('/tickets');
+          }
         }
+      };
 
-        const pushticket = await axios.post('http://localhost:5119/api/tickets/', ticket)
-        .then(res => 
-            {console.log("Message successfully updated", res);})
-        .catch(err => 
-            {console.log("Message could not be updated", err.response || err.Message)});
-        pushticket
-        alert("Ticket submitted");
-        navigate('/client');
-
+      reader.readAsDataURL(file);
       }
     }
     else
