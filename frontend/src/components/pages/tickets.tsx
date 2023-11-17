@@ -79,13 +79,14 @@ function Tickets() {
   async function handleSubmit() {
 
     if (typeof file == "undefined") return;
-    const Pictures: { [key: string]: any } = {};
+    let files: string[] = [file.name, file.type]
+    // const Pictures: { [key: string]: any } = {};
 
-    Pictures['file'] = file;
+    // Pictures['file'] = file;
 
     if (problem.length != 0 && phonenumber.length != 0 && mustbedoing.length != 0 && havetried.length != 0)
     {
-      if (problem.length < 100 || mustbedoing.length < 100) {
+      if (problem.split(" ").length < 20 || mustbedoing.split(" ").length < 20) {
         alert("The first 2 answers must contain atleast 90 characters")
         navigate('/tickets');
       }
@@ -106,7 +107,7 @@ function Tickets() {
           Date_Created: new Date(),
           Information: information,
           Solution: "x",
-          Pictures: Pictures,
+          Pictures: files,
           PhoneNumber: phonenumber,
           Notes: ""
         }
@@ -217,9 +218,9 @@ function Tickets() {
           <input 
           type="file" 
           name="image" 
-          accept="image/png, image/jpg"
+          // accept="image/png, image/jpg"
           onChange={HandleOnChange}
-          multiple
+          // multiple
           /><br></br>
 
           <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">Submit</Button>

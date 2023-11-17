@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -12,6 +13,9 @@ namespace backend.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("Npgsql:PostgresExtension:hstore", ",,");
+
             migrationBuilder.CreateTable(
                 name: "Accounts",
                 columns: table => new
@@ -82,10 +86,11 @@ namespace backend.Migrations
                     Priority = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false),
                     Date_Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Solution = table.Column<string>(type: "text", nullable: false),
-                    Pictures = table.Column<string>(type: "text", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: false),
-                    Notes = table.Column<string>(type: "text", nullable: false)
+                    Information = table.Column<Dictionary<string, string>>(type: "hstore", nullable: false),
+                    Solution = table.Column<string>(type: "text", nullable: true),
+                    Files = table.Column<string[]>(type: "text[]", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    Notes = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
