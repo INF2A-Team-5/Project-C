@@ -3,7 +3,7 @@ import React from 'react';
 interface ButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   type?: "primary" | "secondary" | "tertiary" | "destructive";
   rounded?: "none" | "slight" | "full";
-  hierarchy?: "sm" | "md" | "lg" | "xl";
+  hierarchy?: "sm" | "md" | "lg" | "xl" | "xl2";
 }
 
 const styles = {
@@ -17,6 +17,7 @@ const styles = {
     md: "h-8 w-32 px-4 font-medium text-sm",
     lg: "h-12 w-80 px-8 font-medium text-base",
     xl: "h-16 w-96 px-16 font-semibold text-2xl",
+    xl2: "h-16 w-3/6 px-20 font-semibold text-3xl",
   },
 };
 

@@ -1,17 +1,17 @@
-body {
+/* body {
   margin: 0;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   gap: 0;
   margin: 0;
   padding: 0;
-}
-.grid-container {
+} */
+/* .grid-container {
   display: grid;
   grid-template-columns: 50% 50%;
   height: 100vh;
-}
+} */
 
-.login-left {
+/* .login-left {
   background-color: var(--background);
   background-image: url("https://viscongroup.eu/app/uploads/2023/01/MicrosoftTeams-image-77-scaled.jpg");
   background-repeat: no-repeat;
@@ -20,9 +20,9 @@ body {
   left: 50%;
   display: grid;
   place-items: center;
-}
+} */
 
-.wrapper {
+/* .wrapper {
   height: 25vh;
   display: flex;
   flex-direction: column;
@@ -57,9 +57,9 @@ body {
   color: var(--primary);
   animation: rotate_words 15s ease infinite;
   margin: 0;
-}
+} */
 
-@keyframes rotate_words {
+/* @keyframes rotate_words {
   0%,
   100% {
     top: 0;
@@ -91,16 +91,16 @@ body {
   95% {
     top: -200px;
   }
-}
+} */
 
-.login-right {
+/* .login-right {
   align-items: center;
   justify-content: center;
   display: flex;
   flex-direction: column;
-}
+} */
 
-.head {
+/* .head {
   position: relative;
   align-items: center;
   justify-content: center;
@@ -110,22 +110,22 @@ body {
   margin: 0;
   width: 260px;
   top: -20px;
-}
+} */
 
-.head h1 {
+/* .head h1 {
   font-size: 50px;
-}
+} */
 
-.img-scale {
+/* .img-scale {
   width: auto;
   height: 55px;
   padding-right: 20px;
-}
+} */
 
-.login-form h3{
+/* .login-form h3{
   font-weight: normal;
   color: var(--muted-foreground);
-}
+} */
 
 /* button {
   all: unset;

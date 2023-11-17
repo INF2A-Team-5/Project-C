@@ -8,7 +8,7 @@ interface InputProps extends React.HTMLAttributes<HTMLInputElement> {
 
 const styles = {
   hierarchy: {
-    md: "h-16 w-96 px-10 text-2xl",
+    md: "h-16 w-3/6 px-10 text-2xl",
     lg: "h-16 w-4/5 px-10 text-2xl",
   },
   rounded: {

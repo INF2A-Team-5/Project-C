@@ -73,15 +73,81 @@ header nav {
   gap: 1rem;
 }
 
+.wrapper {
+  height: 25vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: left;
+  padding: 0px 40px 12px 40px;
+  background-color: var(--bgtransparant);
+  border-radius: 24px;
+}
+
+.wrapper h1{
+  font-size: 45px;
+  line-height: 50px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  background-color: transparent;
+}
+
+.words{
+  border: 0px solid var(--background);
+  height: 50px;
+  line-height: 50px;
+  font-size: 45px;
+  text-transform: uppercase;
+  overflow: hidden;
+  background-color: transparent;
+}
+
+.words h1{
+  position: relative;
+  color: var(--primary);
+  animation: rotate_words 15s ease infinite;
+  margin: 0;
+}
+
+@keyframes rotate_words {
+  0%,
+  100% {
+    top: 0;
+  }
+  10% {
+    top: 0;
+  }
+  20% {
+    top: -50px;
+  }
+  35% {
+    top: -50px;
+  }
+  40% {
+    top: -100px;
+  }
+  55% {
+    top: -100px;
+  }
+  60% {
+    top: -150px;
+  }
+  75% {
+    top: -150px;
+  }
+  80% {
+    top: -200px;
+  }
+  95% {
+    top: -200px;
+  }
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  /* color-scheme: light dark; */
-  /* color: rgba(255, 255, 255, 0.87);
-  background-color: #242424; */
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
