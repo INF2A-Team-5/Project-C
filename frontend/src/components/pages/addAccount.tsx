@@ -46,7 +46,7 @@ function AddAccount() {
 }
 
   return (
-    <div>
+    <div className='text-center'>
         <h2>Add Account</h2>
         <div>
           <Input hierarchy='md' name='username' placeholder='Enter Username'

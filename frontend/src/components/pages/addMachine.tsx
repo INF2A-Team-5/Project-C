@@ -50,7 +50,7 @@ function AddMachine() {
 }
 
   return (
-    <div>
+    <div className='text-center'>
         <h2>Add Machine</h2>
         <div>
           <Input hierarchy='md' name='username' placeholder='Enter Machine Name'

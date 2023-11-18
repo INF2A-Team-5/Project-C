@@ -268,19 +268,6 @@ function Tickets() {
       alert("You haven't filled in all necessary fields");
     }
   }
-
-    
-  // async function Popup() 
-  // {
-  //   alert("First, we have a few questions (fill in the first block):'\n1. Is the machine turned on?\n2. Does the machine still move(for a part)?")
-  // }
-
-  // useEffect(() => {
-  //   Popup(); // Call the Popup function when the component mounts
-  // }, []);
-  // useEffect(() => {
-  //   uploadimages(); // Call the Popup function when the component mounts
-  // }, []);
     const [showDropDown, setShowDropDown] = useState<boolean>(false);
     const [selectMachine, setSelectMachine] = useState<string>("");
     const machines = () => {

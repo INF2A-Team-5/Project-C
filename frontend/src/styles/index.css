@@ -59,8 +59,11 @@
 *{
   background-color: var(--background);
   color: var(--foreground);
+  /* text-align: center; */
   
 }
+
+
 
 header {
   display: flex;
@@ -77,7 +80,7 @@ header nav {
 }
 
 .wrapper {
-  height: 25vh;
+  height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;

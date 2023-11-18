@@ -44,7 +44,7 @@ function AddSolution() {
 }
 
   return (
-    <div>
+    <div className='text-center'>
         <h2>Add Solution</h2>
         <div>
           <Input hierarchy='md' name='username' placeholder='Enter Description of the Problem'

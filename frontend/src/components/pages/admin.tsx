@@ -3,7 +3,7 @@ import Settings from '../foundations/settings'
 
 function Admin() {
   return (
-    <div>
+    <div className="text-center">
       <h1>Admin</h1>
       <Settings></Settings>
       <Button hierarchy='xl' type="primary" onClick={() => window.location.href='/add-account'} rounded="slight">Add account</Button>

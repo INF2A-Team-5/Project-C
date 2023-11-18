@@ -39,7 +39,7 @@ function AddDepartment() {
 }
 
   return (
-    <div>
+    <div className='text-center'>
         <h2>Add Department</h2>
         <div>
           <Input hierarchy='md' name='username' placeholder='Enter Department Name'

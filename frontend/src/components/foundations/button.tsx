@@ -31,11 +31,11 @@ function Button({ hierarchy = "md", type = "tertiary", rounded = "slight" ,child
       buttonType = "text-white bg-grey-400 hover:bg-grey-600 dark:text-black dark:bg-grey-500 dark:hover:bg-grey-700"
       break;
     case 'tertiary':
-    buttonType = "text-dark-500 bg-transparent hover:bg-grey-200 dark:text-white dark:hover:bg-dark-900"
-    break;
+      buttonType = "text-dark-400 dark:bg-dark-400 bg-white hover:bg-grey-200 dark:text-white dark:hover:bg-dark-900"
+      break;
     case 'destructive':
-    buttonType = "text-white bg-destructive-500 hover:bg-destructive-600 dark:text-dark-500 dark:bg-destructive-800 dark:hover:bg-destructive-900"
-    break;
+      buttonType = "text-white bg-destructive-500 hover:bg-destructive-600 dark:text-dark-500 dark:bg-destructive-800 dark:hover:bg-destructive-900"
+      break;
   }
   return (
     <button className={`${styles.hierarchy[hierarchy]} ${buttonType} ${styles.rounded[rounded]}`} {...props}>

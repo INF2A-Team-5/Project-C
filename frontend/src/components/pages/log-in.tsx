@@ -4,7 +4,6 @@ import Button from '../foundations/button'
 import Settings from '../foundations/settings'
 import { useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import { useTranslation } from 'react-i18next';
 
 function LogIn() {
@@ -49,7 +48,7 @@ function LogIn() {
     
     <div className='grid-container grid grid-cols-2 h-screen'>
       <div className='login-left bg-left bg-var(--background) bg-[url("https://viscongroup.eu/app/uploads/2023/01/MicrosoftTeams-image-77-scaled.jpg")] 
-                      bg-cover bg-no-repeat bg-center object-fill left-1/2 grid place-items-center'>
+                      bg-cover bg-no-repeat object-fill left-1/2 grid place-items-center'>
         <div className="wrapper">
           <h1 className="text-5xl font-medium leading-10 mb-5 mt-5 bg-transparent">{t('login.txt_rotation0')}</h1>
           <div className="words border-b-0 font-medium border-transparent h-16 leading-16 text-5xl uppercase overflow-hidden bg-transparent">
@@ -62,7 +61,7 @@ function LogIn() {
         </div>
       </div>
       <Settings></Settings>
-      <div className='items-center justify-center flex flex-col'>
+      <div className='items-center text-center justify-center flex flex-col'>
         <Header></Header>
         <div className='font-normal w-full'>
           <h2 className='text-2xl font-medium pt-2 pb-2'>{t('login.login')}</h2>
