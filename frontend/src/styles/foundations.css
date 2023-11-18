@@ -479,7 +479,7 @@ td.edit {
   border: 1px solid red;
 }
 
-.transparant {
+/* .transparant {
   background-color: transparent;
   scale: 1.1;
 }
@@ -651,4 +651,4 @@ td.edit {
     opacity: 1;
     transform: translateX(0);
   }
-}
+} */

@@ -149,19 +149,21 @@ header nav {
 
 
 body::-webkit-scrollbar {
-  width: 12px; /* width of the entire scrollbar */
+  width: 8px; 
 }
 
 body::-webkit-scrollbar-thumb {
-  background-color: var(--scroll); /* thumb color */
+  background-color: var(--scroll); 
+  border-radius: 10px;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-  width: 12px; /* width of the entire scrollbar */
+  width: 8px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: var(--scroll); /* thumb color */
+  background-color: var(--scroll);
+  border-radius: 10px;
 }
 
 :root {

@@ -60,8 +60,8 @@ function LogIn() {
             <h1 className="relative text-primary animation-rotate-words m-0">{t('login.txt_rotation5')}</h1>
           </div>
         </div>
-
       </div>
+      <Settings></Settings>
       <div className='items-center justify-center flex flex-col'>
         <Header></Header>
         <div className='font-normal w-full'>
@@ -83,7 +83,6 @@ function LogIn() {
             {/* <input type="checkbox" className="checkbox" name="remember"/> Remember me */}
           </label>
           <br />
-          <Settings></Settings>
           <Button hierarchy='xl2' type="primary" onClick={handleSubmit} rounded="slight">{t('login.log_in')}</Button>
         </div>
       </div>
