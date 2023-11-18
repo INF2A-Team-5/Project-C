@@ -2,8 +2,6 @@ import Button from '../foundations/button'
 import Header from '../foundations/header'
 import Input from '../foundations/input'
 import React, { ComponentProps, SetStateAction, useEffect, useRef } from 'react';
-import Badge from'../foundations/badge'
-import Block from'../foundations/block'
 import UploadService from "../../services/FileUploadService";
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
