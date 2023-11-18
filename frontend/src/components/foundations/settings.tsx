@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import {
   HamburgerMenuIcon,
@@ -23,7 +24,9 @@ function toggleThemeDark(){
 
 function logOut() {}
 
-function editAccount() {}
+function editAccount() {
+    window.location.href='/edit-account'
+}
 
 
 function Settings(){
@@ -50,7 +53,7 @@ function Settings(){
             <DropdownMenu.Portal>
                 <DropdownMenu.Content className="DropdownMenuContent" sideOffset={5}>
                 <DropdownMenu.RadioGroup value={''} onValueChange={editAccount}>
-                    <DropdownMenu.RadioItem className="DropdownMenuRadioItem" value="" disabled>
+                    <DropdownMenu.RadioItem className="DropdownMenuRadioItem" value="" >
                     <DropdownMenu.ItemIndicator className="DropdownMenuItemIndicator transparant">
                         <Pencil1Icon className="transparant"/>
                     </DropdownMenu.ItemIndicator>
