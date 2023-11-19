@@ -8,6 +8,7 @@ import React, { ComponentProps, SetStateAction, useEffect, useRef } from 'react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 // import "bootstrap/dist/css/bootstrap.min.css";
+
 // import axios from 'axios';
 import DropDown from "../foundations/DropDown";
 import Settings from '../foundations/settings'
@@ -41,6 +42,7 @@ function Tickets() {
       this.machineId = machineId
     }
   }
+
   // async function uploadimages() {
   //   ImagesUpload
   // }
@@ -206,7 +208,7 @@ function Tickets() {
   //   );
   // }
 
-  // Hiermee aan het kutten, maar is nog niet gefixt
+  // Hiermee aan het kutten, maar is nog niet gefixt 
 
   async function ChooseMachine()
   {
@@ -280,6 +282,7 @@ function Tickets() {
         alert("Please choose a machine");
         navigate('/tickets');
       }
+
       else {
 
         var currentticket =
@@ -324,6 +327,7 @@ function Tickets() {
         alert("Ticket submitted");
         navigate('/client');
 
+      // reader.readAsDataURL(file);
       }
     }
     else {
@@ -437,7 +441,7 @@ function Tickets() {
 
           <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
 
-
+          
       </div>
       {/* <div className='pb-16'>
         <h2>Upload videos/pictures</h2>
