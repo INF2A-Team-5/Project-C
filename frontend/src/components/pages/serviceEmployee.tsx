@@ -5,9 +5,9 @@ import Settings from '../foundations/settings'
 function serviceEmployee() {
   return (
     <div>
+      <Settings></Settings>
       <h1>serviceEmployee</h1>
       <Button>Refresh</Button>
-      <Settings></Settings>
     </div>
   );
 }
