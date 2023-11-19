@@ -46,16 +46,16 @@ function AddAccount() {
 }
 
   return (
-    <div>
+    <div className='text-center'>
         <h2>Add Account</h2>
         <div>
-          <Input hierarchy='xl' name='username' placeholder='Enter Username'
+          <Input hierarchy='md' name='username' placeholder='Enter Username'
           onChange={e => setUsername(e.currentTarget.value)}
           />
         </div>
         <h3></h3>
         <div>
-          <Input hierarchy='xl' name='password' placeholder='Enter Password'
+          <Input hierarchy='md' name='password' placeholder='Enter Password'
           onChange={e => setPassword(e.currentTarget.value)}
           />
         </div>
@@ -73,9 +73,9 @@ function AddAccount() {
       </div>
         <br />
         <Settings></Settings>
-        <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">Add Account</Button>
+        <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Add Account</Button>
         <h3></h3>
-        <Button hierarchy='md' intent="destructive" onClick={() => window.location.href='/admin'} rounded="slight">Back</Button>
+        <Button hierarchy='md' type="destructive" onClick={() => window.location.href='/admin'} rounded="slight">Back</Button>
     </div>
   );
 }

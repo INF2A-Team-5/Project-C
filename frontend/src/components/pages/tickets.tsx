@@ -2,14 +2,16 @@ import Button from '../foundations/button'
 import Header from '../foundations/header'
 import Input from '../foundations/input'
 import React, { ComponentProps, SetStateAction, useEffect, useRef } from 'react';
-import Badge from'../foundations/badge'
-import Block from'../foundations/block'
+
+import UploadService from "../../services/FileUploadService";
+
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 // import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
 import DropDown from "../foundations/DropDown";
 import Settings from '../foundations/settings'
+import Textbox from '../foundations/textbox';
 
 // export interface Machine {
 //   MachineId: number; Name: string; Description: string; AccountId: number
@@ -34,8 +36,7 @@ function Tickets() {
   class Machine {
     name: string;
     id: number;
-    constructor(name: string, id: number)
-    {
+    constructor(name: string, id: number) {
       this.name = name;
       this.id = id
     }
@@ -43,17 +44,15 @@ function Tickets() {
    var allmachines: Machine[] = [];
 
 
-  async function ChooseMachine()
-  {
+  async function ChooseMachine() {
     let currentaccount = await fetch("http://localhost:5119/api/accounts")
-    .then((res) => res.json())
-    .then(accounts => accounts.find((acc: any) => acc.accountId == 3));
+      .then((res) => res.json())
+      .then(accounts => accounts.find((acc: any) => acc.accountId == 3));
 
     let machinelist = await fetch("http://localhost:5119/api/machines")
-    .then((res) => res.json())
-    .then(machines => machines.filter((machine: any) => machine.accountId == currentaccount.accountId));
-    for (var machine of machinelist)
-    {
+      .then((res) => res.json())
+      .then(machines => machines.filter((machine: any) => machine.accountId == currentaccount.accountId));
+    for (var machine of machinelist) {
       allmachines.push(new Machine(machine.name, machine.machineId));
     }
     SetAccount(currentaccount.accountId);
@@ -94,6 +93,8 @@ function Tickets() {
     //   return;
     // }
 
+
+        
     if (problem.length != 0 && phonenumber.length != 0 && mustbedoing.length != 0 && havetried.length != 0)
     {
       if (problem.split(" ").length < 20 || mustbedoing.split(" ").length < 20) {
@@ -128,28 +129,34 @@ function Tickets() {
               Notes: ""
             };
         try {
-          const pushticket = await axios.post('http://localhost:5119/api/tickets/', ticket);
-            console.log("Message successfully updated", pushticket);
-            alert("Ticket submitted");
-            navigate('/client');
+          await fetch("http://localhost:5119/api/tickets/", 
+          {
+            method: "POST",
+            headers: 
+            {
+              "Authorization": "bearer " + localStorage.getItem("Token"),
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(currentticket)
+          })
+          .then(res => 
+              {console.log("Message successfully updated", res);})
+          .catch(err => 
+              {console.log("Message could not be updated", err)});
           }
           catch(error) {
             console.error("Message could not be updated", Error);
             alert("Error submitting ticket");
             navigate('/tickets');
           }
-      //   }
-      // };
 
       // reader.readAsDataURL(file);
       }
     }
-    else
-    {
+    else {
       alert("You haven't filled in all necessary fields");
     }
   }
-
 
     const [showDropDown, setShowDropDown] = useState<boolean>(false);
     const [selectMachine, setSelectMachine] = useState<string>("");
@@ -184,15 +191,16 @@ function Tickets() {
     const machineSelection = (machine: string): void => {
       setSelectMachine(machine);
     };
+
   return (
     
-    <div>
-        <div className="announcement">
+    <div className='text-left pl-24'>
+        {/* <div className="announcement">
           <div>{"First, we have a few questions (fill in the first block):"}</div>
           <div>{"1. Is the machine turned on?"}</div>
           <div>{"2. Does the machine still move(for a part)?"}</div>
-        </div>
-        <button
+        </div> */}
+        {/* <button
           className={showDropDown ? "active" : undefined}
           onClick={(): void => toggleDropDown()}
           onBlur={(e: React.FocusEvent<HTMLButtonElement>): void =>
@@ -208,30 +216,43 @@ function Tickets() {
               machineSelection={machineSelection}
             />
           )}
-        </button>
+        </button> */}
               {/* <Button onClick={ChooseMachine}>choose machine</Button> */}
+      <div className='flex justify-center pb-16 pt-10'>
+        <Header></Header>
+      </div>
+      <Settings></Settings>
+      <div className='pb-8'>
+        <h1 className='text-4xl font-medium'>Report error</h1>
+        <p className='text-lg text-grey-900 font-medium'>Give details of the error and we will try to help you as soon as possible</p>
+      </div>
 
-      <div><Header></Header></div>
-      ImagesUpload
-      <div><label><h1>Report error</h1></label></div>
-          {/* <Button hierarchy='xl' intent="primary" onClick={myFunction} rounded="slight">Pop up<span className="popuptext" id="myPopup">Popup text...</span></Button> */}
+      <div className='pb-16'>
+        <h2 className='text-lg font-medium'>What do you see?*</h2>
+        <Textbox placeholder='shit broken' hierarchy='lg' onChange={e => setProblem(e.currentTarget.value)}></Textbox>
+        <p className='text-md text-grey-900 '>Give us a detailed description on any visible defects (Atleast 20 words)</p>
+      </div>
 
-          {/* <Block size = "xl" color = "gray"> <label><h2>What do you see?</h2></label></Block> */}
-        <h2>What do you see?* (Atleast 20 words)</h2>
-        <Input hierarchy='xxl' onChange={e => setProblem(e.currentTarget.value)}/>
+      <div className='pb-16'>
+        <h2 className='text-lg font-medium'>What should it do?*</h2>
+        <Textbox placeholder='work' hierarchy='lg' onChange={e => setMustBeDoing(e.currentTarget.value)}></Textbox>
+        <p className='text-md text-grey-900 '>Give us a detailed description on what the machine should do (Atleast 20 words)</p>
+      </div>
+      
+      <div className='pb-16'>
+        <h2 className='text-lg font-medium'>What have you tried?*</h2>
+        <Textbox placeholder='hit with hammer' hierarchy='lg' onChange={e => setHaveTried(e.currentTarget.value)}></Textbox>
+        <p className='text-md text-grey-900 '>Describe all things you have done to try fixing the machine</p>
+      </div>
 
-        <h2>What should it do?* (Atleast 20 words)</h2>
-        <Input hierarchy='xxl'onChange={e => setMustBeDoing(e.currentTarget.value)}/>
-
-        <h2>What have you tried?*</h2>
-        <Input hierarchy='xxl'onChange={e => setHaveTried(e.currentTarget.value)}/>
-
+      <div className='pb-16'>
         <h2>Enter phone number</h2>
         <div className="checkbox-wrapper-6">
-        <input className="tgl tgl-light" id="cb1-6" type="checkbox"/>
-        <label className="tgl-btn" htmlFor="cb1-6"></label><label>Use from account</label>
+          <input className="tgl tgl-light" id="cb1-6" type="checkbox"/>
+          <label className="tgl-btn" htmlFor="cb1-6"></label><label>Use from account</label>
         </div>
-        <Input hierarchy='xxl' onChange={e => setPhonenumber(e.currentTarget.value)}/>
+
+        <Input hierarchy='md' onChange={e => setPhonenumber(e.currentTarget.value)}/>
       
           <h2>Upload videos/pictures</h2>
           <Settings></Settings>
@@ -251,9 +272,14 @@ function Tickets() {
 
           
       </div>
-      
+      <div className='pb-16'>
+        <h2>Upload videos/pictures</h2>
+        <Input hierarchy='lg' onChange={e => setPictures(e.currentTarget.value)}/><br></br><br></br>
+        <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
+      </div>
+    </div>
 
   )
-  }
-  
+}
+
 export default Tickets
