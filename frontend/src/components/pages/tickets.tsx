@@ -2,13 +2,14 @@ import Button from '../foundations/button'
 import Header from '../foundations/header'
 import Input from '../foundations/input'
 import React, { ComponentProps, SetStateAction, useEffect, useRef } from 'react';
-import UploadService from "../../services/FileUploadService";
+
+// import UploadService from "../../services/FileUploadService";
+
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 // import "bootstrap/dist/css/bootstrap.min.css";
-import axios from 'axios';
-import IFile from "../../services/File";
-import DropDown from "../foundations/DropDown";
+// import axios from 'axios';
+// import DropDown from "../foundations/DropDown";
 import Settings from '../foundations/settings'
 import Textbox from '../foundations/textbox';
 
@@ -25,10 +26,13 @@ function Tickets() {
   const [mustbedoing, setMustBeDoing] = useState('');
   const [havetried, setHaveTried] = useState('');
   const [phonenumber, setPhonenumber] = useState('');
-  const [pictures, setPictures] = useState('');
   const navigate = useNavigate();
   const [machinenames, SetMachineNames] = useState<string[]>([""]);
   const [account, SetAccount] = useState('');
+  const [file, setFile] = useState<File | undefined>();
+  const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
+
+
   class Machine {
     name: string;
     id: number;
@@ -234,20 +238,55 @@ function Tickets() {
     SetMachineNames((allmachines.map(x => x.name + ", Id: " + x.id)));
   }
 
-  
-  async function handleSubmit() {
+  async function HandleOnChange(e: React.ChangeEvent<HTMLInputElement>){
+    // const target = e.target as HTMLInputElement & {
+    //   files: FileList;
+    // }
+    const fileList = e.target.files
 
-    if (problem.length != 0 && phonenumber.length != 0 && mustbedoing.length != 0 && havetried.length != 0) {
-      if (problem.length < 100 || mustbedoing.length < 100) {
-        alert("The first 2 answers must contain atleast 90 characters")
+    if (fileList) {
+      const allPreviews: (string | ArrayBuffer)[] = [];
+  
+      for (let i = 0; i < fileList.length; i++) {
+        const file = fileList[i];
+  
+        const reader = new FileReader();
+        reader.onload = () => {
+          const result = reader.result;
+          if (result) {
+            allPreviews.push(result);
+            console.log(allPreviews);
+            // You may want to set a state or perform other actions with 'result' here
+            setPreview(allPreviews);
+          }
+          };
+        reader.readAsDataURL(file);
+      }
+    }
+  }
+
+  async function handleSubmit() {
+  
+    // if (typeof file === "undefined") {
+    //   console.log('File is undefined');
+    //   return;
+    // }
+
+
+        
+    if (problem.length != 0 && phonenumber.length != 0 && mustbedoing.length != 0 && havetried.length != 0)
+    {
+      if (problem.split(" ").length < 20 || mustbedoing.split(" ").length < 20) {
+        alert("The first 2 answers must contain at least 20 words")
         navigate('/tickets');
       }
-      if (selectMachine == "") {
+      else if (selectMachine == "")
+      {
         alert("Please choose a machine");
         navigate('/tickets');
       }
       else {
-        let information = { "Problem": problem, "Must be doing": mustbedoing, "Have tried": havetried };
+        
         var currentticket =
         {
           Machine_Id: selectMachine.split("Id: ")[1],
@@ -255,7 +294,11 @@ function Tickets() {
           Priority: "unknown",
           Status: "Open",
           Date_Created: new Date(),
-          Information: information,
+
+          Problem: problem,
+          MustBeDoing: mustbedoing,
+          HaveTried: havetried,
+          
           Solution: "x",
           Pictures: "x",
           PhoneNumber: phonenumber,
@@ -292,6 +335,7 @@ function Tickets() {
       alert("You haven't filled in all necessary fields");
     }
   }
+
     const [showDropDown, setShowDropDown] = useState<boolean>(false);
     const [selectMachine, setSelectMachine] = useState<string>("");
     const machines = () => {
@@ -385,13 +429,32 @@ function Tickets() {
           <input className="tgl tgl-light" id="cb1-6" type="checkbox"/>
           <label className="tgl-btn" htmlFor="cb1-6"></label><label>Use from account</label>
         </div>
+
         <Input hierarchy='md' onChange={e => setPhonenumber(e.currentTarget.value)}/>
+      
+          <h2>Upload videos/pictures</h2>
+          <Settings></Settings>
+          {/* <Input hierarchy='xxl' onChange={e => setPictures(e.currentTarget.value)}/><br></br><br></br> */}
+          <input 
+          type="file" 
+          name="image" 
+          accept="image/png, image/jpg"
+          onChange={HandleOnChange}
+          multiple
+          /><br></br>
+          {preview.map((previewItem, index) => (
+          <img key={index} src={previewItem as string} alt={`Preview ${index}`} />
+          ))}
+
+          <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
+
+          
       </div>
-      <div className='pb-16'>
+      {/* <div className='pb-16'>
         <h2>Upload videos/pictures</h2>
         <Input hierarchy='lg' onChange={e => setPictures(e.currentTarget.value)}/><br></br><br></br>
         <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
-      </div>
+      </div> */}
     </div>
 
   )

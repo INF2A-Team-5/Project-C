@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using backend.Entities;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace backend.Data;
 public class DataContext : DbContext
@@ -18,6 +19,7 @@ public class DataContext : DbContext
       public DbSet<Ticket> Tickets { get; set; } = null!;
       public DbSet<Department> Departments {get; set; } = null!;
       public DbSet<Solution> Solutions {get; set; } = null!;
+      public DbSet<TicketFile> Files {get; set; } = null!;
       protected override void OnConfiguring(DbContextOptionsBuilder builder)
       {
       builder.UseNpgsql(@"Host=localhost:5432;Username=postgres;Password=1234;Database=ProjectC_Database;Maximum Pool Size=200");
@@ -30,5 +32,6 @@ public class DataContext : DbContext
           modelBuilder.Entity<Ticket>().HasKey(x => x.TicketId);
           modelBuilder.Entity<Department>().HasKey(x => x.DepartmentId);
           modelBuilder.Entity<Solution>().HasKey(x => x.SolutionId);
+          modelBuilder.Entity<TicketFile>().HasKey(x => x.FileId);
       }
 }
