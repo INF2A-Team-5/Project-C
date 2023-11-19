@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
+    [Authorize]
     [Route("api/Tickets")]
     [ApiController]
     public class TicketController : ControllerBase
@@ -30,7 +32,7 @@ namespace backend.Controllers
 
         // GET: api/Tickets/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Ticket>> GetTicket(long id)
+        public async Task<ActionResult<Ticket>> GetTicket(int id)
         {
           if (_context.Tickets == null)
           {
@@ -49,7 +51,7 @@ namespace backend.Controllers
         // PUT: api/Machine/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTicket(long id, Ticket ticket)
+        public async Task<IActionResult> PutTicket(int id, Ticket ticket)
         {
             if (id != ticket.TicketId)
             {
@@ -95,7 +97,7 @@ namespace backend.Controllers
 
         // DELETE: api/Machine/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTicket(long id)
+        public async Task<IActionResult> DeleteTicket(int id)
         {
             if (_context.Tickets == null)
             {
@@ -113,7 +115,7 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        private bool TicketExists(long id)
+        private bool TicketExists(int id)
         {
             return (_context.Tickets?.Any(e => e.TicketId == id)).GetValueOrDefault();
         }

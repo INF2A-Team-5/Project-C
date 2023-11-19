@@ -9,7 +9,14 @@ function AddDepartment() {
   const navigate = useNavigate();
 
   async function handleSubmit() {
-    const department = await fetch("http://localhost:5119/api/departments").then((res) => res.json())
+    const department = await fetch("http://localhost:5119/api/departments", {
+      method: "POST", 
+      headers: 
+      {
+        "Content-Type": "application/json",
+        "Authorization": "bearer " + localStorage.getItem("Token"),
+      }
+    }).then((res) => res.json())
       .then(departments => departments.find((dep: any) => dep.name == name))
 
     if (department !== undefined){
@@ -26,7 +33,7 @@ function AddDepartment() {
     {
       const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', "Authorization": "bearer " + localStorage.getItem("Token") },
         body: JSON.stringify({"departmentId": 0, "name": name})
       };
       fetch('http://localhost:5119/api/departments', requestOptions)

@@ -81,13 +81,13 @@ namespace backend.AccountService
 
             try
             {
-                var account = accounts.FirstOrDefault(c => c.AccountId == updatedAccount.Id);
+                var account = accounts.FirstOrDefault(c => c.AccountId == updatedAccount.AccountId);
                 if(account is null){
-                    throw new Exception($"Character with Id '{updatedAccount.Id}' not found.");
+                    throw new Exception($"Character with Id '{updatedAccount.AccountId}' not found.");
                 }
 
                 account.Name = updatedAccount.Name;
-                account.AccountId = updatedAccount.Id;
+                account.AccountId = updatedAccount.AccountId;
 
                 serviceResponse.Data = _mapper.Map<GetAccountDto>(account);
 

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+
 import {
   HamburgerMenuIcon,
   ExitIcon,
@@ -22,21 +23,25 @@ function toggleThemeDark(){
     htmlElement.classList.add("dark");
 }
 
-function logOut() {}
+function logOut() {
+    localStorage.clear();
+    alert("logging out...");
+    window.location.href="/";
+}
 
 function editAccount() {
     window.location.href='/edit-account'
 }
 
 
-function Settingss(){
+function Settings(){
+
     const { t, i18n } = useTranslation();
     useEffect(() => {
         const lng = navigator.language;
         i18n.changeLanguage(lng);
     }, [])
 
-    const lng = navigator.language;
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng)
     }
@@ -140,14 +145,13 @@ function Settingss(){
                 <DropdownMenu.RadioGroup value={''} onValueChange={logOut}>
                     <DropdownMenu.RadioItem className="text-md group leading-none text-primary-300 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none overflow-hidden outline-none 
                                                     data-[disabled]:text-grey-900 data-[disabled]:pointer-events-none data-[highlighted]:bg-primary-400 data-[highlighted]:text-white dark:data-[highlighted]:text-dark-500" 
-                                            value="" >
+                            	            value="">
                     <DropdownMenu.ItemIndicator className="absolute group-hover:bg-primary-400 left-0 w-[25px] inline-flex items-center justify-center scale-110">
                         <ExitIcon className="hover:bg-primary-400 group-hover:bg-primary-400"/>
                     </DropdownMenu.ItemIndicator>
-                        {t('setting.logOut')}
+                    {t('setting.logOut')}
                     </DropdownMenu.RadioItem>
                 </DropdownMenu.RadioGroup>
-
                 <DropdownMenu.Arrow className="fill-[var(--border)]" />
                 </DropdownMenu.Content>
             </DropdownMenu.Portal>
@@ -156,4 +160,4 @@ function Settingss(){
     );
 };
 
-export default Settingss;
+export default Settings;

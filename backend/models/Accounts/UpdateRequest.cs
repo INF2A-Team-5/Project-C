@@ -5,7 +5,7 @@
 
 // public class UpdateRequest
 // {
-//     public long Id {get; set; }
+//     public int Id {get; set; }
 //     public string Name { get; set; }
 //     public string Password { get; set; }
 //     public AccountType Class { get; set; }

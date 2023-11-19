@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
+    [Authorize]
     [Route("api/Accounts")]
     [ApiController]
     public class AccountsController : ControllerBase
@@ -29,7 +31,7 @@ namespace backend.Controllers
 
         // GET: api/Account/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Account>> GetAccount(long id)
+        public async Task<ActionResult<Account>> GetAccount(int id)
         {
           if (_context.Accounts == null)
           {
@@ -48,7 +50,7 @@ namespace backend.Controllers
         // PUT: api/Account/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAccount(long id, Account account)
+        public async Task<IActionResult> PutAccount(int id, Account account)
         {
             if (id != account.AccountId)
             {
@@ -94,7 +96,7 @@ namespace backend.Controllers
 
         // DELETE: api/Account/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAccount(long id)
+        public async Task<IActionResult> DeleteAccount(int id)
         {
             if (_context.Accounts == null)
             {
@@ -112,7 +114,7 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        private bool AccountExists(long id)
+        private bool AccountExists(int id)
         {
             return (_context.Accounts?.Any(e => e.AccountId == id)).GetValueOrDefault();
         }
