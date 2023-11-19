@@ -30,7 +30,7 @@ function Tickets() {
   const navigate = useNavigate();
   const [machinenames, SetMachineNames] = useState<string[]>([""]);
   const [account, SetAccount] = useState('');
-  const [file, setFile] = useState<File | undefined>();
+  // const [file, setFile] = useState<File | undefined>();
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
 
 
@@ -298,7 +298,7 @@ function Tickets() {
           HaveTried: havetried,
 
           Solution: "x",
-          Pictures: "x",
+          Pictures: preview,
           PhoneNumber: phonenumber,
           Notes: ""
         }

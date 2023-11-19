@@ -74,7 +74,11 @@ function handleButtonClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, i
 function Table() {
 
     const [Tickets, SetTickets] = useState<DataRow[]>([]);
-    GetData();
+    console.log(Tickets);
+    if (Tickets.length == 0)
+    {
+        GetData();
+    }
     type DataRow = {
         ticketId: number,
         machine_Id: number,
@@ -89,7 +93,8 @@ function Table() {
         notes: string;
     };
     
-    async function GetData() {
+    async function GetData() 
+    {
         SetTickets(await fetch("http://localhost:5119/api/tickets/", 
         {
         method: "GET",
@@ -102,6 +107,7 @@ function Table() {
         .then(data => data.json())
         .then(tickets => tickets.filter((client: any) => client.customer_Id == localStorage.getItem("Id"))));
     }
+
     const columns: TableColumn<DataRow>[] = [
         {
             name: "ID",
