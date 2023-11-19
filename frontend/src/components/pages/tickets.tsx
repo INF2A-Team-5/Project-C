@@ -2,8 +2,6 @@ import Button from '../foundations/button'
 import Header from '../foundations/header'
 import Input from '../foundations/input'
 import React, { ComponentProps, SetStateAction, useEffect, useRef } from 'react';
-import Badge from'../foundations/badge'
-import Block from'../foundations/block'
 import UploadService from "../../services/FileUploadService";
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -12,6 +10,7 @@ import axios from 'axios';
 import IFile from "../../services/File";
 import DropDown from "../foundations/DropDown";
 import Settings from '../foundations/settings'
+import Textbox from '../foundations/textbox';
 
 // export interface Machine {
 //   MachineId: number; Name: string; Description: string; AccountId: number
@@ -269,19 +268,6 @@ function Tickets() {
       alert("You haven't filled in all necessary fields");
     }
   }
-
-    
-  // async function Popup() 
-  // {
-  //   alert("First, we have a few questions (fill in the first block):'\n1. Is the machine turned on?\n2. Does the machine still move(for a part)?")
-  // }
-
-  // useEffect(() => {
-  //   Popup(); // Call the Popup function when the component mounts
-  // }, []);
-  // useEffect(() => {
-  //   uploadimages(); // Call the Popup function when the component mounts
-  // }, []);
     const [showDropDown, setShowDropDown] = useState<boolean>(false);
     const [selectMachine, setSelectMachine] = useState<string>("");
     const machines = () => {
@@ -315,15 +301,16 @@ function Tickets() {
     const machineSelection = (machine: string): void => {
       setSelectMachine(machine);
     };
+
   return (
     
-    <div>
-        <div className="announcement">
+    <div className='text-left pl-24'>
+        {/* <div className="announcement">
           <div>{"First, we have a few questions (fill in the first block):"}</div>
           <div>{"1. Is the machine turned on?"}</div>
           <div>{"2. Does the machine still move(for a part)?"}</div>
-        </div>
-        <button
+        </div> */}
+        {/* <button
           className={showDropDown ? "active" : undefined}
           onClick={(): void => toggleDropDown()}
           onBlur={(e: React.FocusEvent<HTMLButtonElement>): void =>
@@ -339,36 +326,49 @@ function Tickets() {
               machineSelection={machineSelection}
             />
           )}
-        </button>
+        </button> */}
               {/* <Button onClick={ChooseMachine}>choose machine</Button> */}
+      <div className='flex justify-center pb-16 pt-10'>
+        <Header></Header>
+      </div>
+      <Settings></Settings>
+      <div className='pb-8'>
+        <h1 className='text-4xl font-medium'>Report error</h1>
+        <p className='text-lg text-grey-900 font-medium'>Give details of the error and we will try to help you as soon as possible</p>
+      </div>
 
-      <div><Header></Header></div>
-      ImagesUpload
-      <div><label><h1>Report error</h1></label></div>
-          {/* <Button hierarchy='xl' intent="primary" onClick={myFunction} rounded="slight">Pop up<span className="popuptext" id="myPopup">Popup text...</span></Button> */}
+      <div className='pb-16'>
+        <h2 className='text-lg font-medium'>What do you see?*</h2>
+        <Textbox placeholder='shit broken' hierarchy='lg' onChange={e => setProblem(e.currentTarget.value)}></Textbox>
+        <p className='text-md text-grey-900 '>Give us a detailed description on any visible defects (Atleast 20 words)</p>
+      </div>
 
-          {/* <Block size = "xl" color = "gray"> <label><h2>What do you see?</h2></label></Block> */}
-        <h2>What do you see?* (Atleast 20 words)</h2>
-        <Input hierarchy='xxl' onChange={e => setProblem(e.currentTarget.value)}/>
+      <div className='pb-16'>
+        <h2 className='text-lg font-medium'>What should it do?*</h2>
+        <Textbox placeholder='work' hierarchy='lg' onChange={e => setMustBeDoing(e.currentTarget.value)}></Textbox>
+        <p className='text-md text-grey-900 '>Give us a detailed description on what the machine should do (Atleast 20 words)</p>
+      </div>
+      
+      <div className='pb-16'>
+        <h2 className='text-lg font-medium'>What have you tried?*</h2>
+        <Textbox placeholder='hit with hammer' hierarchy='lg' onChange={e => setHaveTried(e.currentTarget.value)}></Textbox>
+        <p className='text-md text-grey-900 '>Describe all things you have done to try fixing the machine</p>
+      </div>
 
-        <h2>What should it do?* (Atleast 20 words)</h2>
-        <Input hierarchy='xxl'onChange={e => setMustBeDoing(e.currentTarget.value)}/>
-
-        <h2>What have you tried?*</h2>
-        <Input hierarchy='xxl'onChange={e => setHaveTried(e.currentTarget.value)}/>
-
+      <div className='pb-16'>
         <h2>Enter phone number</h2>
         <div className="checkbox-wrapper-6">
-        <input className="tgl tgl-light" id="cb1-6" type="checkbox"/>
-        <label className="tgl-btn" htmlFor="cb1-6"></label><label>Use from account</label>
+          <input className="tgl tgl-light" id="cb1-6" type="checkbox"/>
+          <label className="tgl-btn" htmlFor="cb1-6"></label><label>Use from account</label>
         </div>
-        <Input hierarchy='xxl' onChange={e => setPhonenumber(e.currentTarget.value)}/>
-      
-          <h2>Upload videos/pictures</h2>
-          <Settings></Settings>
-          <Input hierarchy='xxl' onChange={e => setPictures(e.currentTarget.value)}/><br></br><br></br>
-          <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
+        <Input hierarchy='md' onChange={e => setPhonenumber(e.currentTarget.value)}/>
       </div>
+      <div className='pb-16'>
+        <h2>Upload videos/pictures</h2>
+        <Input hierarchy='lg' onChange={e => setPictures(e.currentTarget.value)}/><br></br><br></br>
+        <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
+      </div>
+    </div>
       
 
   )
