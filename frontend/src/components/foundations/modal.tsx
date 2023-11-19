@@ -42,11 +42,11 @@ export interface ModalProps  {
 //     );
 
     function Modal({ hierarchy = "md",...props }: ModalProps) {
-        return (
-            <div className="popup" onClick="myFunction()">Click me!
-            <span class="popuptext" id="myPopup">Popup text...</span>
-          </div>
-        );
+        // return (
+        //     <div className="popup" onClick="myFunction()">Click me!
+        //     <span class="popuptext" id="myPopup">Popup text...</span>
+        //   </div>
+        // );
       }
 
     export default Modal;

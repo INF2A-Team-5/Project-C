@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { useNavigate } from "react-router-dom";
 
 import {
   HamburgerMenuIcon,
@@ -144,14 +143,15 @@ function Settings(){
                 </DropdownMenu.Sub>
                 <DropdownMenu.Separator className="h-[1px] bg-[var(--border)] m-[5px]"/>
                 <DropdownMenu.RadioGroup value={''} onValueChange={logOut}>
-                    <DropdownMenu.RadioItem className="DropdownMenuRadioItem" value="" disabled>
-                    <DropdownMenu.ItemIndicator className="DropdownMenuItemIndicator transparant">
-                        <ExitIcon className='transparant'/>
+                    <DropdownMenu.RadioItem className="text-md group leading-none text-primary-300 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none overflow-hidden outline-none 
+                                                    data-[disabled]:text-grey-900 data-[disabled]:pointer-events-none data-[highlighted]:bg-primary-400 data-[highlighted]:text-white dark:data-[highlighted]:text-dark-500" 
+                            	            value="">
+                    <DropdownMenu.ItemIndicator className="absolute group-hover:bg-primary-400 left-0 w-[25px] inline-flex items-center justify-center scale-110">
+                        <ExitIcon className="hover:bg-primary-400 group-hover:bg-primary-400"/>
                     </DropdownMenu.ItemIndicator>
-                        {t('setting.logOut')}
+                    {t('setting.logOut')}
                     </DropdownMenu.RadioItem>
                 </DropdownMenu.RadioGroup>
-
                 <DropdownMenu.Arrow className="fill-[var(--border)]" />
                 </DropdownMenu.Content>
             </DropdownMenu.Portal>
@@ -160,4 +160,4 @@ function Settings(){
     );
 };
 
-export default Settingss;
+export default Settings;

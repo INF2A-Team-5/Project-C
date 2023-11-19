@@ -233,6 +233,8 @@ function Tickets() {
     SetAccount(currentaccount.accountId);
     SetMachineNames((allmachines.map(x => x.name + ", Id: " + x.id)));
   }
+
+  
   async function handleSubmit() {
 
     if (problem.length != 0 && phonenumber.length != 0 && mustbedoing.length != 0 && havetried.length != 0) {
@@ -260,25 +262,26 @@ function Tickets() {
           Notes: ""
         }
 
-        await axios.post('http://localhost:5119/api/tickets/', currentticket)
+        // await axios.post('http://localhost:5119/api/tickets/', currentticket)
+        // .then(res => 
+        //     {console.log("Message successfully updated", res);})
+        // .catch(err => 
+        //     {console.log("Message could not be updated", err)});
+        
+        await fetch("http://localhost:5119/api/tickets/", 
+        {
+          method: "POST",
+          headers: 
+          {
+            "Authorization": "bearer " + localStorage.getItem("Token"),
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(currentticket)
+        })
         .then(res => 
             {console.log("Message successfully updated", res);})
         .catch(err => 
             {console.log("Message could not be updated", err)});
-        
-        // let ticket = await fetch("http://localhost:5119/api/tickets/", 
-        // {
-        //   method: "GET",
-        //   headers: 
-        //   {
-        //     "Content-Type": "application/json",
-        //   }
-        // })
-        // .then(data => data.json()
-        // .then(data => data.Find((ticket: any) => ticket.Machine_Id === currentticket.Machine_Id && ticket.Customer_Id == currentticket.Customer_Id)));
-
-        // ticket.ticketId
-
 
         alert("Ticket submitted");
         navigate('/client');

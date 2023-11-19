@@ -78,7 +78,7 @@ function LogIn() {
           <h2 className='text-2xl font-medium pt-2 pb-2'>{t('login.login')}</h2>
           <h3 className='text-lg text-grey-900 py-2'>{t('login.username')}</h3>
           <div>
-            <Input hierarchy='xl' name='username' placeholder='Username'
+            <Input hierarchy='md' name='username' placeholder='Username'
             onChange={e => setUsername(e.currentTarget.value)}
             />
           </div>

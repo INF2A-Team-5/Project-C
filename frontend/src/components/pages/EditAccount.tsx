@@ -23,30 +23,30 @@ function EditAccount() {
     <div>
         <h2>Change Phone Number</h2>
         <div>
-          <Input hierarchy='xl' name='username' placeholder='Enter Phone Number'
+          <Input hierarchy='md' name='username' placeholder='Enter Phone Number'
           onChange={e => setPhone(e.currentTarget.value)}
           />
         </div>
         <h3></h3>
-        <Button hierarchy='lg' intent="primary" onClick={handleSubmit} rounded="slight">Change Phone Number</Button>
+        <Button hierarchy='md' type="primary" onClick={handleSubmit} rounded="slight">Change Phone Number</Button>
         <h3></h3>
         <h2>Change Password</h2>
         <div>
-          <Input hierarchy='xl' name='password' placeholder='Enter New Password'
+          <Input hierarchy='md' name='password' placeholder='Enter New Password'
           onChange={e => setPassword(e.currentTarget.value)}
           />
         </div>
         <h3></h3>
         <div>
-          <Input hierarchy='xl' name='password' placeholder='Confirm New Password'
+          <Input hierarchy='md' name='password' placeholder='Confirm New Password'
           onChange={e => setConfirmPass(e.currentTarget.value)}
           />
         </div>
         <br />
         <Settings></Settings>
-        <Button hierarchy='lg' intent="primary" onClick={handleSubmit} rounded="slight">Change Password</Button>
+        <Button hierarchy='md' type="primary" onClick={handleSubmit} rounded="slight">Change Password</Button>
         <h3></h3>
-        <Button hierarchy='md' intent="destructive" onClick={() => window.location.href='/tickets'} rounded="slight">Back</Button>
+        <Button hierarchy='md' type="destructive" onClick={() => window.location.href='/tickets'} rounded="slight">Back</Button>
     </div>
   );
 }

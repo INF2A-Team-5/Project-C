@@ -1,8 +1,9 @@
 import React from "react";
 
 interface InputProps extends React.HTMLAttributes<HTMLInputElement> {
-  hierarchy?: "md" | "lg";
+  type?: "primary" | "secondary" | "tertiary" | "destructive";
   rounded?: "none" | "slight" | "full";
+  hierarchy?: "md" | "lg";
   name?: "username" | "password";
 }
 
