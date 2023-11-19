@@ -74,7 +74,7 @@ function handleButtonClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, i
 function Table() {
 
     const [Tickets, SetTickets] = useState<DataRow[]>([]);
-
+    GetData();
     type DataRow = {
         ticketId: number,
         machine_Id: number,
@@ -99,8 +99,8 @@ function Table() {
             "Content-Type": "application/json",
         }
         })
-        .then(data => data.json()));
-        // .then(tickets => tickets.filter((client: any) => client.customer_Id == localStorage.getItem("Id")));
+        .then(data => data.json())
+        .then(tickets => tickets.filter((client: any) => client.customer_Id == localStorage.getItem("Id"))));
     }
     const columns: TableColumn<DataRow>[] = [
         {

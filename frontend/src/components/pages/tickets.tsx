@@ -9,7 +9,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 // import "bootstrap/dist/css/bootstrap.min.css";
 // import axios from 'axios';
-// import DropDown from "../foundations/DropDown";
+import DropDown from "../foundations/DropDown";
 import Settings from '../foundations/settings'
 import Textbox from '../foundations/textbox';
 
@@ -35,13 +35,12 @@ function Tickets() {
 
   class Machine {
     name: string;
-    id: number;
-    constructor(name: string, id: number) {
+    machineId: number;
+    constructor(name: string, machineId: number) {
       this.name = name;
-      this.id = id
+      this.machineId = machineId
     }
   }
-  var allmachines: Machine[] = [];
   // async function uploadimages() {
   //   ImagesUpload
   // }
@@ -207,11 +206,11 @@ function Tickets() {
   //   );
   // }
 
-  // Hiermee aan het kutten, maar is nog niet gefixt 
+  // Hiermee aan het kutten, maar is nog niet gefixt
 
   async function ChooseMachine()
   {
-    let currentaccount = await fetch("http://localhost:5119/api/accounts/" + localStorage.getItem("Id"), 
+    let currentaccount = await fetch("http://localhost:5119/api/accounts/" + localStorage.getItem("Id"),
     {
       method: "GET",
       headers: {
@@ -223,19 +222,15 @@ function Tickets() {
     let machinelist = await fetch("http://localhost:5119/api/machines/" + localStorage.getItem("Id"),
     {
       method: "GET",
-      headers: 
+      headers:
       {
         "Authorization": "bearer " + localStorage.getItem("Token"),
       }
     })
     .then(data => data.json());
-    
-    for (var machine of machinelist)
-    {
-      allmachines.push(new Machine(machine.name, machine.machineId));
-    }
+
     SetAccount(currentaccount.accountId);
-    SetMachineNames((allmachines.map(x => x.name + ", Id: " + x.id)));
+    SetMachineNames((machinelist.map((machine: Machine) => machine.name + ", Id: " + machine.machineId)));
   }
 
   async function HandleOnChange(e: React.ChangeEvent<HTMLInputElement>){
@@ -246,16 +241,16 @@ function Tickets() {
 
     if (fileList) {
       const allPreviews: (string | ArrayBuffer)[] = [];
-  
+
       for (let i = 0; i < fileList.length; i++) {
         const file = fileList[i];
-  
+
         const reader = new FileReader();
         reader.onload = () => {
           const result = reader.result;
           if (result) {
             allPreviews.push(result);
-            console.log(allPreviews);
+            // console.log(allPreviews);
             // You may want to set a state or perform other actions with 'result' here
             setPreview(allPreviews);
           }
@@ -266,14 +261,14 @@ function Tickets() {
   }
 
   async function handleSubmit() {
-  
+
     // if (typeof file === "undefined") {
     //   console.log('File is undefined');
     //   return;
     // }
 
 
-        
+
     if (problem.length != 0 && phonenumber.length != 0 && mustbedoing.length != 0 && havetried.length != 0)
     {
       if (problem.split(" ").length < 20 || mustbedoing.split(" ").length < 20) {
@@ -286,7 +281,7 @@ function Tickets() {
         navigate('/tickets');
       }
       else {
-        
+
         var currentticket =
         {
           Machine_Id: selectMachine.split("Id: ")[1],
@@ -298,7 +293,7 @@ function Tickets() {
           Problem: problem,
           MustBeDoing: mustbedoing,
           HaveTried: havetried,
-          
+
           Solution: "x",
           Pictures: "x",
           PhoneNumber: phonenumber,
@@ -306,24 +301,24 @@ function Tickets() {
         }
 
         // await axios.post('http://localhost:5119/api/tickets/', currentticket)
-        // .then(res => 
+        // .then(res =>
         //     {console.log("Message successfully updated", res);})
-        // .catch(err => 
+        // .catch(err =>
         //     {console.log("Message could not be updated", err)});
-        
-        await fetch("http://localhost:5119/api/tickets/", 
+
+        await fetch("http://localhost:5119/api/tickets/",
         {
           method: "POST",
-          headers: 
+          headers:
           {
             "Authorization": "bearer " + localStorage.getItem("Token"),
             "Content-Type": "application/json",
           },
           body: JSON.stringify(currentticket)
         })
-        .then(res => 
+        .then(res =>
             {console.log("Message successfully updated", res);})
-        .catch(err => 
+        .catch(err =>
             {console.log("Message could not be updated", err)});
 
         alert("Ticket submitted");
@@ -338,9 +333,7 @@ function Tickets() {
 
     const [showDropDown, setShowDropDown] = useState<boolean>(false);
     const [selectMachine, setSelectMachine] = useState<string>("");
-    const machines = () => {
-      return machinenames;
-    };
+
     /**
      * Toggle the drop down menu
      */
@@ -359,7 +352,7 @@ function Tickets() {
         setShowDropDown(false);
       }
     };
-  
+
     /**
      * Callback function to consume the
      * machine name from the child component
@@ -371,31 +364,27 @@ function Tickets() {
     };
 
   return (
-    
+
     <div className='text-left pl-24'>
         {/* <div className="announcement">
           <div>{"First, we have a few questions (fill in the first block):"}</div>
           <div>{"1. Is the machine turned on?"}</div>
           <div>{"2. Does the machine still move(for a part)?"}</div>
         </div> */}
-        {/* <button
+        <Button
           className={showDropDown ? "active" : undefined}
           onClick={(): void => toggleDropDown()}
           onBlur={(e: React.FocusEvent<HTMLButtonElement>): void =>
-            dismissHandler(e)
-          }
-        >
-          <div>{selectMachine ? "Select: " + selectMachine : "Select ..."} </div>
+            dismissHandler(e)}>
+          <div>{selectMachine ? "Select: " + selectMachine : "Select Machine"} </div>
           {showDropDown && (
             <DropDown
-              machines={machines()}
+              machines={machinenames}
               showDropDown={false}
               toggleDropDown={(): void => toggleDropDown()}
-              machineSelection={machineSelection}
-            />
+              machineSelection={machineSelection}/>
           )}
-        </button> */}
-              {/* <Button onClick={ChooseMachine}>choose machine</Button> */}
+        </Button>
       <div className='flex justify-center pb-16 pt-10'>
         <Header></Header>
       </div>
@@ -416,7 +405,7 @@ function Tickets() {
         <Textbox placeholder='work' hierarchy='lg' onChange={e => setMustBeDoing(e.currentTarget.value)}></Textbox>
         <p className='text-md text-grey-900 '>Give us a detailed description on what the machine should do (Atleast 20 words)</p>
       </div>
-      
+
       <div className='pb-16'>
         <h2 className='text-lg font-medium'>What have you tried?*</h2>
         <Textbox placeholder='hit with hammer' hierarchy='lg' onChange={e => setHaveTried(e.currentTarget.value)}></Textbox>
@@ -426,18 +415,18 @@ function Tickets() {
       <div className='pb-16'>
         <h2>Enter phone number</h2>
         <div className="checkbox-wrapper-6">
-          <input className="tgl tgl-light" id="cb1-6" type="checkbox"/>
-          <label className="tgl-btn" htmlFor="cb1-6"></label><label>Use from account</label>
+          {/* <input className="tgl tgl-light" id="cb1-6" type="checkbox"/>
+          <label className="tgl-btn" htmlFor="cb1-6"></label><label>Use from account</label> */}
         </div>
 
         <Input hierarchy='md' onChange={e => setPhonenumber(e.currentTarget.value)}/>
-      
+
           <h2>Upload videos/pictures</h2>
           <Settings></Settings>
           {/* <Input hierarchy='xxl' onChange={e => setPictures(e.currentTarget.value)}/><br></br><br></br> */}
-          <input 
-          type="file" 
-          name="image" 
+          <input
+          type="file"
+          name="image"
           accept="image/png, image/jpg"
           onChange={HandleOnChange}
           multiple
@@ -448,7 +437,7 @@ function Tickets() {
 
           <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
 
-          
+
       </div>
       {/* <div className='pb-16'>
         <h2>Upload videos/pictures</h2>
