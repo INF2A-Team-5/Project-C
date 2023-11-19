@@ -17,8 +17,6 @@ function LogIn() {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     
-    var token = "";
-
     async function handleSubmit() {
       if (username === "" || password === "")
       {

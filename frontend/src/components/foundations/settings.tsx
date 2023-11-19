@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useTranslation } from 'react-i18next';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+import { useNavigate } from "react-router-dom";
+
 import {
   HamburgerMenuIcon,
   ExitIcon,
@@ -21,12 +23,17 @@ function toggleThemeDark(){
     htmlElement.classList.add("dark");
 }
 
-function logOut() {}
+function logOut() {
+    localStorage.clear();
+    alert("logging out...");
+    window.location.href="/";
+}
 
 function editAccount() {}
 
 
 function Settings(){
+
     const { t, i18n } = useTranslation();
     useEffect(() => {
         const lng = navigator.language;
@@ -112,7 +119,7 @@ function Settings(){
                 </DropdownMenu.Sub>
                 <DropdownMenu.Separator className="DropdownMenuSeparator" />
                 <DropdownMenu.RadioGroup value={''} onValueChange={logOut}>
-                    <DropdownMenu.RadioItem className="DropdownMenuRadioItem" value="" disabled>
+                    <DropdownMenu.RadioItem className="DropdownMenuRadioItem" value="" >
                     <DropdownMenu.ItemIndicator className="DropdownMenuItemIndicator transparant">
                         <ExitIcon className='transparant'/>
                     </DropdownMenu.ItemIndicator>
