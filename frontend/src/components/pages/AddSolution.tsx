@@ -44,30 +44,30 @@ function AddSolution() {
 }
 
   return (
-    <div>
+    <div className='text-center'>
         <h2>Add Solution</h2>
         <div>
-          <Input hierarchy='xl' name='username' placeholder='Enter Description of the Problem'
+          <Input hierarchy='md' name='username' placeholder='Enter Description of the Problem'
           onChange={e => setProblemDescription(e.currentTarget.value)}
           />
         </div>
         <h3></h3>
         <div>
-          <Input hierarchy='xl' name='username' placeholder='Enter a Description of the Solution'
+          <Input hierarchy='md' name='username' placeholder='Enter a Description of the Solution'
           onChange={e => setSolutionDescription(e.currentTarget.value)}
           />
         </div>
         <h3></h3>
         <div>
-          <Input hierarchy='xl' name='username' placeholder='Enter Ticket ID'
+          <Input hierarchy='md' name='username' placeholder='Enter Ticket ID'
           onChange={e => setTicketId(parseInt(e.currentTarget.value))}
           />
         </div>
         <br />
         <Settings></Settings>
-        <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">Add Solution</Button>
+        <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Add Solution</Button>
         <h3></h3>
-        <Button hierarchy='md' intent="destructive" onClick={() => window.location.href='/admin'} rounded="slight">Back</Button>
+        <Button hierarchy='md' type="destructive" onClick={() => window.location.href='/admin'} rounded="slight">Back</Button>
     </div>
   );
 }

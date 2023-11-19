@@ -2,8 +2,6 @@ import Button from '../foundations/button'
 import Header from '../foundations/header'
 import Input from '../foundations/input'
 import React, { ComponentProps, SetStateAction, useEffect, useRef } from 'react';
-import Badge from'../foundations/badge'
-import Block from'../foundations/block'
 import UploadService from "../../services/FileUploadService";
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -12,6 +10,7 @@ import axios from 'axios';
 import IFile from "../../services/File";
 import DropDown from "../foundations/DropDown";
 import Settings from '../foundations/settings'
+import Textbox from '../foundations/textbox';
 
 // export interface Machine {
 //   MachineId: number; Name: string; Description: string; AccountId: number
@@ -33,17 +32,16 @@ function Tickets() {
   class Machine {
     name: string;
     id: number;
-    constructor(name: string, id: number)
-    {
+    constructor(name: string, id: number) {
       this.name = name;
       this.id = id
     }
-   }
-   var allmachines: Machine[] = [];
-   // async function uploadimages() {
+  }
+  var allmachines: Machine[] = [];
+  // async function uploadimages() {
   //   ImagesUpload
   // }
-  
+
   // const ImagesUpload: React.FC = () => {
   //   const [selectedFiles, setSelectedFiles] = useState<FileList | null>(null);
   //   const [imagePreviews, setImagePreviews] = useState<Array<string>>([]);
@@ -51,16 +49,16 @@ function Tickets() {
   //   const [message, setMessage] = useState<Array<string>>([]);
   //   const [imageInfos, setImageInfos] = useState<Array<IFile>>([]);
   //   const progressInfosRef = useRef<any>(null);
-    
+
   //   const selectImages = (event: React.ChangeEvent<HTMLInputElement>) => {
   //     let images: Array<string> = [];
   //     let files = event.target.files;
-  
+
   //     if (files) {
   //       for (let i = 0; i < files.length; i++) {
   //         images.push(URL.createObjectURL(files[i]));
   //       }
-    
+
   //       setSelectedFiles(files);
   //       setImagePreviews(images);
   //       setProgressInfos([]);
@@ -70,22 +68,22 @@ function Tickets() {
   //   const uploadImages = () => {
   //     if (selectedFiles != null) {
   //       const files = Array.from(selectedFiles);
-  
+
   //       let _progressInfos = files.map((file) => ({
   //         percentage: 0,
   //         fileName: file.name
   //       }));
-  
+
   //       progressInfosRef.current = _progressInfos;
-  
+
   //       const uploadPromises = files.map((file, i) => upload(i, file));
-  
+
   //       Promise.all(uploadPromises)
   //         .then(() => UploadService.getFiles())
   //         .then((images) => {
   //           setImageInfos(images.data);
   //         });
-  
+
   //       setMessage([]);
   //     }
   //   };
@@ -107,12 +105,12 @@ function Tickets() {
   //       .catch((err: any) => {
   //         _progressInfos[idx].percentage = 0;
   //         setProgressInfos(_progressInfos);
-  
+
   //         let msg = file.name + ": Failed!";
   //         if (err.response && err.response.data && err.response.data.message) {
   //           msg += " " + err.response.data.message;
   //         }
-  
+
   //         setMessage((prevMessage) => [
   //           ...prevMessage,
   //           msg
@@ -147,14 +145,14 @@ function Tickets() {
   //             </div>
   //           </div>
   //         ))}
-  
+
   //       <div className="row my-3">
   //         <div className="col-8">
   //           <label className="btn btn-default p-0">
   //             <input type="file" multiple accept="image/*" onChange={selectImages} />
   //           </label>
   //         </div>
-  
+
   //         <div className="col-4">
   //           <button
   //             className="btn btn-success btn-sm"
@@ -165,7 +163,7 @@ function Tickets() {
   //           </button>
   //         </div>
   //       </div>
-  
+
   //       {imagePreviews && (
   //         <div>
   //           {imagePreviews.map((img, i) => {
@@ -175,7 +173,7 @@ function Tickets() {
   //           })}
   //         </div>
   //       )}
-  
+
   //       {message.length > 0 && (
   //         <div className="alert alert-secondary mt-2" role="alert">
   //           <ul>
@@ -185,7 +183,7 @@ function Tickets() {
   //           </ul>
   //         </div>
   //       )}
-  
+
   //       {imageInfos.length > 0 && (
   //         <div className="card mt-3">
   //           <div className="card-header">List of Images</div>
@@ -237,26 +235,23 @@ function Tickets() {
   }
   async function handleSubmit() {
 
-    if (problem.length != 0 && phonenumber.length != 0 && mustbedoing.length != 0 && havetried.length != 0)
-    {
+    if (problem.length != 0 && phonenumber.length != 0 && mustbedoing.length != 0 && havetried.length != 0) {
       if (problem.length < 100 || mustbedoing.length < 100) {
         alert("The first 2 answers must contain atleast 90 characters")
         navigate('/tickets');
       }
-      if (selectMachine == "")
-      {
+      if (selectMachine == "") {
         alert("Please choose a machine");
         navigate('/tickets');
       }
-      else
-      {
-        let information = {"Problem" : problem, "Must be doing": mustbedoing, "Have tried": havetried};
-        var currentticket = 
+      else {
+        let information = { "Problem": problem, "Must be doing": mustbedoing, "Have tried": havetried };
+        var currentticket =
         {
           Machine_Id: selectMachine.split("Id: ")[1],
           Customer_Id: account,
           Priority: "unknown",
-          Status: "To do",
+          Status: "Open",
           Date_Created: new Date(),
           Information: information,
           Solution: "x",
@@ -290,24 +285,10 @@ function Tickets() {
 
       }
     }
-    else
-    {
+    else {
       alert("You haven't filled in all necessary fields");
     }
   }
-
-    
-  // async function Popup() 
-  // {
-  //   alert("First, we have a few questions (fill in the first block):'\n1. Is the machine turned on?\n2. Does the machine still move(for a part)?")
-  // }
-
-  // useEffect(() => {
-  //   Popup(); // Call the Popup function when the component mounts
-  // }, []);
-  // useEffect(() => {
-  //   uploadimages(); // Call the Popup function when the component mounts
-  // }, []);
     const [showDropDown, setShowDropDown] = useState<boolean>(false);
     const [selectMachine, setSelectMachine] = useState<string>("");
     const machines = () => {
@@ -341,15 +322,16 @@ function Tickets() {
     const machineSelection = (machine: string): void => {
       setSelectMachine(machine);
     };
+
   return (
     
-    <div>
-        <div className="announcement">
+    <div className='text-left pl-24'>
+        {/* <div className="announcement">
           <div>{"First, we have a few questions (fill in the first block):"}</div>
           <div>{"1. Is the machine turned on?"}</div>
           <div>{"2. Does the machine still move(for a part)?"}</div>
-        </div>
-        <button
+        </div> */}
+        {/* <button
           className={showDropDown ? "active" : undefined}
           onClick={(): void => toggleDropDown()}
           onBlur={(e: React.FocusEvent<HTMLButtonElement>): void =>
@@ -365,39 +347,51 @@ function Tickets() {
               machineSelection={machineSelection}
             />
           )}
-        </button>
+        </button> */}
               {/* <Button onClick={ChooseMachine}>choose machine</Button> */}
+      <div className='flex justify-center pb-16 pt-10'>
+        <Header></Header>
+      </div>
+      <Settings></Settings>
+      <div className='pb-8'>
+        <h1 className='text-4xl font-medium'>Report error</h1>
+        <p className='text-lg text-grey-900 font-medium'>Give details of the error and we will try to help you as soon as possible</p>
+      </div>
 
-      <div><Header></Header></div>
-      ImagesUpload
-      <div><label><h1>Report error</h1></label></div>
-          {/* <Button hierarchy='xl' intent="primary" onClick={myFunction} rounded="slight">Pop up<span className="popuptext" id="myPopup">Popup text...</span></Button> */}
+      <div className='pb-16'>
+        <h2 className='text-lg font-medium'>What do you see?*</h2>
+        <Textbox placeholder='shit broken' hierarchy='lg' onChange={e => setProblem(e.currentTarget.value)}></Textbox>
+        <p className='text-md text-grey-900 '>Give us a detailed description on any visible defects (Atleast 20 words)</p>
+      </div>
 
-          {/* <Block size = "xl" color = "gray"> <label><h2>What do you see?</h2></label></Block> */}
-        <h2>What do you see?* (Atleast 20 words)</h2>
-        <Input hierarchy='xxl' onChange={e => setProblem(e.currentTarget.value)}/>
-
-        <h2>What should it do?* (Atleast 20 words)</h2>
-        <Input hierarchy='xxl'onChange={e => setMustBeDoing(e.currentTarget.value)}/>
-
-        <h2>What have you tried?*</h2>
-        <Input hierarchy='xxl'onChange={e => setHaveTried(e.currentTarget.value)}/>
-
-        <h2>Enter phone number</h2>
-        <div className="checkbox-wrapper-6">
-        <input className="tgl tgl-light" id="cb1-6" type="checkbox"/>
-        <label className="tgl-btn" htmlFor="cb1-6"></label><label>Use from account</label>
-        </div>
-        <Input hierarchy='xxl' onChange={e => setPhonenumber(e.currentTarget.value)}/>
-      
-          <h2>Upload videos/pictures</h2>
-          <Settings></Settings>
-          <Input hierarchy='xxl' onChange={e => setPictures(e.currentTarget.value)}/><br></br><br></br>
-          <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
+      <div className='pb-16'>
+        <h2 className='text-lg font-medium'>What should it do?*</h2>
+        <Textbox placeholder='work' hierarchy='lg' onChange={e => setMustBeDoing(e.currentTarget.value)}></Textbox>
+        <p className='text-md text-grey-900 '>Give us a detailed description on what the machine should do (Atleast 20 words)</p>
       </div>
       
+      <div className='pb-16'>
+        <h2 className='text-lg font-medium'>What have you tried?*</h2>
+        <Textbox placeholder='hit with hammer' hierarchy='lg' onChange={e => setHaveTried(e.currentTarget.value)}></Textbox>
+        <p className='text-md text-grey-900 '>Describe all things you have done to try fixing the machine</p>
+      </div>
+
+      <div className='pb-16'>
+        <h2>Enter phone number</h2>
+        <div className="checkbox-wrapper-6">
+          <input className="tgl tgl-light" id="cb1-6" type="checkbox"/>
+          <label className="tgl-btn" htmlFor="cb1-6"></label><label>Use from account</label>
+        </div>
+        <Input hierarchy='md' onChange={e => setPhonenumber(e.currentTarget.value)}/>
+      </div>
+      <div className='pb-16'>
+        <h2>Upload videos/pictures</h2>
+        <Input hierarchy='lg' onChange={e => setPictures(e.currentTarget.value)}/><br></br><br></br>
+        <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
+      </div>
+    </div>
 
   )
-  }
-  
+}
+
 export default Tickets

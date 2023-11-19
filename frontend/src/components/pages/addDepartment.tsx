@@ -46,18 +46,18 @@ function AddDepartment() {
 }
 
   return (
-    <div>
+    <div className='text-center'>
         <h2>Add Department</h2>
         <div>
-          <Input hierarchy='xl' name='username' placeholder='Enter Department Name'
+          <Input hierarchy='md' name='username' placeholder='Enter Department Name'
           onChange={e => setName(e.currentTarget.value)}
           />
         </div>
         <br />
         <Settings></Settings>
-        <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">Add Department</Button>
+        <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Add Department</Button>
         <h3></h3>
-        <Button hierarchy='md' intent="destructive" onClick={() => window.location.href='/admin'} rounded="slight">Back</Button>
+        <Button hierarchy='md' type="destructive" onClick={() => window.location.href='/admin'} rounded="slight">Back</Button>
     </div>
   );
 }
