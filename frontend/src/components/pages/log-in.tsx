@@ -24,6 +24,8 @@ function LogIn() {
       }
       else
       {
+        try 
+        {
         const account = await fetch("http://localhost:5119/api/Auth/Login", {
           method: "POST", 
           headers: {
@@ -49,12 +51,13 @@ function LogIn() {
               break;
           }
         }
-        else
-        {
-          alert("invalid credentials");
-        }
+      }
+      catch
+      {
+        alert("invalid credentials");
       }
     }
+  }
   return (
     
     <div className='grid-container grid grid-cols-2 h-screen'>
