@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
+    [Authorize]
     [Route("api/Departments")]
     [ApiController]
     public class DepartmentsController : ControllerBase
@@ -29,7 +31,7 @@ namespace backend.Controllers
 
         // GET: api/Department/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Department>> GetDepartment(long id)
+        public async Task<ActionResult<Department>> GetDepartment(int id)
         {
           if (_context.Departments == null)
           {
@@ -48,7 +50,7 @@ namespace backend.Controllers
         // PUT: api/Department/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDepartment(long id, Department department)
+        public async Task<IActionResult> PutDepartment(int id, Department department)
         {
             if (id != department.DepartmentId)
             {
@@ -94,7 +96,7 @@ namespace backend.Controllers
 
         // DELETE: api/Department/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDepartment(long id)
+        public async Task<IActionResult> DeleteDepartment(int id)
         {
             if (_context.Departments == null)
             {
@@ -112,7 +114,7 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        private bool DepartmentExists(long id)
+        private bool DepartmentExists(int id)
         {
             return (_context.Departments?.Any(e => e.DepartmentId == id)).GetValueOrDefault();
         }

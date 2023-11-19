@@ -11,7 +11,13 @@ function AddAccount() {
   const navigate = useNavigate();
 
   async function handleSubmit() {
-    const account = await fetch("http://localhost:5119/api/accounts").then((res) => res.json())
+    const account = await fetch("http://localhost:5119/api/accounts", {
+      method: "GET",
+      headers: {
+        "Authorization": "bearer " + localStorage.getItem("Token"),
+        "Content-Type": "application/json",
+      }
+    }).then(data => data.json())
       .then(accounts => accounts.find((acc: any) => acc.name == username))
 
     if (account !== undefined){
@@ -33,7 +39,11 @@ function AddAccount() {
     {
       const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: 
+        { 
+          'Content-Type': 'application/json',
+          "Authorization": "bearer " + localStorage.getItem("Token"),
+        },
         body: JSON.stringify({"accountId": 0, "name": username, "password": password, "Class": userType})
       };
       fetch('http://localhost:5119/api/accounts', requestOptions)

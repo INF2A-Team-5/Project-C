@@ -7,9 +7,9 @@ namespace backend.Dto
 {
     public class UpdateAccountDto
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Password {get; set; } 
+        public int AccountId { get; set; }
+        public required string Name { get; set; }
+        public required string Password {get; set; } 
         public AccountType Class { get; set; }
 
 

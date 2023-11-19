@@ -4,47 +4,59 @@ import Button from '../foundations/button'
 import Settings from '../foundations/settings'
 import { useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import { useTranslation } from 'react-i18next';
+import Cookies from 'js-cookie';
 
 function LogIn() {
     const { t, i18n } = useTranslation();
     useEffect(() => {
-      const lng = navigator.language;
-      i18n.changeLanguage(lng);
+      i18n.changeLanguage(navigator.language);
     }, [])
-    const lng = navigator.language;
-    const changeLanguage = (lng: string) => {
-      i18n.changeLanguage(lng)
-    }
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     
+    var token = "";
+
     async function handleSubmit() {
-      const account = await fetch("http://localhost:5119/api/accounts").then((res) => res.json())
-        .then(accounts => accounts.find((acc: any) => acc.name == username && acc.password == password))
-      if (account !== undefined)
+      if (username === "" || password === "")
       {
-        alert("Logging in...")
-        switch (account.class) {
-          case "Client":
-            navigate('/tickets');
-            break;
-          case "Admin":
-            navigate('/admin');
-            break;
-          case "ServiceEmployee":
-            navigate('/serviceEmployee');          
-            break;
-        }
+        alert("fill in fields");
       }
       else
       {
-        alert("invalid credentials");
+        const account = await fetch("http://localhost:5119/api/Auth/Login", {
+          method: "POST", 
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({name: username, password: password})}).then(account => account.json());
+        if (account !== undefined)
+        {
+          localStorage.setItem("username", account.name);
+          localStorage.setItem("Id", account.accountId);
+          localStorage.setItem("Token", account.token);
+          // Cookies.set('token', token, { expires: 1, secure: true })
+          alert("Logging in...")
+          switch (account.class) {
+            case "Client":
+              navigate('/tickets');
+              break;
+            case "Admin":
+              navigate('/admin');
+              break;
+            case "ServiceEmployee":
+              navigate('/serviceEmployee');          
+              break;
+          }
+        }
+        else
+        {
+          alert("invalid credentials");
+        }
       }
-  }
+    }
   return (
     
     <div className='content grid-container'>
@@ -66,7 +78,7 @@ function LogIn() {
           <h2>{t('login.login')}</h2>
           <h3>{t('login.username')}</h3>
           <div>
-            <Input hierarchy='xl' name='username' placeholder='Client1'
+            <Input hierarchy='xl' name='username' placeholder='Username'
             onChange={e => setUsername(e.currentTarget.value)}
             />
           </div>

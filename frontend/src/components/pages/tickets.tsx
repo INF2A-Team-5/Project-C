@@ -209,13 +209,25 @@ function Tickets() {
 
   async function ChooseMachine()
   {
-    let currentaccount = await fetch("http://localhost:5119/api/accounts")
-    .then((res) => res.json())
-    .then(accounts => accounts.find((acc: any) => acc.accountId == 3));
+    let currentaccount = await fetch("http://localhost:5119/api/accounts/" + localStorage.getItem("Id"), 
+    {
+      method: "GET",
+      headers: {
+        "Authorization": "bearer " + localStorage.getItem("Token"),
+        "Content-Type": "application/json",
+      }
+    }).then(data => data.json());
 
-    let machinelist = await fetch("http://localhost:5119/api/machines")
-    .then((res) => res.json())
-    .then(machines => machines.filter((machine: any) => machine.accountId == currentaccount.accountId));
+    let machinelist = await fetch("http://localhost:5119/api/machines/" + localStorage.getItem("Id"),
+    {
+      method: "GET",
+      headers: 
+      {
+        "Authorization": "bearer " + localStorage.getItem("Token"),
+      }
+    })
+    .then(data => data.json());
+    
     for (var machine of machinelist)
     {
       allmachines.push(new Machine(machine.name, machine.machineId));
@@ -239,7 +251,7 @@ function Tickets() {
       else
       {
         let information = {"Problem" : problem, "Must be doing": mustbedoing, "Have tried": havetried};
-        var ticket = 
+        var currentticket = 
         {
           Machine_Id: selectMachine.split("Id: ")[1],
           Customer_Id: account,
@@ -253,12 +265,26 @@ function Tickets() {
           Notes: ""
         }
 
-        const pushticket = await axios.post('http://localhost:5119/api/tickets/', ticket)
+        await axios.post('http://localhost:5119/api/tickets/', currentticket)
         .then(res => 
             {console.log("Message successfully updated", res);})
         .catch(err => 
             {console.log("Message could not be updated", err)});
-        pushticket
+        
+        // let ticket = await fetch("http://localhost:5119/api/tickets/", 
+        // {
+        //   method: "GET",
+        //   headers: 
+        //   {
+        //     "Content-Type": "application/json",
+        //   }
+        // })
+        // .then(data => data.json()
+        // .then(data => data.Find((ticket: any) => ticket.Machine_Id === currentticket.Machine_Id && ticket.Customer_Id == currentticket.Customer_Id)));
+
+        // ticket.ticketId
+
+
         alert("Ticket submitted");
         navigate('/client');
 

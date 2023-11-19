@@ -33,7 +33,6 @@ function Settings(){
         i18n.changeLanguage(lng);
     }, [])
 
-    const lng = navigator.language;
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng)
     }

@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
+    [Authorize]
     [Route("api/Solutions")]
     [ApiController]
     public class SolutionsController : ControllerBase
@@ -29,7 +31,7 @@ namespace backend.Controllers
 
         // GET: api/Solution/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Solution>> GetSolution(long id)
+        public async Task<ActionResult<Solution>> GetSolution(int id)
         {
           if (_context.Solutions == null)
           {
@@ -48,7 +50,7 @@ namespace backend.Controllers
         // PUT: api/Solution/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutSolution(long id, Solution solution)
+        public async Task<IActionResult> PutSolution(int id, Solution solution)
         {
             if (id != solution.SolutionId)
             {
@@ -94,7 +96,7 @@ namespace backend.Controllers
 
         // DELETE: api/Solution/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteSolution(long id)
+        public async Task<IActionResult> DeleteSolution(int id)
         {
             if (_context.Solutions == null)
             {
@@ -112,7 +114,7 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        private bool SolutionExists(long id)
+        private bool SolutionExists(int id)
         {
             return (_context.Solutions?.Any(e => e.SolutionId == id)).GetValueOrDefault();
         }

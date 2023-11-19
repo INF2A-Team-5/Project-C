@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Threading.Tasks;
 
 namespace backend.Dto
 {
-    public class GetAccountDto
+    public class LoginDto
     {
         public int AccountId { get; set; }
-        public required string Name { get; set; } 
-        public required string Password {get; set; } 
+        public string Name { get; set; } 
         public AccountType Class { get; set; }
+        public string Token {get; set; } = null!;
     }
 }

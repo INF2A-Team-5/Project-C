@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "dotnet run"
+    "dev": "dotnet watch run"
   },
   "author": "",
   "license": "ISC"

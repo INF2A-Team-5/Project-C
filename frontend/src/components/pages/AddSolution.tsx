@@ -31,7 +31,7 @@ function AddSolution() {
     {
       const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', "Authorization": "bearer " + localStorage.getItem("Token") },
         body: JSON.stringify({"solutionId": 0, "problemDescription": problemDescription, "solutionDescription": solutionDescription, "ticketId": ticketId})
       };
       fetch('http://localhost:5119/api/solutions', requestOptions)

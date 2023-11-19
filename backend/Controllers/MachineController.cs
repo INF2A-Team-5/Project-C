@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.Controllers
 {
+    [Authorize]
     [Route("api/Machines")]
     [ApiController]
     public class MachinesController : ControllerBase
@@ -29,17 +31,17 @@ namespace backend.Controllers
 
         // GET: api/Machine/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Machine>> GetMachine(long id)
+        public async Task<ActionResult<IEnumerable<Machine>>> GetMachine(int id)
         {
           if (_context.Machines == null)
           {
-              return NotFound();
+              return NotFound("No machines in db");
           }
-            var machine = await _context.Machines.FindAsync(id);
+            var machine = await _context.Machines.Where(machine => machine.AccountId == id).ToListAsync();
 
             if (machine == null)
             {
-                return NotFound();
+                return NotFound("No machines under this ID");
             }
 
             return machine;
@@ -48,7 +50,7 @@ namespace backend.Controllers
         // PUT: api/Machine/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMachine(long id, Machine machine)
+        public async Task<IActionResult> PutMachine(int id, Machine machine)
         {
             if (id != machine.MachineId)
             {
@@ -94,7 +96,7 @@ namespace backend.Controllers
 
         // DELETE: api/Machine/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMachine(long id)
+        public async Task<IActionResult> DeleteMachine(int id)
         {
             if (_context.Machines == null)
             {
@@ -112,7 +114,7 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        private bool MachineExists(long id)
+        private bool MachineExists(int id)
         {
             return (_context.Machines?.Any(e => e.MachineId == id)).GetValueOrDefault();
         }

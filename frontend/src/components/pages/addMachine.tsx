@@ -11,8 +11,15 @@ function AddMachine() {
   const navigate = useNavigate();
 
   async function handleSubmit() {
-    const machine = await fetch("http://localhost:5119/api/machines").then((res) => res.json())
-      .then(machines => machines.find((mach: any) => mach.name == name))
+    const machine = await fetch("http://localhost:5119/api/machines/" + localStorage.getItem("Id"),
+    {
+      method: "GET",
+      headers: 
+      {
+        "Authorization": "bearer " + localStorage.getItem("Token"),
+      }
+    })
+    .then(data => data.json()).then(machines => machines.find((mach: any) => mach.name == name))
 
     if (machine !== undefined){
       alert("Machine name already exists");
@@ -37,7 +44,7 @@ function AddMachine() {
     {
       const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' , "Authorization": "bearer " + localStorage.getItem("Token") },
         body: JSON.stringify({"machineId": 0, "name": name, "description": description, "accountId": accountId})
       };
       fetch('http://localhost:5119/api/machines', requestOptions)
