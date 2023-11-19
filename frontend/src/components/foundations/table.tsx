@@ -4,11 +4,11 @@ import DataTable, { TableColumn } from "react-data-table-component";
 import Card from "@material-ui/core/Card";
 import { ArrowDownIcon } from "@radix-ui/react-icons"
 import Settings from "./settings";
+import Button from "./button";
 
-
-// interface type_of_user {
-//     clientID: number;
-// }
+function handleButtonClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: number) {
+    alert(id)
+}
 
 type DataRow = {
     ticketId: number,
@@ -54,6 +54,12 @@ const columns: TableColumn<DataRow>[] = [
         name: "Status",
         selector: row => row.status,
         sortable: true
+    },
+    {
+        cell: (row) => <Button id={`${row.ticketId}`} onClick={(e) => handleButtonClick(e, row.ticketId)}>Edit</Button>,
+        ignoreRowClick: true,
+        allowOverflow: true,
+        button: true,
     }
 ];
 
