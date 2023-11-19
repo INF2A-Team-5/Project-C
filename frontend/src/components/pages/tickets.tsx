@@ -4,7 +4,6 @@ import Input from '../foundations/input'
 import React, { ComponentProps, SetStateAction, useEffect, useRef } from 'react';
 import Badge from'../foundations/badge'
 import Block from'../foundations/block'
-import UploadService from "../../services/FileUploadService";
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 // import "bootstrap/dist/css/bootstrap.min.css";
@@ -29,7 +28,8 @@ function Tickets() {
   const [machinenames, SetMachineNames] = useState<string[]>([""]);
   const [account, SetAccount] = useState('');
   const [file, setFile] = useState<File | undefined>();
-  const [preview, setPreview] = useState<"string" | undefined>();
+  const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
+
 
   class Machine {
     name: string;
@@ -60,34 +60,39 @@ function Tickets() {
     SetMachineNames((allmachines.map(x => x.name + ", Id: " + x.id)));
   }
 
-  async function HandleOnChange(e: React.FormEvent<HTMLInputElement>){
-    const target = e.target as HTMLInputElement & {
-      files: FileList;
-    }
-    setFile(target.files[0]);
-    
-    const file = new FileReader;
+  async function HandleOnChange(e: React.ChangeEvent<HTMLInputElement>){
+    // const target = e.target as HTMLInputElement & {
+    //   files: FileList;
+    // }
+    const fileList = e.target.files
 
-    file.onload = function() {
-      console.log('file', file.result);
+    if (fileList) {
+      const allPreviews: (string | ArrayBuffer)[] = [];
+  
+      for (let i = 0; i < fileList.length; i++) {
+        const file = fileList[i];
+  
+        const reader = new FileReader();
+        reader.onload = () => {
+          const result = reader.result;
+          if (result) {
+            allPreviews.push(result);
+            console.log(allPreviews);
+            // You may want to set a state or perform other actions with 'result' here
+            setPreview(allPreviews);
+          }
+          };
+        reader.readAsDataURL(file);
+      }
     }
-
-    file.readAsDataURL(target.files[0])
   }
 
   async function handleSubmit() {
-
-    console.log('File:', file);
-    console.log('Problem:', problem);
-    console.log('PhoneNumber:', phonenumber);
-    console.log('MustBeDoing:', mustbedoing);
-    console.log('HaveTried:', havetried);
-    console.log('SelectMachine:', selectMachine);
   
-    if (typeof file === "undefined") {
-      console.log('File is undefined');
-      return;
-    }
+    // if (typeof file === "undefined") {
+    //   console.log('File is undefined');
+    //   return;
+    // }
 
     if (problem.length != 0 && phonenumber.length != 0 && mustbedoing.length != 0 && havetried.length != 0)
     {
@@ -104,15 +109,11 @@ function Tickets() {
       {
         let information = {"Problem" : problem, "Must be doing": mustbedoing, "Have tried": havetried};
         
-        const reader = new FileReader();
-        reader.onloadend = async () => {
-          const filedata = reader.result?.toString();
-          if (filedata) {
-            console.log([file.name, file.type, filedata]);
-            const base64Content = filedata.split(',')[1];
-            const img = new Image();
-            img.src = 'data:image/png;base64,' + base64Content; // Reconstruct the data URL to display the image
-            document.body.appendChild(img); 
+        // const reader = new FileReader();
+        // reader.onloadend = async () => {
+        //   const filedata = reader.result?.toString();
+        //   if (filedata) {
+        //     console.log([file.name, file.type, filedata]);
             const ticket = 
             {
               Machine_Id: selectMachine.split("Id: ")[1],
@@ -122,7 +123,7 @@ function Tickets() {
               Date_Created: new Date(),
               Information: information,
               Solution: "x",
-              Files: [file.name, file.type, filedata],
+              Files: preview,
               PhoneNumber: phonenumber,
               Notes: ""
             };
@@ -137,10 +138,10 @@ function Tickets() {
             alert("Error submitting ticket");
             navigate('/tickets');
           }
-        }
-      };
+      //   }
+      // };
 
-      reader.readAsDataURL(file);
+      // reader.readAsDataURL(file);
       }
     }
     else
@@ -238,10 +239,13 @@ function Tickets() {
           <input 
           type="file" 
           name="image" 
-          // accept="image/png, image/jpg"
+          accept="image/png, image/jpg"
           onChange={HandleOnChange}
-          // multiple
+          multiple
           /><br></br>
+          {preview.map((previewItem, index) => (
+          <img key={index} src={previewItem as string} alt={`Preview ${index}`} />
+          ))}
 
           <Button hierarchy='xl' intent="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
 
