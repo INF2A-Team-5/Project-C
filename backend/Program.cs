@@ -61,6 +61,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+
 var db = new DataContext();
 var filled = db.Set<Account>().FirstOrDefault();
 
@@ -68,5 +69,6 @@ if (filled == null)
 {
     DBSeeding.Seed();
 }
+
 
 app.Run();
