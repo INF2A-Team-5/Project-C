@@ -14,6 +14,7 @@ import AddAccount from "./components/pages/addAccount";
 import AddMachine from "./components/pages/addMachine";
 import AddDepartment from "./components/pages/addDepartment";
 import AddSolution from "./components/pages/AddSolution";
+import EditAccount from "./components/pages/EditAccount";
 import './translations/i18n';
 
 
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
   {
     path: "add-solution",
     element: <AddSolution />
+  },
+  {
+    path: "edit-account",
+    element: <EditAccount />
   }
 ])
 

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
 import {
   HamburgerMenuIcon,
@@ -23,7 +24,9 @@ function toggleThemeDark(){
 
 function logOut() {}
 
-function editAccount() {}
+function editAccount() {
+    window.location.href='/edit-account'
+}
 
 
 function Settingss(){
