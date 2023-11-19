@@ -2,7 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import DataTable, { TableColumn } from "react-data-table-component";
 import Card from "@material-ui/core/Card";
-import SortIcon from "@material-ui/icons/ArrowDownward";
+import { ArrowDownIcon } from "@radix-ui/react-icons"
+import Settings from "./settings";
+
 
 // interface type_of_user {
 //     clientID: number;
@@ -58,14 +60,14 @@ const columns: TableColumn<DataRow>[] = [
 function Table() {
     return (
         <div>
+            <Settings />
             <Card>
                 <DataTable
                     columns={columns}
                     data={data}
-                    defaultSortFieldId="name"
-                    sortIcon={<SortIcon />}
+                    defaultSortFieldId="ID"
+                    sortIcon={<ArrowDownIcon />}
                     pagination
-                    selectableRows
                 />
             </Card>
         </div>
