@@ -88,7 +88,7 @@ function Table() {
         status: string,
         date_Created: string,
         solution: string,
-        pictures: string,
+        files: string[],
         phoneNumber: string,
         notes: string;
     };
