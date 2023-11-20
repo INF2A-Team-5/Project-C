@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class migrationName : Migration
+    public partial class migration1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,6 +38,22 @@ namespace backend.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Departments", x => x.DepartmentId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Files",
+                columns: table => new
+                {
+                    FileId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Ticket_Id = table.Column<int>(type: "integer", nullable: false),
+                    FileName = table.Column<string>(type: "text", nullable: true),
+                    FileType = table.Column<string>(type: "text", nullable: true),
+                    FilePath = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Files", x => x.FileId);
                 });
 
             migrationBuilder.CreateTable(
@@ -81,11 +97,14 @@ namespace backend.Migrations
                     Assigned_Id = table.Column<int>(type: "integer", nullable: false),
                     Priority = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false),
+                    Problem = table.Column<string>(type: "text", nullable: false),
+                    HaveTried = table.Column<string>(type: "text", nullable: false),
+                    MustBeDoing = table.Column<string>(type: "text", nullable: false),
                     Date_Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Solution = table.Column<string>(type: "text", nullable: false),
-                    Pictures = table.Column<string>(type: "text", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: false),
-                    Notes = table.Column<string>(type: "text", nullable: false)
+                    Solution = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    Notes = table.Column<string>(type: "text", nullable: true),
+                    Files = table.Column<string[]>(type: "text[]", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -101,6 +120,9 @@ namespace backend.Migrations
 
             migrationBuilder.DropTable(
                 name: "Departments");
+
+            migrationBuilder.DropTable(
+                name: "Files");
 
             migrationBuilder.DropTable(
                 name: "Machines");
