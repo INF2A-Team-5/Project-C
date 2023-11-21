@@ -11,7 +11,37 @@ function EditAccount() {
   const navigate = useNavigate();
 
   async function handleSubmit() {
+    let currentaccount = await fetch("http://localhost:5119/api/accounts/" + localStorage.getItem("Id"),
+    {
+      method: "GET",
+      headers: {
+        "Authorization": "bearer " + localStorage.getItem("Token"),
+        "Content-Type": "application/json",
+      }
+    }).then(data => data.json());
 
+    if (password !== confirmPass)
+    {
+      alert("password and confirm password need to match")
+    }
+
+    const data = {
+      "accountId": localStorage.getItem("Id"),
+      "name": currentaccount.name,
+      "password": password,
+      "class": currentaccount.class
+    }
+
+    await fetch("http://localhost:5119/api/accounts/" + localStorage.getItem("Id"),
+    {
+      method: "PUT",
+      headers: {
+        "Authorization": "bearer " + localStorage.getItem("Token"),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data)
+    });
+    
     //add logic to check if new password and confirm password are the same, maybe also not the same as the old password
 
     // also need another function for changing phone number

@@ -56,6 +56,10 @@ namespace backend.Controllers
             {
                 return BadRequest();
             }
+            if (_context.Accounts == null)
+            {
+                return Problem("Entity set 'DataContext.Accounts'  is null.");
+            }
 
             _context.Entry(account).State = EntityState.Modified;
 
