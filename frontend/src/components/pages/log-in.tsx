@@ -41,7 +41,7 @@ function LogIn() {
           alert("Logging in...")
           switch (account.class) {
             case "Client":
-              navigate('/tickets');
+              navigate('/client');
               break;
             case "Admin":
               navigate('/admin');

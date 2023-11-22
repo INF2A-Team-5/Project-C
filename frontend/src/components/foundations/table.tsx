@@ -4,10 +4,12 @@ import DataTable, { TableColumn } from "react-data-table-component";
 import { ArrowDownIcon } from "@radix-ui/react-icons"
 import Button from "./button";
 import { useState } from 'react'
+import { Navigate } from "react-router-dom";
 
 
 function handleButtonClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: number) {
     alert(id)
+    window.location.href = window.location.href.replace("client", "edit-ticket");
 }
 
 // type DataRow = {

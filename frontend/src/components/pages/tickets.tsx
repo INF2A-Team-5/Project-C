@@ -268,6 +268,7 @@ function Tickets() {
           ))}
 
           <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
+          
 
           
       </div>
