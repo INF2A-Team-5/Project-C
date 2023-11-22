@@ -40,7 +40,17 @@ function EditTicket() {
       }
 
     async function HandleSubmit() {
+      let currentticket = await fetch("http://localhost:5119/api/tickets/" + localStorage.getItem("Id"),
+    {
+      method: "GET",
+      headers: {
+        "Authorization": "bearer " + localStorage.getItem("Token"),
+        "Content-Type": "application/json",
+      }
+    }).then(data => data.json());
 
+      console.log(currentticket);
+    
     }
 
     return (
