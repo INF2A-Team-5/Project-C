@@ -2,6 +2,8 @@ import Button from '../foundations/button'
 import Header from '../foundations/header'
 import Input from '../foundations/input'
 import React, { ComponentProps, SetStateAction, useEffect, useRef } from 'react';
+import { ChevronDownIcon } from '@radix-ui/react-icons';
+
 
 // import UploadService from "../../services/FileUploadService";
 
@@ -200,18 +202,26 @@ function Tickets() {
 
   return (
 
-    <div className='text-left pl-24'>
-        {/* <div className="announcement">
-          <div>{"First, we have a few questions (fill in the first block):"}</div>
-          <div>{"1. Is the machine turned on?"}</div>
-          <div>{"2. Does the machine still move(for a part)?"}</div>
-        </div> */}
+    <div className='text-left pl-24'>        
+      <Settings></Settings>
+      <div className='flex justify-center pb-16 pt-10'>
+        <Header></Header>
+      </div>
+      <div className='pb-8'>
+        <h1 className='text-4xl font-medium'>Report error</h1>
+        <p className='text-lg text-grey-900 font-medium'>Give details of the error and we will try to help you as soon as possible</p>
+      </div>
+      <div className='pb-16'>
+        <h2 className='text-lg font-medium'>Select the machine related to the ticket</h2>
         <Button
-          className={showDropDown ? "active" : undefined}
+          type="primary"
+          hierarchy='lg'
+          // className={showDropDown ? "active" : undefined}
           onClick={(): void => toggleDropDown()}
           onBlur={(e: React.FocusEvent<HTMLButtonElement>): void =>
             dismissHandler(e)}>
-          <div>{selectMachine ? "Select: " + selectMachine : "Select Machine"} </div>
+          <ChevronDownIcon style={{backgroundColor:"transparent"}} className='relative left-10 top-3 scale-[2]' />
+          {selectMachine ? "Select: " + selectMachine : "Select Machine"} 
           {showDropDown && (
             <DropDown
               machines={machinenames}
@@ -220,33 +230,22 @@ function Tickets() {
               machineSelection={machineSelection}/>
           )}
         </Button>
-      <div className='flex justify-center pb-16 pt-10'>
-        <Header></Header>
       </div>
-      <Settings></Settings>
-      <div className='pb-8'>
-        <h1 className='text-4xl font-medium'>Report error</h1>
-        <p className='text-lg text-grey-900 font-medium'>Give details of the error and we will try to help you as soon as possible</p>
-      </div>
-
       <div className='pb-16'>
         <h2 className='text-lg font-medium'>What do you see?*</h2>
         <Textbox placeholder='shit broken' hierarchy='lg' onChange={e => setProblem(e.currentTarget.value)}></Textbox>
         <p className='text-md text-grey-900 '>Give us a detailed description on any visible defects (Atleast 20 words)</p>
       </div>
-
       <div className='pb-16'>
         <h2 className='text-lg font-medium'>What should it do?*</h2>
         <Textbox placeholder='work' hierarchy='lg' onChange={e => setMustBeDoing(e.currentTarget.value)}></Textbox>
         <p className='text-md text-grey-900 '>Give us a detailed description on what the machine should do (Atleast 20 words)</p>
       </div>
-
       <div className='pb-16'>
         <h2 className='text-lg font-medium'>What have you tried?*</h2>
         <Textbox placeholder='hit with hammer' hierarchy='lg' onChange={e => setHaveTried(e.currentTarget.value)}></Textbox>
         <p className='text-md text-grey-900 '>Describe all things you have done to try fixing the machine</p>
       </div>
-
       <div className='pb-16'>
         <div className='flex'>
           <Checkbox checked={isChecked} onChange={handleCheckbox} />
@@ -256,7 +255,6 @@ function Tickets() {
           <><Input hierarchy='sm' placeholder='Enter phone number' onChange={e => setPhonenumber(e.currentTarget.value)} /></>
         : null}
       </div>
-
       <div className='pb-16'>
         <h2>Upload videos/pictures</h2>
         <Settings></Settings>
@@ -270,16 +268,14 @@ function Tickets() {
         {preview.map((previewItem, index) => (
         <img key={index} src={previewItem as string} alt={`Preview ${index}`} />
         ))}
-
-        <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
-
-          
       </div>
       {/* <div className='pb-16'>
         <h2>Upload videos/pictures</h2>
         <Input hierarchy='lg' onChange={e => setPictures(e.currentTarget.value)}/><br></br><br></br>
         <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
       </div> */}
+      <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Submit</Button>    
+      <div className='py-5'></div>    
     </div>
 
   )
