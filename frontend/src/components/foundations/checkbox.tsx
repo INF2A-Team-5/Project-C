@@ -1,20 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-function Checkbox() {
+interface CheckboxProps extends React.HTMLAttributes<HTMLInputElement>{
+    checked: boolean;
+    onChange: () => void;
+  }
+    
+
+function Checkbox({ checked, onChange }: CheckboxProps): JSX.Element {
     return (
         <div className="items-top flex space-x-2">
-        <input type="checkbox"></input>
-        <div className="grid gap-1.5 leading-none">
-            <label
-            htmlFor="terms1"
-            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-            Accept terms and conditions
-            </label>
-            <p className="text-sm text-muted-foreground">
-            You agree to our Terms of Service and Privacy Policy.
-            </p>
-        </div>
+            <input type="checkbox" checked={checked} onChange={onChange} />
         </div>
     );
 }

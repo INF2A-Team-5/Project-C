@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import DropDown from "../foundations/DropDown";
 import Settings from '../foundations/settings'
 import Textbox from '../foundations/textbox';
+import Checkbox from '../foundations/checkbox';
 
 // export interface Machine {
 //   MachineId: number; Name: string; Description: string; AccountId: number
@@ -32,8 +33,10 @@ function Tickets() {
   const [account, SetAccount] = useState('');
   // const [file, setFile] = useState<File | undefined>();
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
-
-
+  const [isChecked, setChecked] = useState<boolean>(false);
+  const handleCheckbox = () => {
+    setChecked(!isChecked);
+  }
   class Machine {
     name: string;
     machineId: number;
@@ -245,29 +248,30 @@ function Tickets() {
       </div>
 
       <div className='pb-16'>
-        <h2>Enter phone number</h2>
-        <div className="checkbox-wrapper-6">
-          {/* <input className="tgl tgl-light" id="cb1-6" type="checkbox"/>
-          <label className="tgl-btn" htmlFor="cb1-6"></label><label>Use from account</label> */}
+        <div className='flex'>
+          <Checkbox checked={isChecked} onChange={handleCheckbox} />
+          <p className='text-lg font-medium'>Use other phone Number</p>
         </div>
+        {isChecked ? 
+          <><Input hierarchy='sm' placeholder='Enter phone number' onChange={e => setPhonenumber(e.currentTarget.value)} /></>
+        : null}
+      </div>
 
-        <Input hierarchy='md' onChange={e => setPhonenumber(e.currentTarget.value)}/>
+      <div className='pb-16'>
+        <h2>Upload videos/pictures</h2>
+        <Settings></Settings>
+        <input
+        type="file"
+        name="image"
+        accept="image/png, image/jpg"
+        onChange={HandleOnChange}
+        multiple
+        /><br></br>
+        {preview.map((previewItem, index) => (
+        <img key={index} src={previewItem as string} alt={`Preview ${index}`} />
+        ))}
 
-          <h2>Upload videos/pictures</h2>
-          <Settings></Settings>
-          {/* <Input hierarchy='xxl' onChange={e => setPictures(e.currentTarget.value)}/><br></br><br></br> */}
-          <input
-          type="file"
-          name="image"
-          accept="image/png, image/jpg"
-          onChange={HandleOnChange}
-          multiple
-          /><br></br>
-          {preview.map((previewItem, index) => (
-          <img key={index} src={previewItem as string} alt={`Preview ${index}`} />
-          ))}
-
-          <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
+        <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
 
           
       </div>
