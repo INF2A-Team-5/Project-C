@@ -63,7 +63,14 @@
   
 }
 
+#checkbox:checked ~ * .check-1{
+  @apply opacity-100;
+  
+}
 
+.transparent{
+  background-color: transparent;
+}
 
 header {
   display: flex;
