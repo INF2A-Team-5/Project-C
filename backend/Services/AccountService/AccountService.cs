@@ -22,8 +22,6 @@ namespace backend.AccountService
             return await _context.Accounts.ToListAsync();
         }
 
-        // GET: api/Account/5
-        [HttpGet("{id}")]
         public async Task<ActionResult<Account>> GetAccountById(int id)
         {
           if (_context.Accounts == null)
