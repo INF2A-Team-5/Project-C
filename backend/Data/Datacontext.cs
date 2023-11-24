@@ -6,14 +6,8 @@ namespace Backend.Data;
 public class DataContext : DbContext
 {
 
-      public DataContext(DbContextOptions<DataContext> options) : base(options)
-      {
-
-      }
-      public DataContext()
-      {
-
-      }
+      public DataContext(DbContextOptions<DataContext> options) : base(options){}
+      public DataContext(){}
       public DbSet<Account> Accounts {get; set; } = null!;
       public DbSet<Machine> Machines {get; set; } = null!;
       public DbSet<Ticket> Tickets { get; set; } = null!;
