@@ -107,12 +107,12 @@ function Tickets() {
   }
 
   async function handleSubmit() {
-    if (phonenumber == null)
+    if (phonenumber == "")
     {
       alert("Please enter a phone number");
       navigate("/tickets");
     }
-    if (problem.length != 0 && phonenumber.length != 0 && mustbedoing.length != 0 && havetried.length != 0)
+    if (problem.length != 0  && mustbedoing.length != 0 && havetried.length != 0)
     {
       if (problem.split(" ").length < 20 || mustbedoing.split(" ").length < 20) {
         alert("The first 2 answers must contain at least 20 words")
@@ -122,6 +122,11 @@ function Tickets() {
       {
         alert("Please choose a machine");
         navigate('/tickets');
+      }
+      if (phonenumber == "" || phonenumber == null)
+      {
+        alert("Please enter a phone number");
+        navigate("/tickets");
       }
 
       else {
