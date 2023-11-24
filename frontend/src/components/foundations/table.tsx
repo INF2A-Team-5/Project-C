@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { ArrowDownIcon } from "@radix-ui/react-icons"
-import Settings from "./settings";
 import Button from "./button";
 import { useState } from 'react'
 
@@ -143,7 +142,6 @@ function Table() {
     ];
     return (
         <div>
-            <Settings />
             <div>
                 <DataTable
                     columns={columns}
