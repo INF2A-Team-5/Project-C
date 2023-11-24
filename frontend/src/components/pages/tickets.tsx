@@ -61,6 +61,11 @@ function Tickets() {
       }
     }).then(data => data.json());
 
+    if (currentaccount.phoneNumber !== null)
+    {
+      setPhonenumber(currentaccount.phoneNumber);
+    }
+
     let machinelist = await fetch("http://localhost:5119/api/machines/" + localStorage.getItem("Id"),
     {
       method: "GET",
@@ -70,7 +75,7 @@ function Tickets() {
       }
     })
     .then(data => data.json());
-
+    console.log(typeof(machinelist));
     SetAccount(currentaccount.accountId);
     SetMachineNames((machinelist.map((machine: Machine) => machine.name + ", Id: " + machine.machineId)));
   }
@@ -132,7 +137,7 @@ function Tickets() {
 
           Solution: "x",
           files: preview,
-          PhoneNumber: phonenumber,
+          phoneNumber: phonenumber,
           Notes: ""
         }
 

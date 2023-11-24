@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using backend.Data;
 using backend.Entities;
-using backend.MachineService;
 
-namespace backend.Controllers
+namespace backend.MachineService
 {
     public class MachinesService : ControllerBase, IMachineService
     {

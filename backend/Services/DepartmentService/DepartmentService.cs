@@ -1,15 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using backend.Data;
 using backend.Entities;
-using backend.DepartmentService;
 
-namespace backend.Controllers
+namespace backend.DepartmentService
 {
-    public class DepartmentsController : ControllerBase, IDepartmentService
+    public class DepartmentService : ControllerBase, IDepartmentService
     {
         private readonly DataContext _context;
 
-        public DepartmentsController(DataContext context)
+        public DepartmentService(DataContext context)
         {
             _context = context;
         }

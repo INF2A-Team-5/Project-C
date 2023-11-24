@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using backend.Data;
 using backend.Entities;
-using backend.SolutionService;
 
-namespace backend.Controllers
+namespace backend.SolutionService
 {
     public class SolutionsService : ControllerBase, ISolutionService
     {

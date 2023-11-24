@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using backend.Data;
 using backend.Entities;
-using backend.TicketService;
 
-namespace backend.Controllers
+namespace backend.TicketService
 {
     public class TicketService : ControllerBase, ITicketService
     {
