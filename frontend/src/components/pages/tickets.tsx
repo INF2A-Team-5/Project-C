@@ -61,12 +61,12 @@ function Tickets() {
       }
     }).then(data => data.json());
 
-    if (currentaccount.phoneNumber !== null)
+    if (currentaccount.phoneNumber != null) // PAS LATER AAN
     {
       setPhonenumber(currentaccount.phoneNumber);
     }
 
-    let machinelist = await fetch("http://localhost:5119/api/machines/" + localStorage.getItem("Id"),
+    let machinelist = await fetch("http://localhost:5119/GetMachinesPerAccount?accountId=" + localStorage.getItem("Id"),
     {
       method: "GET",
       headers:
@@ -75,7 +75,6 @@ function Tickets() {
       }
     })
     .then(data => data.json());
-    console.log(typeof(machinelist));
     SetAccount(currentaccount.accountId);
     SetMachineNames((machinelist.map((machine: Machine) => machine.name + ", Id: " + machine.machineId)));
   }
@@ -108,7 +107,11 @@ function Tickets() {
   }
 
   async function handleSubmit() {
-
+    if (phonenumber == null)
+    {
+      alert("Please enter a phone number");
+      navigate("/tickets");
+    }
     if (problem.length != 0 && phonenumber.length != 0 && mustbedoing.length != 0 && havetried.length != 0)
     {
       if (problem.split(" ").length < 20 || mustbedoing.split(" ").length < 20) {

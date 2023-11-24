@@ -28,13 +28,27 @@ namespace backend.MachineService
           {
               return NotFound("No machines in db");
           }
-            var machine = await _context.Machines.Where(machine => machine.AccountId == id).FirstOrDefaultAsync();
+            var machine = await _context.Machines.Where(machine => machine.MachineId == id).FirstOrDefaultAsync();
 
             if (machine == null)
             {
                 return NotFound("No machines under this ID");
             }
+            return machine;
+        }
+        
+        public async Task<ActionResult<IEnumerable<Machine>>> GetMachinePerAccountId(int id)
+        {
+          if (_context.Machines == null)
+          {
+              return NotFound("No machines in db");
+          }
+            var machine = await _context.Machines.Where(machine => machine.AccountId == id).ToListAsync();
 
+            if (machine == null)
+            {
+                return NotFound("No machines under this ID");
+            }
             return machine;
         }
 

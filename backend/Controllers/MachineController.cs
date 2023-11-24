@@ -30,6 +30,12 @@ namespace backend.Controllers
         {
             return await _machineService.GetMachineById(id);
         }
+        
+        [HttpGet("/GetMachinesPerAccount")]
+        public async Task<ActionResult<IEnumerable<Machine>>> GetMachinePerAccountId(int accountId)
+        {
+            return await _machineService.GetMachinePerAccountId(accountId);
+        }
 
         // PUT: api/Machine/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
