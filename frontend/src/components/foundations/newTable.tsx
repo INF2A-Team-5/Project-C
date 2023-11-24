@@ -26,11 +26,9 @@ function NewTable({ data, displayColumns, dataColumns }: TableProps) {
                         {dataColumns.map((column, columnIndex) => (
                             <td key={columnIndex}>{row[column]}</td>
                         ))}
-                        {rowIndex === data.length - 1 && handleButtonClick ? (
-                            <td>
-                                <button onClick={(e) => handleButtonClick(e, row.ticketId)}>Click me</button>
-                            </td>
-                        ) : null}
+                        <td>
+                            <button onClick={(e) => handleButtonClick(e, row.ticketId)}>Click me</button>
+                        </td>
                     </tr>
                 ))}
             </tbody>
