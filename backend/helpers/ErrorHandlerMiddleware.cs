@@ -1,4 +1,4 @@
-namespace backend.Helpers;
+namespace Backend.Helpers;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;

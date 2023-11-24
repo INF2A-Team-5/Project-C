@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using backend.Data;
+using Backend.Data;
 
 #nullable disable
 
-namespace backend.Migrations
+namespace Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
     [Migration("20231124113146_x")]

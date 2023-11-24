@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using backend.Data;
-using backend.Entities;
+using Backend.Data;
+using Backend.Entities;
 
-namespace backend.SolutionService
+namespace Backend.SolutionService
 {
     public class SolutionsService : ControllerBase, ISolutionService
     {
@@ -15,26 +15,24 @@ namespace backend.SolutionService
 
         public async Task<ActionResult<IEnumerable<Solution>>> GetSolutions()
         {
-          if (_context.Solutions == null)
-          {
-              return NotFound();
-          }
+            if (_context.Solutions == null)
+            {
+                return NotFound();
+            }
             return await _context.Solutions.ToListAsync();
         }
 
         public async Task<ActionResult<Solution>> GetSolutionById(int id)
         {
-          if (_context.Solutions == null)
-          {
-              return NotFound();
-          }
+            if (_context.Solutions == null)
+            {
+                return NotFound();
+            }
             var solution = await _context.Solutions.FindAsync(id);
-
             if (solution == null)
             {
                 return NotFound();
             }
-
             return solution;
         }
 
@@ -44,9 +42,7 @@ namespace backend.SolutionService
             {
                 return BadRequest();
             }
-
             _context.Entry(solution).State = EntityState.Modified;
-
             try
             {
                 await _context.SaveChangesAsync();
@@ -62,20 +58,17 @@ namespace backend.SolutionService
                     throw;
                 }
             }
-
             return NoContent();
         }
 
         public async Task<ActionResult<Solution>> AddSolution(Solution solution)
         {
-          if (_context.Solutions == null)
-          {
-              return Problem("Entity set 'DataContext.Solutions'  is null.");
-          }
+            if (_context.Solutions == null)
+            {
+                return Problem("Entity set 'DataContext.Solutions'  is null.");
+            }
             _context.Solutions.Add(solution);
             await _context.SaveChangesAsync();
-
-            // return CreatedAtAction("GetSolution", new { id = Solution.SolutionId }, Solution);
             return CreatedAtAction(nameof(GetSolutionById), new { id = solution.SolutionId }, solution);
         }
 
@@ -90,16 +83,11 @@ namespace backend.SolutionService
             {
                 return NotFound();
             }
-
             _context.Solutions.Remove(solution);
             await _context.SaveChangesAsync();
-
             return NoContent();
         }
 
-        private bool SolutionExists(int id)
-        {
-            return (_context.Solutions?.Any(e => e.SolutionId == id)).GetValueOrDefault();
-        }
+        private bool SolutionExists(int id) => (_context.Solutions?.Any(e => e.SolutionId == id)).GetValueOrDefault();
     }
 }

@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using backend.Entities;
+using Backend.Entities;
 using Microsoft.AspNetCore.Authorization;
-using backend.AccountService;
+using Backend.AccountService;
 
-namespace backend.Controllers
+namespace Backend.Controllers
 {
     [Authorize]
     [Route("api/Accounts")]
@@ -11,47 +11,14 @@ namespace backend.Controllers
     public class AccountController
     {
         private readonly IAccountService _accountService;
-
         public AccountController(IAccountService accountService)
         {
             _accountService = accountService;
         }
-
-        // GET: api/Account
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Account>>> GetAllAccounts()
-        {
-            return await _accountService.GetAllAccounts();
-        }
-
-        // GET: api/Account/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Account>> GetAccountById(int id)
-        {
-            return await _accountService.GetAccountById(id);
-        }
-
-        // PUT: api/Account/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateAccount(int id, Account account)
-        {
-            return await _accountService.UpdateAccount(id, account);
-        }
-
-        // POST: api/Account
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Account>> AddAccount(Account newAccount)
-        {
-            return await _accountService.AddAccount(newAccount);
-        }
-
-        // DELETE: api/Account/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAccount(int id)
-        {
-            return await _accountService.DeleteAccount(id);
-        }
+        [HttpGet] public async Task<ActionResult<IEnumerable<Account>>> GetAllAccounts() => await _accountService.GetAllAccounts();
+        [HttpGet("{id}")] public async Task<ActionResult<Account>> GetAccountById(int id) => await _accountService.GetAccountById(id);
+        [HttpPut("{id}")] public async Task<IActionResult> UpdateAccount(int id, Account account) => await _accountService.UpdateAccount(id, account);
+        [HttpPost] public async Task<ActionResult<Account>> AddAccount(Account newAccount) => await _accountService.AddAccount(newAccount);
+        [HttpDelete("{id}")] public async Task<IActionResult> DeleteAccount(int id) => await _accountService.DeleteAccount(id);
     }
 }

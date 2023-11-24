@@ -1,7 +1,7 @@
-using backend.Entities;
+using Backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace backend.MachineService
+namespace Backend.MachineService
 {
     public interface IMachineService
     {

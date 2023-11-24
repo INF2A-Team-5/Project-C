@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using backend.Data;
-using backend.Entities;
+using Backend.Data;
+using Backend.Entities;
 
-namespace backend.DepartmentService
+namespace Backend.DepartmentService
 {
     public class DepartmentService : ControllerBase, IDepartmentService
     {
@@ -15,26 +15,24 @@ namespace backend.DepartmentService
 
         public async Task<ActionResult<IEnumerable<Department>>> GetDepartments()
         {
-          if (_context.Departments == null)
-          {
-              return NotFound();
-          }
+            if (_context.Departments == null)
+            {
+                return NotFound();
+            }
             return await _context.Departments.ToListAsync();
         }
 
         public async Task<ActionResult<Department>> GetDepartmentById(int id)
         {
-          if (_context.Departments == null)
-          {
-              return NotFound();
-          }
+            if (_context.Departments == null)
+            {
+                return NotFound();
+            }
             var department = await _context.Departments.FindAsync(id);
-
             if (department == null)
             {
                 return NotFound();
             }
-
             return department;
         }
 
@@ -44,9 +42,7 @@ namespace backend.DepartmentService
             {
                 return BadRequest();
             }
-
             _context.Entry(department).State = EntityState.Modified;
-
             try
             {
                 await _context.SaveChangesAsync();
@@ -68,14 +64,12 @@ namespace backend.DepartmentService
 
         public async Task<ActionResult<Department>> AddDepartment(Department department)
         {
-          if (_context.Departments == null)
-          {
-              return Problem("Entity set 'DataContext.Departments'  is null.");
-          }
+            if (_context.Departments == null)
+            {
+                return Problem("Entity set 'DataContext.Departments'  is null.");
+            }
             _context.Departments.Add(department);
             await _context.SaveChangesAsync();
-
-            // return CreatedAtAction("GetDepartment", new { id = Department.DepartmentId }, Department);
             return CreatedAtAction(nameof(GetDepartmentById), new { id = department.DepartmentId }, department);
         }
 
@@ -90,10 +84,8 @@ namespace backend.DepartmentService
             {
                 return NotFound();
             }
-
             _context.Departments.Remove(department);
             await _context.SaveChangesAsync();
-
             return NoContent();
         }
 

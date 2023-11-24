@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using backend.Data;
-using backend.Entities;
+using Backend.Data;
+using Backend.Entities;
 
-namespace backend.TicketService
+namespace Backend.TicketService
 {
     public class TicketService : ControllerBase, ITicketService
     {
@@ -24,17 +24,15 @@ namespace backend.TicketService
 
         public async Task<ActionResult<Ticket>> GetTicketById(int id)
         {
-          if (_context.Tickets == null)
-          {
-              return NotFound();
-          }
+            if (_context.Tickets == null)
+            {
+                return NotFound();
+            }
             var ticket = await _context.Tickets.FindAsync(id);
-
             if (ticket == null)
             {
                 return NotFound();
             }
-
             return ticket;
         }
 
@@ -44,9 +42,7 @@ namespace backend.TicketService
             {
                 return BadRequest();
             }
-
             _context.Entry(ticket).State = EntityState.Modified;
-
             try
             {
                 await _context.SaveChangesAsync();
@@ -68,14 +64,12 @@ namespace backend.TicketService
 
         public async Task<ActionResult<Ticket>> AddTicket(Ticket ticket)
         {
-          if (_context.Tickets == null)
-          {
-              return Problem("Entity set 'DataContext.Tickets'  is null.");
-          }
+            if (_context.Tickets == null)
+            {
+                return Problem("Entity set 'DataContext.Tickets'  is null.");
+            }
             _context.Tickets.Add(ticket);
             await _context.SaveChangesAsync();
-
-            // return CreatedAtAction("GetMachine", new { id = Machine.MachineId }, Machine);
             return CreatedAtAction(nameof(GetTicketById), new { id = ticket.TicketId }, ticket);
         }
 
@@ -90,16 +84,11 @@ namespace backend.TicketService
             {
                 return NotFound();
             }
-
             _context.Tickets.Remove(ticket);
             await _context.SaveChangesAsync();
-
             return NoContent();
         }
 
-        private bool TicketExists(int id)
-        {
-            return (_context.Tickets?.Any(e => e.TicketId == id)).GetValueOrDefault();
-        }
+        private bool TicketExists(int id) => (_context.Tickets?.Any(e => e.TicketId == id)).GetValueOrDefault();
     }
 }

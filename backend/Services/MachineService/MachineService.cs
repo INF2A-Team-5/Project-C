@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using backend.Data;
-using backend.Entities;
+using Backend.Data;
+using Backend.Entities;
 
-namespace backend.MachineService
+namespace Backend.MachineService
 {
     public class MachinesService : ControllerBase, IMachineService
     {
@@ -15,21 +15,20 @@ namespace backend.MachineService
 
         public async Task<ActionResult<IEnumerable<Machine>>> GetMachines()
         {
-          if (_context.Machines == null)
-          {
-              return NotFound();
-          }
+            if (_context.Machines == null)
+            {
+                return NotFound();
+            }
             return await _context.Machines.ToListAsync();
         }
 
         public async Task<ActionResult<Machine>> GetMachineById(int id)
         {
-          if (_context.Machines == null)
-          {
-              return NotFound("No machines in db");
-          }
+            if (_context.Machines == null)
+            {
+                return NotFound("No machines in db");
+            }
             var machine = await _context.Machines.Where(machine => machine.MachineId == id).FirstOrDefaultAsync();
-
             if (machine == null)
             {
                 return NotFound("No machines under this ID");
@@ -39,10 +38,10 @@ namespace backend.MachineService
         
         public async Task<ActionResult<IEnumerable<Machine>>> GetMachinePerAccountId(int id)
         {
-          if (_context.Machines == null)
-          {
-              return NotFound("No machines in db");
-          }
+            if (_context.Machines == null)
+            {
+                return NotFound("No machines in db");
+            }
             var machine = await _context.Machines.Where(machine => machine.AccountId == id).ToListAsync();
 
             if (machine == null)
@@ -58,9 +57,7 @@ namespace backend.MachineService
             {
                 return BadRequest();
             }
-
             _context.Entry(machine).State = EntityState.Modified;
-
             try
             {
                 await _context.SaveChangesAsync();
@@ -76,20 +73,17 @@ namespace backend.MachineService
                     throw;
                 }
             }
-
             return NoContent();
         }
 
         public async Task<ActionResult<Machine>> AddMachine(Machine machine)
         {
-          if (_context.Machines == null)
-          {
-              return Problem("Entity set 'DataContext.Machines'  is null.");
-          }
+            if (_context.Machines == null)
+            {
+                return Problem("Entity set 'DataContext.Machines'  is null.");
+            }
             _context.Machines.Add(machine);
             await _context.SaveChangesAsync();
-
-            // return CreatedAtAction("GetMachine", new { id = Machine.MachineId }, Machine);
             return CreatedAtAction(nameof(GetMachineById), new { id = machine.MachineId }, machine);
         }
 
@@ -104,16 +98,11 @@ namespace backend.MachineService
             {
                 return NotFound();
             }
-
             _context.Machines.Remove(machine);
             await _context.SaveChangesAsync();
-
             return NoContent();
         }
 
-        private bool MachineExists(int id)
-        {
-            return (_context.Machines?.Any(e => e.MachineId == id)).GetValueOrDefault();
-        }
+        private bool MachineExists(int id) => (_context.Machines?.Any(e => e.MachineId == id)).GetValueOrDefault();
     }
 }

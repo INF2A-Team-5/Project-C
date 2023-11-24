@@ -1,7 +1,7 @@
-using backend.Entities;
-using backend.Data;
+using Backend.Entities;
+using Backend.Data;
 
-namespace backend.Data;
+namespace Backend.Data;
 public static class DBSeeding
 {
     public static void Seed()

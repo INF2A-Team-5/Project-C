@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using backend.Entities;
+using Backend.Entities;
 using Microsoft.EntityFrameworkCore.Internal;
 
-namespace backend.Data;
+namespace Backend.Data;
 public class DataContext : DbContext
 {
 

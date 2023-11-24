@@ -1,7 +1,7 @@
-using backend.Entities;
+using Backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace backend.AccountService
+namespace Backend.AccountService
 {
     public interface IAccountService
     {

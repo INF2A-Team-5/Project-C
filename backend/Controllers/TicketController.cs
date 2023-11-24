@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using backend.Entities;
+using Backend.Entities;
 using Microsoft.AspNetCore.Authorization;
-using backend.TicketService;
+using Backend.TicketService;
 
-namespace backend.Controllers
+namespace Backend.Controllers
 {
     [Authorize]
     [Route("api/Tickets")]
@@ -11,47 +11,14 @@ namespace backend.Controllers
     public class TicketController
     {
         private readonly ITicketService _ticketService;
-
         public TicketController(ITicketService ticketService)
         {
             _ticketService = ticketService;
         }
-
-        // GET: api/Account
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Ticket>>> GetTickets()
-        {
-            return await _ticketService.GetTickets();
-        }
-
-        // GET: api/Tickets/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Ticket>> GetTicketById(int id)
-        {
-            return await _ticketService.GetTicketById(id);
-        }
-
-        // PUT: api/Machine/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateTicket(int id, Ticket ticket)
-        {
-            return await _ticketService.UpdateTicket(id, ticket);
-        }
-
-        // POST: api/Machine
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<Ticket>> AddTicket(Ticket newTicket)
-        {
-            return await _ticketService.AddTicket(newTicket);
-        }
-
-        // DELETE: api/Machine/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTicket(int id)
-        {
-            return await _ticketService.DeleteTicket(id);
-        }
+        [HttpGet] public async Task<ActionResult<IEnumerable<Ticket>>> GetTickets() => await _ticketService.GetTickets();
+        [HttpGet("{id}")] public async Task<ActionResult<Ticket>> GetTicketById(int id) => await _ticketService.GetTicketById(id);
+        [HttpPut("{id}")] public async Task<IActionResult> UpdateTicket(int id, Ticket ticket) => await _ticketService.UpdateTicket(id, ticket);
+        [HttpPost] public async Task<ActionResult<Ticket>> AddTicket(Ticket newTicket) => await _ticketService.AddTicket(newTicket);
+        [HttpDelete("{id}")] public async Task<IActionResult> DeleteTicket(int id) => await _ticketService.DeleteTicket(id);
     }
 }

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using backend.Data;
-using backend.Entities;
+using Backend.Data;
+using Backend.Entities;
 
-namespace backend.AccountService
+namespace Backend.AccountService
 {
     public class AccountService : ControllerBase, IAccountService
     {
@@ -15,26 +15,24 @@ namespace backend.AccountService
 
         public async Task<ActionResult<IEnumerable<Account>>> GetAllAccounts()
         {
-          if (_context.Accounts == null)
-          {
-              return NotFound();
-          }
+            if (_context.Accounts == null)
+            {
+                return NotFound();
+            }
             return await _context.Accounts.ToListAsync();
         }
 
         public async Task<ActionResult<Account>> GetAccountById(int id)
         {
-          if (_context.Accounts == null)
-          {
-              return NotFound();
-          }
+            if (_context.Accounts == null)
+            {
+                return NotFound();
+            }
             var account = await _context.Accounts.FindAsync(id);
-
             if (account == null)
             {
                 return NotFound();
             }
-
             return account;
         }
 
@@ -48,9 +46,7 @@ namespace backend.AccountService
             {
                 return Problem("Entity set 'DataContext.Accounts'  is null.");
             }
-
             _context.Entry(account).State = EntityState.Modified;
-
             try
             {
                 await _context.SaveChangesAsync();
@@ -66,7 +62,6 @@ namespace backend.AccountService
                     throw;
                 }
             }
-
             return NoContent();
         }
 
@@ -78,8 +73,6 @@ namespace backend.AccountService
           }
             _context.Accounts.Add(account);
             await _context.SaveChangesAsync();
-
-            // return CreatedAtAction("GetAccount", new { id = account.AccountId }, account);
             return CreatedAtAction(nameof(GetAccountById), new { id = account.AccountId }, account);
         }
 
@@ -94,16 +87,11 @@ namespace backend.AccountService
             {
                 return NotFound();
             }
-
             _context.Accounts.Remove(account);
             await _context.SaveChangesAsync();
-
             return NoContent();
         }
 
-        private bool AccountExists(int id)
-        {
-            return (_context.Accounts?.Any(e => e.AccountId == id)).GetValueOrDefault();
-        }
+        private bool AccountExists(int id) => (_context.Accounts?.Any(e => e.AccountId == id)).GetValueOrDefault();
     }
 }
