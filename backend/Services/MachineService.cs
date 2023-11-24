@@ -3,13 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Entities;
 using Microsoft.AspNetCore.Authorization;
+using backend.MachineService;
 
 namespace backend.Controllers
 {
     [Authorize]
     [Route("api/Machines")]
     [ApiController]
-    public class MachinesService : ControllerBase
+    public class MachinesService : ControllerBase, IMachineService
     {
         private readonly DataContext _context;
 
@@ -31,13 +32,13 @@ namespace backend.Controllers
 
         // GET: api/Machine/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<Machine>>> GetMachine(int id)
+        public async Task<ActionResult<Machine>> GetMachineById(int id)
         {
           if (_context.Machines == null)
           {
               return NotFound("No machines in db");
           }
-            var machine = await _context.Machines.Where(machine => machine.AccountId == id).ToListAsync();
+            var machine = await _context.Machines.Where(machine => machine.AccountId == id).FirstOrDefaultAsync();
 
             if (machine == null)
             {
@@ -50,7 +51,7 @@ namespace backend.Controllers
         // PUT: api/Machine/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMachine(int id, Machine machine)
+        public async Task<IActionResult> UpdateMachine(int id, Machine machine)
         {
             if (id != machine.MachineId)
             {
@@ -81,7 +82,7 @@ namespace backend.Controllers
         // POST: api/Machine
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Machine>> PostMachine(Machine machine)
+        public async Task<ActionResult<Machine>> AddMachine(Machine machine)
         {
           if (_context.Machines == null)
           {
@@ -91,7 +92,7 @@ namespace backend.Controllers
             await _context.SaveChangesAsync();
 
             // return CreatedAtAction("GetMachine", new { id = Machine.MachineId }, Machine);
-            return CreatedAtAction(nameof(GetMachine), new { id = machine.MachineId }, machine);
+            return CreatedAtAction(nameof(GetMachineById), new { id = machine.MachineId }, machine);
         }
 
         // DELETE: api/Machine/5

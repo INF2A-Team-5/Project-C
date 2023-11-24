@@ -3,13 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Entities;
 using Microsoft.AspNetCore.Authorization;
+using backend.DepartmentService;
 
 namespace backend.Controllers
 {
     [Authorize]
     [Route("api/Departments")]
     [ApiController]
-    public class DepartmentsController : ControllerBase
+    public class DepartmentsController : ControllerBase, IDepartmentService
     {
         private readonly DataContext _context;
 
@@ -31,7 +32,7 @@ namespace backend.Controllers
 
         // GET: api/Department/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Department>> GetDepartment(int id)
+        public async Task<ActionResult<Department>> GetDepartmentById(int id)
         {
           if (_context.Departments == null)
           {
@@ -50,7 +51,7 @@ namespace backend.Controllers
         // PUT: api/Department/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDepartment(int id, Department department)
+        public async Task<IActionResult> UpdateDepartment(int id, Department department)
         {
             if (id != department.DepartmentId)
             {
@@ -81,7 +82,7 @@ namespace backend.Controllers
         // POST: api/Department
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Department>> PostDepartment(Department department)
+        public async Task<ActionResult<Department>> AddDepartment(Department department)
         {
           if (_context.Departments == null)
           {
@@ -91,7 +92,7 @@ namespace backend.Controllers
             await _context.SaveChangesAsync();
 
             // return CreatedAtAction("GetDepartment", new { id = Department.DepartmentId }, Department);
-            return CreatedAtAction(nameof(GetDepartment), new { id = department.DepartmentId }, department);
+            return CreatedAtAction(nameof(GetDepartmentById), new { id = department.DepartmentId }, department);
         }
 
         // DELETE: api/Department/5
