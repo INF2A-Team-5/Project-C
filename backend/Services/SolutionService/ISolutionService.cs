@@ -1,7 +1,7 @@
 using backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace backend.DepartmentService
+namespace backend.SolutionService
 {
     public interface ISolutionService
     {

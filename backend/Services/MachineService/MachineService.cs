@@ -1,15 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Entities;
-using Microsoft.AspNetCore.Authorization;
 using backend.MachineService;
 
 namespace backend.Controllers
 {
-    [Authorize]
-    [Route("api/Machines")]
-    [ApiController]
     public class MachinesService : ControllerBase, IMachineService
     {
         private readonly DataContext _context;
@@ -19,8 +14,6 @@ namespace backend.Controllers
             _context = context;
         }
 
-        // GET: api/Machine
-        [HttpGet]
         public async Task<ActionResult<IEnumerable<Machine>>> GetMachines()
         {
           if (_context.Machines == null)
@@ -30,8 +23,6 @@ namespace backend.Controllers
             return await _context.Machines.ToListAsync();
         }
 
-        // GET: api/Machine/5
-        [HttpGet("{id}")]
         public async Task<ActionResult<Machine>> GetMachineById(int id)
         {
           if (_context.Machines == null)
@@ -48,9 +39,6 @@ namespace backend.Controllers
             return machine;
         }
 
-        // PUT: api/Machine/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMachine(int id, Machine machine)
         {
             if (id != machine.MachineId)
@@ -79,9 +67,6 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        // POST: api/Machine
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
         public async Task<ActionResult<Machine>> AddMachine(Machine machine)
         {
           if (_context.Machines == null)
@@ -95,8 +80,6 @@ namespace backend.Controllers
             return CreatedAtAction(nameof(GetMachineById), new { id = machine.MachineId }, machine);
         }
 
-        // DELETE: api/Machine/5
-        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMachine(int id)
         {
             if (_context.Machines == null)

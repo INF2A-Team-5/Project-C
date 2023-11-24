@@ -7,7 +7,6 @@ using System.Text;
 using backend.Entities;
 using backend.Dto;
 using backend.Data;
-using BCrypt.Net;
 
 namespace backend.Controllers
 {

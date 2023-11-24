@@ -1,24 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Entities;
-using Microsoft.AspNetCore.Authorization;
-using backend.models;
 
 namespace backend.AccountService
 {
-    public class AccountsService : ControllerBase, IAccountService
+    public class AccountService : ControllerBase, IAccountService
     {
         private readonly DataContext _context;
 
-        public AccountsService(DataContext context)
+        public AccountService(DataContext context)
         {
             _context = context;
         }
 
-        // GET: api/Account
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
+        public async Task<ActionResult<IEnumerable<Account>>> GetAllAccounts()
         {
           if (_context.Accounts == null)
           {
@@ -45,9 +40,6 @@ namespace backend.AccountService
             return account;
         }
 
-        // PUT: api/Account/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAccount(int id, Account account)
         {
             if (id != account.AccountId)
@@ -80,9 +72,6 @@ namespace backend.AccountService
             return NoContent();
         }
 
-        // POST: api/Account
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
         public async Task<ActionResult<Account>> AddAccount(Account account)
         {
           if (_context.Accounts == null)
@@ -96,8 +85,6 @@ namespace backend.AccountService
             return CreatedAtAction(nameof(GetAccountById), new { id = account.AccountId }, account);
         }
 
-        // DELETE: api/Account/5
-        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAccount(int id)
         {
             if (_context.Accounts == null)

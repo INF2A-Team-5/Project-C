@@ -1,15 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Entities;
-using Microsoft.AspNetCore.Authorization;
-using backend.DepartmentService;
+using backend.SolutionService;
 
 namespace backend.Controllers
 {
-    [Authorize]
-    [Route("api/Solutions")]
-    [ApiController]
     public class SolutionsService : ControllerBase, ISolutionService
     {
         private readonly DataContext _context;
@@ -19,8 +14,6 @@ namespace backend.Controllers
             _context = context;
         }
 
-        // GET: api/Solution
-        [HttpGet]
         public async Task<ActionResult<IEnumerable<Solution>>> GetSolutions()
         {
           if (_context.Solutions == null)
@@ -30,8 +23,6 @@ namespace backend.Controllers
             return await _context.Solutions.ToListAsync();
         }
 
-        // GET: api/Solution/5
-        [HttpGet("{id}")]
         public async Task<ActionResult<Solution>> GetSolutionById(int id)
         {
           if (_context.Solutions == null)
@@ -48,9 +39,6 @@ namespace backend.Controllers
             return solution;
         }
 
-        // PUT: api/Solution/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateSolution(int id, Solution solution)
         {
             if (id != solution.SolutionId)
@@ -79,9 +67,6 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        // POST: api/Solution
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
         public async Task<ActionResult<Solution>> AddSolution(Solution solution)
         {
           if (_context.Solutions == null)
@@ -95,8 +80,6 @@ namespace backend.Controllers
             return CreatedAtAction(nameof(GetSolutionById), new { id = solution.SolutionId }, solution);
         }
 
-        // DELETE: api/Solution/5
-        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSolution(int id)
         {
             if (_context.Solutions == null)

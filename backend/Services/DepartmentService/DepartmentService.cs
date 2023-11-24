@@ -1,15 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Entities;
-using Microsoft.AspNetCore.Authorization;
 using backend.DepartmentService;
 
 namespace backend.Controllers
 {
-    [Authorize]
-    [Route("api/Departments")]
-    [ApiController]
     public class DepartmentsController : ControllerBase, IDepartmentService
     {
         private readonly DataContext _context;
@@ -19,8 +14,6 @@ namespace backend.Controllers
             _context = context;
         }
 
-        // GET: api/Department
-        [HttpGet]
         public async Task<ActionResult<IEnumerable<Department>>> GetDepartments()
         {
           if (_context.Departments == null)
@@ -30,8 +23,6 @@ namespace backend.Controllers
             return await _context.Departments.ToListAsync();
         }
 
-        // GET: api/Department/5
-        [HttpGet("{id}")]
         public async Task<ActionResult<Department>> GetDepartmentById(int id)
         {
           if (_context.Departments == null)
@@ -48,9 +39,6 @@ namespace backend.Controllers
             return department;
         }
 
-        // PUT: api/Department/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateDepartment(int id, Department department)
         {
             if (id != department.DepartmentId)
@@ -79,9 +67,6 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        // POST: api/Department
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
         public async Task<ActionResult<Department>> AddDepartment(Department department)
         {
           if (_context.Departments == null)
@@ -95,8 +80,6 @@ namespace backend.Controllers
             return CreatedAtAction(nameof(GetDepartmentById), new { id = department.DepartmentId }, department);
         }
 
-        // DELETE: api/Department/5
-        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDepartment(int id)
         {
             if (_context.Departments == null)

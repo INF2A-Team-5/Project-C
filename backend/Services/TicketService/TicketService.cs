@@ -1,16 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Entities;
-using Microsoft.AspNetCore.Authorization;
-using backend.DepartmentService;
 using backend.TicketService;
 
 namespace backend.Controllers
 {
-    [Authorize]
-    [Route("api/Tickets")]
-    [ApiController]
     public class TicketService : ControllerBase, ITicketService
     {
         private readonly DataContext _context;
@@ -20,9 +14,6 @@ namespace backend.Controllers
             _context = context;
         }
 
-
-        // GET: api/Account
-        [HttpGet]
         public async Task<ActionResult<IEnumerable<Ticket>>> GetTickets()
         {
             if (_context.Accounts == null)
@@ -32,8 +23,6 @@ namespace backend.Controllers
             return await _context.Tickets.ToListAsync();
         }
 
-        // GET: api/Tickets/5
-        [HttpGet("{id}")]
         public async Task<ActionResult<Ticket>> GetTicketById(int id)
         {
           if (_context.Tickets == null)
@@ -50,9 +39,6 @@ namespace backend.Controllers
             return ticket;
         }
 
-        // PUT: api/Machine/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateTicket(int id, Ticket ticket)
         {
             if (id != ticket.TicketId)
@@ -81,9 +67,6 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        // POST: api/Machine
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
         public async Task<ActionResult<Ticket>> AddTicket(Ticket ticket)
         {
           if (_context.Tickets == null)
@@ -97,8 +80,6 @@ namespace backend.Controllers
             return CreatedAtAction(nameof(GetTicketById), new { id = ticket.TicketId }, ticket);
         }
 
-        // DELETE: api/Machine/5
-        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTicket(int id)
         {
             if (_context.Tickets == null)
