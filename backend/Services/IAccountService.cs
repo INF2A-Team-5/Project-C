@@ -4,15 +4,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using backend.models;
 using backend.Dto;
+using backend.Entities;
+using Microsoft.AspNetCore.Mvc;
 
 namespace backend.AccountService
 {
     public interface IAccountService
     {
-        Task<ServiceResponse<List<GetAccountDto>>> GetAllAccounts();
-        Task<ServiceResponse<GetAccountDto>> GetAccountById(int id);
-        Task<ServiceResponse<List<GetAccountDto>>> AddAccount(AddAccountDto newAccount);
-        Task<ServiceResponse<GetAccountDto>> UpdateAccount(UpdateAccountDto updatedAccount);
-        Task<ServiceResponse<List<GetAccountDto>>> DeleteAccounts(int id);
+        Task<ActionResult<IEnumerable<Account>>> GetAccounts();
+        Task<ActionResult<Account>> GetAccountById(int id);
+        Task<ActionResult<Account>> AddAccount(Account newAccount);
+        Task<IActionResult> UpdateAccount(int id, Account updatedAccount);
+        Task<IActionResult> DeleteAccount(int id);
     }
 }

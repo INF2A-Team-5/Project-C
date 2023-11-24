@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Entities;
 using Microsoft.AspNetCore.Authorization;
+using backend.models;
 
 namespace backend.AccountService
 {
-    public class AccountsService : ControllerBase
+    public class AccountsService : ControllerBase, IAccountService
     {
         private readonly DataContext _context;
 
@@ -28,7 +29,7 @@ namespace backend.AccountService
 
         // GET: api/Account/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Account>> GetAccount(int id)
+        public async Task<ActionResult<Account>> GetAccountById(int id)
         {
           if (_context.Accounts == null)
           {
@@ -47,7 +48,7 @@ namespace backend.AccountService
         // PUT: api/Account/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAccount(int id, Account account)
+        public async Task<IActionResult> UpdateAccount(int id, Account account)
         {
             if (id != account.AccountId)
             {
@@ -82,7 +83,7 @@ namespace backend.AccountService
         // POST: api/Account
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Account>> PostAccount(Account account)
+        public async Task<ActionResult<Account>> AddAccount(Account account)
         {
           if (_context.Accounts == null)
           {
@@ -92,7 +93,7 @@ namespace backend.AccountService
             await _context.SaveChangesAsync();
 
             // return CreatedAtAction("GetAccount", new { id = account.AccountId }, account);
-            return CreatedAtAction(nameof(GetAccount), new { id = account.AccountId }, account);
+            return CreatedAtAction(nameof(GetAccountById), new { id = account.AccountId }, account);
         }
 
         // DELETE: api/Account/5

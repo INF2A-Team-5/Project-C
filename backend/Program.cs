@@ -79,7 +79,7 @@ builder.Services.AddControllers().AddJsonOptions(x =>
         // ignore omitted parameters on models to enable optional params (e.g. User update)
         x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     });
-builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IAccountService, AccountsService>();
 
 var app = builder.Build();
 
