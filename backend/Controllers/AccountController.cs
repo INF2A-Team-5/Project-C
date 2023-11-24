@@ -24,6 +24,13 @@ namespace backend.Controllers
             return await _accountService.GetAllAccounts();
         }
 
+        // GET: api/Account/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Account>> GetAccountById(int id)
+        {
+            return await _accountService.GetAccountById(id);
+        }
+
         // PUT: api/Account/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
