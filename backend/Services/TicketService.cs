@@ -9,11 +9,11 @@ namespace backend.Controllers
     [Authorize]
     [Route("api/Tickets")]
     [ApiController]
-    public class TicketController : ControllerBase
+    public class TicketService : ControllerBase
     {
         private readonly DataContext _context;
 
-        public TicketController(DataContext context)
+        public TicketService(DataContext context)
         {
             _context = context;
         }

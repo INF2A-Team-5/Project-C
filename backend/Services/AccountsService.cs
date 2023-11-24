@@ -1,103 +1,123 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using backend.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using backend.Data;
-using AutoMapper;
-using backend.Dto;
-using backend.models;
+using backend.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace backend.AccountService
 {
-    public class AccountService : IAccountService
+    public class AccountsService : ControllerBase
     {
-        private static List<Account> accounts = new List<Account>
-        {
-            new Account(),
-            new Account { AccountId = 1, Name = "admin"}
-        };
-        private readonly IMapper _mapper;
         private readonly DataContext _context;
-        public AccountService(IMapper mapper, DataContext context)
+
+        public AccountsService(DataContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
-        public async Task<ServiceResponse<List<GetAccountDto>>> AddAccount(AddAccountDto newAccount)
+        // GET: api/Account
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Account>>> GetAccounts()
         {
-            var serviceResponse = new ServiceResponse<List<GetAccountDto>>();
-            var account = _mapper.Map<Account>(newAccount);
-            account.AccountId = accounts.Max(c => c.AccountId) + 1;
-            accounts.Add(account);
-            serviceResponse.Data = accounts.Select(c => _mapper.Map<GetAccountDto>(c)).ToList();
-            return serviceResponse;
+          if (_context.Accounts == null)
+          {
+              return NotFound();
+          }
+            return await _context.Accounts.ToListAsync();
         }
 
-        public async Task<ServiceResponse<List<GetAccountDto>>> DeleteAccounts(int id)
+        // GET: api/Account/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Account>> GetAccount(int id)
         {
-            var serviceResponse = new ServiceResponse<List<GetAccountDto>>();
+          if (_context.Accounts == null)
+          {
+              return NotFound();
+          }
+            var account = await _context.Accounts.FindAsync(id);
+
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            return account;
+        }
+
+        // PUT: api/Account/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAccount(int id, Account account)
+        {
+            if (id != account.AccountId)
+            {
+                return BadRequest();
+            }
+            if (_context.Accounts == null)
+            {
+                return Problem("Entity set 'DataContext.Accounts'  is null.");
+            }
+
+            _context.Entry(account).State = EntityState.Modified;
 
             try
             {
-                var account = accounts.FirstOrDefault(c => c.AccountId == id);
-                if(account is null){
-                    throw new Exception($"Character with Id '{id}' not found.");
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AccountExists(id))
+                {
+                    return NotFound();
                 }
-
-                accounts.Remove(account);
-
-                serviceResponse.Data = accounts.Select(c => _mapper.Map<GetAccountDto>(c)).ToList();
-
-            }
-            catch(Exception ex)
-            {
-                serviceResponse.Succes = false;
-                serviceResponse.Message = ex.Message;
-            }
-            return serviceResponse;
-        }
-
-        public async Task<ServiceResponse<List<GetAccountDto>>> GetAllAccounts()
-        {
-            var serviceResponse = new ServiceResponse<List<GetAccountDto>>();
-            var DbAccounts = await _context.Accounts.ToListAsync();
-            serviceResponse.Data = DbAccounts.Select(c => _mapper.Map<GetAccountDto>(c)).ToList();
-            return serviceResponse;
-        }
-
-        public async Task<ServiceResponse<GetAccountDto>> GetAccountById(int id)
-        {
-            var serviceResponse = new ServiceResponse<GetAccountDto>();
-            var DbAccount = await _context.Accounts.FirstOrDefaultAsync(c => c.AccountId == id);
-            serviceResponse.Data = _mapper.Map<GetAccountDto>(DbAccount);
-            return serviceResponse;
-        }
-
-        public async Task<ServiceResponse<GetAccountDto>> UpdateAccount(UpdateAccountDto updatedAccount)
-        {
-            var serviceResponse = new ServiceResponse<GetAccountDto>();
-
-            try
-            {
-                var account = accounts.FirstOrDefault(c => c.AccountId == updatedAccount.AccountId);
-                if(account is null){
-                    throw new Exception($"Character with Id '{updatedAccount.AccountId}' not found.");
+                else
+                {
+                    throw;
                 }
-
-                account.Name = updatedAccount.Name;
-                account.AccountId = updatedAccount.AccountId;
-
-                serviceResponse.Data = _mapper.Map<GetAccountDto>(account);
-
             }
-            catch(Exception ex)
+
+            return NoContent();
+        }
+
+        // POST: api/Account
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Account>> PostAccount(Account account)
+        {
+          if (_context.Accounts == null)
+          {
+              return Problem("Entity set 'DataContext.Accounts'  is null.");
+          }
+            _context.Accounts.Add(account);
+            await _context.SaveChangesAsync();
+
+            // return CreatedAtAction("GetAccount", new { id = account.AccountId }, account);
+            return CreatedAtAction(nameof(GetAccount), new { id = account.AccountId }, account);
+        }
+
+        // DELETE: api/Account/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAccount(int id)
+        {
+            if (_context.Accounts == null)
             {
-                serviceResponse.Succes = false;
-                serviceResponse.Message = ex.Message;
+                return NotFound();
             }
-            return serviceResponse;
+            var account = await _context.Accounts.FindAsync(id);
+            if (account == null)
+            {
+                return NotFound();
+            }
+
+            _context.Accounts.Remove(account);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool AccountExists(int id)
+        {
+            return (_context.Accounts?.Any(e => e.AccountId == id)).GetValueOrDefault();
         }
     }
 }

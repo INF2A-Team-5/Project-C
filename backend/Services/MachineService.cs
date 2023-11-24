@@ -9,11 +9,11 @@ namespace backend.Controllers
     [Authorize]
     [Route("api/Machines")]
     [ApiController]
-    public class MachinesController : ControllerBase
+    public class MachinesService : ControllerBase
     {
         private readonly DataContext _context;
 
-        public MachinesController(DataContext context)
+        public MachinesService(DataContext context)
         {
             _context = context;
         }

@@ -9,11 +9,11 @@ namespace backend.Controllers
     [Authorize]
     [Route("api/Solutions")]
     [ApiController]
-    public class SolutionsController : ControllerBase
+    public class SolutionsService : ControllerBase
     {
         private readonly DataContext _context;
 
-        public SolutionsController(DataContext context)
+        public SolutionsService(DataContext context)
         {
             _context = context;
         }
