@@ -1,6 +1,7 @@
 using Xunit;
+
 using backend.Services;
-﻿using FakeItEasy;
+// using FakeItEasy;
 
 
 namespace backend.Tests
@@ -30,7 +31,7 @@ namespace backend.Tests
         [InlineData(-1)]
         [InlineData(0)]
         [InlineData(1)]
-        public void IsPrime_ValuesLessThan2_ReturnFalse(int value)
+        public void Setuptestss_gkhjfsdd_ReturnsString(int value)
         {
             //Arrange
             var setuptestss = new Setuptestss();
