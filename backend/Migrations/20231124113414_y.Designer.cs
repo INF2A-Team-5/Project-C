@@ -12,8 +12,8 @@ using Backend.Data;
 namespace Backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231120164005_migration1")]
-    partial class migration1
+    [Migration("20231124113414_y")]
+    partial class y
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,6 +42,9 @@ namespace Backend.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("text");
 
                     b.HasKey("AccountId");

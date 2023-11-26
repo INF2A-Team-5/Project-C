@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace backend.models
+namespace Backend.models
 {
     public class ServiceResponse<T>
     {

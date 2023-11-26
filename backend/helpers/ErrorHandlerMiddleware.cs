@@ -1,4 +1,4 @@
-namespace backend.Helpers;
+namespace Backend.Helpers;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -46,7 +46,6 @@ public class ErrorHandlerMiddleware
                     response.StatusCode = (int)HttpStatusCode.InternalServerError;
                     break;
             }
-
             var result = JsonSerializer.Serialize(new { message = error?.Message });
             await response.WriteAsync(result);
         }
