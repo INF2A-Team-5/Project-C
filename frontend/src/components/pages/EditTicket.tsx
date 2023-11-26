@@ -1,12 +1,17 @@
 import Input from '../foundations/input'
 import Button from '../foundations/button'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Settings from '../foundations/settings'
 import Textbox from '../foundations/textbox'
+import { useTranslation } from 'react-i18next';
 
 
 function EditTicket() {
+  const { t, i18n } = useTranslation();
+  useEffect(() => {
+    i18n.changeLanguage(navigator.language);
+  }, [])
     const navigate = useNavigate();
     const [notes, setNotes] = useState('');
     const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
@@ -40,16 +45,59 @@ function EditTicket() {
       }
 
     async function HandleSubmit() {
-      let currentticket = await fetch("http://localhost:5119/api/tickets/" + localStorage.getItem("Id"),
+      const ticketid = localStorage.getItem("currentticket")
+      let currentticket = await fetch("http://localhost:5119/api/tickets/" + ticketid,
+      {
+        method: "GET",
+        headers: {
+          "Authorization": "bearer " + localStorage.getItem("Token"),
+          "Content-Type": "application/json",
+        }
+      }).then(data => data.json());
+
+      console.log(currentticket);
+      
+      const ticket = 
+        {
+          "TicketId": ticketid,
+          "Machine_Id": currentticket.Machine_Id,
+          "Customer_Id": currentticket.Customer_,
+          "Assigned_Id": currentticket.Assigned_Id,
+          "Priority": currentticket.Priority,
+          "Status": currentticket.Status,
+
+          "Problem": currentticket.Problem,
+          "HaveTried": currentticket.HaveTried,
+          "MustBeDoing": currentticket.MustBedBing,
+          "Date_Created": currentticket.Date_Created,
+        
+          "Solution": currentticket.Solution,
+          "PhoneNumber": currentticket.PhoneNumber,
+          "Notes": currentticket.Notes ? [...currentticket.Notes, notes] : [notes],
+          "files": currentticket.files ? [...currentticket.files, ...preview] : [...preview]
+          
+         
+        }
+    
+    try {
+    const response = await fetch("http://localhost:5119/api/tickets/" + ticketid,
     {
-      method: "GET",
+      method: "PUT",
       headers: {
         "Authorization": "bearer " + localStorage.getItem("Token"),
         "Content-Type": "application/json",
-      }
-    }).then(data => data.json());
+      },
+      body: JSON.stringify(ticket)
+    });
+    if (!response.ok) {
+      const errorResponse = await response.text(); // Capture response content
+      throw new Error(`HTTP error! Status: ${response.status}. Error message: ${JSON.stringify(errorResponse)}`);
+    }
 
-      console.log(currentticket);
+    // If needed, you can handle the response data here
+  } catch (error) {
+    console.error('Error during PUT request:', error);
+  }
     
     }
 
@@ -58,14 +106,14 @@ function EditTicket() {
         <div className='text-left pl-24'>
             <Settings></Settings>
             <div className='pb-8'>
-        <h1 className='text-4xl font-medium'>Edit your ticket</h1>
+        <h1 className='text-4xl font-medium'>{t('editticket.header')}</h1>
         </div>
         <div className='pb-16'>
-        <h2 className='text-lg font-medium'>Add notes</h2>
-        <Textbox placeholder='Still does not work' hierarchy='lg' onChange={e => setNotes(e.currentTarget.value)}></Textbox>
-        <p className='text-md text-grey-900 '>Give us a detailed description on what you want to update the ticket with</p>
+        <h2 className='text-lg font-medium'>{t('editticket.notes')}</h2>
+        <Textbox placeholder={t('editticket.notes2')} hierarchy='lg' onChange={e => setNotes(e.currentTarget.value)}></Textbox>
+        <p className='text-md text-grey-900 '>{t('editticket.description')}</p>
       </div>
-      <h2 className='text-lg font-medium'>Add pictures</h2>
+      <h2 className='text-lg font-medium'>{t('editticket.pictures')}</h2>
       <input
           type="file"
           name="image"
@@ -77,8 +125,8 @@ function EditTicket() {
           <img key={index} src={previewItem as string} alt={`Preview ${index}`} />
           ))}
         
-        <Button hierarchy='xl' type="primary" onClick={HandleSubmit} rounded="slight">Submit</Button>
-        <Button hierarchy='sm' type="destructive" onClick={HandleCancel} rounded="slight">cancel</Button>
+        <Button hierarchy='xl' type="primary" onClick={HandleSubmit} rounded="slight">{t('editticket.submit')}</Button>
+        <Button hierarchy='md' type="destructive" onClick={HandleCancel} rounded="slight">{t('editticket.cancel')}</Button>
         </div>
         
     )

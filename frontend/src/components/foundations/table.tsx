@@ -9,6 +9,7 @@ import { Navigate } from "react-router-dom";
 
 function handleButtonClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: number) {
     alert(id)
+    localStorage.setItem("currentticket", id.toString());
     window.location.href = window.location.href.replace("client", "edit-ticket");
 }
 

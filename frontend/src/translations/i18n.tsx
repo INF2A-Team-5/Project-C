@@ -38,6 +38,15 @@ i18n
             langEn: "English",
             langPl: "Polish",
             logOut: "Log Out",
+          },
+          editticket: {
+            header: "Edit your ticket",
+            notes: "Add notes",
+            notes2: "Still does not work, because...",
+            description: "Give us a detailed description on what you want to update the ticket with",
+            pictures: "Add pictures",
+            submit: "Submit",
+            cancel: "cancel"
           }
         }
       },
@@ -66,6 +75,15 @@ i18n
             langEn: "Engels",
             langPl: "Pools",
             logOut: "Log Uit",
+          },
+          editticket: {
+            header: "Pas je ticket aan",
+            notes: "Voeg notities toe",
+            notes2: "Werkt nog steeds niet, want...",
+            description: "Geef ons een gedetailleerde beschrijving waarmee je de ticket wilt updaten",
+            pictures: "Voeg eventuele foto's toe",
+            submit: "Dien in",
+            cancel: "Annuleer"
           }
         }
       }
