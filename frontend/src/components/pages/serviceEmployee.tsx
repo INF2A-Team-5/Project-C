@@ -2,6 +2,7 @@ import Button from "../foundations/button";
 import React, { useState } from 'react';
 import Settings from '../foundations/settings'
 import NewTable from '../foundations/newTable';
+import { DataRow } from "../../services/DataRow";
 
 function serviceEmployee() {
   const [AllTickets, SetAllTickets] = useState<DataRow[]>([]);
@@ -13,20 +14,6 @@ function serviceEmployee() {
   if (AssignedTickets.length == 0) {
     GetAssignedData();
   }
-
-  type DataRow = {
-    ticketId: number,
-    machine_Id: number,
-    customer_Id: number,
-    assigned_Id: number,
-    priority: string,
-    status: string,
-    date_Created: string,
-    solution: string,
-    files: string[],
-    phoneNumber: string,
-    notes: string;
-  };
 
   async function GetAllData() {
     SetAllTickets(await fetch("http://localhost:5119/api/tickets/",
