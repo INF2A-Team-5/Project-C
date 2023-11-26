@@ -1,7 +1,7 @@
-using backend.Entities;
-using backend.Data;
+using Backend.Entities;
+using Backend.Data;
 
-namespace backend.Data;
+namespace Backend.Data;
 public static class DBSeeding
 {
     public static void Seed()
@@ -12,7 +12,6 @@ public static class DBSeeding
         Machine Machine4 = new() { Name = "Machine4", Description = "This is machine 4", AccountId = 3 };
         Machine Machine5 = new() { Name = "Machine5", Description = "This is machine 5", AccountId = 3 };
         Machine Machine6 = new() { Name = "Machine6", Description = "This is machine 6", AccountId = 3 };
-
         List<Machine> machines = new() { Machine1, Machine2, Machine3, Machine4, Machine5, Machine6 };
 
         Account Client = new() { Name = "clientname", Password = "clientpw", Class = AccountType.Client };
@@ -25,7 +24,6 @@ public static class DBSeeding
         Ticket ticket3 = new() { Machine_Id = 3, Customer_Id = 1, Assigned_Id = 2, Priority = "Critical", Status = "Closed", Date_Created = DateTime.UtcNow, Problem = "test", HaveTried = "Test", MustBeDoing = "test", Solution = "Test",  PhoneNumber = "0612345678", Notes = "Test" };
         Ticket ticket4 = new() { Machine_Id = 3, Customer_Id = 1, Assigned_Id = 2, Priority = "Critical", Status = "In Process", Date_Created = DateTime.UtcNow, Problem = "test", HaveTried = "Test", MustBeDoing = "test",Solution = "Test", PhoneNumber = "0612345678", Notes = "Test" };
         Ticket ticket5 = new() { Machine_Id = 3, Customer_Id = 2, Assigned_Id = 3, Priority = "Non critical", Status = "Open", Date_Created = DateTime.UtcNow, Problem = "test", HaveTried = "Test", MustBeDoing = "test", Solution = "Test", PhoneNumber = "0612345678", Notes = "Test" };
-
         List<Ticket> tickets = new() { ticket1, ticket2, ticket3, ticket4, ticket5 };
 
         var db = new DataContext();

@@ -1,4 +1,4 @@
-namespace backend.Helpers;
+namespace Backend.Helpers;
 
 public class AppException : Exception
 {

@@ -61,22 +61,22 @@ function Settings(){
                                                  data-[side=right]:animate-slideLeftAndFade data-[side=bottom]:animate-slideUpAndFade data-[side=left]:animate-slideRightAndFade" 
                                         sideOffset={5}>
                 <DropdownMenu.RadioGroup value={''} onValueChange={editAccount}>
-                    <DropdownMenu.RadioItem className="text-md group leading-none text-primary-300 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none overflow-hidden outline-none 
+                    <DropdownMenu.RadioItem className="text-md leading-none text-primary-300 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none overflow-hidden outline-none 
                                                     data-[disabled]:text-grey-900 data-[disabled]:pointer-events-none data-[highlighted]:bg-primary-400 data-[highlighted]:text-white dark:data-[highlighted]:text-dark-500" 
                             	            value="">
-                    <DropdownMenu.ItemIndicator className="absolute group-hover:bg-primary-400 left-0 w-[25px] inline-flex items-center justify-center scale-110">
-                        <Pencil1Icon className="hover:bg-primary-400 group-hover:bg-primary-400"/>
+                    <DropdownMenu.ItemIndicator style={{backgroundColor:"transparent"}} className="absolute left-0 w-[25px] inline-flex items-center justify-center scale-110">
+                        <Pencil1Icon style={{backgroundColor:"transparent"}}/>
                     </DropdownMenu.ItemIndicator>
                     {t('setting.account')}
                     </DropdownMenu.RadioItem>
                 </DropdownMenu.RadioGroup>
                 <DropdownMenu.Separator className="h-[1px] bg-[var(--border)] m-[5px]"/>
                 <DropdownMenu.Sub>
-                    <DropdownMenu.SubTrigger className="overflow-hidden group text-md leading-none text-primary-300 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[state=open]:bg-primary-400 
+                    <DropdownMenu.SubTrigger className="overflow-hidden text-md leading-none text-primary-300 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[state=open]:bg-primary-400 
                                                         group-data-[state=open]:bg-primary-400 data-[state=open]:text-white dark:data-[state=open]:text-dark-500 data-[disabled]:text-grey-900 data-[disabled]:pointer-events-none 
                                                         data-[highlighted]:bg-primary-400 data-[highlighted]:text-white dark:data-[highlighted]:text-dark-500 data-[highlighted]:data-[state=open]:bg-primary-400">
-                    <div className="absolute group-hover:bg-primary-400 left-0 w-[25px] inline-flex items-center justify-center scale-110 group-data-[state=open]:bg-primary-400">
-                        <MagicWandIcon className="hover:bg-primary-400 group-hover:bg-primary-400 group-data-[state=open]:bg-primary-400"/>
+                    <div style={{backgroundColor:"transparent"}} className="absolute left-0 w-[25px] inline-flex items-center justify-center scale-110 group-data-[state=open]:bg-primary-400">
+                        <MagicWandIcon style={{backgroundColor:"transparent"}}/>
                     </div>
                     {t('setting.theme')}
                     </DropdownMenu.SubTrigger>
@@ -87,19 +87,19 @@ function Settings(){
                         sideOffset={2}
                         alignOffset={-5}
                     >
-                        <DropdownMenu.CheckboxItem className="group overflow-hidden text-md leading-none text-primary-300 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none 
+                        <DropdownMenu.CheckboxItem className="overflow-hidden text-md leading-none text-primary-300 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none 
                                                             data-[disabled]:text-grey-900 data-[disabled]:pointer-events-none data-[highlighted]:bg-primary-400 data-[highlighted]:text-white dark:data-[highlighted]:text-dark-500" 
                                                     onClick={toggleThemeLight}>
-                        <div className="absolute group-hover:bg-primary-400 left-0 w-[25px] inline-flex items-center justify-center scale-110">
-                            <SunIcon className="hover:bg-primary-400 group-hover:bg-primary-400"/>
+                        <div style={{backgroundColor:"transparent"}} className="absolute left-0 w-[25px] inline-flex items-center justify-center scale-110">
+                            <SunIcon style={{backgroundColor:"transparent"}}/>
                         </div>
                         {t('setting.themeL')}
                         </DropdownMenu.CheckboxItem>
-                        <DropdownMenu.CheckboxItem className="group overflow-hidden text-md leading-none text-primary-300 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none 
+                        <DropdownMenu.CheckboxItem className="overflow-hidden text-md leading-none text-primary-300 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none 
                                                             data-[disabled]:text-grey-900 data-[disabled]:pointer-events-none data-[highlighted]:bg-primary-400 data-[highlighted]:text-white dark:data-[highlighted]:text-dark-500" 
                                                     onClick={toggleThemeDark}>
-                        <div className="absolute group-hover:bg-primary-400 left-0 w-[25px] inline-flex items-center justify-center scale-110">
-                            <MoonIcon className="hover:bg-primary-400 group-hover:bg-primary-400"/>
+                        <div style={{backgroundColor:"transparent"}} className="absolute left-0 w-[25px] inline-flex items-center justify-center scale-110">
+                            <MoonIcon style={{backgroundColor:"transparent"}}/>
                         </div>
                         {t('setting.themeD')}
                         </DropdownMenu.CheckboxItem>
@@ -107,11 +107,11 @@ function Settings(){
                     </DropdownMenu.Portal>
                 </DropdownMenu.Sub>
                 <DropdownMenu.Sub>
-                    <DropdownMenu.SubTrigger className="overflow-hidden group text-md leading-none text-primary-300 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[state=open]:bg-primary-400 
+                    <DropdownMenu.SubTrigger className="overflow-hidden text-md leading-none text-primary-300 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none outline-none data-[state=open]:bg-primary-400 
                                                         group-data-[state=open]:bg-primary-400 data-[state=open]:text-white dark:data-[state=open]:text-dark-500 data-[disabled]:text-grey-900 data-[disabled]:pointer-events-none 
                                                         data-[highlighted]:bg-primary-400 data-[highlighted]:text-white dark:data-[highlighted]:text-dark-500 data-[highlighted]:data-[state=open]:bg-primary-400nMenuSubTrigger">
-                    <div className="absolute group-hover:bg-primary-400 left-0 w-[25px] inline-flex items-center justify-center scale-110 group-data-[state=open]:bg-primary-400">
-                        <GlobeIcon className="hover:bg-primary-400 group-hover:bg-primary-400 group-data-[state=open]:bg-primary-400"/>
+                    <div style={{backgroundColor:"transparent"}} className="absolute left-0 w-[25px] inline-flex items-center justify-center scale-110 group-data-[state=open]:bg-primary-400">
+                        <GlobeIcon style={{backgroundColor:"transparent"}}/>
                     </div>
                     {t('setting.lang')}
                     </DropdownMenu.SubTrigger>
@@ -143,11 +143,11 @@ function Settings(){
                 </DropdownMenu.Sub>
                 <DropdownMenu.Separator className="h-[1px] bg-[var(--border)] m-[5px]"/>
                 <DropdownMenu.RadioGroup value={''} onValueChange={logOut}>
-                    <DropdownMenu.RadioItem className="text-md group leading-none text-primary-300 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none overflow-hidden outline-none 
+                    <DropdownMenu.RadioItem className="text-md leading-none text-primary-300 rounded-[3px] flex items-center h-[25px] px-[5px] relative pl-[25px] select-none overflow-hidden outline-none 
                                                     data-[disabled]:text-grey-900 data-[disabled]:pointer-events-none data-[highlighted]:bg-primary-400 data-[highlighted]:text-white dark:data-[highlighted]:text-dark-500" 
                             	            value="">
-                    <DropdownMenu.ItemIndicator className="absolute group-hover:bg-primary-400 left-0 w-[25px] inline-flex items-center justify-center scale-110">
-                        <ExitIcon className="hover:bg-primary-400 group-hover:bg-primary-400"/>
+                    <DropdownMenu.ItemIndicator style={{backgroundColor:"transparent"}} className="absolute left-0 w-[25px] inline-flex items-center justify-center scale-110">
+                        <ExitIcon style={{backgroundColor:"transparent"}}/>
                     </DropdownMenu.ItemIndicator>
                     {t('setting.logOut')}
                     </DropdownMenu.RadioItem>

@@ -1,4 +1,4 @@
-namespace backend.Entities;
+namespace Backend.Entities;
 
 public class Ticket
 {

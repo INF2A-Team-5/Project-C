@@ -1,15 +1,14 @@
-using backend.AccountService;
+using Backend.AccountService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using backend.Entities;
-using backend.Dto;
-using backend.Data;
-using BCrypt.Net;
+using Backend.Entities;
+using Backend.Dto;
+using Backend.Data;
 
-namespace backend.Controllers
+namespace Backend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -26,8 +25,7 @@ namespace backend.Controllers
             _userService = userService;
         }
 
-        [HttpPost("login")]
-        async public Task<ActionResult<IEnumerable<Account>>> CheckLogin(GetAccountDto request)
+        [HttpPost("login")] public async Task<ActionResult<IEnumerable<Account>>> CheckLogin(GetAccountDto request)
         {
             if (_dataContext == null)
             {
@@ -50,7 +48,6 @@ namespace backend.Controllers
             return NotFound("Invalid credentials");
         }
 
-
         private string CreateToken(Account account)
         {
             var claims = new ClaimsIdentity(new[] {
@@ -59,11 +56,8 @@ namespace backend.Controllers
             });
             var k =  _configuration.GetSection("AppSettings:Token").Value!;
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(k));
-
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
-
             var expiry = DateTime.Now.AddHours(1);
-
             var tokenDescriptor = new SecurityTokenDescriptor 
             { 
                 Subject = claims, 
@@ -81,9 +75,3 @@ namespace backend.Controllers
         }
     }
 }
-
-
-// {
-//   "name": "JJ",
-//   "password": "123"
-// }

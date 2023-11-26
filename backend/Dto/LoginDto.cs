@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
 
-namespace backend.Dto
+namespace Backend.Dto
 {
     public class LoginDto
     {

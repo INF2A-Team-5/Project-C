@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace backend.Dto
+namespace Backend.Dto
 {
     public class AddAccountDto
     {
@@ -11,7 +11,5 @@ namespace backend.Dto
         public required string Name { get; set; }
         public required string Password {get; set; } 
         public AccountType Class { get; set; }
-
-        //en meer dingfen toevoegen die bij accounts horen(gegevens uit database en andere files zoals GetAccountDto en UpdateCharacterDto)
     }
 }

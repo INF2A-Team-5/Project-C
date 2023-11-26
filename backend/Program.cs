@@ -1,16 +1,19 @@
 global using AutoMapper;
 global using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
-using backend.AccountService;
-using backend.Data;
-using backend.Helpers;
-using backend.Entities;
+using Backend.AccountService;
+using Backend.Data;
+using Backend.Helpers;
+using Backend.Entities;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
+using Backend.MachineService;
+using Backend.SolutionService;
+using Backend.TicketService;
+using Backend.DepartmentService;
 
 // var builder = WebApplication.CreateBuilder(args);
 var builder = WebApplication.CreateBuilder(args);
@@ -80,6 +83,10 @@ builder.Services.AddControllers().AddJsonOptions(x =>
         x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     });
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IMachineService, MachinesService>();
+builder.Services.AddScoped<ISolutionService, SolutionsService>();
+builder.Services.AddScoped<ITicketService, TicketService>();
+builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 
 var app = builder.Build();
 

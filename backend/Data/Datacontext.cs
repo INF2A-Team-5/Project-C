@@ -1,19 +1,13 @@
 using Microsoft.EntityFrameworkCore;
-using backend.Entities;
+using Backend.Entities;
 using Microsoft.EntityFrameworkCore.Internal;
 
-namespace backend.Data;
+namespace Backend.Data;
 public class DataContext : DbContext
 {
 
-      public DataContext(DbContextOptions<DataContext> options) : base(options)
-      {
-
-      }
-      public DataContext()
-      {
-
-      }
+      public DataContext(DbContextOptions<DataContext> options) : base(options){}
+      public DataContext(){}
       public DbSet<Account> Accounts {get; set; } = null!;
       public DbSet<Machine> Machines {get; set; } = null!;
       public DbSet<Ticket> Tickets { get; set; } = null!;
