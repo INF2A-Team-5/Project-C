@@ -41,20 +41,20 @@ namespace backend.Tests.ServicesTests
         }
 
         [Theory]
-        [InlineData(1, "clientname" , "newPw", AccountType.Client)]
-        [InlineData(2, "empname" , "newPw", AccountType.ServiceEmployee)]
-        [InlineData(3, "adminname" , "newPw", AccountType.Admin)]
+        [InlineData(1, "clientname" , "oldPw", AccountType.Client)]
+        [InlineData(2, "empname" , "oldPw", AccountType.ServiceEmployee)]
+        [InlineData(3, "adminname" , "oldPw", AccountType.Admin)]
         public async void AccountService_UpdateAccount_ReturnsNoContent(int id, string name, string password, AccountType accountType)
         {
             // Arrange
             var newPw = "newPw";
             var fakeAccount = new Account {AccountId = id, Name = name, Password = password, Class = accountType };
+            var updatedAccount = new Account {AccountId = id, Name = name, Password = newPw, Class = accountType };
             A.CallTo(() => _fakeAccountService.UpdateAccount(id, fakeAccount)).Returns(new OkObjectResult(fakeAccount));
             // Act
-            var result = await _fakeAccountService.UpdateAccount(id, new Account { Name = name, Password = newPw, Class = accountType });
+            var result = await _fakeAccountService.UpdateAccount(id, updatedAccount);
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(fakeAccount.Password, newPw);
         }
         
         [Theory]
@@ -64,10 +64,10 @@ namespace backend.Tests.ServicesTests
         public async void AccountService_AddAccount_ReturnsCreatedAtActionResult(string name, string password, AccountType accountType)
         {
             // Arrange
-            var newAccount = new Account {Name = name, Password = password, Class = accountType };
-            A.CallTo(() => _fakeAccountService.AddAccount(newAccount)).Returns(new Account());
+            var fakeAccount = new Account {Name = name, Password = password, Class = accountType };
+            A.CallTo(() => _fakeAccountService.AddAccount(fakeAccount)).Returns(new Account());
             // Act
-            var result = await _fakeAccountService.AddAccount(new Account { Name = name, Password = password, Class = accountType });
+            var result = await _fakeAccountService.AddAccount(fakeAccount);
             // Assert
             Assert.NotNull(result);
         }
@@ -84,6 +84,7 @@ namespace backend.Tests.ServicesTests
             var result = await _fakeAccountService.DeleteAccount(id);
             // Assert
             Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Backend.DepartmentService
             _context = context;
         }
 
-        public async Task<ActionResult<IEnumerable<Department>>> GetDepartments()
+        public async Task<ActionResult<IEnumerable<Department>>> GetAllDepartments()
         {
             if (_context.Departments == null)
             {
