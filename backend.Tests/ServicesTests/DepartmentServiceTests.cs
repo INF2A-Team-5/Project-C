@@ -39,6 +39,8 @@ namespace backend.Tests.ServicesTests
             // Assert
             Assert.NotNull(result);
             Assert.IsType<Department>(result.Value);
+            Assert.IsNotType<NotFoundObjectResult>(result);
+
         }
 
         [Theory]
@@ -55,6 +57,8 @@ namespace backend.Tests.ServicesTests
             var result = await _fakeDepartmentService.UpdateDepartment(id, new Department { Name = newName});
             // Assert
             Assert.NotNull(result);
+            Assert.IsNotType<BadRequestResult>(result);
+            Assert.IsNotType<NotFoundResult>(result);
         }
 
         [Theory]
@@ -70,6 +74,7 @@ namespace backend.Tests.ServicesTests
             var result = await _fakeDepartmentService.AddDepartment(fakeDepartment);
             // Assert
             Assert.NotNull(result);
+            Assert.IsNotType<ObjectResult>(result);
             
         }
 
@@ -86,7 +91,7 @@ namespace backend.Tests.ServicesTests
             // Assert
             Assert.NotNull(result);
             Assert.IsType<OkResult>(result);
-            // Assert.IsType<OkObjectResult>(result);
+            Assert.IsNotType<NotFoundResult>(result);
         }
     }
 }

@@ -3,6 +3,7 @@ using Xunit;
 using FakeItEasy;
 using Backend.Entities;
 using Microsoft.AspNetCore.Mvc;
+
 namespace backend.Tests.ServicesTests
 {
     public class AccountServiceTests
@@ -38,6 +39,7 @@ namespace backend.Tests.ServicesTests
             // Assert
             Assert.NotNull(result);
             Assert.IsType<Account>(result.Value);
+            Assert.IsNotType<NotFoundObjectResult>(result);
         }
 
         [Theory]
@@ -55,6 +57,8 @@ namespace backend.Tests.ServicesTests
             var result = await _fakeAccountService.UpdateAccount(id, updatedAccount);
             // Assert
             Assert.NotNull(result);
+            Assert.IsNotType<BadRequestResult>(result);
+            Assert.IsNotType<NotFoundResult>(result);
         }
         
         [Theory]
@@ -70,13 +74,14 @@ namespace backend.Tests.ServicesTests
             var result = await _fakeAccountService.AddAccount(fakeAccount);
             // Assert
             Assert.NotNull(result);
+            Assert.IsNotType<ObjectResult>(result);
         }
         
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
-        public async void AccountService_DeleteAccount_ReturnsIActionResult(int id)
+        public async void AccountService_DeleteAccount_ReturnsNoContent(int id)
         {
             // Arrange
             A.CallTo(() => _fakeAccountService.DeleteAccount(id)).Returns(new OkObjectResult(id));
@@ -85,6 +90,7 @@ namespace backend.Tests.ServicesTests
             // Assert
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result);
+            Assert.IsNotType<NotFoundResult>(result);
         }
     }
 }
