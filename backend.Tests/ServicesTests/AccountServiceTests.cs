@@ -43,6 +43,23 @@ namespace backend.Tests.ServicesTests
         }
 
         [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        public async void AccountService_GetAccountById_ReturnsNotFound(int id)
+        {
+            // Arrange
+            var wrongId = 4;
+            A.CallTo(() => _fakeAccountService.GetAccountById(id)).Returns(new Account());
+            // Act
+            var result = await _fakeAccountService.GetAccountById(wrongId);
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<ActionResult<Account>>(result);
+            Assert.IsNotType<Account>(result.Value);
+        }
+
+        [Theory]
         [InlineData(1, "clientname" , "oldPw", AccountType.Client)]
         [InlineData(2, "empname" , "oldPw", AccountType.ServiceEmployee)]
         [InlineData(3, "adminname" , "oldPw", AccountType.Admin)]
@@ -60,6 +77,25 @@ namespace backend.Tests.ServicesTests
             Assert.IsNotType<BadRequestResult>(result);
             Assert.IsNotType<NotFoundResult>(result);
         }
+
+        [Theory]
+        [InlineData(1, "clientname" , "oldPw", AccountType.Client)]
+        [InlineData(2, "empname" , "oldPw", AccountType.ServiceEmployee)]
+        [InlineData(3, "adminname" , "oldPw", AccountType.Admin)]
+        public async void AccountService_UpdateAccount_ReturnsBadRequest(int id, string name, string password, AccountType accountType)
+        {
+            // Arrange
+            var wrongId = 4;
+            var newPw = "newPw";
+            var fakeAccount = new Account {AccountId = id, Name = name, Password = password, Class = accountType };
+            var updatedAccount = new Account {AccountId = id, Name = name, Password = newPw, Class = accountType };
+            A.CallTo(() => _fakeAccountService.UpdateAccount(id, fakeAccount)).Returns(new OkObjectResult(fakeAccount));
+            // Act
+            var result = await _fakeAccountService.UpdateAccount(wrongId, updatedAccount);
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsNotType<OkResult>(result);
+        }
         
         [Theory]
         [InlineData("testclient" , "testclientpw", AccountType.Client)]
@@ -74,6 +110,7 @@ namespace backend.Tests.ServicesTests
             var result = await _fakeAccountService.AddAccount(fakeAccount);
             // Assert
             Assert.NotNull(result);
+            Assert.IsType<ActionResult<Account>>(result);
             Assert.IsNotType<ObjectResult>(result);
         }
         
@@ -91,6 +128,22 @@ namespace backend.Tests.ServicesTests
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result);
             Assert.IsNotType<NotFoundResult>(result);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        public async void AccountService_DeleteAccount_ReturnsNotFound(int id)
+        {
+            // Arrange
+            var wrongId = 4;
+            A.CallTo(() => _fakeAccountService.DeleteAccount(id)).Returns(new OkObjectResult(id));
+            // Act
+            var result = await _fakeAccountService.DeleteAccount(wrongId);
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsNotType<OkObjectResult>(result);
         }
     }
 }

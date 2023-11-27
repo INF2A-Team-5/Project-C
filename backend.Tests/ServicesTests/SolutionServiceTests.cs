@@ -43,6 +43,23 @@ namespace backend.Tests.ServicesTests
         }
 
         [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        public async void SolutionService_GetSolutionById_ReturnsNotFound(int id)
+        {
+            // Arrange
+            var wrongId = 4;
+            A.CallTo(() => _fakeSolutionService.GetSolutionById(id)).Returns(new Solution());
+            // Act
+            var result = await _fakeSolutionService.GetSolutionById(wrongId);
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<ActionResult<Solution>>(result);
+            Assert.IsNotType<Account>(result);
+        }
+
+        [Theory]
         [InlineData(1, "problemdescription" , "solutiondescription", 1)]
         [InlineData(2, "problemdescription" , "solutiondescription", 2)]
         [InlineData(3, "problemdescription" , "solutiondescription", 3)]
@@ -52,13 +69,34 @@ namespace backend.Tests.ServicesTests
             var newProblemDescription = "newProblemDescription";
             var newSolutionDescription = "newSolutionDescription";
             var fakeSolution = new Solution {SolutionId = id, ProblemDescription = problemDescription, SolutionDescription = solutionDescription, TicketId = ticketId };
+            var updatedSolution = new Solution {SolutionId = id, ProblemDescription = newProblemDescription, SolutionDescription = newSolutionDescription, TicketId = ticketId };
             A.CallTo(() => _fakeSolutionService.UpdateSolution(id, fakeSolution)).Returns(new OkObjectResult(fakeSolution));
             // Act
-            var result = await _fakeSolutionService.UpdateSolution(id, new Solution { ProblemDescription = newProblemDescription, SolutionDescription = newSolutionDescription, TicketId = ticketId});
+            var result = await _fakeSolutionService.UpdateSolution(id, updatedSolution);
             // Assert
             Assert.NotNull(result);
             Assert.IsNotType<BadRequestResult>(result);
             Assert.IsNotType<NotFoundResult>(result);
+        }
+
+        [Theory]
+        [InlineData(1, "problemdescription" , "solutiondescription", 1)]
+        [InlineData(2, "problemdescription" , "solutiondescription", 2)]
+        [InlineData(3, "problemdescription" , "solutiondescription", 3)]
+        public async void SolutionService_UpdateSolution_ReturnsBadRequest(int id, string problemDescription, string solutionDescription, int ticketId)
+        {
+            // Arrange
+            var wrongId = 4;
+            var newProblemDescription = "newProblemDescription";
+            var newSolutionDescription = "newSolutionDescription";
+            var fakeSolution = new Solution {SolutionId = id, ProblemDescription = problemDescription, SolutionDescription = solutionDescription, TicketId = ticketId };
+            var updatedSolution = new Solution {SolutionId = id, ProblemDescription = newProblemDescription, SolutionDescription = newSolutionDescription, TicketId = ticketId };
+            A.CallTo(() => _fakeSolutionService.UpdateSolution(id, fakeSolution)).Returns(new OkObjectResult(fakeSolution));
+            // Act
+            var result = await _fakeSolutionService.UpdateSolution(wrongId, updatedSolution);
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsNotType<OkResult>(result);
         }
 
         [Theory]
@@ -91,6 +129,22 @@ namespace backend.Tests.ServicesTests
             Assert.NotNull(result);
             Assert.IsNotType<BadRequestResult>(result);
             Assert.IsNotType<NotFoundResult>(result);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        public async void SolutionService_DeleteSolution_ReturnsNotFound(int id)
+        {
+            // Arrange
+            var wrongId = 4;
+            A.CallTo(() => _fakeSolutionService.DeleteSolution(id)).Returns(new OkObjectResult(new Solution()));
+            // Act
+            var result = await _fakeSolutionService.DeleteSolution(wrongId);
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsNotType<OkObjectResult>(result);
         }
     }
 }
