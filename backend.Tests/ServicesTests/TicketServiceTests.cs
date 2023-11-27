@@ -92,6 +92,7 @@ namespace backend.Tests.ServicesTests
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
+        [InlineData(4)]
         public async void TicketService_DeleteTicket_ReturnsNoContent(int id)
         {
             // Arrange
