@@ -16,6 +16,7 @@ import DropDown from "../foundations/DropDown";
 import Settings from '../foundations/settings'
 import Textbox from '../foundations/textbox';
 import Checkbox from '../foundations/checkbox';
+import { useTranslation } from 'react-i18next';
 
 // export interface Machine {
 //   MachineId: number; Name: string; Description: string; AccountId: number
@@ -26,6 +27,10 @@ import Checkbox from '../foundations/checkbox';
 // }
 
 function Tickets() {
+  const { t, i18n } = useTranslation();
+  useEffect(() => {
+    i18n.changeLanguage(navigator.language);
+  }, [])
   const [problem, setProblem] = useState('');
   const [mustbedoing, setMustBeDoing] = useState('');
   const [havetried, setHaveTried] = useState('');
@@ -39,6 +44,7 @@ function Tickets() {
   const handleCheckbox = () => {
     setChecked(!isChecked);
   }
+
   class Machine {
     name: string;
     machineId: number;
@@ -106,26 +112,30 @@ function Tickets() {
     }
   }
 
+  async function HandleCancel() {
+    navigate('/client');
+  }
+
   async function handleSubmit() {
     if (phonenumber == "")
     {
-      alert("Please enter a phone number");
+      alert(t('ticket.phonealert'));
       navigate("/tickets");
     }
     if (problem.length != 0  && mustbedoing.length != 0 && havetried.length != 0)
     {
       if (problem.split(" ").length < 20 || mustbedoing.split(" ").length < 20) {
-        alert("The first 2 answers must contain at least 20 words")
+        alert(t('ticket.wordsalert'))
         navigate('/tickets');
       }
       else if (selectMachine == "")
       {
-        alert("Please choose a machine");
+        alert(t('ticket.machinealert'));
         navigate('/tickets');
       }
       if (phonenumber == "" || phonenumber == null)
       {
-        alert("Please enter a phone number");
+        alert(t('ticket.phonealert'));
         navigate("/tickets");
       }
 
@@ -170,14 +180,14 @@ function Tickets() {
         .catch(err =>
             {console.log("Message could not be updated", err)});
 
-        alert("Ticket submitted");
+        alert(t('ticket.submitalert'));
         navigate('/client');
 
       // reader.readAsDataURL(file);
       }
     }
     else {
-      alert("You haven't filled in all necessary fields");
+      alert(t('ticket.emptyalert'));
     }
   }
 
@@ -221,11 +231,11 @@ function Tickets() {
         <Header></Header>
       </div>
       <div className='pb-8'>
-        <h1 className='text-4xl font-medium'>Report error</h1>
-        <p className='text-lg text-grey-900 font-medium'>Give details of the error and we will try to help you as soon as possible</p>
+        <h1 className='text-4xl font-medium'>{t('ticket.header')}</h1>
+        <p className='text-lg text-grey-900 font-medium'>{t('ticket.details')}</p>
       </div>
       <div className='pb-16'>
-        <h2 className='text-lg font-medium'>Select the machine related to the ticket</h2>
+        <h2 className='text-lg font-medium'>{t('ticket.selectmachinedes')}</h2>
         <Button
           type="primary"
           hierarchy='lg'
@@ -234,7 +244,7 @@ function Tickets() {
           onBlur={(e: React.FocusEvent<HTMLButtonElement>): void =>
             dismissHandler(e)}>
           <ChevronDownIcon style={{backgroundColor:"transparent"}} className='relative left-10 top-3 scale-[2]' />
-          {selectMachine ? "Select: " + selectMachine : "Select Machine"} 
+          {selectMachine ? "Select: " + selectMachine : t('ticket.selectmachine')} 
           {showDropDown && (
             <DropDown
               machines={machinenames}
@@ -245,31 +255,31 @@ function Tickets() {
         </Button>
       </div>
       <div className='pb-16'>
-        <h2 className='text-lg font-medium'>What do you see?*</h2>
-        <Textbox placeholder='shit broken' hierarchy='lg' onChange={e => setProblem(e.currentTarget.value)}></Textbox>
-        <p className='text-md text-grey-900 '>Give us a detailed description on any visible defects (Atleast 20 words)</p>
+        <h2 className='text-lg font-medium'>{t('ticket.problem')}</h2>
+        <Textbox placeholder={t('ticket.place1')} hierarchy='lg' onChange={e => setProblem(e.currentTarget.value)}></Textbox>
+        <p className='text-md text-grey-900 '>{t('ticket.problemdes')}</p>
       </div>
       <div className='pb-16'>
-        <h2 className='text-lg font-medium'>What should it do?*</h2>
-        <Textbox placeholder='work' hierarchy='lg' onChange={e => setMustBeDoing(e.currentTarget.value)}></Textbox>
-        <p className='text-md text-grey-900 '>Give us a detailed description on what the machine should do (Atleast 20 words)</p>
+        <h2 className='text-lg font-medium'>{t('ticket.bedoing')}</h2>
+        <Textbox placeholder={t('ticket.place2')} hierarchy='lg' onChange={e => setMustBeDoing(e.currentTarget.value)}></Textbox>
+        <p className='text-md text-grey-900 '>{t('ticket.bedoingdes')}</p>
       </div>
       <div className='pb-16'>
-        <h2 className='text-lg font-medium'>What have you tried?*</h2>
-        <Textbox placeholder='hit with hammer' hierarchy='lg' onChange={e => setHaveTried(e.currentTarget.value)}></Textbox>
-        <p className='text-md text-grey-900 '>Describe all things you have done to try fixing the machine</p>
+        <h2 className='text-lg font-medium'>{t('ticket.havetried')}</h2>
+        <Textbox placeholder={t('ticket.place3')} hierarchy='lg' onChange={e => setHaveTried(e.currentTarget.value)}></Textbox>
+        <p className='text-md text-grey-900 '>{t('ticket.havetrieddes')}</p>
       </div>
       <div className='pb-16'>
         <div className='flex'>
           <Checkbox checked={isChecked} onChange={handleCheckbox} />
-          <p className='text-lg font-medium'>Use other phone Number</p>
+          <p className='text-lg font-medium'>{t('ticket.phonenum')}</p>
         </div>
         {isChecked ? 
-          <><Input hierarchy='sm' placeholder='Enter phone number' onChange={e => setPhonenumber(e.currentTarget.value)} /></>
+          <><Input hierarchy='sm' placeholder={t('ticket.place4')} onChange={e => setPhonenumber(e.currentTarget.value)} /></>
         : null}
       </div>
       <div className='pb-16'>
-        <h2>Upload videos/pictures</h2>
+        <h2>{t('ticket.files')}</h2>
         <Settings></Settings>
         <input
         type="file"
@@ -287,7 +297,8 @@ function Tickets() {
         <Input hierarchy='lg' onChange={e => setPictures(e.currentTarget.value)}/><br></br><br></br>
         <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
       </div> */}
-      <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Submit</Button>    
+      <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">{t('ticket.submit')}</Button> 
+      <Button hierarchy='md' type="destructive" onClick={HandleCancel} rounded="slight">{t('ticket.cancel')}</Button>   
       <div className='py-5'></div>    
     </div>
 

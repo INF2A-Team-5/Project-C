@@ -46,7 +46,32 @@ i18n
             description: "Give us a detailed description on what you want to update the ticket with",
             pictures: "Add pictures",
             submit: "Submit",
-            cancel: "cancel"
+            cancel: "Cancel"
+          },
+          ticket: {
+            phonealert: "Please enter a phone number",
+            wordsalert: "The first 2 answers must contain at least 20 words",
+            machinealert: "Please choose a machine",
+            submitalert: "Ticket submitted",
+            submit: 'Submit',
+            emptyalert: "You haven't filled in all necessary fields",
+            header: "Report error",
+            details: "Give details of the error and we will try to help you as soon as possible",
+            selectmachine: "Select Machine",
+            selectmachinedes: "Select the machine related to the ticket",
+            place1: "shit broken...",
+            place2: "Pack in stuff...",
+            place3: "Restarted the machine...",
+            place4: "Enter phonenumber",
+            problem: "What do you see?*",
+            problemdes: "Give us a detailed description on any visible defects (Atleast 20 words)",
+            bedoing: "What should it do?*",
+            bedoingdes: "Give us a detailed description on what the machine should do (Atleast 20 words)",
+            havetried: "What have you tried?*",
+            havetrieddes: "Describe all things you have done to try fixing the machine",
+            phonenum: "Use other phone Number",
+            files: "Upload files",
+            cancel: "Cancel"
           }
         }
       },
@@ -83,6 +108,31 @@ i18n
             description: "Geef ons een gedetailleerde beschrijving waarmee je de ticket wilt updaten",
             pictures: "Voeg eventuele foto's toe",
             submit: "Dien in",
+            cancel: "Annuleer"
+          },
+          ticket: {
+            phonealert: "Vul AUB je telefoonnummer in",
+            wordsalert: "De eerste 2 antwoorden moeten 20 woorden bevatten",
+            machinealert: "Kies AUB een machine",
+            submitalert: "Ticket ingediend",
+            submit: 'Dien in',
+            emptyalert: "Je hebt nog niet alle verplichte velden ingevuld",
+            header: "Meld een foutmelding",
+            details: "Geef alle details van de foutmelding en we zullen je zo snel mogelijk helpen",
+            selectmachine: "Selecteer Machine",
+            selectmachinedes: "Selecteer de machine waar je een melding van wilt maken",
+            place1: "Er zijn dingen kapot...",
+            place2: "Spullen in te pakken",
+            place3: "Machine opnieuw aangezet",
+            place4: "Vul telefoonnummer in",
+            problem: "Wat zie je gebeuren?*",
+            problemdes: "Geef ons een gedetailleerde beschrijving van zichtbare defecten (Tenminste 20 woorden)",
+            bedoing: "Wat hoort de machine te doen?*",
+            bedoingdes: "Geef ons een gedetailleerde beschrijving van wat de machine hoort te doen (Tenminste 20 woorden)",
+            havetried: "Wat heb je al geprobeerd?*",
+            havetrieddes: "Beschrijf alles wat je al hebt geprobeerd om het probleem op te lossen",
+            phonenum: "Kies een ander telefoonnummer dan van account",
+            files: "Upload bestanden",
             cancel: "Annuleer"
           }
         }
