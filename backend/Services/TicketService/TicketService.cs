@@ -13,7 +13,7 @@ namespace Backend.TicketService
             _context = context;
         }
 
-        public async Task<ActionResult<IEnumerable<Ticket>>> GetTickets()
+        public async Task<ActionResult<IEnumerable<Ticket>>> GetAllTickets()
         {
             if (_context.Accounts == null)
             {

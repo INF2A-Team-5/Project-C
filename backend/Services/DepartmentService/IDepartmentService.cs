@@ -5,7 +5,7 @@ namespace Backend.DepartmentService
 {
     public interface IDepartmentService
     {
-        Task<ActionResult<IEnumerable<Department>>> GetDepartments();
+        Task<ActionResult<IEnumerable<Department>>> GetAllDepartments();
         Task<ActionResult<Department>> GetDepartmentById(int id);
         Task<IActionResult> UpdateDepartment(int id, Department department);
         Task<ActionResult<Department>> AddDepartment(Department department);

@@ -5,7 +5,7 @@ namespace Backend.SolutionService
 {
     public interface ISolutionService
     {
-        Task<ActionResult<IEnumerable<Solution>>> GetSolutions();
+        Task<ActionResult<IEnumerable<Solution>>> GetAllSolutions();
         Task<ActionResult<Solution>> GetSolutionById(int id);
         Task<IActionResult> UpdateSolution(int id, Solution solution);
         Task<ActionResult<Solution>> AddSolution(Solution solution);

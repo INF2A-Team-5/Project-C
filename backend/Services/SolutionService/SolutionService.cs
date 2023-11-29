@@ -13,7 +13,7 @@ namespace Backend.SolutionService
             _context = context;
         }
 
-        public async Task<ActionResult<IEnumerable<Solution>>> GetSolutions()
+        public async Task<ActionResult<IEnumerable<Solution>>> GetAllSolutions()
         {
             if (_context.Solutions == null)
             {
