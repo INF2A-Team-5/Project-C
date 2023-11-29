@@ -1,17 +1,9 @@
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import i18next from "i18next";
-
 import {
   HamburgerMenuIcon,
-  ExitIcon,
-  Pencil1Icon,
-  GlobeIcon,
-  MagicWandIcon,
-  SunIcon,
   MoonIcon,
+  SunIcon
 } from "@radix-ui/react-icons";
-
 import {
   DropdownMenu,
   DropdownMenuContent,

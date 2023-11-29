@@ -1,4 +1,3 @@
-
 import Header from "../foundations/header";
 import React, {
   ComponentProps,
@@ -17,11 +16,11 @@ import { useNavigate } from "react-router-dom";
 // import axios from 'axios';
 import DropDown from "../foundations/DropDown";
 import Settings from "../foundations/settings";
-import Textbox from "../foundations/textbox";
 import { Button } from "../ui/button";
 import { Checkbox } from "@radix-ui/react-checkbox";
 import { Input } from "../ui/input";
-
+import { Textarea, TextareaHint } from "../ui/textarea";
+import { Label } from "../ui/label";
 
 // export interface Machine {
 //   MachineId: number; Name: string; Description: string; AccountId: number
@@ -89,7 +88,7 @@ function Tickets() {
     );
   }
 
-  async function HandleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+  async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
     // const target = e.target as HTMLInputElement & {
     //   files: FileList;
     // }
@@ -260,44 +259,42 @@ function Tickets() {
         </Button>
       </div>
       <div className="pb-16">
-        <h2 className="text-lg font-medium">What do you see?*</h2>
-        <Textbox
+        <Label>What do you see?*</Label>
+        <Textarea
+          required
           placeholder="shit broken"
-          hierarchy="lg"
           onChange={(e) => setProblem(e.currentTarget.value)}
-        ></Textbox>
-        <p className="text-md text-grey-900 ">
+        />
+        <TextareaHint>
           Give us a detailed description on any visible defects (Atleast 20
           words)
-        </p>
+        </TextareaHint>
       </div>
       <div className="pb-16">
-        <h2 className="text-lg font-medium">What should it do?*</h2>
-        <Textbox
+        <Label>What should it do?*</Label>
+        <Textarea
           placeholder="work"
-          hierarchy="lg"
           onChange={(e) => setMustBeDoing(e.currentTarget.value)}
-        ></Textbox>
-        <p className="text-md text-grey-900 ">
+        />
+        <TextareaHint>
           Give us a detailed description on what the machine should do (Atleast
           20 words)
-        </p>
+        </TextareaHint>
       </div>
       <div className="pb-16">
-        <h2 className="text-lg font-medium">What have you tried?*</h2>
-        <Textbox
+        <Label>What have you tried?*</Label>
+        <Textarea
           placeholder="hit with hammer"
-          hierarchy="lg"
           onChange={(e) => setHaveTried(e.currentTarget.value)}
-        ></Textbox>
-        <p className="text-md text-grey-900 ">
+        />
+        <TextareaHint>
           Describe all things you have done to try fixing the machine
-        </p>
+        </TextareaHint>
       </div>
       <div className="pb-16">
         <div className="flex">
           <Checkbox checked={isChecked} onChange={handleCheckbox} />
-          <p className="text-lg font-medium">Use other phone Number</p>
+          <TextareaHint>Use other phone Number</TextareaHint>
         </div>
         {isChecked ? (
           <>
@@ -309,16 +306,17 @@ function Tickets() {
         ) : null}
       </div>
       <div className="pb-16">
-        <h2>Upload videos/pictures</h2>
-        <Settings></Settings>
-        <input
-          type="file"
-          name="image"
-          accept="image/png, image/jpg"
-          onChange={HandleOnChange}
-          multiple
-        />
-        <br></br>
+        <div className="grid w-full max-w-sm items-center gap-1.5">
+          <Label>Upload videos/pictures</Label>
+          <Input
+            name="image"
+            multiple={true}
+            onChange={handleFileUpload}
+            accept="image/png, image/jpg"
+            id="picture"
+            type="file"
+          />
+        </div>
         {preview.map((previewItem, index) => (
           <img
             key={index}
@@ -328,15 +326,11 @@ function Tickets() {
         ))}
       </div>
       {/* <div className='pb-16'>
-        <h2>Upload videos/pictures</h2>
+        <Label>Upload videos/pictures</Label>
         <Input hierarchy='lg' onChange={e => setPictures(e.currentTarget.value)}/><br></br><br></br>
         <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
       </div> */}
-      <Button
-        onClick={handleSubmit}
-      >
-        Submit
-      </Button>
+      <Button onClick={handleSubmit}>Submit</Button>
       <div className="py-5"></div>
     </div>
   );
