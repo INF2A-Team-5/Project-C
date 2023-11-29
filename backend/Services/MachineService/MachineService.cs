@@ -13,7 +13,7 @@ namespace Backend.MachineService
             _context = context;
         }
 
-        public async Task<ActionResult<IEnumerable<Machine>>> GetMachines()
+        public async Task<ActionResult<IEnumerable<Machine>>> GetAllMachines()
         {
             if (_context.Machines == null)
             {

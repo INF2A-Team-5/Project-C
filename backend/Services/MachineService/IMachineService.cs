@@ -5,7 +5,7 @@ namespace Backend.MachineService
 {
     public interface IMachineService
     {
-        Task<ActionResult<IEnumerable<Machine>>> GetMachines();
+        Task<ActionResult<IEnumerable<Machine>>> GetAllMachines();
         Task<ActionResult<Machine>> GetMachineById(int id);
         Task<ActionResult<IEnumerable<Machine>>> GetMachinePerAccountId(int id);
         Task<IActionResult> UpdateMachine(int id, Machine machine);

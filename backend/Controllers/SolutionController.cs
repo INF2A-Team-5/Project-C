@@ -15,7 +15,7 @@ namespace Backend.Controllers
         {
             _solutionService = solutionService;
         }
-        [HttpGet] public async Task<ActionResult<IEnumerable<Solution>>> GetSolutions() => await _solutionService.GetSolutions();
+        [HttpGet] public async Task<ActionResult<IEnumerable<Solution>>> GetAllSolutions() => await _solutionService.GetAllSolutions();
         [HttpGet("{id}")] public async Task<ActionResult<Solution>> GetSolutionById(int id) => await _solutionService.GetSolutionById(id);
         [HttpPut("{id}")] public async Task<IActionResult> UpdateSolution(int id, Solution solution) => await _solutionService.UpdateSolution(id, solution);
         [HttpPost] public async Task<ActionResult<Solution>> AddSolution(Solution newSolution) => await _solutionService.AddSolution(newSolution);
