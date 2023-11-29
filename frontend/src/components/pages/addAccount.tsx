@@ -1,7 +1,7 @@
-import Input from "../foundations/input";
-import Button from "../foundations/button";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Settings from "../foundations/settings";
 
 function AddAccount() {
@@ -57,7 +57,6 @@ function AddAccount() {
       <h2>Add Account</h2>
       <div>
         <Input
-          hierarchy="md"
           name="username"
           placeholder="Enter Username"
           onChange={(e) => setUsername(e.currentTarget.value)}
@@ -66,7 +65,6 @@ function AddAccount() {
       <h3></h3>
       <div>
         <Input
-          hierarchy="md"
           name="password"
           placeholder="Enter Password"
           onChange={(e) => setPassword(e.currentTarget.value)}
@@ -82,23 +80,20 @@ function AddAccount() {
       </div>
       <br />
       <Settings></Settings>
-      <Button
-        hierarchy="xl"
-        type="primary"
-        onClick={handleSubmit}
-        rounded="slight"
-      >
+      <Button size="lg" variant="default" onClick={handleSubmit}>
         Add Account
       </Button>
       <h3></h3>
-      <Button
-        hierarchy="md"
-        type="destructive"
-        onClick={() => (window.location.href = "/admin")}
-        rounded="slight"
+      <Link
+        to="/admin"
       >
-        Back
-      </Button>
+        <Button
+          size="default"
+          variant="destructive"
+        >
+          Back
+        </Button>
+      </Link>
     </div>
   );
 }

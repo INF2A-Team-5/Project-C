@@ -1,6 +1,5 @@
-import Button from "../foundations/button";
+
 import Header from "../foundations/header";
-import Input from "../foundations/input";
 import React, {
   ComponentProps,
   SetStateAction,
@@ -19,7 +18,10 @@ import { useNavigate } from "react-router-dom";
 import DropDown from "../foundations/DropDown";
 import Settings from "../foundations/settings";
 import Textbox from "../foundations/textbox";
-import Checkbox from "../foundations/checkbox";
+import { Button } from "../ui/button";
+import { Checkbox } from "@radix-ui/react-checkbox";
+import { Input } from "../ui/input";
+
 
 // export interface Machine {
 //   MachineId: number; Name: string; Description: string; AccountId: number
@@ -236,8 +238,6 @@ function Tickets() {
           Select the machine related to the ticket
         </h2>
         <Button
-          type="primary"
-          hierarchy="lg"
           // className={showDropDown ? "active" : undefined}
           onClick={(): void => toggleDropDown()}
           onBlur={(e: React.FocusEvent<HTMLButtonElement>): void =>
@@ -302,7 +302,6 @@ function Tickets() {
         {isChecked ? (
           <>
             <Input
-              hierarchy="sm"
               placeholder="Enter phone number"
               onChange={(e) => setPhonenumber(e.currentTarget.value)}
             />
@@ -334,10 +333,7 @@ function Tickets() {
         <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
       </div> */}
       <Button
-        hierarchy="xl"
-        type="primary"
         onClick={handleSubmit}
-        rounded="slight"
       >
         Submit
       </Button>

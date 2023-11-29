@@ -1,8 +1,8 @@
 import { useState } from "react";
-import Button from "../foundations/button";
 import Settings from "../foundations/settings";
 import { DataRow } from "../../services/DataRow";
 import NewTable from "../foundations/newTable";
+import { Button } from "../ui/button";
 
 function Admin() {
   const [AllTickets, SetAllTickets] = useState<DataRow[]>([]);
@@ -27,37 +27,25 @@ function Admin() {
       <h1>Admin</h1>
       <Settings></Settings>
       <Button
-        hierarchy="xl"
-        type="primary"
         onClick={() => (window.location.href = "/add-account")}
-        rounded="slight"
       >
         Add account
       </Button>
       <h3></h3>
       <Button
-        hierarchy="xl"
-        type="primary"
         onClick={() => (window.location.href = "/add-machine")}
-        rounded="slight"
       >
         Add machine
       </Button>
       <h3></h3>
       <Button
-        hierarchy="xl"
-        type="primary"
         onClick={() => (window.location.href = "/add-department")}
-        rounded="slight"
       >
         Add department
       </Button>
       <h3></h3>
       <Button
-        hierarchy="xl"
-        type="primary"
         onClick={() => (window.location.href = "/add-solution")}
-        rounded="slight"
       >
         Add solution
       </Button>

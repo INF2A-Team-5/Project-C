@@ -1,9 +1,14 @@
-import { useAuthenticated } from "./components/hooks/useAuthenticated";
+import { useAuthenticated } from "./lib/hooks/useAuthenticated";
+import { Button } from "./components/ui/button";
 
 function App() {
-  useAuthenticated();
+  //useAuthenticated();
 
-  return <div></div>;
+  return (
+    <div>
+      <Button>Test</Button>
+    </div>
+  );
 }
 
 export default App;

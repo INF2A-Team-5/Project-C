@@ -1,17 +1,18 @@
-import Header from "../../foundations/header";
-import Input from "../../foundations/input";
-import Button from "../../foundations/button";
 import Settings from "../../foundations/settings";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Cookies from "js-cookie";
+import { t } from "i18next";
+import Header from "@/components/foundations/header";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 function LogIn() {
-  const { t, i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(navigator.language);
-  }, []);
+  // const { t, i18n } = useTranslation();
+  // useEffect(() => {
+  //   i18n.changeLanguage(navigator.language);
+  // }, []);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -90,7 +91,6 @@ function LogIn() {
           <h3 className="text-lg text-grey-900 py-2">{t("login.username")}</h3>
           <div>
             <Input
-              hierarchy="md"
               name="username"
               placeholder="Username"
               onChange={(e) => setUsername(e.currentTarget.value)}
@@ -101,7 +101,6 @@ function LogIn() {
             {/* <Input hierarchy="md" /> */}
 
             <Input
-              hierarchy="md"
               name="password"
               placeholder="******"
               type="password"
@@ -114,10 +113,8 @@ function LogIn() {
           </label>
           <br />
           <Button
-            hierarchy="xl2"
-            type="primary"
+            variant="default"
             onClick={handleSubmit}
-            rounded="slight"
           >
             {t("login.log_in")}
           </Button>

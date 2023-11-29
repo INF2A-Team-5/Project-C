@@ -1,9 +1,9 @@
-import Button from "../foundations/button";
 import React from "react";
 import Table from "../foundations/table";
 import Settings from "../foundations/settings";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Cross1Icon } from "@radix-ui/react-icons";
+import { Button } from "../ui/button";
 
 function Client() {
   function toTicket() {
@@ -42,12 +42,12 @@ function Client() {
             </Dialog.Close>
             <div className="flex justify-end pt-4 pr-10 bg-white dark:bg-dark-400">
               <Dialog.Close className="pr-6">
-                <Button hierarchy="md" type="tertiary">
+                <Button >
                   No I haven't
                 </Button>
               </Dialog.Close>
               <div>
-                <Button hierarchy="md" type="primary" onClick={toTicket}>
+                <Button  onClick={toTicket}>
                   Yes I have
                 </Button>
               </div>

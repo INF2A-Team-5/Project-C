@@ -2,8 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import DataTable, { TableColumn } from "react-data-table-component";
 import { ArrowDownIcon } from "@radix-ui/react-icons";
-import Button from "./button";
 import { useState } from "react";
+import { Button } from "../ui/button";
 
 function handleButtonClick(
   e: React.MouseEvent<HTMLButtonElement, MouseEvent>,

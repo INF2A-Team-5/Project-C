@@ -1,8 +1,8 @@
-import Input from "../foundations/input";
-import Button from "../foundations/button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Settings from "../foundations/settings";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 function AddMachine() {
   const [name, setName] = useState("");
@@ -61,7 +61,6 @@ function AddMachine() {
       <h2>Add Machine</h2>
       <div>
         <Input
-          hierarchy="md"
           name="username"
           placeholder="Enter Machine Name"
           onChange={(e) => setName(e.currentTarget.value)}
@@ -70,7 +69,6 @@ function AddMachine() {
       <h3></h3>
       <div>
         <Input
-          hierarchy="md"
           name="username"
           placeholder="Enter Description"
           onChange={(e) => setDescription(e.currentTarget.value)}
@@ -79,7 +77,6 @@ function AddMachine() {
       <h3></h3>
       <div>
         <Input
-          hierarchy="md"
           name="username"
           placeholder="Enter Account ID"
           onChange={(e) => setAccountId(parseInt(e.currentTarget.value))}
@@ -87,20 +84,13 @@ function AddMachine() {
       </div>
       <br />
       <Settings></Settings>
-      <Button
-        hierarchy="xl"
-        type="primary"
-        onClick={handleSubmit}
-        rounded="slight"
-      >
+      <Button onClick={handleSubmit}>
         Add Machine
       </Button>
       <h3></h3>
       <Button
-        hierarchy="md"
-        type="destructive"
+        variant="destructive"
         onClick={() => (window.location.href = "/admin")}
-        rounded="slight"
       >
         Back
       </Button>

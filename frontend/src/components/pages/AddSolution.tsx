@@ -1,8 +1,8 @@
-import Input from "../foundations/input";
-import Button from "../foundations/button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Settings from "../foundations/settings";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 function AddSolution() {
   const [problemDescription, setProblemDescription] = useState("");
@@ -47,7 +47,6 @@ function AddSolution() {
       <h2>Add Solution</h2>
       <div>
         <Input
-          hierarchy="md"
           name="username"
           placeholder="Enter Description of the Problem"
           onChange={(e) => setProblemDescription(e.currentTarget.value)}
@@ -56,7 +55,6 @@ function AddSolution() {
       <h3></h3>
       <div>
         <Input
-          hierarchy="md"
           name="username"
           placeholder="Enter a Description of the Solution"
           onChange={(e) => setSolutionDescription(e.currentTarget.value)}
@@ -65,7 +63,6 @@ function AddSolution() {
       <h3></h3>
       <div>
         <Input
-          hierarchy="md"
           name="username"
           placeholder="Enter Ticket ID"
           onChange={(e) => setTicketId(parseInt(e.currentTarget.value))}
@@ -73,20 +70,13 @@ function AddSolution() {
       </div>
       <br />
       <Settings></Settings>
-      <Button
-        hierarchy="xl"
-        type="primary"
-        onClick={handleSubmit}
-        rounded="slight"
-      >
+      <Button variant="default" onClick={handleSubmit}>
         Add Solution
       </Button>
       <h3></h3>
       <Button
-        hierarchy="md"
-        type="destructive"
+        variant="destructive"
         onClick={() => (window.location.href = "/admin")}
-        rounded="slight"
       >
         Back
       </Button>

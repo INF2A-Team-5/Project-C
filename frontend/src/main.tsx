@@ -1,8 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 import "./styles/index.css";
+import "./styles/globals.css";
 import "./styles/foundations.css";
+
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 import Tickets from "./components/pages/tickets";
 import Client from "./components/pages/client";
