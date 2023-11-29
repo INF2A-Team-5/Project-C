@@ -104,7 +104,7 @@ namespace backend.Migrations
                     Date_Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Solution = table.Column<string>(type: "text", nullable: true),
                     PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    Notes = table.Column<string>(type: "text", nullable: true),
+                    Notes = table.Column<string[]>(type: "text[]", nullable: true),
                     Files = table.Column<string[]>(type: "text[]", nullable: true)
                 },
                 constraints: table =>

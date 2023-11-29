@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import Settings from '../foundations/settings'
 import Textbox from '../foundations/textbox'
 import { useTranslation } from 'react-i18next';
+import DropDown from '../foundations/DropDown'
 
 
 function EditTicket() {
@@ -15,6 +16,15 @@ function EditTicket() {
     const navigate = useNavigate();
     const [notes, setNotes] = useState('');
     const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
+    const [ticketInfo, setTicketInfo] = useState(null);
+    const ticketid = localStorage.getItem("currentticket");
+    
+
+    const [showDropDown, setShowDropDown] = useState<boolean>(false);
+    const toggleDropDown = () => {
+      setShowDropDown(!showDropDown);
+      ShowTicket();
+    };
 
     async function HandleCancel() {
         navigate('/client');
@@ -43,9 +53,7 @@ function EditTicket() {
           }
         }
       }
-
-    async function HandleSubmit() {
-      const ticketid = localStorage.getItem("currentticket")
+    async function GetTicket() {
       let currentticket = await fetch("http://localhost:5119/api/tickets/" + ticketid,
       {
         method: "GET",
@@ -54,29 +62,36 @@ function EditTicket() {
           "Content-Type": "application/json",
         }
       }).then(data => data.json());
-
       console.log(currentticket);
-      
+      return currentticket
+    }
+    
+    async function ShowTicket() {
+      const currentticket = await GetTicket();
+      setTicketInfo(currentticket);
+
+    }
+
+    async function HandleSubmit() {
+      const currentticket = await GetTicket();
       const ticket = 
         {
-          "TicketId": ticketid,
-          "Machine_Id": currentticket.Machine_Id,
-          "Customer_Id": currentticket.Customer_,
-          "Assigned_Id": currentticket.Assigned_Id,
-          "Priority": currentticket.Priority,
-          "Status": currentticket.Status,
+          "TicketId": currentticket.ticketId,
+          "Machine_Id": currentticket.machine_Id,
+          "Customer_Id": currentticket.customer_Id,
+          "Assigned_Id": currentticket.assigned_Id,
+          "Priority": currentticket.priority,
+          "Status": currentticket.status,
 
-          "Problem": currentticket.Problem,
-          "HaveTried": currentticket.HaveTried,
-          "MustBeDoing": currentticket.MustBedBing,
-          "Date_Created": currentticket.Date_Created,
+          "Problem": currentticket.problem,
+          "HaveTried": currentticket.haveTried,
+          "MustBeDoing": currentticket.mustBeDoing,
+          "Date_Created": currentticket.date_Created,
         
-          "Solution": currentticket.Solution,
-          "PhoneNumber": currentticket.PhoneNumber,
-          "Notes": currentticket.Notes ? [...currentticket.Notes, notes] : [notes],
+          "Solution": currentticket.solution,
+          "PhoneNumber": currentticket.phoneNumber,
+          "Notes": currentticket.notes ? [...currentticket.notes, notes] : [notes],
           "files": currentticket.files ? [...currentticket.files, ...preview] : [...preview]
-          
-         
         }
     
     try {
@@ -93,13 +108,15 @@ function EditTicket() {
       const errorResponse = await response.text(); // Capture response content
       throw new Error(`HTTP error! Status: ${response.status}. Error message: ${JSON.stringify(errorResponse)}`);
     }
-
+    alert("Ticket updated")
+    navigate("/client")
     // If needed, you can handle the response data here
   } catch (error) {
     console.error('Error during PUT request:', error);
   }
     
     }
+    
 
     return (
         
@@ -109,6 +126,16 @@ function EditTicket() {
         <h1 className='text-4xl font-medium'>{t('editticket.header')}</h1>
         </div>
         <div className='pb-16'>
+        <Button hierarchy='lg' type='primary' onClick={ShowTicket}>
+                Show ticket information
+            </Button>
+            {ticketInfo && (
+                <div>
+                    <h2>Ticket Information:</h2>
+                    <p>Ticket ID: {ticketInfo}</p>
+                    {/* Display other ticket details */}
+                </div>
+            )}
         <h2 className='text-lg font-medium'>{t('editticket.notes')}</h2>
         <Textbox placeholder={t('editticket.notes2')} hierarchy='lg' onChange={e => setNotes(e.currentTarget.value)}></Textbox>
         <p className='text-md text-grey-900 '>{t('editticket.description')}</p>

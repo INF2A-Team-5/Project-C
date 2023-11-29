@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231126133058_migration1")]
+    [Migration("20231129104140_migration1")]
     partial class migration1
     {
         /// <inheritdoc />
@@ -148,8 +148,8 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Notes")
-                        .HasColumnType("text");
+                    b.Property<string[]>("Notes")
+                        .HasColumnType("text[]");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("text");
