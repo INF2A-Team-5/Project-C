@@ -1,8 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {  createBrowserRouter,
-          RouterProvider,
-          Route } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./styles/index.css";
 import "./styles/foundations.css";
 import App from "./App";
@@ -15,55 +13,72 @@ import AddMachine from "./components/pages/addMachine";
 import AddDepartment from "./components/pages/addDepartment";
 import AddSolution from "./components/pages/AddSolution";
 import EditAccount from "./components/pages/EditAccount";
-import './translations/i18n';
-
+import "./translations/i18n";
+import LogIn from "./components/pages/auth/log-in";
+import Register from "./components/pages/auth/register";
+import ForgotPassword from "./components/pages/auth/forgot-password";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />
+    element: <App />,
+  },
+
+  /** AUTH */
+  {
+    path: '/auth/login',
+    element: <LogIn />
   },
   {
+    path: '/auth/register',
+    element: <Register />
+  },
+  {
+    path: '/auth/forgot-password',
+    element: <ForgotPassword />
+  },
+
+  /** OTHER */
+  {
     path: "tickets",
-    element: <Tickets />
+    element: <Tickets />,
   },
   {
     path: "client",
-    element: <Client />
+    element: <Client />,
   },
   {
     path: "serviceEmployee",
-    element: <ServiceEmployee />
+    element: <ServiceEmployee />,
   },
   {
     path: "admin",
-    element: <Admin />
+    element: <Admin />,
   },
   {
     path: "add-account",
-    element: <AddAccount />
+    element: <AddAccount />,
   },
   {
     path: "add-machine",
-    element: <AddMachine />
+    element: <AddMachine />,
   },
   {
     path: "add-department",
-    element: <AddDepartment />
+    element: <AddDepartment />,
   },
   {
     path: "add-solution",
-    element: <AddSolution />
+    element: <AddSolution />,
   },
   {
     path: "edit-account",
-    element: <EditAccount />
-  }
-])
-
+    element: <EditAccount />,
+  },
+]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router}/>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );

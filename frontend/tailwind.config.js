@@ -33,6 +33,7 @@ export default {
       },
     },
     colors: {
+      transparent: "transparent",
       white: '#FFFFFF',
 			black: '#000000',
 			primary: {

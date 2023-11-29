@@ -16,6 +16,8 @@
     "@types/js-cookie": "^3.0.6",
     "axios": "^1.5.1",
     "bootstrap": "^4.6.2",
+    "class-variance-authority": "^0.7.0",
+    "cva": "0.0.0",
     "i18next": "^23.6.0",
     "i18next-browser-languagedetector": "^7.1.0",
     "js-cookie": "^3.0.5",

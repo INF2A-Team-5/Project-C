@@ -15,6 +15,7 @@ namespace Backend.Controllers
         {
             _departmentService = departmentService;
         }
+        
         [HttpGet] public async Task<ActionResult<IEnumerable<Department>>> GetAllDepartments() => await _departmentService.GetAllDepartments();
         [HttpGet("{id}")] public async Task<ActionResult<Department>> GetDepartmentById(int id) => await _departmentService.GetDepartmentById(id);
         [HttpPut("{id}")] public async Task<IActionResult> UpdateDepartment(int id, Department department) => await _departmentService.UpdateDepartment(id, department);
