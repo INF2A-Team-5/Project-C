@@ -1,86 +1,109 @@
-import Input from '../foundations/input'
-import Button from '../foundations/button'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Settings from '../foundations/settings'
+import Input from "../foundations/input";
+import Button from "../foundations/button";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Settings from "../foundations/settings";
 
 function AddMachine() {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [accountId, setAccountId] = useState(0);
   const navigate = useNavigate();
 
   async function handleSubmit() {
-    const machine = await fetch("http://localhost:5119/api/machines/" + localStorage.getItem("Id"),
-    {
-      method: "GET",
-      headers: 
+    const machine = await fetch(
+      "http://localhost:5119/api/machines/" + localStorage.getItem("Id"),
       {
-        "Authorization": "bearer " + localStorage.getItem("Token"),
+        method: "GET",
+        headers: {
+          Authorization: "bearer " + localStorage.getItem("Token"),
+        },
       }
-    })
-    .then(data => data.json()).then(machines => machines.find((mach: any) => mach.name == name))
+    )
+      .then((data) => data.json())
+      .then((machines) => machines.find((mach: any) => mach.name == name));
 
-    if (machine !== undefined){
+    if (machine !== undefined) {
       alert("Machine name already exists");
-    }
-    
-    else if (name == "")
-    {
+    } else if (name == "") {
       alert("Enter a name");
-    }    
-    
-    else if (description == "")
-    {
+    } else if (description == "") {
       alert("Enter a description");
-    }
-
-    else if (!accountId || isNaN(accountId)) {
+    } else if (!accountId || isNaN(accountId)) {
       alert("Enter a valid account ID");
     }
 
     //post request
-    else
-    {
+    else {
       const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' , "Authorization": "bearer " + localStorage.getItem("Token") },
-        body: JSON.stringify({"machineId": 0, "name": name, "description": description, "accountId": accountId})
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "bearer " + localStorage.getItem("Token"),
+        },
+        body: JSON.stringify({
+          machineId: 0,
+          name: name,
+          description: description,
+          accountId: accountId,
+        }),
       };
-      fetch('http://localhost:5119/api/machines', requestOptions)
-        .then(response => response.json())
-        .then(data => alert("Machine added"));  
-      
-      navigate('/admin')
-    }
+      fetch("http://localhost:5119/api/machines", requestOptions)
+        .then((response) => response.json())
+        .then((data) => alert("Machine added"));
 
-}
+      navigate("/admin");
+    }
+  }
 
   return (
-    <div className='text-center'>
-        <h2>Add Machine</h2>
-        <div>
-          <Input hierarchy='md' name='username' placeholder='Enter Machine Name'
-          onChange={e => setName(e.currentTarget.value)}
-          />
-        </div>
-        <h3></h3>
-        <div>
-          <Input hierarchy='md' name='username' placeholder='Enter Description'
-          onChange={e => setDescription(e.currentTarget.value)}
-          />
-        </div>
-        <h3></h3>
-        <div>
-          <Input hierarchy='md' name='username' placeholder='Enter Account ID'
-          onChange={e => setAccountId(parseInt(e.currentTarget.value))}
-          />
-        </div>
-        <br />
-        <Settings></Settings>
-        <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Add Machine</Button>
-        <h3></h3>
-        <Button hierarchy='md' type="destructive" onClick={() => window.location.href='/admin'} rounded="slight">Back</Button>
+    <div className="text-center">
+      <h2>Add Machine</h2>
+      <div>
+        <Input
+          hierarchy="md"
+          name="username"
+          placeholder="Enter Machine Name"
+          onChange={(e) => setName(e.currentTarget.value)}
+        />
+      </div>
+      <h3></h3>
+      <div>
+        <Input
+          hierarchy="md"
+          name="username"
+          placeholder="Enter Description"
+          onChange={(e) => setDescription(e.currentTarget.value)}
+        />
+      </div>
+      <h3></h3>
+      <div>
+        <Input
+          hierarchy="md"
+          name="username"
+          placeholder="Enter Account ID"
+          onChange={(e) => setAccountId(parseInt(e.currentTarget.value))}
+        />
+      </div>
+      <br />
+      <Settings></Settings>
+      <Button
+        hierarchy="xl"
+        type="primary"
+        onClick={handleSubmit}
+        rounded="slight"
+      >
+        Add Machine
+      </Button>
+      <h3></h3>
+      <Button
+        hierarchy="md"
+        type="destructive"
+        onClick={() => (window.location.href = "/admin")}
+        rounded="slight"
+      >
+        Back
+      </Button>
     </div>
   );
 }

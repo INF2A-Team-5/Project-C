@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 import Button from "./button";
 
 export function Navbar() {
   return (
     <header>
       <nav>
-        <NavItem name='Home' href='/' />
-        <NavItem name='Tickets' href='/tickets' />
-        <NavItem name='Contact' href='/contact' />
+        <NavItem name="Home" href="/" />
+        <NavItem name="Tickets" href="/tickets" />
+        <NavItem name="Contact" href="/contact" />
       </nav>
       <Button>Save Ticket</Button>
     </header>

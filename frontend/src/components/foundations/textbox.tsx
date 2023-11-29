@@ -16,12 +16,18 @@ const styles = {
     none: "rounded-none",
   },
 };
-function Textbox({ hierarchy = "md", rounded="slight",...props }: InputProps) {
-  let border = "px-4 py-2 my-2 border-2 border-grey-500 outline-none outline-4 outline-transparent focus:outline-primary-500 dark:border-secondary-700 resize-none overflow-auto custom-scrollbar";
+function Textbox({
+  hierarchy = "md",
+  rounded = "slight",
+  ...props
+}: InputProps) {
+  let border =
+    "px-4 py-2 my-2 border-2 border-grey-500 outline-none outline-4 outline-transparent focus:outline-primary-500 dark:border-secondary-700 resize-none overflow-auto custom-scrollbar";
   return (
-    <textarea className={`${border} ${styles.rounded[rounded]} ${styles.hierarchy[hierarchy]}`} {...props}>
-
-    </textarea>
+    <textarea
+      className={`${border} ${styles.rounded[rounded]} ${styles.hierarchy[hierarchy]}`}
+      {...props}
+    ></textarea>
   );
 }
 
