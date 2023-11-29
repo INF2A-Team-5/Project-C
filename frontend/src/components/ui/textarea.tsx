@@ -28,7 +28,9 @@ export interface TextareaHintProps
   > {}
 
 const TextareaHint = ({ children, ...props }: TextareaHintProps) => (
-  <p className="text-sm text-muted-foreground" {...props}>{children}</p>
+  <p className="text-sm text-muted-foreground" {...props}>
+    {children}
+  </p>
 );
 
 export { Textarea, TextareaHint };

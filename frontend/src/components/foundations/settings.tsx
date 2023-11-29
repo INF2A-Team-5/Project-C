@@ -1,9 +1,5 @@
 import i18next from "i18next";
-import {
-  HamburgerMenuIcon,
-  MoonIcon,
-  SunIcon
-} from "@radix-ui/react-icons";
+import { HamburgerMenuIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -49,7 +45,7 @@ function Settings() {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel>Options</DropdownMenuLabel>
-          
+
           <DropdownMenuSeparator />
 
           <Link to="/account">
@@ -89,7 +85,7 @@ function Settings() {
                   {i18next.t("lang.en")}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => {}} disabled>
-                  <MoonIcon className={DROPDOWN_ICON_CLASSES}/>
+                  <MoonIcon className={DROPDOWN_ICON_CLASSES} />
                   {i18next.t("lang.pl")}
                 </DropdownMenuItem>
               </DropdownMenuSubContent>
