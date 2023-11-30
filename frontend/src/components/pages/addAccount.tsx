@@ -28,8 +28,8 @@ function AddAccount() {
     } else if (password == "") {
       alert("Enter a password");
     }
+    // WAAR IS CLASS CHECKING?
 
-    //post request
     else {
       const requestOptions = {
         method: "POST",
@@ -38,16 +38,15 @@ function AddAccount() {
           Authorization: "bearer " + localStorage.getItem("Token"),
         },
         body: JSON.stringify({
-          accountId: 0,
           name: username,
           password: password,
-          Class: userType,
+          class: userType,
         }),
       };
       fetch("http://localhost:5119/api/accounts", requestOptions)
-        .then((response) => response.json())
-        .then((data) => alert("Account added"));
-
+        .then((response) => response.json());
+      
+        alert("Account added");
       navigate("/admin");
     }
   }
