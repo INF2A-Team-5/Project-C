@@ -28,16 +28,15 @@ function AddSolution() {
           Authorization: "bearer " + localStorage.getItem("Token"),
         },
         body: JSON.stringify({
-          solutionId: 0,
           problemDescription: problemDescription,
           solutionDescription: solutionDescription,
           ticketId: ticketId,
         }),
       };
       fetch("http://localhost:5119/api/solutions", requestOptions)
-        .then((response) => response.json())
-        .then((data) => alert("Solution added"));
-
+        .then((response) => response.json());
+        
+      alert("Solution added");
       navigate("/admin");
     }
   }

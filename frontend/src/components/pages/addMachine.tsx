@@ -42,7 +42,6 @@ function AddMachine() {
           Authorization: "bearer " + localStorage.getItem("Token"),
         },
         body: JSON.stringify({
-          machineId: 0,
           name: name,
           description: description,
           accountId: accountId,
@@ -50,8 +49,8 @@ function AddMachine() {
       };
       fetch("http://localhost:5119/api/machines", requestOptions)
         .then((response) => response.json())
-        .then((data) => alert("Machine added"));
-
+      
+      alert("Machine added");
       navigate("/admin");
     }
   }

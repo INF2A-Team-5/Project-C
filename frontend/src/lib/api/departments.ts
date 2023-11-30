@@ -35,7 +35,7 @@ export namespace ApiDepartments {
     } else {
       const response = await fetch("http://localhost:5119/api/departments", {
         ...requestInit,
-        body: JSON.stringify({ departmentId: 0, name: name }),
+        body: JSON.stringify({ name: name }),
       });
 
       try {
