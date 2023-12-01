@@ -4,9 +4,11 @@ import Settings from "../foundations/settings";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Cross1Icon } from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
 
 function Client() {
+  function toTicket() {
+    window.location.href = window.location.href.replace("client", "tickets");
+  }
   return (
     <div>
       <h1 className="text-4xl font-medium p-10">Client</h1>
@@ -43,9 +45,9 @@ function Client() {
                 <Button>No I haven't</Button>
               </Dialog.Close>
               <div>
-                <Link to="/tickets">
-                  <Button>Yes I have</Button>
-                </Link>
+                <Button  onClick={toTicket}>
+                  Yes I have
+                </Button>
               </div>
             </div>
           </Dialog.Content>

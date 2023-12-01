@@ -7,6 +7,8 @@ import { t } from "i18next";
 import Header from "@/components/foundations/header";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 function LogIn() {
   // const { t, i18n } = useTranslation();
@@ -20,7 +22,11 @@ function LogIn() {
 
   async function handleSubmit() {
     if (username === "" || password === "") {
-      alert("fill in fields");
+      toast({
+        variant: "destructive",
+        title: "Error! Something went wrong.",
+        description: "Fill in all fields before logging in.",
+      });
     } else {
       try {
         const account = await fetch("http://localhost:5119/api/Auth/Login", {
@@ -34,9 +40,8 @@ function LogIn() {
           localStorage.setItem("username", account.name);
           localStorage.setItem("Id", account.accountId);
           localStorage.setItem("Token", account.token);
-          document.cookie = `jwtToken=${account.token}`
+          document.cookie = `jwtToken=${account.token}`;
           // Cookies.set('token', token, { expires: 1, secure: true })
-          alert("Logging in...");
           switch (account.class) {
             case "Client":
               navigate("/tickets");
@@ -50,7 +55,12 @@ function LogIn() {
           }
         }
       } catch {
-        alert("invalid credentials");
+        toast({
+          variant: "destructive",
+          title: "Error! Something went wrong.",
+          description:
+            "Please ensure your username and password are entered correctly and try again.",
+        });
       }
     }
   }
@@ -86,20 +96,22 @@ function LogIn() {
       <Settings></Settings>
       <div className="items-center text-center justify-center flex flex-col">
         <Header></Header>
-        <div className="font-normal w-full">
+        <div className="w-2/5">
           <h2 className="text-2xl font-medium pt-2 pb-2">{t("login.login")}</h2>
-          <h3 className="text-lg text-grey-900 py-2">{t("login.username")}</h3>
-          <div>
-            <Input
-              name="username"
-              placeholder="Username"
-              onChange={(e) => setUsername(e.currentTarget.value)}
-            />
+          <div className="grid gap-1">
+            <h3 className="text-lg text-grey-900 py-2">
+              {t("login.username")}
+            </h3>
+            <div>
+              <Input
+                name="username"
+                placeholder="Username"
+                onChange={(e) => setUsername(e.currentTarget.value)}
+              />
+            </div>
           </div>
           <h3 className="text-lg text-grey-900 py-2">{t("login.password")}</h3>
           <div>
-            {/* <Input hierarchy="md" /> */}
-
             <Input
               name="password"
               placeholder="******"
@@ -112,12 +124,10 @@ function LogIn() {
             {/* <input type="checkbox" className="checkbox" name="remember"/> Remember me */}
           </label>
           <br />
-          <Button
-            variant="default"
-            onClick={handleSubmit}
-          >
+          <Button className="w-full" variant="default" size="lg" onClick={handleSubmit}>
             {t("login.log_in")}
           </Button>
+          <Toaster />
         </div>
       </div>
     </div>

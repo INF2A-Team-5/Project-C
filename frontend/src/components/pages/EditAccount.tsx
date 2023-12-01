@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Settings from "../foundations/settings";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 
 function EditAccount() {
   const [phone, setPhone] = useState("");

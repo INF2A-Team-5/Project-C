@@ -31,7 +31,7 @@
 
   .dark {
     --background: hsl(222.2 84% 4.9%);
-    --bgtransparant: rgba(2, 8, 23, 0.8);;
+    --bgtransparant: rgba(2, 8, 23, 0.8);
     --foreground: hsl(210 40% 98%);
     --card: hsl(222.2 84% 4.9%);
     --card-foreground: hsl(210 40% 98%);
