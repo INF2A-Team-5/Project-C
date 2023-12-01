@@ -1,10 +1,5 @@
 import Header from "../foundations/header";
-import React, {
-  ComponentProps,
-  SetStateAction,
-  useEffect,
-  useRef,
-} from "react";
+import React from "react";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 
 // import UploadService from "../../services/FileUploadService";

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Settings from "../foundations/settings";
 import NewTable from "../foundations/newTable";
 import { DataRow } from "../../services/DataRow";

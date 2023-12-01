@@ -47,9 +47,10 @@ function AddMachine() {
           accountId: accountId,
         }),
       };
-      fetch("http://localhost:5119/api/machines", requestOptions)
-        .then((response) => response.json())
-      
+      fetch("http://localhost:5119/api/machines", requestOptions).then(
+        (response) => response.json()
+      );
+
       alert("Machine added");
       navigate("/admin");
     }
@@ -83,9 +84,7 @@ function AddMachine() {
       </div>
       <br />
       <Settings></Settings>
-      <Button onClick={handleSubmit}>
-        Add Machine
-      </Button>
+      <Button onClick={handleSubmit}>Add Machine</Button>
       <h3></h3>
       <Button
         variant="destructive"
