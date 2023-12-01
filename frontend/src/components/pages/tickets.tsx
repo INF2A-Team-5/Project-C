@@ -21,6 +21,7 @@ import { Checkbox } from "@radix-ui/react-checkbox";
 import { Input } from "../ui/input";
 import { Textarea, TextareaHint } from "../ui/textarea";
 import { Label } from "../ui/label";
+import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 
 // export interface Machine {
 //   MachineId: number; Name: string; Description: string; AccountId: number
@@ -31,6 +32,7 @@ import { Label } from "../ui/label";
 // }
 
 function Tickets() {
+  useAuthenticated();
   const [problem, setProblem] = useState("");
   const [mustbedoing, setMustBeDoing] = useState("");
   const [havetried, setHaveTried] = useState("");
@@ -38,7 +40,6 @@ function Tickets() {
   const navigate = useNavigate();
   const [machinenames, SetMachineNames] = useState<string[]>([""]);
   const [account, SetAccount] = useState("");
-  // const [file, setFile] = useState<File | undefined>();
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
   const [isChecked, setChecked] = useState<boolean>(false);
   const handleCheckbox = () => {
