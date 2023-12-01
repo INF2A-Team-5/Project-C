@@ -18,13 +18,8 @@ function EditTicket() {
     const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
     const [ticketInfo, setTicketInfo] = useState(null);
     const ticketid = localStorage.getItem("currentticket");
+    const [showTicketInfo, setShowTicketInfo] = useState(false);
     
-
-    const [showDropDown, setShowDropDown] = useState<boolean>(false);
-    const toggleDropDown = () => {
-      setShowDropDown(!showDropDown);
-      ShowTicket();
-    };
 
     async function HandleCancel() {
         navigate('/client');
@@ -68,6 +63,7 @@ function EditTicket() {
     
     async function ShowTicket() {
       const currentticket = await GetTicket();
+      setShowTicketInfo(true);
       setTicketInfo(currentticket);
 
     }
@@ -126,16 +122,26 @@ function EditTicket() {
         <h1 className='text-4xl font-medium'>{t('editticket.header')}</h1>
         </div>
         <div className='pb-16'>
+        
         <Button hierarchy='lg' type='primary' onClick={ShowTicket}>
-                Show ticket information
-            </Button>
-            {ticketInfo && (
-                <div>
-                    <h2>Ticket Information:</h2>
-                    <p>Ticket ID: {ticketInfo}</p>
-                    {/* Display other ticket details */}
-                </div>
-            )}
+        {t('editticket.ticketinfo')}
+      </Button>
+      {showTicketInfo && (
+        <div>
+          {/* Display your ticket information here */}
+          <p><b>TicketID: </b>{ticketInfo.ticketId}</p>
+          <p><b>MachineID: </b>{ticketInfo.machine_Id}</p>
+          <p><b>Status: </b>{ticketInfo.status}</p>
+          <p><b>{t('editticket.problem')}</b>{ticketInfo.problem}</p>
+          <p><b>{t('editticket.mbd')}</b>{ticketInfo.mustBeDoing}</p>
+          <p><b>{t('editticket.tried')}</b>{ticketInfo.haveTried}</p>
+          <p><b>{t('editticket.notes3')}</b>{ticketInfo.notes}</p>
+          
+          <p></p>
+
+        </div>
+      )}
+
         <h2 className='text-lg font-medium'>{t('editticket.notes')}</h2>
         <Textbox placeholder={t('editticket.notes2')} hierarchy='lg' onChange={e => setNotes(e.currentTarget.value)}></Textbox>
         <p className='text-md text-grey-900 '>{t('editticket.description')}</p>

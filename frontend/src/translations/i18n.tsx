@@ -46,7 +46,13 @@ i18n
             description: "Give us a detailed description on what you want to update the ticket with",
             pictures: "Add pictures",
             submit: "Submit",
-            cancel: "Cancel"
+            cancel: "Cancel",
+            problem: "Problem: ",
+            mbd: "Must be doing: ",
+            tried: "Have tried: ",
+            notes3: "Notes: ",
+            ticketinfo: "Show ticket information"
+
           },
           ticket: {
             phonealert: "Please enter a phone number",
@@ -108,7 +114,12 @@ i18n
             description: "Geef ons een gedetailleerde beschrijving waarmee je de ticket wilt updaten",
             pictures: "Voeg eventuele foto's toe",
             submit: "Dien in",
-            cancel: "Annuleer"
+            cancel: "Annuleer",
+            problem: "Probleem: ",
+            mbd: "Hoort te doen: ",
+            tried: "Heb geprobeerd: ",
+            notes3: "notities: ",
+            ticketinfo: "Laat ticket informatie zien"
           },
           ticket: {
             phonealert: "Vul AUB je telefoonnummer in",
