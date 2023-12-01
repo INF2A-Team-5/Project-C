@@ -22,6 +22,15 @@ import { Input } from "../ui/input";
 import { Textarea, TextareaHint } from "../ui/textarea";
 import { Label } from "../ui/label";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@radix-ui/react-select";
 
 // export interface Machine {
 //   MachineId: number; Name: string; Description: string; AccountId: number
@@ -258,10 +267,27 @@ function Tickets() {
             />
           )}
         </Button>
+        <br />
+        <Select>
+          <SelectTrigger>
+            <SelectValue placeholder="Select a machine" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Machines</SelectLabel>
+              <SelectItem value="1">Machine1</SelectItem>
+              <SelectItem value="2">Machine2</SelectItem>
+              <SelectItem value="3">Machine3</SelectItem>
+              <SelectItem value="4">Machine3</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
       </div>
+      <br />
       <div className="pb-16">
         <Label>What do you see?*</Label>
         <Textarea
+          className="custom-scrollbar"
           required
           placeholder="shit broken"
           onChange={(e) => setProblem(e.currentTarget.value)}
@@ -274,6 +300,7 @@ function Tickets() {
       <div className="pb-16">
         <Label>What should it do?*</Label>
         <Textarea
+          className="custom-scrollbar"
           placeholder="work"
           onChange={(e) => setMustBeDoing(e.currentTarget.value)}
         />
@@ -285,6 +312,7 @@ function Tickets() {
       <div className="pb-16">
         <Label>What have you tried?*</Label>
         <Textarea
+          className="custom-scrollbar"
           placeholder="hit with hammer"
           onChange={(e) => setHaveTried(e.currentTarget.value)}
         />
