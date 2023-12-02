@@ -33,9 +33,9 @@ function Client() {
             <DialogTitle>Before you make a ticket, have you tried?</DialogTitle>
           </DialogHeader>
           <DialogDescription>
-            <p>Restarting the machine.</p>
-            <p>Checking if the sensors are blocked.</p>
-            <p>Checking for any stuck items.</p>
+            Restarting the machine?<br />
+            Checking if the sensors are blocked?<br />
+            Checking for any stuck items?<br />
           </DialogDescription>
           <DialogFooter>
             <DialogClose>
