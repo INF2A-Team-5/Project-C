@@ -46,6 +46,7 @@ function Tickets() {
   const handleCheckbox = () => {
     setChecked(!isChecked);
   };
+  
   class Machine {
     name: string;
     machineId: number;
@@ -277,6 +278,8 @@ function Tickets() {
             </Select>
           </div>
         </div>
+
+        <div></div>
 
         <div className="grid gap-2">
           <Label>What do you see?*</Label>
