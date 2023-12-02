@@ -5,66 +5,95 @@ import Settings from "../foundations/settings";
 import { Machine } from "@/services/Machine";
 import { useNavigate } from "react-router-dom";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
-
+import { toast } from "@/components/ui/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 
 function AddMachineSolution() {
-
-    useAuthenticated();
+  useAuthenticated();
 
   const [Machines, SetMachines] = useState<Machine[]>([]);
   const [Name, SetName] = useState("");
   const [Solution, SetSolution] = useState("");
-  const [TotalChanged, SetTotalChanged] = useState(Number);
-    const navigate = useNavigate();
-
+  const navigate = useNavigate();
 
   async function HandleSubmit() {
     SetMachines(
-      await fetch("http://localhost:5119/api/Machines", {
+      await (fetch("http://localhost:5119/api/Machines", {
         method: "GET",
         headers: {
           Authorization: "bearer " + localStorage.getItem("Token"),
         },
-      }).then((data) => data.json())
+      }).then((data) => data
+        .json()
+        .then((machines) => machines.filter((mach: Machine) => mach.name == Name))))
     );
-
-    Machines.forEach(async function (machine) {
-      if (machine.name == Name) {
-        machine.solution = Solution;
-        await fetch("http://localhost:5119/api/Machines/" + machine.machineId, {
+    if (Machines != null) {
+      console.log(Name);
+       Machines.map((machine) => (
+        machine.solution = Solution,
+        fetch("http://localhost:5119/api/Machines/" + machine.machineId, {
           method: "PUT",
           headers: {
             Authorization: "bearer " + localStorage.getItem("Token"),
             "Content-Type": "application/json",
           },
           body: JSON.stringify(machine),
-        });
-        SetTotalChanged(TotalChanged + 1);
-      }
-    });
-    if (TotalChanged == 1) {
-      alert(TotalChanged + "solution added successfully");
-    } else if (TotalChanged > 1) {
-      alert(TotalChanged + "solutions add successfully");
-    } else {
-      alert("No solutions added");
+        })
+      ))
+      // for (let machine in Machines) {
+      //   machArr = machine.
+      //   machine.solution = Solution;
+      //   await fetch("http://localhost:5119/api/Machines/" + machine.machineId, {
+      //     method: "PUT",
+      //     headers: {
+      //       Authorization: "bearer " + localStorage.getItem("Token"),
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify(machine),
+      //   });
+      // });
     }
+    if (Machines.length == 1) {
+      toast({
+        variant: "default",
+        title: "Succes!",
+        description:
+        Machines.length + " solution added successfully.",
+      })
+      // alert(TotalChanged + " solution added successfully");
+    } else if (Machines.length > 1) {
+      toast({
+        variant: "default",
+        title: "Succes!",
+        description:
+        Machines.length + " solutions added successfully.",
+      })
+      // alert(TotalChanged + " solutions added successfully");
+    } else {
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: " No solutions added.",
+      })
+      // alert("No solutions added");
+    }
+    console.log(Machines.length);
     switch (localStorage.getItem("Class")) {
-        // case "Client":
-        //   navigate("/tickets");
-        //   break;
-        case "Admin":
-          navigate("/admin");
-          break;
-        case "ServiceEmployee":
-          navigate("/serviceEmployee");
-          break;
-      }
+      // case "Client":
+      //   navigate("/tickets");
+      //   break;
+      case "Admin":
+        navigate("/add-machine-solution");
+        break;
+      case "ServiceEmployee":
+        navigate("/serviceEmployee");
+        break;
+    }
   }
 
   return (
     <div>
-    <Settings></Settings>
+      <Settings></Settings>
       <h2>Name</h2>
       <div>
         <Input
@@ -84,6 +113,7 @@ function AddMachineSolution() {
       <h3></h3>
       <Button onClick={HandleSubmit}>Add machine solution</Button>
       <h3></h3>
+      <Toaster />
     </div>
   );
 }
