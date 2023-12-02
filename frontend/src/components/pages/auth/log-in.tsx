@@ -9,6 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
+// import { Label } from "@radix-ui/react-label";
+import { TextareaHint } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 function LogIn() {
   // const { t, i18n } = useTranslation();
@@ -96,22 +100,23 @@ function LogIn() {
       <Settings></Settings>
       <div className="items-center text-center justify-center flex flex-col">
         <Header></Header>
-        <div className="w-2/5">
-          <h2 className="text-2xl font-medium pt-2 pb-2">{t("login.login")}</h2>
-          <div className="grid gap-1">
-            <h3 className="text-lg text-grey-900 py-2">
-              {t("login.username")}
-            </h3>
-            <div>
-              <Input
-                name="username"
-                placeholder="Username"
-                onChange={(e) => setUsername(e.currentTarget.value)}
-              />
-            </div>
-          </div>
-          <h3 className="text-lg text-grey-900 py-2">{t("login.password")}</h3>
+        <div className="w-2/5 grid gap-4">
           <div>
+            <h2 className="text-2xl font-medium">{t("login.login")}</h2>
+            <TextareaHint>
+              Enter login details to access your account.
+            </TextareaHint>
+          </div>
+          <div className="grid gap-1">
+            <Label>{t("login.username")}</Label>
+            <Input
+              name="username"
+              placeholder="Username"
+              onChange={(e) => setUsername(e.currentTarget.value)}
+            />
+          </div>
+          <div className="grid gap-1">
+            <Label>{t("login.password")}</Label>
             <Input
               name="password"
               placeholder="******"
@@ -120,13 +125,25 @@ function LogIn() {
               onChange={(e) => setPassword(e.currentTarget.value)}
             />
           </div>
-          <label>
-            {/* <input type="checkbox" className="checkbox" name="remember"/> Remember me */}
-          </label>
-          <br />
-          <Button className="w-full" variant="default" size="lg" onClick={handleSubmit}>
-            {t("login.log_in")}
-          </Button>
+          {/* <div className="mx-auto flex items-center space-x-2">
+            <Checkbox id="terms" />
+            <label
+              htmlFor="terms"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Remember me
+            </label>
+          </div> */}
+          <div>
+            <Button
+              className="w-full"
+              variant="default"
+              size="lg"
+              onClick={handleSubmit}
+            >
+              {t("login.log_in")}
+            </Button>
+          </div>
           <Toaster />
         </div>
       </div>
