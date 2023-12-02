@@ -14,7 +14,6 @@ import { TextareaHint } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { Label } from "@/components/ui/label";
-import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 
 function LogIn() {
   // const { t, i18n } = useTranslation();
