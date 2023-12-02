@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 // import "bootstrap/dist/css/bootstrap.min.css";
 
 // import axios from 'axios';
-import DropDown from "../foundations/DropDown";
+// import DropDown from "../foundations/DropDown";
 import Settings from "../foundations/settings";
 import { Button } from "../ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -266,8 +266,10 @@ function Tickets() {
               </Button> */}
           <Label>Select the machine related to the ticket</Label>
           <div className="w-1/6">
-            <Select value={selectMachine}
-              onValueChange={value=> setSelectMachine(value)}>
+            <Select
+              value={selectMachine}
+              onValueChange={(value) => setSelectMachine(value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select a machine" />
               </SelectTrigger>

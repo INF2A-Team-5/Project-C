@@ -28,7 +28,6 @@ function toggleThemeDark() {
 
 function logOut() {
   localStorage.clear();
-  // alert("logging out...");
   window.location.href = "/";
 }
 
