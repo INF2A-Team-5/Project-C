@@ -46,7 +46,7 @@ function Tickets() {
   const handleCheckbox = () => {
     setChecked(!isChecked);
   };
-  
+
   class Machine {
     name: string;
     machineId: number;
@@ -55,9 +55,8 @@ function Tickets() {
       this.machineId = machineId;
     }
   }
-  
-  if (machinenames.length == 0)
-  {
+
+  if (machinenames.length == 0) {
     getData();
   }
 
@@ -127,23 +126,24 @@ function Tickets() {
   }
 
   async function handleSubmit() {
-    if (phonenumber == "") {
-      alert("Please enter a phone number");
-      navigate("/tickets");
-    }
+    // if (phonenumber == "") {
+    //   alert("Please enter a phone number");
+    //   navigate("/tickets");
+    // }
     if (
       problem.length != 0 &&
       mustbedoing.length != 0 &&
       havetried.length != 0
     ) {
+      if (selectMachine == "") {
+        alert("Please choose a machine");
+        navigate("/tickets");
+      }
       if (
         problem.split(" ").length < 20 ||
         mustbedoing.split(" ").length < 20
       ) {
         alert("The first 2 answers must contain at least 20 words");
-        navigate("/tickets");
-      } else if (selectMachine == "") {
-        alert("Please choose a machine");
         navigate("/tickets");
       }
       if (phonenumber == "" || phonenumber == null) {
@@ -240,7 +240,6 @@ function Tickets() {
         </div>
 
         <div className="grid gap-2">
-          <Label>Select the machine related to the ticket</Label>
           {/* <h2 className="text-lg font-medium">
             Select the machine related to the ticket
           </h2> */}
@@ -250,36 +249,38 @@ function Tickets() {
             onBlur={(e: React.FocusEvent<HTMLButtonElement>): void =>
               dismissHandler(e)
             }
-          >
+            >
             <ChevronDownIcon
               style={{ backgroundColor: "transparent" }}
               className="relative left-10 top-3 scale-[2]"
-            />
-            {selectMachine ? "Select: " + selectMachine : "Select Machine"}
-            {showDropDown && (
-              <DropDown
+              />
+              {selectMachine ? "Select: " + selectMachine : "Select Machine"}
+              {showDropDown && (
+                <DropDown
                 machines={machinenames}
                 showDropDown={false}
                 toggleDropDown={(): void => toggleDropDown()}
                 machineSelection={machineSelection}
-              />
-            )}
-          </Button> */}
+                />
+                )}
+              </Button> */}
+          <Label>Select the machine related to the ticket</Label>
           <div className="w-1/6">
-            <Select>
+            <Select value={selectMachine}
+              onValueChange={value=> setSelectMachine(value)}>
               <SelectTrigger>
                 <SelectValue placeholder="Select a machine" />
               </SelectTrigger>
               <SelectContent>
-                {machinenames.map(type => (
-                  <SelectItem key={type} value= {type.toString()}>{type}</SelectItem>
+                {machinenames.map((type) => (
+                  <SelectItem key={type} value={type.toString()}>
+                    {type}
+                  </SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
         </div>
-
-        <div></div>
 
         <div className="grid gap-2">
           <Label>What do you see?*</Label>
