@@ -7,7 +7,6 @@ import { DataRow } from "../../services/DataRow";
 function serviceEmployee() {
   const [AllTickets, SetAllTickets] = useState<DataRow[]>([]);
   const [AssignedTickets, SetAssignedTickets] = useState<DataRow[]>([]);
-  console.log(AllTickets);
   if (AllTickets.length == 0) {
     GetAllData();
   }
@@ -46,9 +45,9 @@ function serviceEmployee() {
     <div>
       <Settings></Settings>
       <h1>serviceEmployee</h1>
-      <NewTable displayColumns={["ID", "Priority", "Client", "Date", "Status", ""]} data={AllTickets} dataColumns={["ticketId", "priority", "customer_Id", "date_Created", "status"]} />
+      <NewTable displayColumns={["ID", "Priority", "Client", "Date", "Status", "", ""]} data={AllTickets} dataColumns={["ticketId", "priority", "customer_Id", "date_Created", "status"]} />
       <h1>Assigned Tickets</h1>
-      <NewTable displayColumns={["ID", "Priority", "Client", "Date", "Status", ""]} data={AssignedTickets} dataColumns={["ticketId", "priority", "customer_Id", "date_Created", "status"]} />
+      <NewTable displayColumns={["ID", "Priority", "Client", "Date", "Status", "", ""]} data={AssignedTickets} dataColumns={["ticketId", "priority", "customer_Id", "date_Created", "status"]} />
     </div>
   );
 }

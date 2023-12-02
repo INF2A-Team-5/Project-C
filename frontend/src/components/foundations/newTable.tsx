@@ -50,8 +50,54 @@ function NewTable({ data, displayColumns, dataColumns }: TableProps) {
         setCurrentPage(newPage);
     };
 
-    function handleButtonClick(id: number) {
-        alert(id)
+    async function handleButtonClick(ticket: any) {
+        const user = await fetch(`http://localhost:5119/api/Accounts/${localStorage.getItem("Id")}`, {
+            method: "GET",
+            headers:
+            {
+                "Content-Type": "application/json",
+                "Authorization": "bearer " + localStorage.getItem("Token"),
+            }
+        }).then((res) => res.json());
+
+        if (user.class == "Admin" || user.class == "ServiceEmployee") {
+            if (ticket.assigned_Id == null || ticket.assigned_Id == 0) {
+                const temp =
+                {
+                    "TicketId": ticket.ticketId,
+                    "Machine_Id": ticket.machine_Id,
+                    "Customer_Id": ticket.customer_Id,
+                    "Assigned_Id": localStorage.getItem("Id"),
+                    "Priority": ticket.priority,
+                    "Status": ticket.status,
+
+                    "Problem": ticket.problem,
+                    "HaveTried": ticket.haveTried,
+                    "MustBeDoing": ticket.mustBeDoing,
+                    "Date_Created": ticket.date_Created,
+
+                    "Solution": ticket.solution,
+                    "PhoneNumber": ticket.phoneNumber,
+                    "Notes": ticket.notes,
+                    "files": ticket.files
+                };
+
+                await fetch("http://localhost:5119/api/Tickets/" + temp.TicketId,
+                    {
+                        method: "PUT",
+                        headers: {
+                            "Authorization": "bearer " + localStorage.getItem("Token"),
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(temp)
+                    });
+            }
+            else {
+                alert("Tickets is allready assigned");
+            }
+
+            // Navigate to page were you can see ticket info
+        }
     }
 
     return (
@@ -73,7 +119,7 @@ function NewTable({ data, displayColumns, dataColumns }: TableProps) {
                                 <td key={columnIndex}>{row[column]}</td>
                             ))}
                             <td>
-                                <button onClick={() => handleButtonClick(row.ticketId)}>Click me</button>
+                                <button onClick={() => handleButtonClick(row)}>Edit</button>
                             </td>
                         </tr>
                     ))}
