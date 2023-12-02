@@ -12,7 +12,8 @@ import { useNavigate } from "react-router-dom";
 import DropDown from "../foundations/DropDown";
 import Settings from "../foundations/settings";
 import { Button } from "../ui/button";
-import { Checkbox } from "@radix-ui/react-checkbox";
+import { Checkbox } from "@/components/ui/checkbox";
+
 import { Input } from "../ui/input";
 import { Textarea, TextareaHint } from "../ui/textarea";
 import { Label } from "../ui/label";
@@ -25,7 +26,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@radix-ui/react-select";
+} from "../ui/select";
 
 // export interface Machine {
 //   MachineId: number; Name: string; Description: string; AccountId: number
@@ -36,7 +37,7 @@ import {
 // }
 
 function Tickets() {
-  useAuthenticated();
+  // useAuthenticated();
   const [problem, setProblem] = useState("");
   const [mustbedoing, setMustBeDoing] = useState("");
   const [havetried, setHaveTried] = useState("");
@@ -225,137 +226,168 @@ function Tickets() {
   };
 
   return (
-    <div className="text-left pl-24">
+    <div className="text-left px-24">
       <Settings></Settings>
       <div className="flex justify-center pb-16 pt-10">
         <Header></Header>
       </div>
-      <div className="pb-8">
-        <h1 className="text-4xl font-medium">Report error</h1>
-        <p className="text-lg text-grey-900 font-medium">
-          Give details of the error and we will try to help you as soon as
-          possible
-        </p>
-      </div>
-      <div className="pb-16">
-        <h2 className="text-lg font-medium">
-          Select the machine related to the ticket
-        </h2>
-        <Button
-          // className={showDropDown ? "active" : undefined}
-          onClick={(): void => toggleDropDown()}
-          onBlur={(e: React.FocusEvent<HTMLButtonElement>): void =>
-            dismissHandler(e)
-          }
-        >
-          <ChevronDownIcon
-            style={{ backgroundColor: "transparent" }}
-            className="relative left-10 top-3 scale-[2]"
-          />
-          {selectMachine ? "Select: " + selectMachine : "Select Machine"}
-          {showDropDown && (
-            <DropDown
-              machines={machinenames}
-              showDropDown={false}
-              toggleDropDown={(): void => toggleDropDown()}
-              machineSelection={machineSelection}
-            />
-          )}
-        </Button>
-        <br />
-        <Select>
-          <SelectTrigger>
-            <SelectValue placeholder="Select a machine" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Machines</SelectLabel>
-              <SelectItem value="1">Machine1</SelectItem>
-              <SelectItem value="2">Machine2</SelectItem>
-              <SelectItem value="3">Machine3</SelectItem>
-              <SelectItem value="4">Machine3</SelectItem>
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
-      <br />
-      <div className="pb-16">
-        <Label>What do you see?*</Label>
-        <Textarea
-          className="custom-scrollbar"
-          required
-          placeholder="shit broken"
-          onChange={(e) => setProblem(e.currentTarget.value)}
-        />
-        <TextareaHint>
-          Give us a detailed description on any visible defects (Atleast 20
-          words)
-        </TextareaHint>
-      </div>
-      <div className="pb-16">
-        <Label>What should it do?*</Label>
-        <Textarea
-          className="custom-scrollbar"
-          placeholder="work"
-          onChange={(e) => setMustBeDoing(e.currentTarget.value)}
-        />
-        <TextareaHint>
-          Give us a detailed description on what the machine should do (Atleast
-          20 words)
-        </TextareaHint>
-      </div>
-      <div className="pb-16">
-        <Label>What have you tried?*</Label>
-        <Textarea
-          className="custom-scrollbar"
-          placeholder="hit with hammer"
-          onChange={(e) => setHaveTried(e.currentTarget.value)}
-        />
-        <TextareaHint>
-          Describe all things you have done to try fixing the machine
-        </TextareaHint>
-      </div>
-      <div className="pb-16">
-        <div className="flex">
-          <Checkbox checked={isChecked} onChange={handleCheckbox} />
-          <TextareaHint>Use other phone Number</TextareaHint>
+      <div className="grid gap-12">
+        <div className="">
+          <h1 className="text-4xl font-medium">Report error</h1>
+          <Label>
+            Give details of the error and we will try to help you as soon as
+            possible
+          </Label>
         </div>
-        {isChecked ? (
-          <>
+
+        <div className="grid gap-2">
+          <Label>Select the machine related to the ticket</Label>
+          {/* <h2 className="text-lg font-medium">
+            Select the machine related to the ticket
+          </h2> */}
+          {/* <Button
+            // className={showDropDown ? "active" : undefined}
+            onClick={(): void => toggleDropDown()}
+            onBlur={(e: React.FocusEvent<HTMLButtonElement>): void =>
+              dismissHandler(e)
+            }
+          >
+            <ChevronDownIcon
+              style={{ backgroundColor: "transparent" }}
+              className="relative left-10 top-3 scale-[2]"
+            />
+            {selectMachine ? "Select: " + selectMachine : "Select Machine"}
+            {showDropDown && (
+              <DropDown
+                machines={machinenames}
+                showDropDown={false}
+                toggleDropDown={(): void => toggleDropDown()}
+                machineSelection={machineSelection}
+              />
+            )}
+          </Button> */}
+          <div className="w-1/6">
+            <Select>
+              <SelectTrigger>
+                <SelectValue placeholder="Select a machine" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Machines</SelectLabel>
+                  <SelectItem value="1">Machine1</SelectItem>
+                  <SelectItem value="2">Machine2</SelectItem>
+                  <SelectItem value="3">Machine3</SelectItem>
+                  <SelectItem value="4">Machine3</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        <div className="grid gap-2">
+          <Label>What do you see?*</Label>
+          <Textarea
+            className="custom-scrollbar"
+            required
+            placeholder="shit broken"
+            onChange={(e) => setProblem(e.currentTarget.value)}
+          />
+          <TextareaHint>
+            Give us a detailed description on any visible defects (Atleast 20
+            words)
+          </TextareaHint>
+        </div>
+
+        <div className="grid gap-2">
+          <Label>What should it do?*</Label>
+          <Textarea
+            className="custom-scrollbar"
+            placeholder="work"
+            onChange={(e) => setMustBeDoing(e.currentTarget.value)}
+          />
+          <TextareaHint>
+            Give us a detailed description on what the machine should do
+            (Atleast 20 words)
+          </TextareaHint>
+        </div>
+
+        <div className="grid gap-2">
+          <Label>What have you tried?*</Label>
+          <Textarea
+            className="custom-scrollbar"
+            placeholder="hit with hammer"
+            onChange={(e) => setHaveTried(e.currentTarget.value)}
+          />
+          <TextareaHint>
+            Describe all things you have done to try fixing the machine
+          </TextareaHint>
+        </div>
+
+        <div className="">
+          <div className="mx-auto flex items-center space-x-2">
+            {/* <Checkbox checked={isChecked} onChange={handleCheckbox} />
+          <TextareaHint>Use other phone Number</TextareaHint> */}
+            <Checkbox id="" />
+            <label
+              htmlFor="terms"
+              onChange={handleCheckbox}
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Use other phone Number
+            </label>
+          </div>
+          {isChecked ? (
+            <>
+              <Input
+                placeholder="Enter phone number"
+                onChange={(e) => setPhonenumber(e.currentTarget.value)}
+              />
+            </>
+          ) : null}
+        </div>
+        <div className="grid gap-2">
+          <div className="">
+            <Label>Upload videos/pictures</Label>
             <Input
-              placeholder="Enter phone number"
-              onChange={(e) => setPhonenumber(e.currentTarget.value)}
+              className="w-2/6"
+              name="image"
+              multiple={true}
+              onChange={handleFileUpload}
+              accept="image/png, image/jpg"
+              id="picture"
+              type="file"
             />
-          </>
-        ) : null}
-      </div>
-      <div className="pb-16">
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <Label>Upload videos/pictures</Label>
-          <Input
-            name="image"
-            multiple={true}
-            onChange={handleFileUpload}
-            accept="image/png, image/jpg"
-            id="picture"
-            type="file"
-          />
+          </div>
+          {preview.map((previewItem, index) => (
+            <img
+              key={index}
+              src={previewItem as string}
+              alt={`Preview ${index}`}
+            />
+          ))}
         </div>
-        {preview.map((previewItem, index) => (
-          <img
-            key={index}
-            src={previewItem as string}
-            alt={`Preview ${index}`}
-          />
-        ))}
-      </div>
-      {/* <div className='pb-16'>
+        {/* <div className="">
         <Label>Upload videos/pictures</Label>
-        <Input hierarchy='lg' onChange={e => setPictures(e.currentTarget.value)}/><br></br><br></br>
-        <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Submit</Button>
+        <Input
+          hierarchy="lg"
+          onChange={(e) => setPictures(e.currentTarget.value)}
+        />
+        <br></br>
+        <br></br>
+        <Button
+          hierarchy="xl"
+          type="primary"
+          onClick={handleSubmit}
+          rounded="slight"
+        >
+          Submit
+        </Button>
       </div> */}
-      <Button onClick={handleSubmit}>Submit</Button>
-      <div className="py-5"></div>
+        <Button className="w-1/6" onClick={handleSubmit}>
+          Submit
+        </Button>
+      </div>
+      <div className="h-12"></div>
     </div>
   );
 }
