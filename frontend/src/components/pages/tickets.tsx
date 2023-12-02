@@ -28,10 +28,6 @@ import {
   SelectValue,
 } from "../ui/select";
 
-// export interface Machine {
-//   MachineId: number; Name: string; Description: string; AccountId: number
-// }
-
 // export interface Account {
 //   AccountId: number; Name: string; Password: string; Class: number
 // }
@@ -43,7 +39,7 @@ function Tickets() {
   const [havetried, setHaveTried] = useState("");
   const [phonenumber, setPhonenumber] = useState("");
   const navigate = useNavigate();
-  const [machinenames, SetMachineNames] = useState<string[]>([""]);
+  const [machinenames, SetMachineNames] = useState<string[]>([]);
   const [account, SetAccount] = useState("");
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
   const [isChecked, setChecked] = useState<boolean>(false);
@@ -57,6 +53,31 @@ function Tickets() {
       this.name = name;
       this.machineId = machineId;
     }
+  }
+  
+  if (machinenames.length == 0)
+  {
+    getData();
+  }
+
+  async function getData() {
+    let machinelist = await fetch(
+      "http://localhost:5119/GetMachinesPerAccount?accountId=" +
+        localStorage.getItem("Id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: "bearer " + localStorage.getItem("Token"),
+        },
+      }
+    ).then((data) => data.json());
+    SetAccount(localStorage.getItem("Id")!);
+    SetMachineNames(
+      machinelist.map(
+        (machine: Machine) => machine.name + ", Id: " + machine.machineId
+      )
+    );
+    console.log(machinenames);
   }
 
   async function ChooseMachine() {
@@ -75,23 +96,6 @@ function Tickets() {
       // PAS LATER AAN
       setPhonenumber(currentaccount.phoneNumber);
     }
-
-    let machinelist = await fetch(
-      "http://localhost:5119/GetMachinesPerAccount?accountId=" +
-        localStorage.getItem("Id"),
-      {
-        method: "GET",
-        headers: {
-          Authorization: "bearer " + localStorage.getItem("Token"),
-        },
-      }
-    ).then((data) => data.json());
-    SetAccount(currentaccount.accountId);
-    SetMachineNames(
-      machinelist.map(
-        (machine: Machine) => machine.name + ", Id: " + machine.machineId
-      )
-    );
   }
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -161,12 +165,6 @@ function Tickets() {
           phoneNumber: phonenumber,
           Notes: "",
         };
-
-        // await axios.post('http://localhost:5119/api/tickets/', currentticket)
-        // .then(res =>
-        //     {console.log("Message successfully updated", res);})
-        // .catch(err =>
-        //     {console.log("Message could not be updated", err)});
 
         await fetch("http://localhost:5119/api/tickets/", {
           method: "POST",
@@ -272,13 +270,9 @@ function Tickets() {
                 <SelectValue placeholder="Select a machine" />
               </SelectTrigger>
               <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Machines</SelectLabel>
-                  <SelectItem value="1">Machine1</SelectItem>
-                  <SelectItem value="2">Machine2</SelectItem>
-                  <SelectItem value="3">Machine3</SelectItem>
-                  <SelectItem value="4">Machine3</SelectItem>
-                </SelectGroup>
+                {machinenames.map(type => (
+                  <SelectItem key={type} value= {type.toString()}>{type}</SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
