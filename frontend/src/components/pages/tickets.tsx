@@ -50,6 +50,7 @@ function Tickets() {
   const handleCheckbox = () => {
     setChecked(!isChecked);
   };
+  
   class Machine {
     name: string;
     machineId: number;
@@ -272,17 +273,17 @@ function Tickets() {
                 <SelectValue placeholder="Select a machine" />
               </SelectTrigger>
               <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Machines</SelectLabel>
-                  <SelectItem value="1">Machine1</SelectItem>
-                  <SelectItem value="2">Machine2</SelectItem>
-                  <SelectItem value="3">Machine3</SelectItem>
-                  <SelectItem value="4">Machine3</SelectItem>
-                </SelectGroup>
+                {machinenames.map((item, index) => (
+                  <SelectItem key={index} value={index.toString()}>
+                    M{item}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
         </div>
+
+        <div></div>
 
         <div className="grid gap-2">
           <Label>What do you see?*</Label>

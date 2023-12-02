@@ -7,12 +7,16 @@ public static class DBSeeding
     public static void Seed()
     {
         Machine Machine1 = new() { Name = "Machine1", Description = "This is machine 1", AccountId = 1 };
+        Machine Machine12 = new() { Name = "Machine12", Description = "This is machine 1", AccountId = 1 };
+        Machine Machine13 = new() { Name = "Machine13", Description = "This is machine 1", AccountId = 1 };
+        Machine Machine14 = new() { Name = "Machine14", Description = "This is machine 1", AccountId = 1 };
+        Machine Machine15 = new() { Name = "Machine15", Description = "This is machine 1", AccountId = 1 };
         Machine Machine2 = new() { Name = "Machine2", Description = "This is machine 2", AccountId = 2 };
         Machine Machine3 = new() { Name = "Machine3", Description = "This is machine 3", AccountId = 2 };
         Machine Machine4 = new() { Name = "Machine4", Description = "This is machine 4", AccountId = 3 };
         Machine Machine5 = new() { Name = "Machine5", Description = "This is machine 5", AccountId = 3 };
         Machine Machine6 = new() { Name = "Machine6", Description = "This is machine 6", AccountId = 3 };
-        List<Machine> machines = new() { Machine1, Machine2, Machine3, Machine4, Machine5, Machine6 };
+        List<Machine> machines = new() { Machine1, Machine12, Machine13, Machine14, Machine15, Machine2, Machine3, Machine4, Machine5, Machine6 };
 
         Account Client = new() { Name = "clientname", Password = "clientpw", Class = AccountType.Client };
         Account Employee = new() { Name = "empname", Password = "emppw", Class = AccountType.ServiceEmployee };
