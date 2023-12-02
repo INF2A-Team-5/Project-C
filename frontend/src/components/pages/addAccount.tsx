@@ -29,7 +29,6 @@ function AddAccount() {
       alert("Enter a password");
     }
     // WAAR IS CLASS CHECKING?
-
     else {
       const requestOptions = {
         method: "POST",
@@ -43,10 +42,11 @@ function AddAccount() {
           class: userType,
         }),
       };
-      fetch("http://localhost:5119/api/accounts", requestOptions)
-        .then((response) => response.json());
-      
-        alert("Account added");
+      fetch("http://localhost:5119/api/accounts", requestOptions).then(
+        (response) => response.json()
+      );
+
+      alert("Account added");
       navigate("/admin");
     }
   }
@@ -83,13 +83,8 @@ function AddAccount() {
         Add Account
       </Button>
       <h3></h3>
-      <Link
-        to="/admin"
-      >
-        <Button
-          size="default"
-          variant="destructive"
-        >
+      <Link to="/admin">
+        <Button size="default" variant="destructive">
           Back
         </Button>
       </Link>

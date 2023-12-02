@@ -28,7 +28,7 @@ function toggleThemeDark() {
 
 function logOut() {
   localStorage.clear();
-  alert("logging out...");
+  // alert("logging out...");
   window.location.href = "/";
 }
 
@@ -77,15 +77,12 @@ function Settings() {
             <DropdownMenuPortal>
               <DropdownMenuSubContent>
                 <DropdownMenuItem onClick={() => changeLanguage("nl")}>
-                  <SunIcon className={DROPDOWN_ICON_CLASSES} />
                   {i18next.t("lang.nl")}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => changeLanguage("en")}>
-                  <MoonIcon className={DROPDOWN_ICON_CLASSES} />
                   {i18next.t("lang.en")}
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => {}} disabled>
-                  <MoonIcon className={DROPDOWN_ICON_CLASSES} />
                   {i18next.t("lang.pl")}
                 </DropdownMenuItem>
               </DropdownMenuSubContent>

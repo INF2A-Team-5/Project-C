@@ -42,9 +42,7 @@ function Client() {
             </Dialog.Close>
             <div className="flex justify-end pt-4 pr-10 bg-white dark:bg-dark-400">
               <Dialog.Close className="pr-6">
-                <Button >
-                  No I haven't
-                </Button>
+                <Button>No I haven't</Button>
               </Dialog.Close>
               <div>
                 <Button  onClick={toTicket}>

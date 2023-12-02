@@ -2,8 +2,10 @@ import { useState } from "react";
 import Settings from "../foundations/settings";
 import NewTable from "../foundations/newTable";
 import { DataRow } from "../../services/DataRow";
+import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 
 function serviceEmployee() {
+  useAuthenticated();
   const [AllTickets, SetAllTickets] = useState<DataRow[]>([]);
   const [AssignedTickets, SetAssignedTickets] = useState<DataRow[]>([]);
   console.log(AllTickets);
