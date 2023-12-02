@@ -9,7 +9,7 @@ function serviceEmployee() {
   // useAuthenticated();
   const [AllTickets, SetAllTickets] = useState<DataRow[]>([]);
   const [AssignedTickets, SetAssignedTickets] = useState<DataRow[]>([]);
-  console.log(AllTickets);
+  // console.log(AllTickets);
   if (AllTickets.length == 0) {
     GetAllData();
   }

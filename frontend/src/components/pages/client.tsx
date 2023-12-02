@@ -4,8 +4,10 @@ import Settings from "../foundations/settings";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Cross1Icon } from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
+import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 
 function Client() {
+  useAuthenticated();
   function toTicket() {
     window.location.href = window.location.href.replace("client", "tickets");
   }

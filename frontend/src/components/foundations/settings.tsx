@@ -28,13 +28,14 @@ function toggleThemeDark() {
 
 function logOut() {
   localStorage.clear();
-  // alert("logging out...");
-  window.location.href = "/";
+  window.location.href = "/auth/login";
 }
 
 const changeLanguage = (lng: string) => {
   i18next.changeLanguage(lng);
 };
+
+const isLoggedIn = location.pathname !== "/auth/login";
 
 function Settings() {
   return (
@@ -48,9 +49,15 @@ function Settings() {
 
           <DropdownMenuSeparator />
 
-          <Link to="/account">
-            <DropdownMenuItem>{i18next.t("setting.account")}</DropdownMenuItem>
-          </Link>
+          {isLoggedIn ? (
+            <>
+              <Link to="/account">
+                <DropdownMenuItem>
+                  {i18next.t("setting.account")}
+                </DropdownMenuItem>
+              </Link>
+            </>
+          ) : null}
 
           <DropdownMenuSub>
             <DropdownMenuSubTrigger>
@@ -88,12 +95,14 @@ function Settings() {
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
           </DropdownMenuSub>
-
-          <DropdownMenuSeparator />
-
-          <DropdownMenuItem onClick={logOut}>
-            {i18next.t("setting.logOut")}
-          </DropdownMenuItem>
+          {isLoggedIn ? (
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={logOut}>
+                {i18next.t("setting.logOut")}
+              </DropdownMenuItem>
+            </>
+          ) : null}
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

@@ -77,7 +77,6 @@ function Tickets() {
         (machine: Machine) => machine.name + ", Id: " + machine.machineId
       )
     );
-    console.log(machinenames);
   }
 
   async function ChooseMachine() {

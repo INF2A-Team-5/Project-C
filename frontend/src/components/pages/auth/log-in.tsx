@@ -13,6 +13,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TextareaHint } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 
 function LogIn() {
   // const { t, i18n } = useTranslation();
@@ -49,7 +50,7 @@ function LogIn() {
           // Cookies.set('token', token, { expires: 1, secure: true })
           switch (account.class) {
             case "Client":
-              navigate("/tickets");
+              navigate("/client");
               break;
             case "Admin":
               navigate("/admin");

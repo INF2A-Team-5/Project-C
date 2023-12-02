@@ -74,7 +74,7 @@ function handleButtonClick(
 
 function Table() {
   const [Tickets, SetTickets] = useState<DataRow[]>([]);
-  console.log(Tickets);
+  // console.log(Tickets);
   if (Tickets.length == 0) {
     GetData();
   }
