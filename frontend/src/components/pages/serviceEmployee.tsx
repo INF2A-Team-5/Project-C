@@ -3,9 +3,10 @@ import Settings from "../foundations/settings";
 import NewTable from "../foundations/newTable";
 import { DataRow } from "../../services/DataRow";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
+import { Button } from "../ui/button";
 
 function serviceEmployee() {
-  useAuthenticated();
+  // useAuthenticated();
   const [AllTickets, SetAllTickets] = useState<DataRow[]>([]);
   const [AssignedTickets, SetAssignedTickets] = useState<DataRow[]>([]);
   console.log(AllTickets);
@@ -73,6 +74,9 @@ function serviceEmployee() {
           "status",
         ]}
       />
+      <Button onClick={() => (window.location.href = "/add-machine-solution")}>
+        Add machine solution
+      </Button>
     </div>
   );
 }

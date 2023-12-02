@@ -3,8 +3,13 @@ import { useNavigate } from "react-router-dom";
 import Settings from "../foundations/settings";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
+import { DataRow } from "@/services/DataRow";
 
-function AddSolution() {
+function AddSolution()
+{
+    useAuthenticated();
+
   const [problemDescription, setProblemDescription] = useState("");
   const [solutionDescription, setSolutionDescription] = useState("");
   const [ticketId, setTicketId] = useState(0);
@@ -18,7 +23,7 @@ function AddSolution() {
     } else if (!ticketId || isNaN(ticketId)) {
       alert("Enter a valid ticket ID");
     }
-
+  
     //post request
     else {
       const requestOptions = {
@@ -70,7 +75,11 @@ function AddSolution() {
       <br />
       <Settings></Settings>
       <Button variant="default" onClick={handleSubmit}>
-        Add Solution
+        Upload ticket Solution
+      </Button>
+      <h3></h3>
+      <Button onClick={() => (window.location.href = "/add-machine-solution")}>
+        Add machine solution instead
       </Button>
       <h3></h3>
       <Button

@@ -2,10 +2,10 @@
 
 #nullable disable
 
-namespace Backend.Migrations
+namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class migration2 : Migration
+    public partial class createdb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

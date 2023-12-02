@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Backend.Migrations
+namespace backend.Migrations
 {
     /// <inheritdoc />
     public partial class x : Migration
@@ -11,19 +11,18 @@ namespace Backend.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "PhoneNumber",
-                table: "Accounts",
+                name: "Solution",
+                table: "Machines",
                 type: "text",
-                nullable: false,
-                defaultValue: "");
+                nullable: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "PhoneNumber",
-                table: "Accounts");
+                name: "Solution",
+                table: "Machines");
         }
     }
 }

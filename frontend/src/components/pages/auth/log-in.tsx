@@ -40,6 +40,7 @@ function LogIn() {
           localStorage.setItem("username", account.name);
           localStorage.setItem("Id", account.accountId);
           localStorage.setItem("Token", account.token);
+          localStorage.setItem("Class", account.class);
           document.cookie = `jwtToken=${account.token}`;
           // Cookies.set('token', token, { expires: 1, secure: true })
           switch (account.class) {
