@@ -12,6 +12,7 @@ import { Toaster } from "@/components/ui/toaster";
 // import { Label } from "@radix-ui/react-label";
 import { TextareaHint } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { Label } from "@/components/ui/label";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 
@@ -26,6 +27,7 @@ function LogIn() {
   const navigate = useNavigate();
 
   async function handleSubmit() {
+    // useAuthenticated()
     if (username === "" || password === "") {
       toast({
         variant: "destructive",
@@ -48,6 +50,8 @@ function LogIn() {
           localStorage.setItem("Class", account.class);
           document.cookie = `jwtToken=${account.token}`;
           // Cookies.set('token', token, { expires: 1, secure: true })
+          // setIsAuthenticated(true)
+          // useAuthenticated().isAuthenticated = true
           switch (account.class) {
             case "Client":
               navigate("/client");
