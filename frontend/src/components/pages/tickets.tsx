@@ -42,7 +42,7 @@ function Tickets() {
   const [selectMachine, setSelectMachine] = useState<string>("");
 
   const handleCheckbox = () => {
-    setChecked(!isChecked); 
+    setChecked(!isChecked);
   };
 
   class Machine {
@@ -117,19 +117,18 @@ function Tickets() {
           description: "Please select the broken machine.",
         });
         navigate("/tickets");
-      }
-      else if (
+      } else if (
         problem.split(" ").length < 20 ||
         mustbedoing.split(" ").length < 20
       ) {
         toast({
           variant: "destructive",
           title: "Error! Something went wrong.",
-          description: "The initial two inputs have a minimum of 20 words each for comprehensive elaboration.",
+          description:
+            "The initial two inputs have a minimum of 20 words each for comprehensive elaboration.",
         });
         navigate("/tickets");
-      }
-      else if (phonenumber == "" || phonenumber == null) {
+      } else if (phonenumber == "" || phonenumber == null) {
         toast({
           variant: "destructive",
           title: "Error! Something went wrong.",
@@ -149,7 +148,7 @@ function Tickets() {
           HaveTried: havetried,
 
           files: preview,
-          phoneNumber: phonenumber
+          phoneNumber: phonenumber,
         };
 
         await fetch("http://localhost:5119/api/tickets/", {
@@ -171,7 +170,7 @@ function Tickets() {
           title: "Succes!",
           description: "Your ticket has been submitted.",
         });
-        
+
         navigate("/client");
 
         // reader.readAsDataURL(file);
@@ -261,9 +260,7 @@ function Tickets() {
 
         <div>
           <div className="mx-auto flex items-center space-x-2">
-            <Checkbox id="" 
-              onClick={handleCheckbox}
-            />
+            <Checkbox id="" onClick={handleCheckbox} />
             <label
               htmlFor="terms"
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -271,15 +268,16 @@ function Tickets() {
               Use other phone Number
             </label>
           </div>
-          {isChecked ? 
+          {isChecked ? (
             <>
-            <div className="pt-2">
-              <Input
-                placeholder="Enter phone number"
-                onChange={(e) => setPhonenumber(e.currentTarget.value)}
-              /></div>
+              <div className="pt-2">
+                <Input
+                  placeholder="Enter phone number"
+                  onChange={(e) => setPhonenumber(e.currentTarget.value)}
+                />
+              </div>
             </>
-           : null}
+          ) : null}
         </div>
         <div className="grid gap-2">
           <div className="">
@@ -306,7 +304,7 @@ function Tickets() {
           Submit
         </Button>
       </div>
-      <Toaster/>
+      <Toaster />
       <div className="h-12"></div>
     </div>
   );
