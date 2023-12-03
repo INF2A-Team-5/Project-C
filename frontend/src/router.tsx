@@ -3,7 +3,6 @@ import Client from "./components/pages/client";
 import LogIn from "./components/pages/log-in";
 import Tickets from "./components/pages/tickets";
 import App from "./App";
-import EditTicket from "./components/pages/EditTicket";
 
 
 export const router = createBrowserRouter([

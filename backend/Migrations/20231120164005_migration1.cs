@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace backend.Migrations
+namespace Backend.Migrations
 {
     /// <inheritdoc />
     public partial class migration1 : Migration
@@ -20,7 +20,6 @@ namespace backend.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
                     Class = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -104,7 +103,7 @@ namespace backend.Migrations
                     Date_Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Solution = table.Column<string>(type: "text", nullable: true),
                     PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    Notes = table.Column<string[]>(type: "text[]", nullable: true),
+                    Notes = table.Column<string>(type: "text", nullable: true),
                     Files = table.Column<string[]>(type: "text[]", nullable: true)
                 },
                 constraints: table =>
