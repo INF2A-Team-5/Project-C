@@ -76,6 +76,6 @@ body::-webkit-scrollbar-thumb {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: var(--scroll);
+  background-color: hsla(var(--scroll));
   border-radius: 10px;
 }

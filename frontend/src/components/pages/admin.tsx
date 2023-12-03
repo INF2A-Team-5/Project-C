@@ -4,7 +4,6 @@ import { DataRow } from "../../services/DataRow";
 import NewTable from "../foundations/newTable";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { Label } from "@radix-ui/react-dropdown-menu";
 import Header from "../foundations/header";
 import AddAccount from "./addAccount";
 import AddMachine from "./addMachine";
@@ -49,8 +48,6 @@ function Admin() {
       <div className="grid gap-12">
         <div>
           <h1 className="text-4xl font-medium">Admin</h1>
-
-          <Label>View all tables</Label>
           <Tabs defaultValue="accounts">
             <TabsList>
               <TabsTrigger value="accounts">Accounts</TabsTrigger>
@@ -90,7 +87,6 @@ function Admin() {
           </Tabs>
         </div>
         <div>
-          <Label>Add items</Label>
           <Tabs defaultValue="account">
             <TabsList>
               <TabsTrigger value="account">Add account</TabsTrigger>
