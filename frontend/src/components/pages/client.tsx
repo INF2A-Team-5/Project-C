@@ -4,6 +4,7 @@ import Settings from "../foundations/settings";
 import { Cross1Icon } from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
+import { Toaster } from "@/components/ui/toaster";
 import { Link } from "react-router-dom";
 import {
   Dialog,
@@ -47,6 +48,7 @@ function Client() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      <Toaster />
     </div>
   );
 }

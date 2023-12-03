@@ -14,6 +14,8 @@ import { Input } from "../ui/input";
 import { Textarea, TextareaHint } from "../ui/textarea";
 import { Label } from "../ui/label";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
+import { toast } from "@/components/ui/use-toast";
+import { Toaster } from "@/components/ui/toaster";
 import {
   Select,
   SelectContent,
@@ -109,18 +111,30 @@ function Tickets() {
       havetried.length != 0
     ) {
       if (selectMachine == "") {
-        alert("Please choose a machine");
+        toast({
+          variant: "destructive",
+          title: "Error! Something went wrong.",
+          description: "Please select the broken machine.",
+        });
         navigate("/tickets");
       }
       else if (
         problem.split(" ").length < 20 ||
         mustbedoing.split(" ").length < 20
       ) {
-        alert("The first 2 answers must contain at least 20 words");
+        toast({
+          variant: "destructive",
+          title: "Error! Something went wrong.",
+          description: "The initial two inputs have a minimum of 20 words each for comprehensive elaboration.",
+        });
         navigate("/tickets");
       }
       else if (phonenumber == "" || phonenumber == null) {
-        alert("Please enter a phone number");
+        toast({
+          variant: "destructive",
+          title: "Error! Something went wrong.",
+          description: "Please enter a phone number for contact purposes.",
+        });
         navigate("/tickets");
       } else {
         var currentticket = {
@@ -152,14 +166,22 @@ function Tickets() {
           .catch((err) => {
             console.log("Message could not be updated", err);
           });
-
-        alert("Ticket submitted");
+        toast({
+          variant: "default",
+          title: "Succes!",
+          description: "Your ticket has been submitted.",
+        });
+        
         navigate("/client");
 
         // reader.readAsDataURL(file);
       }
     } else {
-      alert("You haven't filled in all necessary fields");
+      toast({
+        variant: "destructive",
+        title: "Error! Something went wrong.",
+        description: "Fill in all necessary fields to submit a ticket.",
+      });
     }
   }
 
@@ -284,6 +306,7 @@ function Tickets() {
           Submit
         </Button>
       </div>
+      <Toaster/>
       <div className="h-12"></div>
     </div>
   );
