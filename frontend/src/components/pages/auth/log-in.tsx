@@ -12,8 +12,8 @@ import { Toaster } from "@/components/ui/toaster";
 // import { Label } from "@radix-ui/react-label";
 import { TextareaHint } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { Label } from "@/components/ui/label";
+import React from "react";
 
 function LogIn() {
   // const { t, i18n } = useTranslation();
@@ -25,8 +25,22 @@ function LogIn() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  const usernameRef = React.useRef<HTMLInputElement>(null);
+  const passwordRef = React.useRef<HTMLInputElement>(null);
+
+  const handleEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+
+      if (event.currentTarget === usernameRef.current) {
+        passwordRef.current?.focus();
+      } else if (event.currentTarget === passwordRef.current) {
+        handleSubmit();
+      }
+    }
+  };
+
   async function handleSubmit() {
-    // useAuthenticated()
     if (username === "" || password === "") {
       toast({
         variant: "destructive",
@@ -49,8 +63,6 @@ function LogIn() {
           localStorage.setItem("Class", account.class);
           document.cookie = `jwtToken=${account.token}`;
           // Cookies.set('token', token, { expires: 1, secure: true })
-          // setIsAuthenticated(true)
-          // useAuthenticated().isAuthenticated = true
           switch (account.class) {
             case "Client":
               navigate("/client");
@@ -115,17 +127,21 @@ function LogIn() {
           <div className="grid gap-1">
             <Label>{t("login.username")}</Label>
             <Input
+              ref={usernameRef}
               name="username"
               placeholder="Username"
+              onKeyDown={handleEnter}
               onChange={(e) => setUsername(e.currentTarget.value)}
             />
           </div>
           <div className="grid gap-1">
             <Label>{t("login.password")}</Label>
             <Input
+              ref={passwordRef}
               name="password"
               placeholder="******"
               type="password"
+              onKeyDown={handleEnter}
               // ●●●●●●●● als je circels wilt
               onChange={(e) => setPassword(e.currentTarget.value)}
             />

@@ -60,14 +60,13 @@
   background-color: var(--background);
   color: var(--foreground);
   /* text-align: center; */
-  
 
 /* #checkbox:checked ~ * .check-1{
   @apply opacity-100;
   
 } */
 
-.transparent{
+.transparent {
   background-color: transparent;
 }
 
@@ -97,7 +96,7 @@ header nav {
   border-radius: 24px;
 }
 
-.wrapper h1{
+.wrapper h1 {
   font-size: 45px;
   line-height: 50px;
   margin-bottom: 5px;
@@ -105,7 +104,7 @@ header nav {
   background-color: transparent;
 }
 
-.words{
+.words {
   border: 0px solid var(--background);
   height: 50px;
   line-height: 50px;
@@ -115,7 +114,7 @@ header nav {
   background-color: transparent;
 }
 
-.words h1{
+.words h1 {
   position: relative;
   color: var(--primary);
   animation: rotate_words 15s ease infinite;
@@ -156,8 +155,7 @@ header nav {
   }
 }
 
-
-body::-webkit-scrollbar {
+/* body::-webkit-scrollbar {
   width: 8px; 
 }
 
@@ -173,7 +171,7 @@ body::-webkit-scrollbar-thumb {
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: var(--scroll);
   border-radius: 10px;
-}
+} */
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;

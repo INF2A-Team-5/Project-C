@@ -1,5 +1,5 @@
+import LogIn from "./components/pages/auth/log-in";
 import { useAuthenticated } from "./lib/hooks/useAuthenticated";
-import { LogIn } from "lucide-react";
 
 function App() {
   useAuthenticated();

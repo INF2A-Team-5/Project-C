@@ -17,13 +17,11 @@ import { Link } from "react-router-dom";
 const DROPDOWN_ICON_CLASSES = "w-5 mr-2";
 
 function toggleThemeLight() {
-  const htmlElement = document.documentElement;
-  htmlElement.classList.remove("dark");
+  document.documentElement.classList.remove("dark");
 }
 
 function toggleThemeDark() {
-  const htmlElement = document.documentElement;
-  htmlElement.classList.add("dark");
+  document.documentElement.classList.add("dark");
 }
 
 function logOut() {

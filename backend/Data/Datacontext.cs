@@ -16,7 +16,7 @@ public class DataContext : DbContext
       public DbSet<TicketFile> Files {get; set; } = null!;
       protected override void OnConfiguring(DbContextOptionsBuilder builder)
       {
-      builder.UseNpgsql(@"Host=localhost:5432;Username=postgres;Password=1234;Database=ProjectC_Database;Maximum Pool Size=200");
+      builder.UseNpgsql(@"Host=localhost:5432;Username=postgres;Password=123;Database=ProjectC_Database;Maximum Pool Size=200");
       builder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Debug);
       }
       protected override void OnModelCreating(ModelBuilder modelBuilder)
