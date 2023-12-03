@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Settings from "../foundations/settings";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
-import { DataRow } from "@/services/DataRow";
+import { Textarea } from "../ui/textarea";
+import { toast } from "../ui/use-toast";
 
-function AddSolution()
-{
-    useAuthenticated();
+function AddSolution() {
+  useAuthenticated();
 
   const [problemDescription, setProblemDescription] = useState("");
   const [solutionDescription, setSolutionDescription] = useState("");
@@ -17,13 +16,25 @@ function AddSolution()
 
   async function handleSubmit() {
     if (problemDescription == "") {
-      alert("Enter description of the problem");
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Enter description of the problem.",
+      });
     } else if (solutionDescription == "") {
-      alert("Enter a description of the solution");
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Enter a description of the solution.",
+      });
     } else if (!ticketId || isNaN(ticketId)) {
-      alert("Enter a valid ticket ID");
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Enter a valid ticket ID.",
+      });
     }
-  
+
     //post request
     else {
       const requestOptions = {
@@ -38,55 +49,35 @@ function AddSolution()
           ticketId: ticketId,
         }),
       };
-      fetch("http://localhost:5119/api/solutions", requestOptions)
-        .then((response) => response.json());
-        
-      alert("Solution added");
+      fetch("http://localhost:5119/api/solutions", requestOptions).then(
+        (response) => response.json()
+      );
+
+      toast({
+        variant: "default",
+        title: "Succes!",
+        description: "Solution added successfully.",
+      });
       navigate("/admin");
     }
   }
 
   return (
-    <div className="text-center">
-      <h2>Add Solution</h2>
-      <div>
-        <Input
-          name="username"
-          placeholder="Enter Description of the Problem"
-          onChange={(e) => setProblemDescription(e.currentTarget.value)}
-        />
-      </div>
-      <h3></h3>
-      <div>
-        <Input
-          name="username"
-          placeholder="Enter a Description of the Solution"
-          onChange={(e) => setSolutionDescription(e.currentTarget.value)}
-        />
-      </div>
-      <h3></h3>
-      <div>
-        <Input
-          name="username"
-          placeholder="Enter Ticket ID"
-          onChange={(e) => setTicketId(parseInt(e.currentTarget.value))}
-        />
-      </div>
-      <br />
-      <Settings></Settings>
-      <Button variant="default" onClick={handleSubmit}>
+    <div className="grid gap-2">
+      <Textarea
+        placeholder="Enter Description of the Problem"
+        onChange={(e) => setProblemDescription(e.currentTarget.value)}
+      ></Textarea>
+      <Textarea
+        placeholder="Enter a Description of the Solution"
+        onChange={(e) => setSolutionDescription(e.currentTarget.value)}
+      ></Textarea>
+      <Input
+        placeholder="Enter Ticket ID"
+        onChange={(e) => setTicketId(parseInt(e.currentTarget.value))}
+      />
+      <Button className="w-fit" variant="default" onClick={handleSubmit}>
         Upload ticket Solution
-      </Button>
-      <h3></h3>
-      <Button onClick={() => (window.location.href = "/add-machine-solution")}>
-        Add machine solution instead
-      </Button>
-      <h3></h3>
-      <Button
-        variant="destructive"
-        onClick={() => (window.location.href = "/admin")}
-      >
-        Back
       </Button>
     </div>
   );

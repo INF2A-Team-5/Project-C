@@ -1,8 +1,15 @@
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Settings from "../foundations/settings";
+import { useNavigate } from "react-router-dom";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { toast } from "../ui/use-toast";
 
 function AddAccount() {
   const [username, setUsername] = useState("");
@@ -22,11 +29,23 @@ function AddAccount() {
       .then((accounts) => accounts.find((acc: any) => acc.name == username));
 
     if (account !== undefined) {
-      alert("Username already exists");
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Username already exists.",
+      });
     } else if (username == "") {
-      alert("Enter a username");
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Enter a username.",
+      });
     } else if (password == "") {
-      alert("Enter a password");
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Enter a password.",
+      });
     }
     // WAAR IS CLASS CHECKING?
     else {
@@ -46,48 +65,38 @@ function AddAccount() {
         (response) => response.json()
       );
 
-      alert("Account added");
+      toast({
+        variant: "default",
+        title: "Succes!",
+        description: "Account added successfully.",
+      });
       navigate("/admin");
     }
   }
 
   return (
-    <div className="text-center">
-      <h2>Add Account</h2>
-      <div>
-        <Input
-          name="username"
-          placeholder="Enter Username"
-          onChange={(e) => setUsername(e.currentTarget.value)}
-        />
-      </div>
-      <h3></h3>
-      <div>
-        <Input
-          name="password"
-          placeholder="Enter Password"
-          onChange={(e) => setPassword(e.currentTarget.value)}
-        />
-      </div>
-      <h3>User Type</h3>
-      <div>
-        <select value={userType} onChange={(e) => setUserType(e.target.value)}>
-          <option value="Admin">Admin</option>
-          <option value="Client">Client</option>
-          <option value="ServiceEmployee">Service Employee</option>
-        </select>
-      </div>
-      <br />
-      <Settings></Settings>
-      <Button size="lg" variant="default" onClick={handleSubmit}>
+    <div className="grid gap-2">
+      <Input
+        placeholder="Enter Username"
+        onChange={(e) => setUsername(e.currentTarget.value)}
+      />
+      <Input
+        placeholder="Enter Password"
+        onChange={(e) => setPassword(e.currentTarget.value)}
+      />
+      <Select value={userType} onValueChange={(value) => setUserType(value)}>
+        <SelectTrigger>
+          <SelectValue placeholder="Select a User Type" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="Admin">Admin</SelectItem>
+          <SelectItem value="Client">Client</SelectItem>
+          <SelectItem value="ServiceEmployee">Service Employee</SelectItem>
+        </SelectContent>
+      </Select>
+      <Button className="w-fit" variant="default" onClick={handleSubmit}>
         Add Account
       </Button>
-      <h3></h3>
-      <Link to="/admin">
-        <Button size="default" variant="destructive">
-          Back
-        </Button>
-      </Link>
     </div>
   );
 }

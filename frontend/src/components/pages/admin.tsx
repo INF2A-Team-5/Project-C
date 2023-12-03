@@ -2,7 +2,6 @@ import { useState } from "react";
 import Settings from "../foundations/settings";
 import { DataRow } from "../../services/DataRow";
 import NewTable from "../foundations/newTable";
-import { Button } from "../ui/button";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Label } from "@radix-ui/react-dropdown-menu";
@@ -11,6 +10,15 @@ import AddAccount from "./addAccount";
 import AddMachine from "./addMachine";
 import AddDepartment from "./addDepartment";
 import AddSolution from "./AddSolution";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
+import AddMachineSolution from "./AddMachineSolution";
+import { Toaster } from "../ui/toaster";
 
 function Admin() {
   useAuthenticated();
@@ -82,28 +90,87 @@ function Admin() {
           </Tabs>
         </div>
         <div>
+          <Label>Add items</Label>
           <Tabs defaultValue="account">
             <TabsList>
               <TabsTrigger value="account">Add account</TabsTrigger>
               <TabsTrigger value="machine">Add machine</TabsTrigger>
               <TabsTrigger value="department">Add department</TabsTrigger>
-              <TabsTrigger value="solution">Add solution</TabsTrigger>
+              <TabsTrigger value="ticket-solution">
+                Add ticket solution
+              </TabsTrigger>
+              <TabsTrigger value="machine-solution">
+                Add machine solution
+              </TabsTrigger>
             </TabsList>
             <TabsContent value="account">
-              <AddAccount />
+              <Card className="w-3/6">
+                <CardHeader>
+                  <CardTitle>Add Account</CardTitle>
+                  <CardDescription>
+                    Create accounts for new clients
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <AddAccount />
+                </CardContent>
+              </Card>
             </TabsContent>
             <TabsContent value="machine">
-              <AddMachine />
+              <Card className="w-3/6">
+                <CardHeader>
+                  <CardTitle>Add Machine</CardTitle>
+                  <CardDescription>Create new machines</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <AddMachine />
+                </CardContent>
+              </Card>
             </TabsContent>
             <TabsContent value="department">
-              <AddDepartment />
+              <Card className="w-3/6">
+                <CardHeader>
+                  <CardTitle>Add Department</CardTitle>
+                  <CardDescription>
+                    Create Departments for new services
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <AddDepartment />
+                </CardContent>
+              </Card>
             </TabsContent>
-            <TabsContent value="solution">
-              <AddSolution />
+            <TabsContent value="ticket-solution">
+              <Card className="w-3/6">
+                <CardHeader>
+                  <CardTitle>Add ticket solution</CardTitle>
+                  <CardDescription>
+                    Create solutions for frequent ticket problems
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <AddSolution />
+                </CardContent>
+              </Card>
+            </TabsContent>
+            <TabsContent value="machine-solution">
+              <Card className="w-3/6">
+                <CardHeader>
+                  <CardTitle>Add machine solution</CardTitle>
+                  <CardDescription>
+                    Create solutions for frequent machine problems
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <AddMachineSolution />
+                </CardContent>
+              </Card>
             </TabsContent>
           </Tabs>
         </div>
+        <div className="h-44"></div>
       </div>
+      <Toaster />
     </div>
   );
 }

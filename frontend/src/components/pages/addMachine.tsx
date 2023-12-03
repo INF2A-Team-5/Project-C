@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Settings from "../foundations/settings";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
+import { toast } from "../ui/use-toast";
 
 function AddMachine() {
   const [name, setName] = useState("");
@@ -24,17 +25,30 @@ function AddMachine() {
       .then((machines) => machines.find((mach: any) => mach.name == name));
 
     if (machine !== undefined) {
-      alert("Machine name already exists");
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Machine name already exists.",
+      });
     } else if (name == "") {
-      alert("Enter a name");
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Enter a name.",
+      });
     } else if (description == "") {
-      alert("Enter a description");
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Enter a description.",
+      });
     } else if (!accountId || isNaN(accountId)) {
-      alert("Enter a valid account ID");
-    }
-
-    //post request
-    else {
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Enter a valid account ID.",
+      });
+    } else {
       const requestOptions = {
         method: "POST",
         headers: {
@@ -50,47 +64,31 @@ function AddMachine() {
       fetch("http://localhost:5119/api/machines", requestOptions).then(
         (response) => response.json()
       );
-
-      alert("Machine added");
+      toast({
+        variant: "default",
+        title: "Succes!",
+        description: "Machine added successfully.",
+      });
       navigate("/admin");
     }
   }
 
   return (
-    <div className="text-center">
-      <h2>Add Machine</h2>
-      <div>
-        <Input
-          name="username"
-          placeholder="Enter Machine Name"
-          onChange={(e) => setName(e.currentTarget.value)}
-        />
-      </div>
-      <h3></h3>
-      <div>
-        <Input
-          name="username"
-          placeholder="Enter Description"
-          onChange={(e) => setDescription(e.currentTarget.value)}
-        />
-      </div>
-      <h3></h3>
-      <div>
-        <Input
-          name="username"
-          placeholder="Enter Account ID"
-          onChange={(e) => setAccountId(parseInt(e.currentTarget.value))}
-        />
-      </div>
-      <br />
-      <Settings></Settings>
-      <Button onClick={handleSubmit}>Add Machine</Button>
-      <h3></h3>
-      <Button
-        variant="destructive"
-        onClick={() => (window.location.href = "/admin")}
-      >
-        Back
+    <div className="grid gap-2">
+      <Input
+        placeholder="Enter Machine Name"
+        onChange={(e) => setName(e.currentTarget.value)}
+      />
+      <Textarea
+        placeholder="Enter Description"
+        onChange={(e) => setDescription(e.currentTarget.value)}
+      ></Textarea>
+      <Input
+        placeholder="Enter Account ID"
+        onChange={(e) => setAccountId(parseInt(e.currentTarget.value))}
+      />
+      <Button className="w-fit" onClick={handleSubmit}>
+        Add Machine
       </Button>
     </div>
   );
