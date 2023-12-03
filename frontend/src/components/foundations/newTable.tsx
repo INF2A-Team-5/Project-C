@@ -14,7 +14,6 @@ function NewTable({ data, displayColumns, dataColumns }: TableProps) {
 
     const handleSort = (column: string) => {
         let temp;
-        console.log(sortDirection);
         switch (column) {
             case "ID":
                 temp = "ticketId";
