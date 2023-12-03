@@ -11,16 +11,12 @@ import Tickets from "./components/pages/tickets";
 import Client from "./components/pages/client";
 import ServiceEmployee from "./components/pages/serviceEmployee";
 import Admin from "./components/pages/admin";
-import AddAccount from "./components/pages/addAccount";
-import AddMachine from "./components/pages/addMachine";
-import AddDepartment from "./components/pages/addDepartment";
-import AddSolution from "./components/pages/AddSolution";
 import EditAccount from "./components/pages/EditAccount";
 import "./translations/i18n";
+
 import LogIn from "./components/pages/auth/log-in";
 import Register from "./components/pages/auth/register";
 import ForgotPassword from "./components/pages/auth/forgot-password";
-import AddMachineSolution from "./components/pages/AddMachineSolution";
 
 const router = createBrowserRouter([
   {
@@ -60,29 +56,9 @@ const router = createBrowserRouter([
     element: <Admin />,
   },
   {
-    path: "add-account",
-    element: <AddAccount />,
-  },
-  {
-    path: "add-machine",
-    element: <AddMachine />,
-  },
-  {
-    path: "add-department",
-    element: <AddDepartment />,
-  },
-  {
-    path: "add-solution",
-    element: <AddSolution />,
-  },
-  {
     path: "edit-account",
     element: <EditAccount />,
   },
-  {
-    path: "add-machine-solution",
-    element: <AddMachineSolution />
-  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
