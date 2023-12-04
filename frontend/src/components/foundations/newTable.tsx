@@ -138,7 +138,8 @@ function NewTable({ data, displayColumns, dataColumns }: TableProps) {
   };
 
   function handleButtonClick(id: number) {
-    alert(id);
+    localStorage.setItem("currentticket", id.toString());
+    window.location.href = "edit-ticket";
   }
 
   return (
@@ -167,7 +168,7 @@ function NewTable({ data, displayColumns, dataColumns }: TableProps) {
               ))}
               <td>
                 <button onClick={() => handleButtonClick(row.ticketId)}>
-                  Click me
+                  Edit ticket
                 </button>
               </td>
             </tr>

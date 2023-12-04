@@ -20,7 +20,7 @@ function EditTicket() {
     
 
     async function HandleCancel() {
-        navigate('/client');
+        navigate(-1);
     }
 
     async function HandleOnChange(e: React.ChangeEvent<HTMLInputElement>){
@@ -103,7 +103,7 @@ function EditTicket() {
       throw new Error(`HTTP error! Status: ${response.status}. Error message: ${JSON.stringify(errorResponse)}`);
     }
     alert("Ticket updated")
-    navigate('/client')
+    navigate(-1)
     // If needed, you can handle the response data here
   } catch (error) {
     console.error('Error during PUT request:', error);
