@@ -15,6 +15,19 @@ function AddMachineSolution() {
   const navigate = useNavigate();
 
   async function HandleSubmit() {
+    if (Name == "") {
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Please fill in a machine name",
+      });
+    } else if (Solution == "") {
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Please fill in a solution",
+      });
+    }
     let machines = await fetch("http://localhost:5119/api/Machines", {
       method: "GET",
       headers: {

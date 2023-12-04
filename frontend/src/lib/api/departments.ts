@@ -1,3 +1,4 @@
+import { toast } from "@/components/ui/use-toast";
 import {
   API_BASE_URL,
   getBaseQueryRequest,
@@ -29,9 +30,17 @@ export namespace ApiDepartments {
     );
 
     if (department !== undefined) {
-      alert("Department name already exists");
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Department already exists",
+      });
     } else if (name == "") {
-      alert("Enter a name");
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Enter a department name",
+      });
     } else {
       const response = await fetch("http://localhost:5119/api/departments", {
         ...requestInit,
@@ -40,7 +49,11 @@ export namespace ApiDepartments {
 
       try {
         const json = response.json();
-
+        toast({
+          variant: "default",
+          title: "Success!",
+          description: "Department successfully added",
+        });
         onSuccess && onSuccess();
 
         return json;
