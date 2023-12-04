@@ -33,9 +33,8 @@ const changeLanguage = (lng: string) => {
   i18next.changeLanguage(lng);
 };
 
-const isLoggedIn = location.pathname !== "/auth/login";
-
 function Settings() {
+  const isLoggedIn = localStorage.getItem("Token") != null;
   return (
     <div className="top-7 right-7 fixed">
       <DropdownMenu>
@@ -49,7 +48,7 @@ function Settings() {
 
           {isLoggedIn ? (
             <>
-              <Link to="/account">
+              <Link to="/edit-account">
                 <DropdownMenuItem>
                   {i18next.t("setting.account")}
                 </DropdownMenuItem>

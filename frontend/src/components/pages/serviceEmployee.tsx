@@ -62,7 +62,7 @@ function serviceEmployee() {
       <div className="grid gap-12">
         <div>
           <h1 className="text-4xl font-medium">Serivce Employee</h1>
-          <Tabs defaultValue="accounts">
+          <Tabs defaultValue="tickets">
             <TabsList>
               <TabsTrigger value="tickets">Tickets</TabsTrigger>
               <TabsTrigger value="machines">Machines</TabsTrigger>

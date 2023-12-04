@@ -1,7 +1,5 @@
-import React from "react";
 import Tablea from "../foundations/table";
 import Settings from "../foundations/settings";
-import { Cross1Icon } from "@radix-ui/react-icons";
 import { Button } from "../ui/button";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { Toaster } from "@/components/ui/toaster";

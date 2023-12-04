@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import Settings from "../foundations/settings";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { useNavigate } from "react-router-dom";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 
 function EditAccount() {
+  useAuthenticated();
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   async function handleSubmit() {
     let currentaccount = await fetch(
@@ -52,7 +54,10 @@ function EditAccount() {
 
     // need accounts to be connected to current user so i can change the phone number of the current user
   }
-
+    const navigate = useNavigate();
+    const goBack = () => {
+      navigate(-1);
+    }
   return (
     <div>
       <h2>Change Phone Number</h2>
@@ -88,7 +93,7 @@ function EditAccount() {
       <h3></h3>
       <Button
         variant="destructive"
-        onClick={() => (window.location.href = "/tickets")}
+        onClick={goBack}
       >
         Back
       </Button>
