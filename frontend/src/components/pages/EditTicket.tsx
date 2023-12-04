@@ -110,6 +110,39 @@ function EditTicket() {
   }
     
     }
+
+    async function CloseTicket()
+    {
+      let currentticket = await fetch("http://localhost:5119/api/tickets/" + ticketid,
+      {
+        method: "GET",
+        headers: {
+          "Authorization": "bearer " + localStorage.getItem("Token"),
+          "Content-Type": "application/json",
+        }
+      }).then(data => data.json());
+      currentticket.status = "Closed"
+      try {
+        const response = await fetch("http://localhost:5119/api/tickets/" + ticketid,
+        {
+          method: "PUT",
+          headers: {
+            "Authorization": "bearer " + localStorage.getItem("Token"),
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(currentticket)
+        });
+        if (!response.ok) {
+          const errorResponse = await response.text(); // Capture response content
+          throw new Error(`HTTP error! Status: ${response.status}. Error message: ${JSON.stringify(errorResponse)}`);
+        }
+        alert("Ticket closed")
+        navigate(-1)
+        // If needed, you can handle the response data here
+      } catch (error) {
+        console.error('Error during PUT request:', error);
+      }
+    }
     
 
     return (
@@ -153,7 +186,8 @@ function EditTicket() {
         {/* <p className='text-md text-grey-900 '>{t('editticket.description')}</p> */}
         <Textarea placeholder="Still does not work because..." onChange={(e: any) => setNotes(e.currentTarget.value)}></Textarea>
         <p className='text-md text-grey-900 '>Give us a detailed description on what you want to update the ticket with</p>
-
+        <Button variant='destructive'  onClick={CloseTicket}>Close ticket</Button>
+        
       </div>
       {/* <h2 className='text-lg font-medium'>{t('editticket.pictures')}</h2> */}
       <h2 className='text-lg font-medium'>Add pictures</h2>
