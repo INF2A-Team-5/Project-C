@@ -14,6 +14,7 @@ import { toast } from "../ui/use-toast";
 function AddAccount() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmpassword, setconfirmPassword] = useState("");
   const [userType, setUserType] = useState("Client");
   const navigate = useNavigate();
 
@@ -47,6 +48,14 @@ function AddAccount() {
         description: "Enter a password.",
       });
     }
+    else if (password != confirmpassword) {
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Password and confirmed password need to match.",
+      });
+    }
+    
     // WAAR IS CLASS CHECKING?
     else {
       const requestOptions = {
@@ -83,6 +92,10 @@ function AddAccount() {
       <Input
         placeholder="Enter Password"
         onChange={(e) => setPassword(e.currentTarget.value)}
+      />
+      <Input
+        placeholder="Confirm Password"
+        onChange={(e) => setconfirmPassword(e.currentTarget.value)}
       />
       <Select value={userType} onValueChange={(value) => setUserType(value)}>
         <SelectTrigger>
