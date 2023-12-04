@@ -18,6 +18,7 @@ import {
 } from "../ui/card";
 import AddMachineSolution from "./AddMachineSolution";
 import { Toaster } from "../ui/toaster";
+import { Separator } from "../ui/separator";
 
 function Admin() {
   useAuthenticated();
@@ -48,6 +49,7 @@ function Admin() {
       <div className="grid gap-12">
         <div>
           <h1 className="text-4xl font-medium">Admin</h1>
+          <Separator className="my-4"/>
           <Tabs defaultValue="accounts">
             <TabsList>
               <TabsTrigger value="accounts">Accounts</TabsTrigger>
