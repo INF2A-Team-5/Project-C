@@ -104,6 +104,10 @@ function Tickets() {
     }
   }
 
+  async function HandleCancel() {
+    navigate('/client');
+  }
+
   async function handleSubmit() {
     if (
       problem.length != 0 &&

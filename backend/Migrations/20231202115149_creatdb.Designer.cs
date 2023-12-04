@@ -12,8 +12,13 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
+<<<<<<<< HEAD:backend/Migrations/20231202115149_creatdb.Designer.cs
     [Migration("20231202115149_creatdb")]
     partial class creatdb
+========
+    [Migration("20231129104140_migration1")]
+    partial class migration1
+>>>>>>>> main:backend/Migrations/20231129104140_migration1.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -148,8 +153,8 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Notes")
-                        .HasColumnType("text");
+                    b.Property<string[]>("Notes")
+                        .HasColumnType("text[]");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("text");
