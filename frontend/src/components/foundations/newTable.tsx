@@ -13,36 +13,45 @@ function NewTable({ data, displayColumns, dataColumns }: TableProps) {
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
     const handleSort = (column: string) => {
-        if (sortColumn === column) {
+        let temp;
+        switch (column) {
+            case "ID":
+                temp = "ticketId";
+                break;
+            case "Priority":
+                temp = "priority";
+                break;
+            case "Client":
+                temp = "customer_Id";
+                break;
+            case "Date":
+                temp = "date_Created"
+                break;
+            case "Status":
+                temp = "status";
+                break;
+            default:
+                temp = column;
+                break;
+        }
+
+        if (sortDirection == "asc") {
             setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+            sortByKey(data, temp);
         } else {
             setSortColumn(column);
             setSortDirection('asc');
+            sortByKey(data, temp).reverse();
         }
     };
 
-    const sortedData = () => {
-        if (sortColumn) {
-            return [...data].sort((a, b) => {
-                const valueA = a[sortColumn];
-                const valueB = b[sortColumn];
-
-                if (valueA < valueB) {
-                    return sortDirection === 'asc' ? -1 : 1;
-                }
-                if (valueA > valueB) {
-                    return sortDirection === 'asc' ? 1 : -1;
-                }
-                return 0;
-            });
-        }
-
-        return [...data];
-    };
+    function sortByKey<T>(array: T[], key: keyof T): T[] {
+        return array.sort((a, b) => (a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0));
+    }
 
     const indexOfLastItem = currentPage * 10;
     const indexOfFirstItem = indexOfLastItem - 10;
-    const currentData = sortedData().slice(indexOfFirstItem, indexOfLastItem);
+    const currentData = data.slice(indexOfFirstItem, indexOfLastItem);
 
     const totalPages = Math.ceil(data.length / 10);
 

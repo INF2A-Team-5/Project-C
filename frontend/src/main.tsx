@@ -16,7 +16,6 @@ import AddDepartment from "./components/pages/addDepartment";
 import AddSolution from "./components/pages/AddSolution";
 import EditAccount from "./components/pages/EditAccount";
 import './translations/i18n';
-import EditTicket from "./components/pages/EditTicket";
 
 
 const router = createBrowserRouter([
@@ -59,10 +58,6 @@ const router = createBrowserRouter([
   {
     path: "edit-account",
     element: <EditAccount />
-  },
-  {
-    path: "edit-ticket",
-    element: <EditTicket />
   }
 ])
 
