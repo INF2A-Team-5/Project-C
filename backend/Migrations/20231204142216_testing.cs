@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class creatdb : Migration
+    public partial class testing : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -65,7 +65,8 @@ namespace backend.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    AccountId = table.Column<int>(type: "integer", nullable: false)
+                    AccountId = table.Column<int>(type: "integer", nullable: true),
+                    Solution = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {

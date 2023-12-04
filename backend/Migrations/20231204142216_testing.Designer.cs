@@ -12,13 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-<<<<<<<< HEAD:backend/Migrations/20231202115149_creatdb.Designer.cs
-    [Migration("20231202115149_creatdb")]
-    partial class creatdb
-========
-    [Migration("20231129104140_migration1")]
-    partial class migration1
->>>>>>>> main:backend/Migrations/20231129104140_migration1.Designer.cs
+    [Migration("20231204142216_testing")]
+    partial class testing
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -82,7 +77,7 @@ namespace backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("MachineId"));
 
-                    b.Property<int>("AccountId")
+                    b.Property<int?>("AccountId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Description")
@@ -91,6 +86,9 @@ namespace backend.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Solution")
                         .HasColumnType("text");
 
                     b.HasKey("MachineId");
