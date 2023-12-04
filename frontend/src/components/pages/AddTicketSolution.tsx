@@ -58,7 +58,14 @@ function AddSolution() {
         title: "Succes!",
         description: "Solution added successfully.",
       });
-      navigate("/admin");
+      switch (localStorage.getItem("Class")) {
+        case "Admin":
+          navigate("/admin");
+          break;
+        case "ServiceEmployee":
+          navigate("/serviceEmployee");
+          break;
+      }
     }
   }
 

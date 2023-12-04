@@ -3,19 +3,25 @@ import Settings from "../foundations/settings";
 import NewTable from "../foundations/newTable";
 import { DataRow } from "../../services/DataRow";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
-import { Button } from "../ui/button";
+import Header from "../foundations/header";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../ui/card";
+import { Toaster } from "../ui/toaster";
+import AddMachineSolution from "./AddMachineSolution";
+import AddSolution from "./AddTicketSolution";
+import AddMachine from "./addMachine";
 
 function serviceEmployee() {
-  // useAuthenticated();
+  useAuthenticated();
   const [AllTickets, SetAllTickets] = useState<DataRow[]>([]);
   const [AssignedTickets, SetAssignedTickets] = useState<DataRow[]>([]);
-  // console.log(AllTickets);
   if (AllTickets.length == 0) {
     GetAllData();
   }
   if (AssignedTickets.length == 0) {
     GetAssignedData();
   }
+  // console.log(localStorage.getItem("Token"));
 
   async function GetAllData() {
     SetAllTickets(
@@ -48,35 +54,97 @@ function serviceEmployee() {
   }
 
   return (
-    <div>
+    <div className="text-left px-24">
       <Settings></Settings>
-      <h1>serviceEmployee</h1>
-      <NewTable
-        displayColumns={["ID", "Priority", "Client", "Date", "Status", ""]}
-        data={AllTickets}
-        dataColumns={[
-          "ticketId",
-          "priority",
-          "customer_Id",
-          "date_Created",
-          "status",
-        ]}
-      />
-      <h1>Assigned Tickets</h1>
-      <NewTable
-        displayColumns={["ID", "Priority", "Client", "Date", "Status", ""]}
-        data={AssignedTickets}
-        dataColumns={[
-          "ticketId",
-          "priority",
-          "customer_Id",
-          "date_Created",
-          "status",
-        ]}
-      />
-      <Button onClick={() => (window.location.href = "/add-machine-solution")}>
-        Add machine solution
-      </Button>
+      <div className="flex justify-center pb-16 pt-10">
+        <Header></Header>
+      </div>
+      <div className="grid gap-12">
+        <div>
+          <h1 className="text-4xl font-medium">Serivce Employee</h1>
+          <Tabs defaultValue="accounts">
+            <TabsList>
+              <TabsTrigger value="tickets">Tickets</TabsTrigger>
+              <TabsTrigger value="machines">Machines</TabsTrigger>
+            </TabsList>
+            <TabsContent value="tickets">
+              <NewTable
+                displayColumns={[
+                  "ID",
+                  "Priority",
+                  "Client",
+                  "Date",
+                  "Status",
+                  "",
+                ]}
+                data={AllTickets}
+                dataColumns={[
+                  "ticketId",
+                  "priority",
+                  "customer_Id",
+                  "date_Created",
+                  "status",
+                ]}
+              />
+            </TabsContent>
+            <TabsContent value="machines">
+              Pleur hier je machinestabel
+            </TabsContent>
+          </Tabs>
+        </div>
+        <div>
+          <Tabs defaultValue="machine">
+            <TabsList>
+              <TabsTrigger value="machine">Add machine</TabsTrigger>
+              <TabsTrigger value="ticket-solution">
+                Add ticket solution
+              </TabsTrigger>
+              <TabsTrigger value="machine-solution">
+                Add machine solution
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="machine">
+              <Card className="w-3/6">
+                <CardHeader>
+                  <CardTitle>Add Machine</CardTitle>
+                  <CardDescription>Create new machines</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <AddMachine />
+                </CardContent>
+              </Card>
+            </TabsContent>
+            <TabsContent value="ticket-solution">
+              <Card className="w-3/6">
+                <CardHeader>
+                  <CardTitle>Add ticket solution</CardTitle>
+                  <CardDescription>
+                    Create solutions for frequent ticket problems
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <AddSolution />
+                </CardContent>
+              </Card>
+            </TabsContent>
+            <TabsContent value="machine-solution">
+              <Card className="w-3/6">
+                <CardHeader>
+                  <CardTitle>Add machine solution</CardTitle>
+                  <CardDescription>
+                    Create solutions for frequent machine problems
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <AddMachineSolution />
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </div>
+        <div className="h-44"></div>
+      </div>
+      <Toaster />
     </div>
   );
 }

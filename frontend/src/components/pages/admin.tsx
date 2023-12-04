@@ -8,7 +8,7 @@ import Header from "../foundations/header";
 import AddAccount from "./addAccount";
 import AddMachine from "./addMachine";
 import AddDepartment from "./addDepartment";
-import AddSolution from "./AddTIcketSolution";
+import AddSolution from "./AddTicketSolution";
 import {
   Card,
   CardContent,
