@@ -1,91 +1,115 @@
-import Input from '../foundations/input'
-import Button from '../foundations/button'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Settings from '../foundations/settings'
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import { toast } from "../ui/use-toast";
 
 function AddAccount() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [userType, setUserType] = useState('Client');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmpassword, setconfirmPassword] = useState("");
+  const [userType, setUserType] = useState("Client");
   const navigate = useNavigate();
 
   async function handleSubmit() {
     const account = await fetch("http://localhost:5119/api/accounts", {
       method: "GET",
       headers: {
-        "Authorization": "bearer " + localStorage.getItem("Token"),
+        Authorization: "bearer " + localStorage.getItem("Token"),
         "Content-Type": "application/json",
-      }
-    }).then(data => data.json())
-      .then(accounts => accounts.find((acc: any) => acc.name == username))
+      },
+    })
+      .then((data) => data.json())
+      .then((accounts) => accounts.find((acc: any) => acc.name == username));
 
-    if (account !== undefined){
-      alert("Username already exists");
+    if (account !== undefined) {
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Username already exists.",
+      });
+    } else if (username == "") {
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Enter a username.",
+      });
+    } else if (password == "") {
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Enter a password.",
+      });
+    }
+    else if (password != confirmpassword) {
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Password and confirmed password need to match.",
+      });
     }
     
-    else if (username == "")
-    {
-      alert("Enter a username");
-    }    
-    
-    else if (password == "")
-    {
-      alert("Enter a password");
-    }
-
-    //post request
-    else
-    {
+    // WAAR IS CLASS CHECKING?
+    else {
       const requestOptions = {
-        method: 'POST',
-        headers: 
-        { 
-          'Content-Type': 'application/json',
-          "Authorization": "bearer " + localStorage.getItem("Token"),
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "bearer " + localStorage.getItem("Token"),
         },
-        body: JSON.stringify({"accountId": 0, "name": username, "password": password, "Class": userType})
+        body: JSON.stringify({
+          name: username,
+          password: password,
+          class: userType,
+        }),
       };
-      fetch('http://localhost:5119/api/accounts', requestOptions)
-        .then(response => response.json())
-        .then(data => alert("Account added")); 
-        
-      navigate('/admin')
-    }
+      fetch("http://localhost:5119/api/accounts", requestOptions).then(
+        (response) => response.json()
+      );
 
-}
+      toast({
+        variant: "default",
+        title: "Succes!",
+        description: "Account added successfully.",
+      });
+      navigate("/admin");
+    }
+  }
 
   return (
-    <div className='text-center'>
-        <h2>Add Account</h2>
-        <div>
-          <Input hierarchy='md' name='username' placeholder='Enter Username'
-          onChange={e => setUsername(e.currentTarget.value)}
-          />
-        </div>
-        <h3></h3>
-        <div>
-          <Input hierarchy='md' name='password' placeholder='Enter Password'
-          onChange={e => setPassword(e.currentTarget.value)}
-          />
-        </div>
-        <h3>User Type</h3>
-      <div>
-        <select
-          value={userType}
-          onChange={(e) => setUserType(e.target.value)}
-          
-        >
-          <option value="Admin">Admin</option>
-          <option value="Client">Client</option>
-          <option value="ServiceEmployee">Service Employee</option>
-        </select>
-      </div>
-        <br />
-        <Settings></Settings>
-        <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Add Account</Button>
-        <h3></h3>
-        <Button hierarchy='md' type="destructive" onClick={() => window.location.href='/admin'} rounded="slight">Back</Button>
+    <div className="grid gap-2">
+      <Input
+        placeholder="Enter Username"
+        onChange={(e) => setUsername(e.currentTarget.value)}
+      />
+      <Input
+        placeholder="Enter Password"
+        onChange={(e) => setPassword(e.currentTarget.value)}
+      />
+      <Input
+        placeholder="Confirm Password"
+        onChange={(e) => setconfirmPassword(e.currentTarget.value)}
+      />
+      <Select value={userType} onValueChange={(value) => setUserType(value)}>
+        <SelectTrigger>
+          <SelectValue placeholder="Select a User Type" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="Admin">Admin</SelectItem>
+          <SelectItem value="Client">Client</SelectItem>
+          <SelectItem value="ServiceEmployee">Service Employee</SelectItem>
+        </SelectContent>
+      </Select>
+      <Button className="w-fit" variant="default" onClick={handleSubmit}>
+        Add Account
+      </Button>
     </div>
   );
 }

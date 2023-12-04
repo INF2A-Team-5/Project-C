@@ -1,13 +1,12 @@
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import LogIn from './components/pages/log-in';
-import React, { useEffect, useState } from 'react'
+import LogIn from "./components/pages/auth/log-in";
+import { useAuthenticated } from "./lib/hooks/useAuthenticated";
 
 function App() {
-  return (
+  useAuthenticated();
 
+  return (
     <div>
-      <LogIn/>
+      <LogIn />
     </div>
   );
 }

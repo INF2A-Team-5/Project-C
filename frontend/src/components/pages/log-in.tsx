@@ -1,11 +1,11 @@
 import Header from '../foundations/header'
-import Input from '../foundations/input'
-import Button from '../foundations/button'
 import Settings from '../foundations/settings'
 import { useState, useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 import Cookies from 'js-cookie';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 
 function LogIn() {
     const { t, i18n } = useTranslation();
@@ -81,13 +81,13 @@ function LogIn() {
           <h2 className='text-2xl font-medium pt-2 pb-2'>{t('login.login')}</h2>
           <h3 className='text-lg text-grey-900 py-2'>{t('login.username')}</h3>
           <div>
-            <Input hierarchy='md' name='username' placeholder='Username'
+            <Input name='username' placeholder='Username'
             onChange={e => setUsername(e.currentTarget.value)}
             />
           </div>
           <h3 className='text-lg text-grey-900 py-2'>{t('login.password')}</h3>
           <div>
-            <Input hierarchy='md' name='password' placeholder='******'
+            <Input name='password' placeholder='******'
             // ●●●●●●●● als je circels wilt
             onChange={e => setPassword(e.currentTarget.value)}
             />
@@ -96,7 +96,7 @@ function LogIn() {
             {/* <input type="checkbox" className="checkbox" name="remember"/> Remember me */}
           </label>
           <br />
-          <Button hierarchy='xl2' type="primary" onClick={handleSubmit} rounded="slight">{t('login.log_in')}</Button>
+          <Button  onClick={handleSubmit} >{t('login.log_in')}</Button>
         </div>
       </div>
       

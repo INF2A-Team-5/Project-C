@@ -1,86 +1,91 @@
-import Input from '../foundations/input'
-import Button from '../foundations/button'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Settings from '../foundations/settings'
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
+import { toast } from "../ui/use-toast";
 
 function AddMachine() {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [accountId, setAccountId] = useState(0);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const navigate = useNavigate();
 
   async function handleSubmit() {
-    const machine = await fetch("http://localhost:5119/api/machines/" + localStorage.getItem("Id"),
-    {
-      method: "GET",
-      headers: 
+    const machine = await fetch(
+      "http://localhost:5119/api/machines/" + localStorage.getItem("Id"),
       {
-        "Authorization": "bearer " + localStorage.getItem("Token"),
+        method: "GET",
+        headers: {
+          Authorization: "bearer " + localStorage.getItem("Token"),
+        },
       }
-    })
-    .then(data => data.json()).then(machines => machines.find((mach: any) => mach.name == name))
+    )
+      .then((data) => data.json())
+      .then((machines) => machines.find((mach: any) => mach.name == name));
 
-    if (machine !== undefined){
-      alert("Machine name already exists");
-    }
-    
-    else if (name == "")
-    {
-      alert("Enter a name");
-    }    
-    
-    else if (description == "")
-    {
-      alert("Enter a description");
-    }
-
-    else if (!accountId || isNaN(accountId)) {
-      alert("Enter a valid account ID");
-    }
-
-    //post request
-    else
-    {
+    if (machine !== undefined) {
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Machine name already exists.",
+      });
+    } else if (name == "") {
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Enter a name.",
+      });
+    } else if (description == "") {
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Enter a description.",
+      });
+    } 
+    else {
       const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' , "Authorization": "bearer " + localStorage.getItem("Token") },
-        body: JSON.stringify({"machineId": 0, "name": name, "description": description, "accountId": accountId})
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "bearer " + localStorage.getItem("Token"),
+        },
+        body: JSON.stringify({
+          name: name,
+          description: description,
+        }),
       };
-      fetch('http://localhost:5119/api/machines', requestOptions)
-        .then(response => response.json())
-        .then(data => alert("Machine added"));  
-      
-      navigate('/admin')
+      fetch("http://localhost:5119/api/machines", requestOptions).then(
+        (response) => response.json()
+      );
+      toast({
+        variant: "default",
+        title: "Succes!",
+        description: "Machine added successfully.",
+      });
+      switch (localStorage.getItem("Class")) {
+        case "Admin":
+          navigate("/admin");
+          break;
+        case "ServiceEmployee":
+          navigate("/serviceEmployee");
+          break;
+      }
     }
-
-}
+  }
 
   return (
-    <div className='text-center'>
-        <h2>Add Machine</h2>
-        <div>
-          <Input hierarchy='md' name='username' placeholder='Enter Machine Name'
-          onChange={e => setName(e.currentTarget.value)}
-          />
-        </div>
-        <h3></h3>
-        <div>
-          <Input hierarchy='md' name='username' placeholder='Enter Description'
-          onChange={e => setDescription(e.currentTarget.value)}
-          />
-        </div>
-        <h3></h3>
-        <div>
-          <Input hierarchy='md' name='username' placeholder='Enter Account ID'
-          onChange={e => setAccountId(parseInt(e.currentTarget.value))}
-          />
-        </div>
-        <br />
-        <Settings></Settings>
-        <Button hierarchy='xl' type="primary" onClick={handleSubmit} rounded="slight">Add Machine</Button>
-        <h3></h3>
-        <Button hierarchy='md' type="destructive" onClick={() => window.location.href='/admin'} rounded="slight">Back</Button>
+    <div className="grid gap-2">
+      <Input
+        placeholder="Enter Machine Name"
+        onChange={(e) => setName(e.currentTarget.value)}
+      />
+      <Textarea
+        placeholder="Enter Description"
+        onChange={(e) => setDescription(e.currentTarget.value)}
+      ></Textarea>
+      <Button className="w-fit" onClick={handleSubmit}>
+        Add Machine
+      </Button>
     </div>
   );
 }
