@@ -8,7 +8,6 @@ import { toast } from "../ui/use-toast";
 function AddMachine() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [accountId, setAccountId] = useState(0);
   const navigate = useNavigate();
 
   async function handleSubmit() {
@@ -42,13 +41,8 @@ function AddMachine() {
         title: "Error!",
         description: "Enter a description.",
       });
-    } else if (!accountId || isNaN(accountId)) {
-      toast({
-        variant: "destructive",
-        title: "Error!",
-        description: "Enter a valid account ID.",
-      });
-    } else {
+    } 
+    else {
       const requestOptions = {
         method: "POST",
         headers: {
@@ -58,7 +52,6 @@ function AddMachine() {
         body: JSON.stringify({
           name: name,
           description: description,
-          accountId: accountId,
         }),
       };
       fetch("http://localhost:5119/api/machines", requestOptions).then(
@@ -83,10 +76,6 @@ function AddMachine() {
         placeholder="Enter Description"
         onChange={(e) => setDescription(e.currentTarget.value)}
       ></Textarea>
-      <Input
-        placeholder="Enter Account ID"
-        onChange={(e) => setAccountId(parseInt(e.currentTarget.value))}
-      />
       <Button className="w-fit" onClick={handleSubmit}>
         Add Machine
       </Button>

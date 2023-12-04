@@ -10,30 +10,25 @@ import { Textarea } from "../ui/textarea";
 function AddMachineSolution() {
   useAuthenticated();
 
-  const [Machines, SetMachines] = useState<Machine[]>([]);
   const [Name, SetName] = useState("");
   const [Solution, SetSolution] = useState("");
   const navigate = useNavigate();
 
   async function HandleSubmit() {
-    SetMachines(
-      await fetch("http://localhost:5119/api/Machines", {
-        method: "GET",
-        headers: {
-          Authorization: "bearer " + localStorage.getItem("Token"),
-        },
-      }).then((data) =>
-        data
-          .json()
-          .then((machines) =>
-            machines.filter((mach: Machine) => mach.name == Name)
-          )
-      )
-    );
-    if (Machines != null) {
-      console.log(Name);
-      Machines.map(
-        (machine) => (
+    let machines = await fetch("http://localhost:5119/api/Machines", {
+      method: "GET",
+      headers: {
+        Authorization: "bearer " + localStorage.getItem("Token"),
+        "Content-Type": "application/json",
+      },
+    })
+      .then((data) => data.json())
+      .then((machines) =>
+        machines.filter((machine: Machine) => machine.name == Name)
+      );
+    if (machines.length >= 1) {
+      machines.map(
+        (machine: Machine) => (
           (machine.solution = Solution),
           fetch("http://localhost:5119/api/Machines/" + machine.machineId, {
             method: "PUT",
@@ -45,19 +40,20 @@ function AddMachineSolution() {
           })
         )
       );
-    }
-    if (Machines.length == 1) {
-      toast({
-        variant: "default",
-        title: "Succes!",
-        description: Machines.length + " solution added successfully.",
-      });
-    } else if (Machines.length > 1) {
-      toast({
-        variant: "default",
-        title: "Succes!",
-        description: Machines.length + " solutions added successfully.",
-      });
+
+      if (machines.length == 1) {
+        toast({
+          variant: "default",
+          title: "Succes!",
+          description: machines.length + " solution added successfully.",
+        });
+      } else if (machines.length > 1) {
+        toast({
+          variant: "default",
+          title: "Succes!",
+          description: machines.length + " solutions added successfully.",
+        });
+      }
     } else {
       toast({
         variant: "destructive",
@@ -65,13 +61,9 @@ function AddMachineSolution() {
         description: "No solutions added.",
       });
     }
-    console.log(Machines.length);
     switch (localStorage.getItem("Class")) {
-      // case "Client":
-      //   navigate("/tickets");
-      //   break;
       case "Admin":
-        navigate("/add-machine-solution");
+        navigate("/admin");
         break;
       case "ServiceEmployee":
         navigate("/serviceEmployee");
