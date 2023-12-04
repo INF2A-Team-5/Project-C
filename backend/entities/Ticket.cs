@@ -14,7 +14,7 @@ public class Ticket
     public DateTime Date_Created { get; set; }
     public string? Solution { get; set; }
     public string? PhoneNumber { get; set; }
-    public string[]? Notes { get; set; }
+    public string? Notes { get; set; }
     public string[]? Files {get; set;} 
 
 }

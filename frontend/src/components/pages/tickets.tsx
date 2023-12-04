@@ -24,6 +24,11 @@ import {
   SelectValue,
 } from "../ui/select";
 
+// import axios from 'axios';
+// export interface Machine {
+//   MachineId: number; Name: string; Description: string; AccountId: number
+// }
+
 // export interface Account {
 //   AccountId: number; Name: string; Password: string; Class: number
 // }
@@ -102,10 +107,6 @@ function Tickets() {
         reader.readAsDataURL(file);
       }
     }
-  }
-
-  async function HandleCancel() {
-    navigate('/client');
   }
 
   async function handleSubmit() {
