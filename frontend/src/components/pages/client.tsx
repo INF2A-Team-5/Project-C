@@ -42,7 +42,7 @@ function Client() {
             </DialogClose>
             <Link to="/tickets">
               <Button>Yes I have</Button>
-            </Link>
+            </Link> 
           </DialogFooter>
         </DialogContent>
       </Dialog>

@@ -17,6 +17,7 @@ import "./translations/i18n";
 import LogIn from "./components/pages/auth/log-in";
 import Register from "./components/pages/auth/register";
 import ForgotPassword from "./components/pages/auth/forgot-password";
+import ViewTicket from "./components/pages/ViewTicket";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
     path: "edit-account",
     element: <EditAccount />,
   },
+  {
+    path: "view-ticket",
+    element: <ViewTicket />
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
