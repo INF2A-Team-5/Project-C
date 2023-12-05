@@ -92,10 +92,10 @@ function LogIn() {
                       bg-cover bg-no-repeat object-fill left-1/2 grid place-items-center'
       >
         <div className="wrapper">
-          <h1 className="text-5xl font-medium leading-10 mb-5 mt-5 bg-transparent">
+          <h1 className="font-medium leading-10 mb-5 mt-5 bg-transparent">
             {t("login.txt_rotation0")}
           </h1>
-          <div className="words border-b-0 font-medium border-transparent h-16 leading-16 text-5xl uppercase overflow-hidden bg-transparent">
+          <div className="words border-b-0 font-medium border-transparent h-16 leading-16 uppercase overflow-hidden bg-transparent">
             <h1 className="relative text-primary animation-rotate-words m-0">
               {t("login.txt_rotation1")}
             </h1>
