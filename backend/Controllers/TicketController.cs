@@ -5,7 +5,7 @@ using Backend.TicketService;
 
 namespace Backend.Controllers
 {
-    // [Authorize]
+    [Authorize]
     [Route("api/Tickets")]
     [ApiController]
     public class TicketController
