@@ -88,7 +88,20 @@ namespace Backend.TicketService
             await _context.SaveChangesAsync();
             return NoContent();
         }
+        public async Task<ActionResult<IEnumerable<Ticket>>> GetTicketByDepartment(string Departmentname)
+        {
+            if (_context.Tickets == null || _context.Departments == null || _context.Machines == null)
+            {
+                return NotFound("No data found in db");
+            }
+            var tickets = await (from ticket in _context.Tickets from machine in _context.Machines where ticket.Machine_Id == machine.MachineId && machine.Department.Name == Departmentname select ticket).ToListAsync();
 
+            if (tickets == null)
+            {
+                return NotFound("No machines under this ID");
+            }
+            return tickets;
+        }
         private bool TicketExists(int id) => (_context.Tickets?.Any(e => e.TicketId == id)).GetValueOrDefault();
     }
 }
