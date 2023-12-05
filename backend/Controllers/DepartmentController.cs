@@ -5,7 +5,7 @@ using Backend.DepartmentService;
 
 namespace Backend.Controllers
 {
-    // [Authorize]
+    [Authorize]
     [Route("api/Departments")]
     [ApiController]
     public class DepartmentController
