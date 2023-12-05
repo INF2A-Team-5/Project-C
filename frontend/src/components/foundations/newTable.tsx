@@ -1,5 +1,16 @@
 import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Button } from "../ui/button";
+import { MoreHorizontal } from "lucide-react";
 
 interface TableProps {
   data: { [key: string]: any }[];
@@ -114,41 +125,63 @@ function NewTable({ data, displayColumns, dataColumns }: TableProps) {
 
   return (
     <div>
-      <table>
-        <thead>
-          <tr>
+      <Table>
+        <TableHeader>
+          <TableRow>
             {displayColumns.map((column, index) => (
-              <th key={index} onClick={() => handleSort(column)}>
+              <TableHead key={index} onClick={() => { column == "" ? null : handleSort(column) }}>
                 {column} {sortColumn === column && (sortDirection === 'asc' ? <ArrowDownIcon /> : <ArrowUpIcon />)}
-              </th>
+              </TableHead>
             ))}
-          </tr>
-        </thead>
-        <tbody>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {currentData.map((row, rowIndex) => (
-            <tr key={rowIndex}>
+            <TableRow key={rowIndex}>
               {dataColumns.map((column, columnIndex) => (
-                <td key={columnIndex}>{row[column]}</td>
+                <TableCell key={columnIndex}>{row[column]}</TableCell>
               ))}
-              <td>
-                <button onClick={() => handleButtonClick(row)}>Edit</button>
-              </td>
-            </tr>
+              <TableCell>
+                {/* <button onClick={() => handleButtonClick(row)}>Edit</button> */}
+                <div>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="h-8 w-8 p-0">
+                        <span className="sr-only">Open menu</span>
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      <DropdownMenuItem
+                        onClick={() => alert(7)}
+                      >
+                        Show seven
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem>View customer</DropdownMenuItem>
+                      <DropdownMenuItem>View payment details</DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </TableCell>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
 
       <div>
-        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+        <Button className="m-4" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
           Previous
-        </button>
+        </Button>
         <span>{`Page ${currentPage} of ${totalPages}`}</span>
-        <button
+        <Button
+          className="m-4"
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
           Next
-        </button>
+        </Button>
       </div>
     </div>
   )
