@@ -1,4 +1,3 @@
-import Tablea from "../foundations/table";
 import Settings from "../foundations/settings";
 import { Button } from "../ui/button";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
@@ -16,8 +15,35 @@ import {
 } from "../ui/dialog";
 import Header from "../foundations/header";
 import { Separator } from "../ui/separator";
+import NewTable from "../foundations/newTable";
+import { useState } from "react";
+import { DataRow } from "@/services/DataRow";
 
 function Client() {
+  const [Tickets, SetTickets] = useState<DataRow[]>([]);
+  // console.log(Tickets);
+  if (Tickets.length == 0) {
+    GetData();
+  }
+
+  async function GetData() {
+    SetTickets(
+      await fetch("http://localhost:5119/api/tickets/", {
+        method: "GET",
+        headers: {
+          Authorization: "bearer " + localStorage.getItem("Token"),
+          "Content-Type": "application/json",
+        },
+      })
+        .then((data) => data.json())
+        .then((tickets) =>
+          tickets.filter(
+            (client: any) => client.customer_Id == localStorage.getItem("Id")
+          )
+        )
+    );
+  }
+
   useAuthenticated();
   return (
     <div className="text-left px-24">
@@ -27,7 +53,20 @@ function Client() {
       </div>
       <h1 className="text-4xl font-medium">Client</h1>
       <Separator className="my-4" />
-      <Tablea></Tablea>
+      {/* <Tablea></Tablea> */}
+
+      <NewTable data={Tickets} displayColumns={[
+        "ID",
+        "Priority",
+        "Date",
+        "Status",
+        "",
+      ]} dataColumns={[
+        "ticketId",
+        "priority",
+        "date_Created",
+        "status",
+      ]} />
 
       <Dialog>
         <DialogTrigger asChild>
