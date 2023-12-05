@@ -1,17 +1,18 @@
 import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
 import Settings from "../foundations/settings";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useNavigate } from "react-router-dom";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
+import Header from "../foundations/header";
+import { Separator } from "../ui/separator";
+import { Label } from "../ui/label";
 
 function EditAccount() {
   useAuthenticated();
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
-  // const navigate = useNavigate();
 
   async function handleSubmit() {
     let currentaccount = await fetch(
@@ -54,49 +55,47 @@ function EditAccount() {
 
     // need accounts to be connected to current user so i can change the phone number of the current user
   }
-    const navigate = useNavigate();
-    const goBack = () => {
-      navigate(-1);
-    }
+  const navigate = useNavigate();
+  const goBack = () => {
+    navigate(-1);
+  };
   return (
-    <div>
-      <h2>Change Phone Number</h2>
-      <div>
-        <Input
-          name="username"
-          placeholder="Enter Phone Number"
-          onChange={(e) => setPhone(e.currentTarget.value)}
-        />
-      </div>
-      <h3></h3>
-      <Button onClick={handleSubmit}>Change Phone Number</Button>
-      <h3></h3>
-      <h2>Change Password</h2>
-      <div>
-        <Input
-          name="password"
-          placeholder="Enter New Password"
-          onChange={(e) => setPassword(e.currentTarget.value)}
-        />
-      </div>
-      <h3></h3>
-      <div>
-        <Input
-          name="password"
-          placeholder="Confirm New Password"
-          onChange={(e) => setConfirmPass(e.currentTarget.value)}
-        />
-      </div>
-      <br />
+    <div className="text-left px-24">
       <Settings></Settings>
-      <Button onClick={handleSubmit}>Change Password</Button>
-      <h3></h3>
-      <Button
-        variant="destructive"
-        onClick={goBack}
-      >
-        Back
-      </Button>
+      <div className="flex justify-center pb-16 pt-10">
+        <Header></Header>
+      </div>
+      <div className="grid gap-12">
+        <div className="grid gap-2">
+          <h1 className="text-4xl font-medium">Edit Account</h1>
+          <Label>Make changes to your account.</Label>
+          <Separator className="my-4" />
+          <h2>Change Phone Number</h2>
+          <Input
+            name="username"
+            placeholder="Enter Phone Number"
+            onChange={(e) => setPhone(e.currentTarget.value)}
+          />
+          <Button className="w-fit" onClick={handleSubmit}>Change Phone Number</Button>
+        </div>
+        <div className="grid gap-2">
+          <h2>Change Password</h2>
+          <Input
+            name="password"
+            placeholder="Enter New Password"
+            onChange={(e) => setPassword(e.currentTarget.value)}
+          />
+          <Input
+            name="password"
+            placeholder="Confirm New Password"
+            onChange={(e) => setConfirmPass(e.currentTarget.value)}
+          />
+        <Button className="w-fit" onClick={handleSubmit}>Change Password</Button>
+        </div>
+        <Button className="w-fit min-w-[200px]" variant="destructive" onClick={goBack}>
+          Back
+        </Button>
+      </div>
     </div>
   );
 }
