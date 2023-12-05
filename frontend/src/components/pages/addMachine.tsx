@@ -8,6 +8,7 @@ import { toast } from "../ui/use-toast";
 function AddMachine() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [department, setDepartment] = useState("");
   const navigate = useNavigate();
 
   async function handleSubmit() {
@@ -22,7 +23,14 @@ function AddMachine() {
     )
       .then((data) => data.json())
       .then((machines) => machines.find((mach: any) => mach.name == name));
-
+    const departments = await fetch("http://localhost:5119/api/departments/", {
+      method: "GET",
+      headers: {
+        Authorization: "bearer " + localStorage.getItem("Token"),
+      },
+    })
+      .then((data) => data.json())
+      .then((dep) => dep.find((depar: any) => depar.name == department));
     if (machine !== undefined) {
       toast({
         variant: "destructive",
@@ -35,14 +43,25 @@ function AddMachine() {
         title: "Error!",
         description: "Enter a name.",
       });
-    } else if (description == "") {
+    } else if (department == "") {
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Enter a department.", //choose a department
+      });
+    } else if (department == undefined) {
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Department does not exist.", //choose a department
+      });
+    }else if (description == "") {
       toast({
         variant: "destructive",
         title: "Error!",
         description: "Enter a description.",
       });
-    } 
-    else {
+    } else {
       const requestOptions = {
         method: "POST",
         headers: {
@@ -52,6 +71,7 @@ function AddMachine() {
         body: JSON.stringify({
           name: name,
           description: description,
+          department: department
         }),
       };
       fetch("http://localhost:5119/api/machines", requestOptions).then(
@@ -78,6 +98,10 @@ function AddMachine() {
       <Input
         placeholder="Enter Machine Name"
         onChange={(e) => setName(e.currentTarget.value)}
+      />
+      <Input
+        placeholder="Enter Department Name"
+        onChange={(e) => setDepartment(e.currentTarget.value)}
       />
       <Textarea
         placeholder="Enter Description"

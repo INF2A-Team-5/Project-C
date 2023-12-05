@@ -37,6 +37,7 @@ function LogIn() {
           localStorage.setItem("username", account.name);
           localStorage.setItem("Id", account.accountId);
           localStorage.setItem("Token", account.token);
+          localStorage.setItem("job", account.department)
           // Cookies.set('token', token, { expires: 1, secure: true })
           alert("Logging in...")
           switch (account.class) {

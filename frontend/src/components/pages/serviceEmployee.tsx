@@ -10,6 +10,7 @@ import { Toaster } from "../ui/toaster";
 import AddMachineSolution from "./AddMachineSolution";
 import AddSolution from "./AddTicketSolution";
 import AddMachine from "./addMachine";
+import { Separator } from "../ui/separator";
 
 function serviceEmployee() {
   useAuthenticated();
@@ -62,6 +63,7 @@ function serviceEmployee() {
       <div className="grid gap-12">
         <div>
           <h1 className="text-4xl font-medium">Serivce Employee</h1>
+          <Separator className="my-4"/>
           <Tabs defaultValue="tickets">
             <TabsList>
               <TabsTrigger value="tickets">Tickets</TabsTrigger>
