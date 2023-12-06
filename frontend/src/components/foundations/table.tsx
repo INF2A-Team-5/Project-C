@@ -1,4 +1,8 @@
-import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  CaretSortIcon,
+} from "@radix-ui/react-icons";
 import { useState } from "react";
 import {
   Table,
@@ -140,20 +144,21 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
           <TableHeader>
             <TableRow>
               {displayColumns.map((column, index) => (
-                <TableHead
-                  key={index}
-                  onClick={() => {
-                    column == "" ? null : handleSort(column);
-                  }}
-                >
-                  <Button variant={"ghost"}>
-                    {column}{" "}
-                    {sortColumn === column &&
-                      (sortDirection === "asc" ? (
-                        <ArrowDownIcon />
-                      ) : (
-                        <ArrowUpIcon />
-                      ))}
+                <TableHead key={index}>
+                  <Button
+                    variant={"ghost"}
+                    onClick={() => {
+                      column == "" ? null : handleSort(column);
+                    }}
+                  >
+                    {column + " "}
+                    {sortColumn === column && sortDirection === "asc" ? (
+                      <ArrowDownIcon />
+                    ) : sortColumn === column && sortDirection === "desc" ? (
+                      <ArrowUpIcon />
+                    ) : (
+                      <CaretSortIcon />
+                    )}
                   </Button>
                 </TableHead>
               ))}
@@ -161,9 +166,11 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
           </TableHeader>
           <TableBody>
             {currentData.map((row, rowIndex) => (
-              <TableRow key={rowIndex}                        >
+              <TableRow key={rowIndex}>
                 {dataColumns.map((column, columnIndex) => (
-                  <TableCell className="pl-8" key={columnIndex}>{row[column]}</TableCell>
+                  <TableCell className="pl-8" key={columnIndex}>
+                    {row[column]}
+                  </TableCell>
                 ))}
                 <TableCell>
                   {/* <button onClick={() => handleButtonClick(row)}>Edit</button> */}
