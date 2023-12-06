@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Cookies from "js-cookie";
 import { t } from "i18next";
+import { Icons } from "@/components/foundations/icons";
 import Header from "@/components/foundations/header";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,7 @@ function LogIn() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const usernameRef = React.useRef<HTMLInputElement>(null);
@@ -39,12 +41,14 @@ function LogIn() {
   };
 
   async function handleSubmit() {
+    setIsLoading(true);
     if (username === "" || password === "") {
       toast({
         variant: "destructive",
         title: "Error! Something went wrong.",
         description: "Fill in all fields before logging in.",
       });
+      setIsLoading(false);
     } else {
       try {
         const account = await fetch("http://localhost:5119/api/Auth/Login", {
@@ -80,6 +84,8 @@ function LogIn() {
           description:
             "Please ensure your username and password are entered correctly and try again.",
         });
+      } finally {
+        setIsLoading(false);
       }
     }
   }
@@ -159,7 +165,11 @@ function LogIn() {
               variant="default"
               size="lg"
               onClick={handleSubmit}
+              disabled={isLoading}
             >
+              {isLoading ? (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              ) : null}
               {t("login.log_in")}
             </Button>
           </div>
