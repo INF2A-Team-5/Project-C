@@ -15,7 +15,7 @@ import {
 } from "../ui/dialog";
 import Header from "../foundations/header";
 import { Separator } from "../ui/separator";
-import NewTable from "../foundations/newTable";
+import Table from "../foundations/table";
 import { useState } from "react";
 import { DataRow } from "@/services/DataRow";
 
@@ -55,7 +55,7 @@ function Client() {
       <Separator className="my-4" />
       {/* <Tablea></Tablea> */}
 
-      <NewTable data={Tickets} displayColumns={[
+      <Table data={Tickets} displayColumns={[
         "ID",
         "Priority",
         "Date",
