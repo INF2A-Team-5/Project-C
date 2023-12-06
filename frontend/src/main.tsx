@@ -3,7 +3,6 @@ import ReactDOM from "react-dom/client";
 
 import "./styles/index.css";
 import "./styles/globals.css";
-import "./styles/foundations.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";

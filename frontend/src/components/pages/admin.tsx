@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Settings from "../foundations/settings";
 import { DataRow } from "../../services/DataRow";
-import NewTable from "../foundations/newTable";
+import Table from "../foundations/table";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import Header from "../foundations/header";
@@ -49,7 +49,7 @@ function Admin() {
       <div className="grid gap-12">
         <div>
           <h1 className="text-4xl font-medium">Admin</h1>
-          <Separator className="my-4"/>
+          <Separator className="my-4" />
           <Tabs defaultValue="accounts">
             <TabsList>
               <TabsTrigger value="accounts">Accounts</TabsTrigger>
@@ -61,7 +61,7 @@ function Admin() {
               Pleur hier je accounttabel
             </TabsContent>
             <TabsContent value="tickets">
-              <NewTable
+              <Table
                 displayColumns={[
                   "ID",
                   "Priority",
