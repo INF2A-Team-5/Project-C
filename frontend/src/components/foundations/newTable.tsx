@@ -11,6 +11,7 @@ import {
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { MoreHorizontal } from "lucide-react";
+import { Card } from "../ui/card";
 
 interface TableProps {
   data: { [key: string]: any }[];
@@ -124,7 +125,7 @@ function NewTable({ data, displayColumns, dataColumns }: TableProps) {
   }
 
   return (
-    <div>
+    <Card>
       <Table>
         <TableHeader>
           <TableRow>
@@ -183,7 +184,7 @@ function NewTable({ data, displayColumns, dataColumns }: TableProps) {
           Next
         </Button>
       </div>
-    </div>
+    </Card>
   )
 }
 
