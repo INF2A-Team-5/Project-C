@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Settings from "../foundations/settings";
 import { DataRow } from "../../services/DataRow";
-import NewTable from "../foundations/newTable";
+import Table from "../foundations/table";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import Header from "../foundations/header";
@@ -61,7 +61,7 @@ function Admin() {
               Pleur hier je accounttabel
             </TabsContent>
             <TabsContent value="tickets">
-              <NewTable
+              <Table
                 displayColumns={[
                   "ID",
                   "Priority",

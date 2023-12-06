@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Settings from "../foundations/settings";
-import NewTable from "../foundations/newTable";
+import Table from "../foundations/table";
 import { DataRow } from "../../services/DataRow";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import Header from "../foundations/header";
@@ -63,14 +63,14 @@ function serviceEmployee() {
       <div className="grid gap-12">
         <div>
           <h1 className="text-4xl font-medium">Serivce Employee</h1>
-          <Separator className="my-4"/>
+          <Separator className="my-4" />
           <Tabs defaultValue="tickets">
             <TabsList>
               <TabsTrigger value="tickets">Tickets</TabsTrigger>
               <TabsTrigger value="machines">Machines</TabsTrigger>
             </TabsList>
             <TabsContent value="tickets">
-              <NewTable
+              <Table
                 displayColumns={[
                   "ID",
                   "Priority",

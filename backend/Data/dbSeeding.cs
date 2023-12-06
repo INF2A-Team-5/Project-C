@@ -43,7 +43,7 @@ public static class DBSeeding
         Employee Admin = new() { Name = "adminname", Password = "adminpw", Class = AccountType.Admin, department = dep2 };
         // Account Employee = new() { Name = "empname", Password = "emppw", Class = AccountType.ServiceEmployee };
         // Account Admin = new() { Name = "adminname", Password = "adminpw", Class = AccountType.Admin };
-        List<Account> accounts = new() { Client, Admin, employee1 };
+        List<Account> accounts = new() { Client, employee1, Admin };
 
         Ticket ticket1 = new() { Machine_Id = 3, Customer_Id = 1, Priority = "Critical", Status = "In Process", Date_Created = DateTime.UtcNow, Problem = "test", HaveTried = "Test", MustBeDoing = "test", Solution = "Test", PhoneNumber = "0612345678", Notes = "Test" };
         Ticket ticket2 = new() { Machine_Id = 3, Customer_Id = 1, Assigned_Id = 1, Priority = "Non critical", Status = "In Process", Date_Created = DateTime.UtcNow, Problem = "test", HaveTried = "Test", MustBeDoing = "test", Solution = "Test", PhoneNumber = "0612345678", Notes = "Test" };
