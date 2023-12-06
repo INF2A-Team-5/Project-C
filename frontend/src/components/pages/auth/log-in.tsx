@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Cookies from "js-cookie";
-import { t } from "i18next";
+// import { t } from "i18next";
 import { Icons } from "@/components/foundations/icons";
 import Header from "@/components/foundations/header";
 import { Input } from "@/components/ui/input";
@@ -15,10 +15,10 @@ import { Label } from "@/components/ui/label";
 import React from "react";
 
 function LogIn() {
-  // const { t, i18n } = useTranslation();
-  // useEffect(() => {
-  //   i18n.changeLanguage(navigator.language);
-  // }, []);
+  const { t, i18n } = useTranslation();
+  useEffect(() => {
+    i18n.changeLanguage(navigator.language);
+  }, []);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -128,7 +128,7 @@ function LogIn() {
               Enter login details to access your account.
             </TextareaHint>
           </div>
-          <div className="grid gap-1">
+          <div className="grid gap-2">
             <Label>{t("login.username")}</Label>
             <Input
               ref={usernameRef}
@@ -138,7 +138,7 @@ function LogIn() {
               onChange={(e) => setUsername(e.currentTarget.value)}
             />
           </div>
-          <div className="grid gap-1">
+          <div className="grid gap-2">
             <Label>{t("login.password")}</Label>
             <Input
               ref={passwordRef}
