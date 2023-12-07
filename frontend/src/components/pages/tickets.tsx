@@ -23,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import { Value } from "@radix-ui/react-select";
 
 // import axios from 'axios';
@@ -56,14 +56,14 @@ function Tickets() {
   const { t, i18n } = useTranslation();
   useEffect(() => {
     i18n.changeLanguage(navigator.language);
-  }, [])
+  }, []);
 
   const handleRemove = (indexToRemove: number) => {
     const updatedPreview = [...preview];
     updatedPreview.splice(indexToRemove, 1);
     setPreview(updatedPreview);
-    console.log(preview)
-  }
+    console.log(preview);
+  };
 
   class Machine {
     name: string;
@@ -81,7 +81,7 @@ function Tickets() {
   async function getData() {
     let machinelist = await fetch(
       "http://localhost:5119/GetMachinesPerAccount?accountId=" +
-      localStorage.getItem("Id"),
+        localStorage.getItem("Id"),
       {
         method: "GET",
         headers: {
@@ -96,7 +96,6 @@ function Tickets() {
       )
     );
   }
-
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
     // const target = e.target as HTMLInputElement & {
@@ -120,18 +119,17 @@ function Tickets() {
 
             if (preview.length != null) {
               preview.forEach(function (item) {
-                allPreviews.push(item)
-              })
+                allPreviews.push(item);
+              });
             }
             setPreview(allPreviews);
-            console.log(preview)
+            console.log(preview);
           }
         };
         reader.readAsDataURL(file);
       }
     }
   }
-
 
   async function handleSubmit() {
     if (
@@ -143,27 +141,25 @@ function Tickets() {
       if (selectMachine == "") {
         toast({
           variant: "destructive",
-          title: (t('ticket.error')),
-          description: (t('ticket.machinealert')),
+          title: t("ticket.error"),
+          description: t("ticket.machinealert"),
         });
         navigate("/tickets");
-      }
-
-      else if (
+      } else if (
         problem.split(" ").length < 20 ||
         mustbedoing.split(" ").length < 20
       ) {
         toast({
           variant: "destructive",
-          title: (t('ticket.error')),
-          description: (t('ticket.wordsalert')),
+          title: t("ticket.error"),
+          description: t("ticket.wordsalert"),
         });
         navigate("/tickets");
       } else if (phonenumber == "" || phonenumber == null) {
         toast({
           variant: "destructive",
-          title: (t('ticket.error')),
-          description: (t('ticket.phonealert')),
+          title: t("ticket.error"),
+          description: t("ticket.phonealert"),
         });
         navigate("/tickets");
       } else {
@@ -200,7 +196,7 @@ function Tickets() {
         toast({
           variant: "default",
           title: "Succes!",
-          description: (t('ticket.submitalert')),
+          description: t("ticket.submitalert"),
         });
 
         navigate("/client");
@@ -210,16 +206,15 @@ function Tickets() {
     } else {
       toast({
         variant: "destructive",
-        title: (t('ticket.error')),
-        description: (t('ticket.emptyalert')),
+        title: t("ticket.error"),
+        description: t("ticket.emptyalert"),
       });
     }
   }
 
   async function HandleCancel() {
-    navigate('/client');
+    navigate("/client");
   }
-
 
   return (
     <div className="text-left px-24">
@@ -229,20 +224,18 @@ function Tickets() {
       </div>
       <div className="grid gap-12">
         <div className="">
-          <h1 className="text-4xl font-medium">{(t('ticket.header'))}</h1>
-          <Label>
-            {(t('ticket.details'))}
-          </Label>
+          <h1 className="text-4xl font-medium">{t("ticket.header")}</h1>
+          <Label>{t("ticket.details")}</Label>
         </div>
         <div className="grid gap-2">
-          <Label>{(t('ticket.selectmachinedes'))}</Label>
+          <Label>{t("ticket.selectmachinedes")}</Label>
           <div className="w-1/6">
             <Select
               value={selectMachine}
               onValueChange={(value) => setSelectMachine(value)}
             >
               <SelectTrigger>
-                <SelectValue placeholder={t('ticket.selectmachine')} />
+                <SelectValue placeholder={t("ticket.selectmachine")} />
               </SelectTrigger>
               <SelectContent>
                 {machinenames.map((type) => (
@@ -256,50 +249,44 @@ function Tickets() {
         </div>
 
         <div className="grid gap-2">
-          <Label>{(t('ticket.title'))}</Label>
+          <Label>{t("ticket.title")}</Label>
           <Textarea
             className="custom-scrollbar"
             required
-            placeholder={t('ticket.titledes')}
+            placeholder={t("ticket.titledes")}
             onChange={(e) => setTitle(e.currentTarget.value)}
           />
         </div>
 
         <div className="grid gap-2">
-          <Label>{(t('ticket.problem'))}</Label>
+          <Label>{t("ticket.problem")}</Label>
           <Textarea
             className="custom-scrollbar"
             required
-            placeholder={(t('ticket.place1'))}
+            placeholder={t("ticket.place1")}
             onChange={(e) => setProblem(e.currentTarget.value)}
           />
-          <TextareaHint>
-            {(t('ticket.problemdes'))}
-          </TextareaHint>
+          <TextareaHint>{t("ticket.problemdes")}</TextareaHint>
         </div>
 
         <div className="grid gap-2">
-          <Label>{(t('ticket.bedoing'))}</Label>
+          <Label>{t("ticket.bedoing")}</Label>
           <Textarea
             className="custom-scrollbar"
-            placeholder={(t('ticket.place2'))}
+            placeholder={t("ticket.place2")}
             onChange={(e) => setMustBeDoing(e.currentTarget.value)}
           />
-          <TextareaHint>
-            {(t('ticket.bedoingdes'))}
-          </TextareaHint>
+          <TextareaHint>{t("ticket.bedoingdes")}</TextareaHint>
         </div>
 
         <div className="grid gap-2">
-          <Label>{(t('ticket.havetried'))}</Label>
+          <Label>{t("ticket.havetried")}</Label>
           <Textarea
             className="custom-scrollbar"
-            placeholder={(t('ticket.place3'))}
+            placeholder={t("ticket.place3")}
             onChange={(e) => setHaveTried(e.currentTarget.value)}
           />
-          <TextareaHint>
-            {(t('ticket.havetrieddes'))}
-          </TextareaHint>
+          <TextareaHint>{t("ticket.havetrieddes")}</TextareaHint>
         </div>
 
         <div>
@@ -309,14 +296,14 @@ function Tickets() {
               htmlFor="terms"
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
-              {(t('ticket.phonenum'))}
+              {t("ticket.phonenum")}
             </label>
           </div>
           {isChecked ? (
             <>
               <div className="pt-2">
                 <Input
-                  placeholder={(t('ticket.place4'))}
+                  placeholder={t("ticket.place4")}
                   onChange={(e) => setPhonenumber(e.currentTarget.value)}
                 />
               </div>
@@ -325,7 +312,7 @@ function Tickets() {
         </div>
         <div className="grid gap-2">
           <div className="">
-            <Label>{(t('ticket.files'))}</Label>
+            <Label>{t("ticket.files")}</Label>
             <Input
               className="w-2/6"
               name="image"
@@ -336,23 +323,36 @@ function Tickets() {
               type="file"
             />
           </div>
-          {preview.map((previewItem, index) => (
-            <div key={index} className="flex items-center space-x-2">
-              <img
-                src={previewItem as string}
-                alt={`Preview ${index}`}
-                style={{ maxWidth: '250px', maxHeight: '250px' }}
-              />
-              <Button variant={"destructive"} onClick={() => handleRemove(index)}>{(t('ticket.remove'))}</Button> {/* Button to remove uploaded picture */}
-            </div>
-          ))}
+          <div className="flex flex-wrap max-w-screen">
+            {preview.map((previewItem, index) => (
+              <div key={index} className="flex items-center m-4">
+                <img
+                  src={previewItem as string}
+                  alt={`Preview ${index}`}
+                  style={{ maxWidth: "500px", maxHeight: "400px" }}
+                />
+                <Button
+                  variant={"destructive"}
+                  onClick={() => handleRemove(index)}
+                  className="ml-2"
+                >
+                  {t("ticket.remove")}
+                </Button>{" "}
+                {/* Button to remove uploaded picture */}
+              </div>
+            ))}
+          </div>
         </div>
         <div>
           <Button className="w-1/6" onClick={handleSubmit}>
-            {(t('ticket.submit'))}
+            {t("ticket.submit")}
           </Button>
-          <Button className="w-1/6" variant={"destructive"} onClick={HandleCancel}>
-            {(t('ticket.cancel'))}
+          <Button
+            className="w-1/6"
+            variant={"destructive"}
+            onClick={HandleCancel}
+          >
+            {t("ticket.cancel")}
           </Button>
         </div>
         <Toaster />
