@@ -71,6 +71,10 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
     setCurrentPage(newPage);
   };
 
+  async function viewticket(id: number) {
+    alert(id)
+  }
+
   async function handleButtonClick(ticket: any) {
     const user = await fetch(`http://localhost:5119/api/Accounts/${localStorage.getItem("Id")}`, {
       method: "GET",
@@ -121,6 +125,7 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
       }
 
       // Navigate to page were you can see ticket info
+
     }
   }
 
@@ -161,6 +166,7 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem>View customer</DropdownMenuItem>
+                      {/* <DropdownMenuItem onClick={() => viewticket(currentData.findIndex(rowIndex))}>View ticket </DropdownMenuItem> */}
                       <DropdownMenuItem>View payment details</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>

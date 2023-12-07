@@ -1,5 +1,5 @@
 import Header from "../foundations/header";
-import React from "react";
+import React, { useEffect } from "react";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 
 // import UploadService from "../../services/FileUploadService";
@@ -23,6 +23,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { useTranslation } from 'react-i18next';
+import { Value } from "@radix-ui/react-select";
 
 // import axios from 'axios';
 // export interface Machine {
@@ -35,6 +37,7 @@ import {
 
 function Tickets() {
   useAuthenticated();
+  const [title, setTitle] = useState("");
   const [problem, setProblem] = useState("");
   const [mustbedoing, setMustBeDoing] = useState("");
   const [havetried, setHaveTried] = useState("");
@@ -49,6 +52,18 @@ function Tickets() {
   const handleCheckbox = () => {
     setChecked(!isChecked);
   };
+
+  const { t, i18n } = useTranslation();
+  useEffect(() => {
+    i18n.changeLanguage(navigator.language);
+  }, [])
+
+  const handleRemove = (indexToRemove: number) => {
+    const updatedPreview = [...preview];
+    updatedPreview.splice(indexToRemove, 1);
+    setPreview(updatedPreview);
+    console.log(preview)
+  }
 
   class Machine {
     name: string;
@@ -66,7 +81,7 @@ function Tickets() {
   async function getData() {
     let machinelist = await fetch(
       "http://localhost:5119/GetMachinesPerAccount?accountId=" +
-        localStorage.getItem("Id"),
+      localStorage.getItem("Id"),
       {
         method: "GET",
         headers: {
@@ -81,6 +96,7 @@ function Tickets() {
       )
     );
   }
+
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
     // const target = e.target as HTMLInputElement & {
@@ -101,7 +117,14 @@ function Tickets() {
             allPreviews.push(result);
             // console.log(allPreviews);
             // You may want to set a state or perform other actions with 'result' here
+
+            if (preview.length != null) {
+              preview.forEach(function (item) {
+                allPreviews.push(item)
+              })
+            }
             setPreview(allPreviews);
+            console.log(preview)
           }
         };
         reader.readAsDataURL(file);
@@ -109,41 +132,45 @@ function Tickets() {
     }
   }
 
+
   async function handleSubmit() {
     if (
       problem.length != 0 &&
       mustbedoing.length != 0 &&
-      havetried.length != 0
+      havetried.length != 0 &&
+      title.length != 0
     ) {
       if (selectMachine == "") {
         toast({
           variant: "destructive",
-          title: "Error! Something went wrong.",
-          description: "Please select the broken machine.",
+          title: (t('ticket.error')),
+          description: (t('ticket.machinealert')),
         });
         navigate("/tickets");
-      } else if (
+      }
+
+      else if (
         problem.split(" ").length < 20 ||
         mustbedoing.split(" ").length < 20
       ) {
         toast({
           variant: "destructive",
-          title: "Error! Something went wrong.",
-          description:
-            "The initial two inputs have a minimum of 20 words each for comprehensive elaboration.",
+          title: (t('ticket.error')),
+          description: (t('ticket.wordsalert')),
         });
         navigate("/tickets");
       } else if (phonenumber == "" || phonenumber == null) {
         toast({
           variant: "destructive",
-          title: "Error! Something went wrong.",
-          description: "Please enter a phone number for contact purposes.",
+          title: (t('ticket.error')),
+          description: (t('ticket.phonealert')),
         });
         navigate("/tickets");
       } else {
         var currentticket = {
           Machine_Id: selectMachine.split("Id: ")[1],
           Customer_Id: account,
+          Title: title,
           Priority: "unknown",
           Status: "Open",
           Date_Created: new Date(),
@@ -173,7 +200,7 @@ function Tickets() {
         toast({
           variant: "default",
           title: "Succes!",
-          description: "Your ticket has been submitted.",
+          description: (t('ticket.submitalert')),
         });
 
         navigate("/client");
@@ -183,11 +210,16 @@ function Tickets() {
     } else {
       toast({
         variant: "destructive",
-        title: "Error! Something went wrong.",
-        description: "Fill in all necessary fields to submit a ticket.",
+        title: (t('ticket.error')),
+        description: (t('ticket.emptyalert')),
       });
     }
   }
+
+  async function HandleCancel() {
+    navigate('/client');
+  }
+
 
   return (
     <div className="text-left px-24">
@@ -197,21 +229,20 @@ function Tickets() {
       </div>
       <div className="grid gap-12">
         <div className="">
-          <h1 className="text-4xl font-medium">Report error</h1>
+          <h1 className="text-4xl font-medium">{(t('ticket.header'))}</h1>
           <Label>
-            Give details of the error and we will try to help you as soon as
-            possible
+            {(t('ticket.details'))}
           </Label>
         </div>
         <div className="grid gap-2">
-          <Label>Select the machine related to the ticket</Label>
+          <Label>{(t('ticket.selectmachinedes'))}</Label>
           <div className="w-1/6">
             <Select
               value={selectMachine}
               onValueChange={(value) => setSelectMachine(value)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select a machine" />
+                <SelectValue placeholder={t('ticket.selectmachine')} />
               </SelectTrigger>
               <SelectContent>
                 {machinenames.map((type) => (
@@ -225,41 +256,49 @@ function Tickets() {
         </div>
 
         <div className="grid gap-2">
-          <Label>What do you see?*</Label>
+          <Label>{(t('ticket.title'))}</Label>
           <Textarea
             className="custom-scrollbar"
             required
-            placeholder="shit broken"
+            placeholder={t('ticket.titledes')}
+            onChange={(e) => setTitle(e.currentTarget.value)}
+          />
+        </div>
+
+        <div className="grid gap-2">
+          <Label>{(t('ticket.problem'))}</Label>
+          <Textarea
+            className="custom-scrollbar"
+            required
+            placeholder={(t('ticket.place1'))}
             onChange={(e) => setProblem(e.currentTarget.value)}
           />
           <TextareaHint>
-            Give us a detailed description on any visible defects (Atleast 20
-            words)
+            {(t('ticket.problemdes'))}
           </TextareaHint>
         </div>
 
         <div className="grid gap-2">
-          <Label>What should it do?*</Label>
+          <Label>{(t('ticket.bedoing'))}</Label>
           <Textarea
             className="custom-scrollbar"
-            placeholder="work"
+            placeholder={(t('ticket.place2'))}
             onChange={(e) => setMustBeDoing(e.currentTarget.value)}
           />
           <TextareaHint>
-            Give us a detailed description on what the machine should do
-            (Atleast 20 words)
+            {(t('ticket.bedoingdes'))}
           </TextareaHint>
         </div>
 
         <div className="grid gap-2">
-          <Label>What have you tried?*</Label>
+          <Label>{(t('ticket.havetried'))}</Label>
           <Textarea
             className="custom-scrollbar"
-            placeholder="hit with hammer"
+            placeholder={(t('ticket.place3'))}
             onChange={(e) => setHaveTried(e.currentTarget.value)}
           />
           <TextareaHint>
-            Describe all things you have done to try fixing the machine
+            {(t('ticket.havetrieddes'))}
           </TextareaHint>
         </div>
 
@@ -270,14 +309,14 @@ function Tickets() {
               htmlFor="terms"
               className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
             >
-              Use other phone Number
+              {(t('ticket.phonenum'))}
             </label>
           </div>
           {isChecked ? (
             <>
               <div className="pt-2">
                 <Input
-                  placeholder="Enter phone number"
+                  placeholder={(t('ticket.place4'))}
                   onChange={(e) => setPhonenumber(e.currentTarget.value)}
                 />
               </div>
@@ -286,31 +325,39 @@ function Tickets() {
         </div>
         <div className="grid gap-2">
           <div className="">
-            <Label>Upload videos/pictures</Label>
+            <Label>{(t('ticket.files'))}</Label>
             <Input
               className="w-2/6"
               name="image"
               multiple={true}
               onChange={handleFileUpload}
-              accept="image/png, image/jpg"
+              accept="image/png, image/jpeg"
               id="picture"
               type="file"
             />
           </div>
           {preview.map((previewItem, index) => (
-            <img
-              key={index}
-              src={previewItem as string}
-              alt={`Preview ${index}`}
-            />
+            <div key={index} className="flex items-center space-x-2">
+              <img
+                src={previewItem as string}
+                alt={`Preview ${index}`}
+                style={{ maxWidth: '250px', maxHeight: '250px' }}
+              />
+              <Button variant={"destructive"} onClick={() => handleRemove(index)}>{(t('ticket.remove'))}</Button> {/* Button to remove uploaded picture */}
+            </div>
           ))}
         </div>
-        <Button className="w-1/6" onClick={handleSubmit}>
-          Submit
-        </Button>
+        <div>
+          <Button className="w-1/6" onClick={handleSubmit}>
+            {(t('ticket.submit'))}
+          </Button>
+          <Button className="w-1/6" variant={"destructive"} onClick={HandleCancel}>
+            {(t('ticket.cancel'))}
+          </Button>
+        </div>
+        <Toaster />
+        <div className="h-12"></div>
       </div>
-      <Toaster />
-      <div className="h-12"></div>
     </div>
   );
 }
