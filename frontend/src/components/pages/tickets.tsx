@@ -1,6 +1,6 @@
 import Header from "../foundations/header";
 import React from "react";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
+// import { ChevronDownIcon } from "@radix-ui/react-icons";
 
 // import UploadService from "../../services/FileUploadService";
 
@@ -23,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { Icons } from "../foundations/icons";
 
 // import axios from 'axios';
 // export interface Machine {
@@ -45,6 +46,7 @@ function Tickets() {
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
   const [isChecked, setChecked] = useState<boolean>(false);
   const [selectMachine, setSelectMachine] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleCheckbox = () => {
     setChecked(!isChecked);
@@ -110,6 +112,7 @@ function Tickets() {
   }
 
   async function handleSubmit() {
+    setIsLoading(true);
     if (
       problem.length != 0 &&
       mustbedoing.length != 0 &&
@@ -121,7 +124,8 @@ function Tickets() {
           title: "Error! Something went wrong.",
           description: "Please select the broken machine.",
         });
-        navigate("/tickets");
+        setIsLoading(false);
+        // navigate("/tickets");
       } else if (
         problem.split(" ").length < 20 ||
         mustbedoing.split(" ").length < 20
@@ -132,14 +136,16 @@ function Tickets() {
           description:
             "The initial two inputs have a minimum of 20 words each for comprehensive elaboration.",
         });
-        navigate("/tickets");
+        setIsLoading(false);
+        // navigate("/tickets");
       } else if (phonenumber == "" || phonenumber == null) {
         toast({
           variant: "destructive",
           title: "Error! Something went wrong.",
           description: "Please enter a phone number for contact purposes.",
         });
-        navigate("/tickets");
+        // navigate("/tickets");
+        setIsLoading(false);
       } else {
         var currentticket = {
           Machine_Id: selectMachine.split("Id: ")[1],
@@ -175,7 +181,7 @@ function Tickets() {
           title: "Succes!",
           description: "Your ticket has been submitted.",
         });
-
+        setIsLoading(false);
         navigate("/client");
 
         // reader.readAsDataURL(file);
@@ -186,6 +192,7 @@ function Tickets() {
         title: "Error! Something went wrong.",
         description: "Fill in all necessary fields to submit a ticket.",
       });
+      setIsLoading(false);
     }
   }
 
@@ -305,7 +312,15 @@ function Tickets() {
             />
           ))}
         </div>
-        <Button className="w-1/6" onClick={handleSubmit}>
+        <Button
+          className="w-1/6"
+          variant="default"
+          onClick={handleSubmit}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          ) : null}
           Submit
         </Button>
       </div>

@@ -7,14 +7,17 @@ import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import Header from "../foundations/header";
 import { Separator } from "../ui/separator";
 import { Label } from "../ui/label";
+import { Icons } from "../foundations/icons";
 
 function EditAccount() {
   useAuthenticated();
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   async function handleSubmit() {
+    setIsLoading(true);
     let currentaccount = await fetch(
       "http://localhost:5119/api/accounts/" + localStorage.getItem("Id"),
       {
@@ -28,26 +31,28 @@ function EditAccount() {
 
     if (password !== confirmPass) {
       alert("password and confirm password need to match");
+      setIsLoading(false);
+    } else {
+      const data = {
+        accountId: localStorage.getItem("Id"),
+        name: currentaccount.name,
+        password: password,
+        class: currentaccount.class,
+      };
+
+      await fetch(
+        "http://localhost:5119/api/accounts/" + localStorage.getItem("Id"),
+        {
+          method: "PUT",
+          headers: {
+            Authorization: "bearer " + localStorage.getItem("Token"),
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+      setIsLoading(false);
     }
-
-    const data = {
-      accountId: localStorage.getItem("Id"),
-      name: currentaccount.name,
-      password: password,
-      class: currentaccount.class,
-    };
-
-    await fetch(
-      "http://localhost:5119/api/accounts/" + localStorage.getItem("Id"),
-      {
-        method: "PUT",
-        headers: {
-          Authorization: "bearer " + localStorage.getItem("Token"),
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
 
     //add logic to check if new password and confirm password are the same, maybe also not the same as the old password
 
@@ -76,7 +81,12 @@ function EditAccount() {
             placeholder="Enter Phone Number"
             onChange={(e) => setPhone(e.currentTarget.value)}
           />
-          <Button className="w-fit" onClick={handleSubmit}>Change Phone Number</Button>
+          <Button className="w-fit" onClick={handleSubmit} disabled={isLoading}>
+            {isLoading ? (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            ) : null}
+            Change Phone Number
+          </Button>
         </div>
         <div className="grid gap-2">
           <h2>Change Password</h2>
@@ -90,9 +100,18 @@ function EditAccount() {
             placeholder="Confirm New Password"
             onChange={(e) => setConfirmPass(e.currentTarget.value)}
           />
-        <Button className="w-fit" onClick={handleSubmit}>Change Password</Button>
+          <Button className="w-fit" onClick={handleSubmit} disabled={isLoading}>
+            {isLoading ? (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            ) : null}
+            Change Password
+          </Button>
         </div>
-        <Button className="w-fit min-w-[200px]" variant="destructive" onClick={goBack}>
+        <Button
+          className="w-fit min-w-[200px]"
+          variant="destructive"
+          onClick={goBack}
+        >
           Back
         </Button>
       </div>

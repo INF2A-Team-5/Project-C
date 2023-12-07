@@ -6,81 +6,90 @@ import { useNavigate } from "react-router-dom";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { toast } from "@/components/ui/use-toast";
 import { Textarea } from "../ui/textarea";
+import { Icons } from "../foundations/icons";
 
 function AddMachineSolution() {
   useAuthenticated();
 
   const [Name, SetName] = useState("");
   const [Solution, SetSolution] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   async function HandleSubmit() {
+    setIsLoading(true);
     if (Name == "") {
       toast({
         variant: "destructive",
         title: "Error!",
         description: "Please fill in a machine name",
       });
+      setIsLoading(false);
     } else if (Solution == "") {
       toast({
         variant: "destructive",
         title: "Error!",
         description: "Please fill in a solution",
       });
-    }
-    let machines = await fetch("http://localhost:5119/api/Machines", {
-      method: "GET",
-      headers: {
-        Authorization: "bearer " + localStorage.getItem("Token"),
-        "Content-Type": "application/json",
-      },
-    })
-      .then((data) => data.json())
-      .then((machines) =>
-        machines.filter((machine: Machine) => machine.name == Name)
-      );
-    if (machines.length >= 1) {
-      machines.map(
-        (machine: Machine) => (
-          (machine.solution = Solution),
-          fetch("http://localhost:5119/api/Machines/" + machine.machineId, {
-            method: "PUT",
-            headers: {
-              Authorization: "bearer " + localStorage.getItem("Token"),
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(machine),
-          })
-        )
-      );
-
-      if (machines.length == 1) {
-        toast({
-          variant: "default",
-          title: "Succes!",
-          description: machines.length + " solution added successfully.",
-        });
-      } else if (machines.length > 1) {
-        toast({
-          variant: "default",
-          title: "Succes!",
-          description: machines.length + " solutions added successfully.",
-        });
-      }
+      setIsLoading(false);
     } else {
-      toast({
-        variant: "destructive",
-        title: "Error!",
-        description: "No solutions added.",
-      });
-    }
-    switch (localStorage.getItem("Class")) {
-      case "Admin":
-        navigate("/admin");
-        break;
-      case "ServiceEmployee":
-        navigate("/serviceEmployee");
-        break;
+      let machines = await fetch("http://localhost:5119/api/Machines", {
+        method: "GET",
+        headers: {
+          Authorization: "bearer " + localStorage.getItem("Token"),
+          "Content-Type": "application/json",
+        },
+      })
+        .then((data) => data.json())
+        .then((machines) =>
+          machines.filter((machine: Machine) => machine.name == Name)
+        );
+      if (machines.length >= 1) {
+        machines.map(
+          (machine: Machine) => (
+            (machine.solution = Solution),
+            fetch("http://localhost:5119/api/Machines/" + machine.machineId, {
+              method: "PUT",
+              headers: {
+                Authorization: "bearer " + localStorage.getItem("Token"),
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(machine),
+            })
+          )
+        );
+
+        if (machines.length == 1) {
+          toast({
+            variant: "default",
+            title: "Succes!",
+            description: machines.length + " solution added successfully.",
+          });
+          setIsLoading(false);
+        } else if (machines.length > 1) {
+          toast({
+            variant: "default",
+            title: "Succes!",
+            description: machines.length + " solutions added successfully.",
+          });
+          setIsLoading(false);
+        }
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Error!",
+          description: "No solutions added.",
+        });
+        setIsLoading(false);
+      }
+      switch (localStorage.getItem("Class")) {
+        case "Admin":
+          navigate("/admin");
+          break;
+        case "ServiceEmployee":
+          navigate("/serviceEmployee");
+          break;
+      }
     }
   }
 
@@ -94,7 +103,10 @@ function AddMachineSolution() {
         placeholder="Describe solution"
         onChange={(e) => SetSolution(e.currentTarget.value)}
       />
-      <Button className="w-fit" onClick={HandleSubmit}>
+      <Button className="w-fit" onClick={HandleSubmit} disabled={isLoading}>
+        {isLoading ? (
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        ) : null}
         Add machine solution
       </Button>
     </div>

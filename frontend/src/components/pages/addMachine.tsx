@@ -4,14 +4,17 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
+import { Icons } from "../foundations/icons";
 
 function AddMachine() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [department, setDepartment] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   async function handleSubmit() {
+    setIsLoading(true);
     const machine = await fetch(
       "http://localhost:5119/api/machines/" + localStorage.getItem("Id"),
       {
@@ -37,30 +40,35 @@ function AddMachine() {
         title: "Error!",
         description: "Machine name already exists.",
       });
+      setIsLoading(false);
     } else if (name == "") {
       toast({
         variant: "destructive",
         title: "Error!",
         description: "Enter a name.",
       });
+      setIsLoading(false);
     } else if (department == "") {
       toast({
         variant: "destructive",
         title: "Error!",
         description: "Enter a department.", //choose a department
       });
+      setIsLoading(false);
     } else if (department == undefined) {
       toast({
         variant: "destructive",
         title: "Error!",
         description: "Department does not exist.", //choose a department
       });
-    }else if (description == "") {
+      setIsLoading(false);
+    } else if (description == "") {
       toast({
         variant: "destructive",
         title: "Error!",
         description: "Enter a description.",
       });
+      setIsLoading(false);
     } else {
       const requestOptions = {
         method: "POST",
@@ -71,7 +79,7 @@ function AddMachine() {
         body: JSON.stringify({
           name: name,
           description: description,
-          department: department
+          department: department,
         }),
       };
       fetch("http://localhost:5119/api/machines", requestOptions).then(
@@ -82,6 +90,7 @@ function AddMachine() {
         title: "Succes!",
         description: "Machine added successfully.",
       });
+      setIsLoading(false);
       switch (localStorage.getItem("Class")) {
         case "Admin":
           navigate("/admin");
@@ -107,7 +116,10 @@ function AddMachine() {
         placeholder="Enter Description"
         onChange={(e) => setDescription(e.currentTarget.value)}
       ></Textarea>
-      <Button className="w-fit" onClick={handleSubmit}>
+      <Button className="w-fit" onClick={handleSubmit} disabled={isLoading}>
+        {isLoading ? (
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        ) : null}
         Add Machine
       </Button>
     </div>
