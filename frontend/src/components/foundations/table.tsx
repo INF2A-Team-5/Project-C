@@ -24,6 +24,7 @@ import { Button } from "../ui/button";
 import { MoreHorizontal } from "lucide-react";
 import { Card } from "../ui/card";
 import { Separator } from "../ui/separator";
+import { useNavigate } from "react-router-dom";
 
 interface TableProps {
   data: { [key: string]: any }[];
@@ -35,6 +36,7 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const navigate = useNavigate();
 
   const handleSort = (column: string) => {
     let temp;
@@ -85,7 +87,7 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
     setCurrentPage(newPage);
   };
 
-  async function handleButtonClick(ticket: any) {
+  async function handleAssignTicket(ticket: any) {
     const user = await fetch(
       `http://localhost:5119/api/Accounts/${localStorage.getItem("Id")}`,
       {
@@ -137,6 +139,11 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
     }
   }
 
+  function handleViewItem(item: any) {
+    localStorage.setItem("item", item);
+    navigate("/view-ticket");
+  }
+
   return (
     <div>
       <Card>
@@ -183,14 +190,9 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem onClick={() => alert(7)}>
-                          Show seven
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>View customer</DropdownMenuItem>
-                        <DropdownMenuItem>
-                          View payment details
+                        <DropdownMenuLabel>Options</DropdownMenuLabel>
+                        <DropdownMenuItem onClick={() => handleViewItem(row)}>
+                          View ticket
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
