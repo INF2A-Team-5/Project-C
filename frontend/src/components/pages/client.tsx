@@ -64,7 +64,7 @@ function Client() {
         "",
       ]} dataColumns={[
         "ticketId",
-        "Title",
+        "title",
         "priority",
         "date_Created",
         "status",
