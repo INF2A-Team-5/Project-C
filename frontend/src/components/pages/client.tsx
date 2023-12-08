@@ -57,12 +57,14 @@ function Client() {
 
       <Table data={Tickets} displayColumns={[
         "ID",
+        "Title",
         "Priority",
         "Date",
         "Status",
         "",
       ]} dataColumns={[
         "ticketId",
+        "Title",
         "priority",
         "date_Created",
         "status",

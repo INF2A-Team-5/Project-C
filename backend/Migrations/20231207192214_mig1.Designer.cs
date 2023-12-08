@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231204201641_peere")]
-    partial class peere
+    [Migration("20231207192214_mig1")]
+    partial class mig1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,6 +80,9 @@ namespace backend.Migrations
                     b.Property<int?>("AccountId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("text");
@@ -92,6 +95,8 @@ namespace backend.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("MachineId");
+
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Machines");
                 });
@@ -172,6 +177,10 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("TicketId");
 
                     b.ToTable("Tickets");
@@ -200,6 +209,17 @@ namespace backend.Migrations
                     b.HasKey("FileId");
 
                     b.ToTable("Files");
+                });
+
+            modelBuilder.Entity("Backend.Entities.Machine", b =>
+                {
+                    b.HasOne("Backend.Entities.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
                 });
 #pragma warning restore 612, 618
         }
