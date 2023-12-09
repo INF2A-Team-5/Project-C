@@ -6,7 +6,7 @@ import "./styles/globals.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
-import Tickets from "./components/pages/tickets";
+import Tickets from "./components/pages/CreateTicket";
 import Client from "./components/pages/client";
 import ServiceEmployee from "./components/pages/serviceEmployee";
 import Admin from "./components/pages/admin";

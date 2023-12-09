@@ -24,7 +24,6 @@ import {
   SelectValue,
 } from "../ui/select";
 import { useTranslation } from "react-i18next";
-import { Value } from "@radix-ui/react-select";
 
 // import axios from 'axios';
 // export interface Machine {
@@ -213,7 +212,7 @@ function Tickets() {
   }
 
   async function HandleCancel() {
-    navigate("/client");
+    navigate(-1);
   }
 
   return (
