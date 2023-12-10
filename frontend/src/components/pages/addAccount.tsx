@@ -28,8 +28,19 @@ function AddAccount() {
   async function handleSubmit() {
     setIsLoading(true);
     const account = await fetch(
-      API_BASE_URL + "/api/accounts", getBaseQueryRequest(),
+      "http://localhost:5119/api/accounts" + localStorage.getItem("Id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: "bearer " + localStorage.getItem("Token"),
+        },
+      }
     )
+
+    // const account = await fetch(
+    //   API_BASE_URL + "/api/accounts", getBaseQueryRequest(),
+    // )
+    
       .then((data) => data.json())
       .then((accounts) => accounts.find((acc: any) => acc.name == username));
 
