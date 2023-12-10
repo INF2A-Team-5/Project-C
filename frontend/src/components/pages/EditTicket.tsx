@@ -1,4 +1,5 @@
 import { SetStateAction, useEffect, useState } from "react";
+import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { useNavigate } from "react-router-dom";
 import Settings from "../foundations/settings";
 import { useTranslation } from "react-i18next";
@@ -15,22 +16,45 @@ import {
 } from "@/lib/api";
 
 function EditTicket() {
+  useAuthenticated();
   const { t, i18n } = useTranslation();
   useEffect(() => {
     i18n.changeLanguage(navigator.language);
   }, []);
+
   const navigate = useNavigate();
   const [notes, setNotes] = useState("");
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
   const [ticketInfo, setTicketInfo] = useState<any>(null);
   const ticketid = localStorage.getItem("currentticket");
   const [showTicketInfo, setShowTicketInfo] = useState(false);
+  const [isClient, setIsClient] = useState<boolean>(false);
+
+  useEffect(() => {
+    CheckAccount();
+  }, []);
 
   async function HandleCancel() {
     navigate(-1);
   }
 
-  async function HandleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const CheckAccount = () => {
+    const accountclass = localStorage.getItem("Class");
+    setIsClient((accountclass == "2"));
+  }
+
+
+  const handleRemove = (indexToRemove: number) => {
+    const updatedPreview = [...preview];
+    updatedPreview.splice(indexToRemove, 1);
+    setPreview(updatedPreview);
+    console.log(preview);
+  };
+
+  async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    // const target = e.target as HTMLInputElement & {
+    //   files: FileList;
+    // }
     const fileList = e.target.files;
 
     if (fileList) {
@@ -46,13 +70,21 @@ function EditTicket() {
             allPreviews.push(result);
             // console.log(allPreviews);
             // You may want to set a state or perform other actions with 'result' here
+
+            if (preview.length != null) {
+              preview.forEach(function (item) {
+                allPreviews.push(item);
+              });
+            }
             setPreview(allPreviews);
+            console.log(preview);
           }
         };
         reader.readAsDataURL(file);
       }
     }
   }
+
   async function GetTicket() {
     // let currentticket = await fetch(
     //   API_BASE_URL + "/api/tickets/" + getBaseQueryRequest,
@@ -85,6 +117,7 @@ function EditTicket() {
       Machine_Id: currentticket.machine_Id,
       Customer_Id: currentticket.customer_Id,
       Assigned_Id: currentticket.assigned_Id,
+      Title: currentticket.title,
       Priority: currentticket.priority,
       Status: currentticket.status,
 
@@ -121,8 +154,7 @@ function EditTicket() {
       if (!response.ok) {
         const errorResponse = await response.text(); // Capture response content
         throw new Error(
-          `HTTP error! Status: ${
-            response.status
+          `HTTP error! Status: ${response.status
           }. Error message: ${JSON.stringify(errorResponse)}`,
         );
       }
@@ -171,8 +203,7 @@ function EditTicket() {
       if (!response.ok) {
         const errorResponse = await response.text(); // Capture response content
         throw new Error(
-          `HTTP error! Status: ${
-            response.status
+          `HTTP error! Status: ${response.status
           }. Error message: ${JSON.stringify(errorResponse)}`,
         );
       }
@@ -231,28 +262,43 @@ function EditTicket() {
             Give us a detailed description on what you want to update the ticket
             with
           </TextareaHint>
-          <Button variant="destructive" onClick={CloseTicket}>
+          {isClient ? null : <Button className="w-fit" variant="destructive" onClick={CloseTicket}>
             Close ticket
-          </Button>
-        </div>
-        <div>
-          {/* <h2 className='text-lg font-medium'>{t('editticket.pictures')}</h2> */}
-          <h2 className="text-lg font-medium">Add pictures</h2>
+          </Button>}
 
-          <Input
-            type="file"
-            name="image"
-            accept="image/png, image/jpg"
-            onChange={HandleOnChange}
-            multiple
-          />
-          {preview.map((previewItem, index) => (
-            <img
-              key={index}
-              src={previewItem as string}
-              alt={`Preview ${index}`}
+        </div>
+        <div className="grid gap-2">
+          <div className="">
+            <Label>{t("ticket.files")}</Label>
+            <Input
+              className="w-2/6"
+              name="image"
+              multiple={true}
+              onChange={handleFileUpload}
+              accept="image/png, image/jpeg"
+              id="picture"
+              type="file"
             />
-          ))}
+          </div>
+          <div className="flex flex-wrap max-w-screen">
+            {preview.map((previewItem, index) => (
+              <div key={index} className="flex items-center m-4">
+                <img
+                  src={previewItem as string}
+                  alt={`Preview ${index}`}
+                  style={{ maxWidth: "500px", maxHeight: "400px" }}
+                />
+                <Button
+                  variant={"destructive"}
+                  onClick={() => handleRemove(index)}
+                  className="ml-2"
+                >
+                  {t("ticket.remove")}
+                </Button>{" "}
+                {/* Button to remove uploaded picture */}
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* <Button variant='destructive'  onClick={HandleSubmit}>{t('editticket.submit')}</Button>

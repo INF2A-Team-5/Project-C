@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class test : Migration
+    public partial class teest : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -123,7 +123,7 @@ namespace backend.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Machine_Id = table.Column<int>(type: "integer", nullable: false),
                     Customer_Id = table.Column<int>(type: "integer", nullable: false),
-                    Assigned_Id = table.Column<int>(type: "integer", nullable: true),
+                    Employee_Id = table.Column<int>(type: "integer", nullable: true),
                     Title = table.Column<string>(type: "text", nullable: false),
                     Priority = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false),
@@ -133,15 +133,15 @@ namespace backend.Migrations
                     Date_Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Solution = table.Column<string>(type: "text", nullable: true),
                     PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    Notes = table.Column<string>(type: "text", nullable: true),
+                    Notes = table.Column<string[]>(type: "text[]", nullable: true),
                     Files = table.Column<string[]>(type: "text[]", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tickets", x => x.TicketId);
                     table.ForeignKey(
-                        name: "FK_Tickets_Employees_Assigned_Id",
-                        column: x => x.Assigned_Id,
+                        name: "FK_Tickets_Employees_Employee_Id",
+                        column: x => x.Employee_Id,
                         principalTable: "Employees",
                         principalColumn: "EmployeeId");
                 });
@@ -158,9 +158,9 @@ namespace backend.Migrations
                 column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tickets_Assigned_Id",
+                name: "IX_Tickets_Employee_Id",
                 table: "Tickets",
-                column: "Assigned_Id");
+                column: "Employee_Id");
         }
 
         /// <inheritdoc />
