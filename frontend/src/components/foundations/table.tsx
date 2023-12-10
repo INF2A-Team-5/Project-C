@@ -75,6 +75,24 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
     alert(id)
   }
 
+  async function AssignTicket(ticket: any)
+  {
+    ticket.employee_Id = 1 // moet nog ff uitgezocht worden en pagina moet nu gereload worden iedere keer
+    await fetch(
+      "http://localhost:5119/api/tickets/" + ticket.ticketId,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: "bearer " + localStorage.getItem("Token"),
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(ticket),
+      }
+    );
+    console.log(ticket);
+    console.log("Assigned employee to ticket")
+  }
+
   async function handleButtonClick(ticket: any) {
     const user = await fetch(`http://localhost:5119/api/Accounts/${localStorage.getItem("Id")}`, {
       method: "GET",
@@ -166,7 +184,10 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem>View customer</DropdownMenuItem>
-                      {/* <DropdownMenuItem onClick={() => viewticket(currentData.findIndex(rowIndex))}>View ticket </DropdownMenuItem> */}
+                      { localStorage.getItem("Class") == "ServiceEmployee" || localStorage.getItem("Class") == "Admin" ? 
+                        <DropdownMenuItem onClick={() => AssignTicket(currentData[rowIndex])}>Assign Ticket</DropdownMenuItem> : null
+                      }
+                      {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
                       <DropdownMenuItem>View payment details</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>

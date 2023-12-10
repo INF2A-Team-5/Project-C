@@ -23,14 +23,14 @@ function AddMachine() {
     )
       .then((data) => data.json())
       .then((machines) => machines.find((mach: any) => mach.name == name));
-    const departments = await fetch("http://localhost:5119/api/departments/", {
-      method: "GET",
-      headers: {
-        Authorization: "bearer " + localStorage.getItem("Token"),
-      },
-    })
-      .then((data) => data.json())
-      .then((dep) => dep.find((depar: any) => depar.name == department));
+    // const departments = await fetch("http://localhost:5119/api/departments/", {
+    //   method: "GET",
+    //   headers: {
+    //     Authorization: "bearer " + localStorage.getItem("Token"),
+    //   },
+    // })
+    //   .then((data) => data.json())
+    //   .then((dep) => dep.find((depar: any) => depar.name == department));
     if (machine !== undefined) {
       toast({
         variant: "destructive",
