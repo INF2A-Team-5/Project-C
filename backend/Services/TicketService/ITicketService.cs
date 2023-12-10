@@ -10,6 +10,6 @@ namespace Backend.TicketService
         Task<IActionResult> UpdateTicket(int id, Ticket ticket);
         Task<ActionResult<Ticket>> AddTicket(Ticket ticket);
         Task<IActionResult> DeleteTicket(int id);
-        Task<ActionResult<IEnumerable<Ticket>>> GetTicketByDepartment(string Departmentname);
+        Task<ActionResult<IEnumerable<Ticket>>> GetTicketByDepartment(int Departmentname);
     }
 }

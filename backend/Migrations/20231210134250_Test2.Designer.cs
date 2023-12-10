@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231207192214_mig1")]
-    partial class mig1
+    [Migration("20231210134250_Test2")]
+    partial class Test2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,6 +69,30 @@ namespace backend.Migrations
                     b.ToTable("Departments");
                 });
 
+            modelBuilder.Entity("Backend.Entities.Employee", b =>
+                {
+                    b.Property<int>("EmployeeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("EmployeeId"));
+
+                    b.Property<int>("AccountId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("EmployeeId");
+
+                    b.HasIndex("AccountId")
+                        .IsUnique();
+
+                    b.HasIndex("DepartmentId");
+
+                    b.ToTable("Employees");
+                });
+
             modelBuilder.Entity("Backend.Entities.Machine", b =>
                 {
                     b.Property<int>("MachineId")
@@ -95,8 +119,6 @@ namespace backend.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("MachineId");
-
-                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Machines");
                 });
@@ -211,15 +233,28 @@ namespace backend.Migrations
                     b.ToTable("Files");
                 });
 
-            modelBuilder.Entity("Backend.Entities.Machine", b =>
+            modelBuilder.Entity("Backend.Entities.Employee", b =>
                 {
+                    b.HasOne("Backend.Entities.Account", "Account")
+                        .WithOne()
+                        .HasForeignKey("Backend.Entities.Employee", "AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Backend.Entities.Department", "Department")
-                        .WithMany()
+                        .WithMany("Employees")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Account");
+
                     b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("Backend.Entities.Department", b =>
+                {
+                    b.Navigation("Employees");
                 });
 #pragma warning restore 612, 618
         }
