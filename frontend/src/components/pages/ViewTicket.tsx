@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Link, useNavigate } from "react-router-dom";
+import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
 
 function ViewTicket() {
   // const [account, SetAccount] = useState("");
@@ -14,17 +15,21 @@ function ViewTicket() {
   });
   async function getData() {
     SetTicket(
-      await fetch(
-        "http://localhost:5119/api/Tickets/1",
+      await fetch(API_BASE_URL + "/api/Tickets/1" + getBaseQueryRequest).then(
+        (data) => data.json(),
+      ),
 
-        {
-          method: "GET",
-          headers: {
-            Authorization: "bearer " + localStorage.getItem("Token"),
-            "Content-Type": "application/json",
-          },
-        }
-      ).then((data) => data.json())
+      // await fetch(
+      //   "http://localhost:5119/api/Tickets/1",
+
+      //   {
+      //     method: "GET",
+      //     headers: {
+      //       Authorization: "bearer " + localStorage.getItem("Token"),
+      //       "Content-Type": "application/json",
+      //     },
+      //   }
+      // ).then((data) => data.json())
     );
     // SetAccount(localStorage.getItem("Id")!);
   }
@@ -37,7 +42,7 @@ function ViewTicket() {
   // const Notes = Ticket?.notes;
   const goBack = () => {
     navigate(-1);
-  }
+  };
   return (
     <div>
       <div>{TicketCreatedDate}</div>
@@ -46,10 +51,7 @@ function ViewTicket() {
       <h2>{Problem3}</h2>
       <h2>{Files}</h2>
       {/* <div>{Notes}</div> */}
-      <Button
-        onClick={goBack}>
-        Back
-      </Button>
+      <Button onClick={goBack}>Back</Button>
     </div>
   );
 }

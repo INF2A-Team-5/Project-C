@@ -38,6 +38,11 @@ function AddMachine() {
     //   .then((data) => data.json())
     //   .then((machines) => machines.find((mach: any) => mach.name == name));
 
+    const departments = await fetch(
+      API_BASE_URL + "/api/departments" + getBaseQueryRequest,
+    )
+      .then((data) => data.json())
+      .then((dep) => dep.find((depar: any) => depar.name == department));
     // const departments = await fetch("http://localhost:5119/api/departments/", {
     //   method: "GET",
     //   headers: {
@@ -46,12 +51,6 @@ function AddMachine() {
     // })
     //   .then((data) => data.json())
     //   .then((dep) => dep.find((depar: any) => depar.name == department));
-
-    const departments = await fetch(
-      API_BASE_URL + "/api/departments" + getBaseQueryRequest,
-    )
-      .then((data) => data.json())
-      .then((dep) => dep.find((depar: any) => depar.name == department));
 
     if (machine !== undefined) {
       toast({

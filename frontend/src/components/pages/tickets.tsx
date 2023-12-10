@@ -24,6 +24,11 @@ import {
   SelectValue,
 } from "../ui/select";
 import { Icons } from "../foundations/icons";
+import {
+  API_BASE_URL,
+  getBaseMutateRequest,
+  getBaseQueryRequest,
+} from "@/lib/api";
 
 // import axios from 'axios';
 // export interface Machine {
@@ -67,20 +72,25 @@ function Tickets() {
 
   async function getData() {
     let machinelist = await fetch(
-      "http://localhost:5119/GetMachinesPerAccount?accountId=" +
-        localStorage.getItem("Id"),
-      {
-        method: "GET",
-        headers: {
-          Authorization: "bearer " + localStorage.getItem("Token"),
-        },
-      }
+      API_BASE_URL + "/api/machines" + getBaseQueryRequest,
     ).then((data) => data.json());
+
+    // let machinelist = await fetch(
+    //   "http://localhost:5119/GetMachinesPerAccount?accountId=" +
+    //     localStorage.getItem("Id"),
+    //   {
+    //     method: "GET",
+    //     headers: {
+    //       Authorization: "bearer " + localStorage.getItem("Token"),
+    //     },
+    //   }
+    // ).then((data) => data.json());
+
     SetAccount(localStorage.getItem("Id")!);
     SetMachineNames(
       machinelist.map(
-        (machine: Machine) => machine.name + ", Id: " + machine.machineId
-      )
+        (machine: Machine) => machine.name + ", Id: " + machine.machineId,
+      ),
     );
   }
 
@@ -162,12 +172,7 @@ function Tickets() {
           phoneNumber: phonenumber,
         };
 
-        await fetch("http://localhost:5119/api/tickets/", {
-          method: "POST",
-          headers: {
-            Authorization: "bearer " + localStorage.getItem("Token"),
-            "Content-Type": "application/json",
-          },
+        await fetch(API_BASE_URL + "/api/tickets/" + getBaseMutateRequest, {
           body: JSON.stringify(currentticket),
         })
           .then((res) => {
@@ -176,6 +181,22 @@ function Tickets() {
           .catch((err) => {
             console.log("Message could not be updated", err);
           });
+
+        // await fetch("http://localhost:5119/api/tickets/", {
+        //   method: "POST",
+        //   headers: {
+        //     Authorization: "bearer " + localStorage.getItem("Token"),
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify(currentticket),
+        // })
+        // .then((res) => {
+        //   console.log("Message successfully updated", res);
+        // })
+        // .catch((err) => {
+        //   console.log("Message could not be updated", err);
+        // });
+
         toast({
           variant: "default",
           title: "Succes!",
@@ -197,7 +218,7 @@ function Tickets() {
   }
 
   return (
-    <div className="text-left px-24">
+    <div className="px-24 text-left">
       <Settings></Settings>
       <div className="flex justify-center pb-16 pt-10">
         <Header></Header>

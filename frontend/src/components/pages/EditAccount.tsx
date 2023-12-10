@@ -8,6 +8,7 @@ import Header from "../foundations/header";
 import { Separator } from "../ui/separator";
 import { Label } from "../ui/label";
 import { Icons } from "../foundations/icons";
+import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
 
 function EditAccount() {
   useAuthenticated();
@@ -18,16 +19,21 @@ function EditAccount() {
 
   async function handleSubmit() {
     setIsLoading(true);
+
     let currentaccount = await fetch(
-      "http://localhost:5119/api/accounts/" + localStorage.getItem("Id"),
-      {
-        method: "GET",
-        headers: {
-          Authorization: "bearer " + localStorage.getItem("Token"),
-          "Content-Type": "application/json",
-        },
-      }
+      API_BASE_URL + "/api/accounts/" + getBaseQueryRequest,
     ).then((data) => data.json());
+
+    // let currentaccount = await fetch(
+    //   "http://localhost:5119/api/accounts/" + localStorage.getItem("Id"),
+    //   {
+    //     method: "GET",
+    //     headers: {
+    //       Authorization: "bearer " + localStorage.getItem("Token"),
+    //       "Content-Type": "application/json",
+    //     },
+    //   }
+    // ).then((data) => data.json());
 
     if (password !== confirmPass) {
       alert("password and confirm password need to match");
@@ -49,7 +55,7 @@ function EditAccount() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(data),
-        }
+        },
       );
       setIsLoading(false);
     }
@@ -65,7 +71,7 @@ function EditAccount() {
     navigate(-1);
   };
   return (
-    <div className="text-left px-24">
+    <div className="px-24 text-left">
       <Settings></Settings>
       <div className="flex justify-center pb-16 pt-10">
         <Header></Header>

@@ -5,12 +5,19 @@ import { DataRow } from "../../services/DataRow";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import Header from "../foundations/header";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "../ui/card";
 import { Toaster } from "../ui/toaster";
 import AddMachineSolution from "./AddMachineSolution";
 import AddSolution from "./AddTicketSolution";
 import AddMachine from "./addMachine";
 import { Separator } from "../ui/separator";
+import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
 
 function serviceEmployee() {
   useAuthenticated();
@@ -26,36 +33,48 @@ function serviceEmployee() {
 
   async function GetAllData() {
     SetAllTickets(
-      await fetch("http://localhost:5119/api/tickets/", {
-        method: "GET",
-        headers: {
-          Authorization: "bearer " + localStorage.getItem("Token"),
-          "Content-Type": "application/json",
-        },
-      }).then((data) => data.json())
+      await fetch(API_BASE_URL + "/api/tickets" + getBaseQueryRequest).then(
+        (data) => data.json(),
+      ),
+
+      // await fetch("http://localhost:5119/api/tickets/", {
+      //   method: "GET",
+      //   headers: {
+      //     Authorization: "bearer " + localStorage.getItem("Token"),
+      //     "Content-Type": "application/json",
+      //   },
+      // }).then((data) => data.json())
     );
   }
 
   async function GetAssignedData() {
     SetAssignedTickets(
-      await fetch("http://localhost:5119/api/tickets/", {
-        method: "GET",
-        headers: {
-          Authorization: "bearer " + localStorage.getItem("Token"),
-          "Content-Type": "application/json",
-        },
-      })
+      await fetch(API_BASE_URL + "/api/tickets" + getBaseQueryRequest)
         .then((data) => data.json())
         .then((tickets) =>
           tickets.filter(
-            (client: any) => client.assigned_Id == localStorage.getItem("Id")
-          )
-        )
+            (client: any) => client.assigned_Id == localStorage.getItem("Id"),
+          ),
+        ),
+
+      // await fetch("http://localhost:5119/api/tickets/", {
+      //   method: "GET",
+      //   headers: {
+      //     Authorization: "bearer " + localStorage.getItem("Token"),
+      //     "Content-Type": "application/json",
+      //   },
+      // })
+      //   .then((data) => data.json())
+      //   .then((tickets) =>
+      //     tickets.filter(
+      //       (client: any) => client.assigned_Id == localStorage.getItem("Id")
+      //     )
+      //   )
     );
   }
 
   return (
-    <div className="text-left px-24">
+    <div className="px-24 text-left">
       <Settings></Settings>
       <div className="flex justify-center pb-16 pt-10">
         <Header></Header>
