@@ -40,7 +40,8 @@ function EditTicket() {
 
   const CheckAccount = () => {
     const accountclass = localStorage.getItem("Class");
-    setIsClient((accountclass == "2"));
+    console.log(accountclass);
+    setIsClient((accountclass == "Client"));
   }
 
 
