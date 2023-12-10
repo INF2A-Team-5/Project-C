@@ -79,11 +79,6 @@ function serviceEmployee() {
         }
       )
         .then((data) => data.json())
-        .then((tickets) =>
-          tickets.filter(
-            (client: any) => client.assigned_Id == localStorage.getItem("Id")
-          )
-        )
     );
   }
 
