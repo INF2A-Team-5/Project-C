@@ -29,3 +29,10 @@ export const getBaseMutateRequest = (): RequestInit => {
     ...baseRequest,
   };
 };
+
+export const putBaseMutateRequest = (): RequestInit => {
+  return {
+    method: "PUT",
+    ...baseRequest,
+  };
+};

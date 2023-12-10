@@ -19,6 +19,7 @@ import {
 import AddMachineSolution from "./AddMachineSolution";
 import { Toaster } from "../ui/toaster";
 import { Separator } from "../ui/separator";
+import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
 
 function Admin() {
   useAuthenticated();
@@ -30,18 +31,22 @@ function Admin() {
 
   async function GetData() {
     SetAllTickets(
-      await fetch("http://localhost:5119/api/tickets/", {
-        method: "GET",
-        headers: {
-          Authorization: "bearer " + localStorage.getItem("Token"),
-          "Content-Type": "application/json",
-        },
-      }).then((data) => data.json())
+      await fetch(API_BASE_URL + "/api/tickets" + getBaseQueryRequest).then(
+        (data) => data.json(),
+      ),
+
+      // await fetch("http://localhost:5119/api/tickets/", {
+      //   method: "GET",
+      //   headers: {
+      //     Authorization: "bearer " + localStorage.getItem("Token"),
+      //     "Content-Type": "application/json",
+      //   },
+      // }).then((data) => data.json())
     );
   }
 
   return (
-    <div className="text-left px-24">
+    <div className="px-24 text-left">
       <Settings></Settings>
       <div className="flex justify-center pb-16 pt-10">
         <Header></Header>

@@ -17,6 +17,7 @@ import AddMachineSolution from "./AddMachineSolution";
 import AddSolution from "./AddTicketSolution";
 import AddMachine from "./addMachine";
 import { Separator } from "../ui/separator";
+import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
 
 function serviceEmployee() {
   useAuthenticated();
@@ -51,39 +52,29 @@ function serviceEmployee() {
 
   async function GetAllData() {
     SetAllTickets(
-      await fetch(
-        "http://localhost:5119/GetTicketByDepartment?AccountId=" +
-          localStorage.getItem("Id"),
-        {
-          method: "GET",
-          headers: {
-            Authorization: "bearer " + localStorage.getItem("Token"),
-            "Content-Type": "application/json",
-          },
-        }
-      ).then((data) => data.json())
+      await fetch(API_BASE_URL + "/api/tickets" + getBaseQueryRequest).then(
+        (data) => data.json(),
+      ),
+
+      // await fetch("http://localhost:5119/api/tickets/", {
+      //   method: "GET",
+      //   headers: {
+      //     Authorization: "bearer " + localStorage.getItem("Token"),
+      //     "Content-Type": "application/json",
+      //   },
+      // }).then((data) => data.json())
     );
   }
 
   async function GetAssignedData() {
     SetAssignedTickets(
-      await fetch(
-        "http://localhost:5119/GetAssignedTickets?AccountId=" +
-          localStorage.getItem("Id"),
-        {
-          method: "GET",
-          headers: {
-            Authorization: "bearer " + localStorage.getItem("Token"),
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      await fetch(API_BASE_URL + "/api/tickets" + getBaseQueryRequest)
         .then((data) => data.json())
     );
   }
 
   return (
-    <div className="text-left px-24">
+    <div className="px-24 text-left">
       <Settings></Settings>
       <div className="flex justify-center pb-16 pt-10">
         <Header></Header>

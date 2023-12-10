@@ -1,5 +1,5 @@
-import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
 
 i18n.use(initReactI18next).init({
   debug: true,
@@ -168,8 +168,74 @@ i18n.use(initReactI18next).init({
           remove: "Verwijder",
         },
       },
-    },
-  },
-});
+      nl: {
+        translation: {
+            login: {
+              login: "Login",
+              username: "Voer gebruikersnaam in",
+              password: "Voer wachtwoord in",
+              log_in: "Log in",
+              theme: "thema",
+              txt_rotation0: "Het volledig inrichten van uw proces",
+              txt_rotation1: "bloemen & planten",
+              txt_rotation2: "groente & fruit",
+              txt_rotation3: "gevogelte",
+              txt_rotation4: "insecten kweken",
+              txt_rotation5: "intralogistiek",
+          },
+          setting: {
+            account: "Account Aanpassen",
+            theme: "Thema",
+            themeL: "Light",
+            themeD: "Donker",
+            lang: "Taal",
+            langNl: "Nederlands",
+            langEn: "Engels",
+            langPl: "Pools",
+            logOut: "Log Uit",
+          },
+          editticket: {
+            header: "Pas je ticket aan",
+            notes: "Voeg notities toe",
+            notes2: "Werkt nog steeds niet, want...",
+            description: "Geef ons een gedetailleerde beschrijving waarmee je de ticket wilt updaten",
+            pictures: "Voeg eventuele foto's toe",
+            submit: "Dien in",
+            cancel: "Annuleer",
+            problem: "Probleem: ",
+            mbd: "Hoort te doen: ",
+            tried: "Heb geprobeerd: ",
+            notes3: "notities: ",
+            ticketinfo: "Laat ticket informatie zien"
+          },
+          ticket: {
+            phonealert: "Vul AUB je telefoonnummer in",
+            wordsalert: "De eerste 2 antwoorden moeten 20 woorden bevatten",
+            machinealert: "Kies AUB een machine",
+            submitalert: "Ticket ingediend",
+            submit: 'Dien in',
+            emptyalert: "Je hebt nog niet alle verplichte velden ingevuld",
+            header: "Meld een foutmelding",
+            details: "Geef alle details van de foutmelding en we zullen je zo snel mogelijk helpen",
+            selectmachine: "Selecteer Machine",
+            selectmachinedes: "Selecteer de machine waar je een melding van wilt maken",
+            place1: "Er zijn dingen kapot...",
+            place2: "Spullen in te pakken",
+            place3: "Machine opnieuw aangezet",
+            place4: "Vul telefoonnummer in",
+            problem: "Wat zie je gebeuren?*",
+            problemdes: "Geef ons een gedetailleerde beschrijving van zichtbare defecten (Tenminste 20 woorden)",
+            bedoing: "Wat hoort de machine te doen?*",
+            bedoingdes: "Geef ons een gedetailleerde beschrijving van wat de machine hoort te doen (Tenminste 20 woorden)",
+            havetried: "Wat heb je al geprobeerd?*",
+            havetrieddes: "Beschrijf alles wat je al hebt geprobeerd om het probleem op te lossen",
+            phonenum: "Kies een ander telefoonnummer dan van account",
+            files: "Upload bestanden",
+            cancel: "Annuleer"
+          }
+        }
+      }
+    }
+  });
 
 export default i18n;
