@@ -3,26 +3,26 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Cookies from "js-cookie";
-import { t } from "i18next";
+// import { t } from "i18next";
+import { Icons } from "@/components/foundations/icons";
 import Header from "@/components/foundations/header";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
-// import { Label } from "@radix-ui/react-label";
 import { TextareaHint } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import React from "react";
 
 function LogIn() {
-  // const { t, i18n } = useTranslation();
-  // useEffect(() => {
-  //   i18n.changeLanguage(navigator.language);
-  // }, []);
+  const { t, i18n } = useTranslation();
+  useEffect(() => {
+    i18n.changeLanguage(navigator.language);
+  }, []);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const usernameRef = React.useRef<HTMLInputElement>(null);
@@ -41,12 +41,14 @@ function LogIn() {
   };
 
   async function handleSubmit() {
+    setIsLoading(true);
     if (username === "" || password === "") {
       toast({
         variant: "destructive",
         title: "Error! Something went wrong.",
         description: "Fill in all fields before logging in.",
       });
+      setIsLoading(false);
     } else {
       try {
         const account = await fetch("http://localhost:5119/api/Auth/Login", {
@@ -82,49 +84,51 @@ function LogIn() {
           description:
             "Please ensure your username and password are entered correctly and try again.",
         });
+      } finally {
+        setIsLoading(false);
       }
     }
   }
   return (
-    <div className="grid-container grid grid-cols-2 h-screen">
+    <div className="grid-container grid h-screen grid-cols-2">
       <div
-        className='login-left bg-left bg-var(--background) bg-[url("https://viscongroup.eu/app/uploads/2023/01/MicrosoftTeams-image-77-scaled.jpg")] 
-                      bg-cover bg-no-repeat object-fill left-1/2 grid place-items-center'
+        className='login-left bg-var(--background) left-1/2 grid 
+                      place-items-center bg-[url("https://viscongroup.eu/app/uploads/2023/01/MicrosoftTeams-image-77-scaled.jpg")] bg-cover bg-left bg-no-repeat object-fill'
       >
         <div className="wrapper">
-          <h1 className="text-5xl font-medium leading-10 mb-5 mt-5 bg-transparent">
+          <h1 className="mb-5 mt-5 bg-transparent font-medium leading-10">
             {t("login.txt_rotation0")}
           </h1>
-          <div className="words border-b-0 font-medium border-transparent h-16 leading-16 text-5xl uppercase overflow-hidden bg-transparent">
-            <h1 className="relative text-primary animation-rotate-words m-0">
+          <div className="words leading-16 h-16 overflow-hidden border-b-0 border-transparent bg-transparent font-medium uppercase">
+            <h1 className="animation-rotate-words relative m-0 text-primary">
               {t("login.txt_rotation1")}
             </h1>
-            <h1 className="relative text-primary animation-rotate-words m-0">
+            <h1 className="animation-rotate-words relative m-0 text-primary">
               {t("login.txt_rotation2")}
             </h1>
-            <h1 className="relative text-primary animation-rotate-words m-0">
+            <h1 className="animation-rotate-words relative m-0 text-primary">
               {t("login.txt_rotation3")}
             </h1>
-            <h1 className="relative text-primary animation-rotate-words m-0">
+            <h1 className="animation-rotate-words relative m-0 text-primary">
               {t("login.txt_rotation4")}
             </h1>
-            <h1 className="relative text-primary animation-rotate-words m-0">
+            <h1 className="animation-rotate-words relative m-0 text-primary">
               {t("login.txt_rotation5")}
             </h1>
           </div>
         </div>
       </div>
       <Settings></Settings>
-      <div className="items-center text-center justify-center flex flex-col">
+      <div className="flex flex-col items-center justify-center text-center">
         <Header></Header>
-        <div className="w-2/5 grid gap-4">
+        <div className="grid w-2/5 gap-4">
           <div>
             <h2 className="text-2xl font-medium">{t("login.login")}</h2>
             <TextareaHint>
               Enter login details to access your account.
             </TextareaHint>
           </div>
-          <div className="grid gap-1">
+          <div className="grid gap-2">
             <Label>{t("login.username")}</Label>
             <Input
               ref={usernameRef}
@@ -134,7 +138,7 @@ function LogIn() {
               onChange={(e) => setUsername(e.currentTarget.value)}
             />
           </div>
-          <div className="grid gap-1">
+          <div className="grid gap-2">
             <Label>{t("login.password")}</Label>
             <Input
               ref={passwordRef}
@@ -161,7 +165,11 @@ function LogIn() {
               variant="default"
               size="lg"
               onClick={handleSubmit}
+              disabled={isLoading}
             >
+              {isLoading ? (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              ) : null}
               {t("login.log_in")}
             </Button>
           </div>

@@ -3,9 +3,11 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ApiDepartments } from "@/lib/api/departments";
+import { Icons } from "../foundations/icons";
 
 function AddDepartment() {
   const [name, setName] = useState("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
   return (
@@ -23,7 +25,11 @@ function AddDepartment() {
             onSuccess: () => navigate("/admin"),
           })
         }
+        disabled={isLoading}
       >
+        {isLoading ? (
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        ) : null}
         Add Department
       </Button>
     </div>

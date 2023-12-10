@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231207192214_mig1")]
-    partial class mig1
+    [Migration("20231210145712_test3")]
+    partial class test3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,6 +69,29 @@ namespace backend.Migrations
                     b.ToTable("Departments");
                 });
 
+            modelBuilder.Entity("Backend.Entities.Employee", b =>
+                {
+                    b.Property<int>("EmployeeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("EmployeeId"));
+
+                    b.Property<int>("AccountId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("DepartmentId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("EmployeeId");
+
+                    b.HasIndex("AccountId");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.ToTable("Employees");
+                });
+
             modelBuilder.Entity("Backend.Entities.Machine", b =>
                 {
                     b.Property<int>("MachineId")
@@ -95,8 +118,6 @@ namespace backend.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("MachineId");
-
-                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Machines");
                 });
@@ -133,14 +154,14 @@ namespace backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TicketId"));
 
-                    b.Property<int>("Assigned_Id")
-                        .HasColumnType("integer");
-
                     b.Property<int>("Customer_Id")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("Date_Created")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("integer");
 
                     b.Property<string[]>("Files")
                         .HasColumnType("text[]");
@@ -183,6 +204,8 @@ namespace backend.Migrations
 
                     b.HasKey("TicketId");
 
+                    b.HasIndex("EmployeeId");
+
                     b.ToTable("Tickets");
                 });
 
@@ -211,15 +234,44 @@ namespace backend.Migrations
                     b.ToTable("Files");
                 });
 
-            modelBuilder.Entity("Backend.Entities.Machine", b =>
+            modelBuilder.Entity("Backend.Entities.Employee", b =>
                 {
-                    b.HasOne("Backend.Entities.Department", "Department")
+                    b.HasOne("Backend.Entities.Account", "Account")
                         .WithMany()
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Backend.Entities.Department", "Department")
+                        .WithMany("Employees")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Account");
+
                     b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("Backend.Entities.Ticket", b =>
+                {
+                    b.HasOne("Backend.Entities.Employee", "Employee")
+                        .WithMany("Tickets")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("Backend.Entities.Department", b =>
+                {
+                    b.Navigation("Employees");
+                });
+
+            modelBuilder.Entity("Backend.Entities.Employee", b =>
+                {
+                    b.Navigation("Tickets");
                 });
 #pragma warning restore 612, 618
         }

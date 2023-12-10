@@ -26,7 +26,6 @@ function toggleThemeDark() {
 
 function logOut() {
   localStorage.clear();
-  window.location.href = "/auth/login";
 }
 
 const changeLanguage = (lng: string) => {
@@ -95,9 +94,11 @@ function Settings() {
           {isLoggedIn ? (
             <>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={logOut}>
-                {i18next.t("setting.logOut")}
-              </DropdownMenuItem>
+              <Link to={"/auth/login"}>
+                <DropdownMenuItem onClick={logOut}>
+                  {i18next.t("setting.logOut")}
+                </DropdownMenuItem>
+              </Link>
             </>
           ) : null}
         </DropdownMenuContent>

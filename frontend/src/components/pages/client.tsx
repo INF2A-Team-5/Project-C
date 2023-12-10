@@ -18,6 +18,7 @@ import { Separator } from "../ui/separator";
 import Table from "../foundations/table";
 import { useState } from "react";
 import { DataRow } from "@/services/DataRow";
+import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
 
 function Client() {
   const [Tickets, SetTickets] = useState<DataRow[]>([]);
@@ -28,6 +29,14 @@ function Client() {
 
   async function GetData() {
     SetTickets(
+      // await fetch(API_BASE_URL + "/api/tickets/" + getBaseQueryRequest)
+      //   .then((data) => data.json())
+      //   .then((tickets) =>
+      //     tickets.filter(
+      //       (client: any) => client.customer_Id == localStorage.getItem("Id"),
+      //     ),
+      //   ),
+
       await fetch("http://localhost:5119/api/tickets/", {
         method: "GET",
         headers: {
@@ -46,7 +55,7 @@ function Client() {
 
   useAuthenticated();
   return (
-    <div className="text-left px-24">
+    <div className="px-24 text-left">
       <Settings></Settings>
       <div className="flex justify-center pb-16 pt-10">
         <Header></Header>
@@ -54,6 +63,7 @@ function Client() {
       <h1 className="text-4xl font-medium">Client</h1>
       <Separator className="my-4" />
       {/* <Tablea></Tablea> */}
+
 
       <Table data={Tickets} displayColumns={[
         "ID",

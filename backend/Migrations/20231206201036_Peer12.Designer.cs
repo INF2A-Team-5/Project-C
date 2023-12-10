@@ -3,6 +3,7 @@ using System;
 using Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231206201036_Peer12")]
+    partial class Peer12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,30 +69,6 @@ namespace backend.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("Backend.Entities.Employee", b =>
-                {
-                    b.Property<int>("EmployeeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("EmployeeId"));
-
-                    b.Property<int>("AccountId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("EmployeeId");
-
-                    b.HasIndex("AccountId")
-                        .IsUnique();
-
-                    b.HasIndex("DepartmentId");
-
-                    b.ToTable("Employees");
-                });
-
             modelBuilder.Entity("Backend.Entities.Machine", b =>
                 {
                     b.Property<int>("MachineId")
@@ -116,6 +95,8 @@ namespace backend.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("MachineId");
+
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Machines");
                 });
@@ -152,14 +133,14 @@ namespace backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TicketId"));
 
+                    b.Property<int>("Assigned_Id")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Customer_Id")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("Date_Created")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<int?>("Employee_Id")
-                        .HasColumnType("integer");
 
                     b.Property<string[]>("Files")
                         .HasColumnType("text[]");
@@ -196,13 +177,7 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.HasKey("TicketId");
-
-                    b.HasIndex("Employee_Id");
 
                     b.ToTable("Tickets");
                 });
@@ -232,40 +207,15 @@ namespace backend.Migrations
                     b.ToTable("Files");
                 });
 
-            modelBuilder.Entity("Backend.Entities.Employee", b =>
+            modelBuilder.Entity("Backend.Entities.Machine", b =>
                 {
-                    b.HasOne("Backend.Entities.Account", "Account")
-                        .WithOne()
-                        .HasForeignKey("Backend.Entities.Employee", "AccountId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Backend.Entities.Department", "Department")
-                        .WithMany("Employees")
+                        .WithMany()
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Account");
-
                     b.Navigation("Department");
-                });
-
-            modelBuilder.Entity("Backend.Entities.Ticket", b =>
-                {
-                    b.HasOne("Backend.Entities.Employee", null)
-                        .WithMany("Tickets")
-                        .HasForeignKey("Employee_Id");
-                });
-
-            modelBuilder.Entity("Backend.Entities.Department", b =>
-                {
-                    b.Navigation("Employees");
-                });
-
-            modelBuilder.Entity("Backend.Entities.Employee", b =>
-                {
-                    b.Navigation("Tickets");
                 });
 #pragma warning restore 612, 618
         }

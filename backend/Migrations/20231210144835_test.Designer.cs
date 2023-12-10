@@ -3,6 +3,7 @@ using System;
 using Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231210144835_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,14 +155,14 @@ namespace backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TicketId"));
 
+                    b.Property<int?>("Assigned_Id")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Customer_Id")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("Date_Created")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<int?>("Employee_Id")
-                        .HasColumnType("integer");
 
                     b.Property<string[]>("Files")
                         .HasColumnType("text[]");
@@ -202,7 +205,7 @@ namespace backend.Migrations
 
                     b.HasKey("TicketId");
 
-                    b.HasIndex("Employee_Id");
+                    b.HasIndex("Assigned_Id");
 
                     b.ToTable("Tickets");
                 });
@@ -253,9 +256,11 @@ namespace backend.Migrations
 
             modelBuilder.Entity("Backend.Entities.Ticket", b =>
                 {
-                    b.HasOne("Backend.Entities.Employee", null)
+                    b.HasOne("Backend.Entities.Employee", "Employee")
                         .WithMany("Tickets")
-                        .HasForeignKey("Employee_Id");
+                        .HasForeignKey("Assigned_Id");
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("Backend.Entities.Department", b =>
