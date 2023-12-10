@@ -22,6 +22,7 @@ import {
   putBaseMutateRequest,
   getBaseQueryRequest,
 } from "@/lib/api";
+import { Machine } from "@/services/Machine";
 
 function serviceEmployee() {
   useAuthenticated();
@@ -29,6 +30,8 @@ function serviceEmployee() {
   const [AssignedTickets, SetAssignedTickets] = useState<DataRow[]>([]);
   const [Account, SetAccount] = useState();
   const [LoadTicket, SetTickets] = useState<Boolean>(false);
+  const [LoadMachines, SetMachines] = useState<Boolean>(false);
+  const [AllMachines, SetAllMachines] = useState<Machine[]>([]);
 
   if (LoadTicket == false) {
     GetAssignedData();
@@ -37,6 +40,10 @@ function serviceEmployee() {
   }
   if (Account == undefined) {
     GetAccount();
+  }
+  if (LoadMachines == false) {
+    GetAllMachines();
+    SetMachines(true);
   }
 
   async function GetAccount() {
@@ -56,9 +63,9 @@ function serviceEmployee() {
 
   async function GetAllData() {
     SetAllTickets(
-      await fetch( API_BASE_URL +
+      await fetch(API_BASE_URL +
         "/GetTicketByDepartment?AccountId=" +
-          localStorage.getItem("Id"), getBaseQueryRequest()
+        localStorage.getItem("Id"), getBaseQueryRequest()
       ).then((data) => data.json())
     );
   }
@@ -69,6 +76,15 @@ function serviceEmployee() {
         .then((data) => data.json())
     );
   }
+
+  async function GetAllMachines() {
+    SetAllMachines(
+      await fetch(API_BASE_URL + "/api/Machines", getBaseQueryRequest())
+        .then((data) => data.json())
+    );
+  }
+
+  console.log(AllMachines);
 
   return (
     <div className="px-24 text-left">
@@ -95,8 +111,7 @@ function serviceEmployee() {
                   "Priority",
                   "Client",
                   "Date",
-                  "Status",
-                  "",
+                  "Status"
                 ]}
                 data={AllTickets}
                 dataColumns={[
@@ -129,7 +144,19 @@ function serviceEmployee() {
               />
             </TabsContent>
             <TabsContent value="machines">
-              Pleur hier je machinestabel
+              <Table
+                displayColumns={[
+                  "ID",
+                  "Name",
+                  "Description",
+                ]}
+                data={AllMachines}
+                dataColumns={[
+                  "machineId",
+                  "name",
+                  "description",
+                ]}
+              />
             </TabsContent>
           </Tabs>
         </div>

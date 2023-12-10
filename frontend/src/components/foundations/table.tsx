@@ -89,8 +89,7 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
     alert(id)
   }
 
-  async function AssignTicket(ticket: any)
-  {
+  async function AssignTicket(ticket: any) {
     ticket.employee_Id = 1 // moet nog ff uitgezocht worden en pagina moet nu gereload worden iedere keer
     await fetch(
       "http://localhost:5119/api/tickets/" + ticket.ticketId,
@@ -110,9 +109,9 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
   async function handleButtonClick(ticket: any) {
     const user = await fetch(
       API_BASE_URL +
-        "/api/Accounts/" +
-        localStorage.getItem("Id") +
-        getBaseQueryRequest,
+      "/api/Accounts/" +
+      localStorage.getItem("Id") +
+      getBaseQueryRequest,
     ).then((data) => data.json());
 
     // const user = await fetch(`http://localhost:5119/api/Accounts/${localStorage.getItem("Id")}`, {
@@ -217,7 +216,7 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem>View customer</DropdownMenuItem>
-                      { localStorage.getItem("Class") == "ServiceEmployee" || localStorage.getItem("Class") == "Admin" ? 
+                      {localStorage.getItem("Class") == "ServiceEmployee" || localStorage.getItem("Class") == "Admin" ?
                         <DropdownMenuItem onClick={() => AssignTicket(currentData[rowIndex])}>Assign Ticket</DropdownMenuItem> : null
                       }
                       {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}

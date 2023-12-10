@@ -64,7 +64,6 @@ function Client() {
       <Separator className="my-4" />
       {/* <Tablea></Tablea> */}
 
-
       <Table data={Tickets} displayColumns={[
         "ID",
         "Title",
