@@ -9,4 +9,5 @@ namespace Backend.Entities;
         public Department Department {get; set; } = null!;
         public Account Account {get; set; } = null!;
         public int AccountId {get; set; }
+        public ICollection<Ticket> Tickets { get; } = new List<Ticket>();
     }

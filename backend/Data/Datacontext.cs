@@ -28,7 +28,7 @@ public class DataContext : DbContext
         modelBuilder.Entity<Department>().HasMany(d => d.Employees).WithOne(e => e.Department).HasForeignKey(e => e.DepartmentId);
         modelBuilder.Entity<Solution>().HasKey(x => x.SolutionId);
         modelBuilder.Entity<TicketFile>().HasKey(x => x.FileId);
-        // modelBuilder.Entity<Employee>().HasOne(e => e.Department).WithMany(e => e.Employees).HasForeignKey(e => e.AccountId);
         modelBuilder.Entity<Employee>().HasOne(e => e.Account).WithOne().IsRequired();
+        modelBuilder.Entity<Employee>().HasMany(e => e.Tickets).WithOne().HasForeignKey(t => t.Employee_Id);
     }
 }

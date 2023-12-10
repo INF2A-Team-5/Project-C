@@ -103,6 +103,24 @@ namespace Backend.TicketService
             }
             return tickets;
         }
+        public async Task<ActionResult<IEnumerable<Ticket>>> GetAssignedTickets(int AccountId)
+        {
+            if (_context.Tickets == null || _context.Departments == null || _context.Machines == null || _context.Employees == null)
+            {
+                return NotFound("No data found in db");
+            }
+            Employee employee = await (from employees in _context.Employees where employees.AccountId == AccountId select employees).FirstOrDefaultAsync();
+            if (employee == null)
+            {
+                return NotFound("Employee does not exist");
+            }
+            var tickets = await (from ticket in _context.Tickets where ticket.Employee_Id == employee.EmployeeId select ticket).ToListAsync();
+            if (tickets == null || tickets.Count == 0)
+            {
+                return NotFound("No tickets assigned");
+            }
+            return tickets;
+        }
         private bool TicketExists(int id) => (_context.Tickets?.Any(e => e.TicketId == id)).GetValueOrDefault();
     }
 }

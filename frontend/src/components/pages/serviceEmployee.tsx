@@ -25,10 +25,8 @@ function serviceEmployee() {
   const [Account, SetAccount] = useState();
   const [LoadTicket, SetTickets] = useState<Boolean>(false);
 
-
-  if (LoadTicket == false)
-  {
-    GetAssignedData()
+  if (LoadTicket == false) {
+    GetAssignedData();
     GetAllData();
     SetTickets(true);
   }
@@ -69,13 +67,17 @@ function serviceEmployee() {
 
   async function GetAssignedData() {
     SetAssignedTickets(
-      await fetch("http://localhost:5119/api/tickets/", {
-        method: "GET",
-        headers: {
-          Authorization: "bearer " + localStorage.getItem("Token"),
-          "Content-Type": "application/json",
-        },
-      })
+      await fetch(
+        "http://localhost:5119/GetAssignedTickets?AccountId=" +
+          localStorage.getItem("Id"),
+        {
+          method: "GET",
+          headers: {
+            Authorization: "bearer " + localStorage.getItem("Token"),
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then((data) => data.json())
         .then((tickets) =>
           tickets.filter(
@@ -95,12 +97,15 @@ function serviceEmployee() {
         <div>
           <h1 className="text-4xl font-medium">Serivce Employee</h1>
           <Separator className="my-4" />
-          <Tabs defaultValue="tickets">
+          <Tabs defaultValue="all tickets">
             <TabsList>
-              <TabsTrigger value="tickets">Tickets</TabsTrigger>
+              <TabsTrigger value="all tickets">All Tickets</TabsTrigger>
+              <TabsTrigger value="assigned tickets">
+                Assigned Tickets
+              </TabsTrigger>
               <TabsTrigger value="machines">Machines</TabsTrigger>
             </TabsList>
-            <TabsContent value="tickets">
+            <TabsContent value="all tickets">
               <Table
                 displayColumns={[
                   "ID",
@@ -111,6 +116,26 @@ function serviceEmployee() {
                   "",
                 ]}
                 data={AllTickets}
+                dataColumns={[
+                  "ticketId",
+                  "priority",
+                  "customer_Id",
+                  "date_Created",
+                  "status",
+                ]}
+              />
+            </TabsContent>
+            <TabsContent value="assigned tickets">
+              <Table
+                displayColumns={[
+                  "ID",
+                  "Priority",
+                  "Client",
+                  "Date",
+                  "Status",
+                  "",
+                ]}
+                data={AssignedTickets}
                 dataColumns={[
                   "ticketId",
                   "priority",

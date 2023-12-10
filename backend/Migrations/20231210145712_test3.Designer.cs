@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231210134250_Test2")]
-    partial class Test2
+    [Migration("20231210145712_test3")]
+    partial class test3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,8 +85,7 @@ namespace backend.Migrations
 
                     b.HasKey("EmployeeId");
 
-                    b.HasIndex("AccountId")
-                        .IsUnique();
+                    b.HasIndex("AccountId");
 
                     b.HasIndex("DepartmentId");
 
@@ -155,14 +154,14 @@ namespace backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TicketId"));
 
-                    b.Property<int>("Assigned_Id")
-                        .HasColumnType("integer");
-
                     b.Property<int>("Customer_Id")
                         .HasColumnType("integer");
 
                     b.Property<DateTime>("Date_Created")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("integer");
 
                     b.Property<string[]>("Files")
                         .HasColumnType("text[]");
@@ -205,6 +204,8 @@ namespace backend.Migrations
 
                     b.HasKey("TicketId");
 
+                    b.HasIndex("EmployeeId");
+
                     b.ToTable("Tickets");
                 });
 
@@ -236,8 +237,8 @@ namespace backend.Migrations
             modelBuilder.Entity("Backend.Entities.Employee", b =>
                 {
                     b.HasOne("Backend.Entities.Account", "Account")
-                        .WithOne()
-                        .HasForeignKey("Backend.Entities.Employee", "AccountId")
+                        .WithMany()
+                        .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -252,9 +253,25 @@ namespace backend.Migrations
                     b.Navigation("Department");
                 });
 
+            modelBuilder.Entity("Backend.Entities.Ticket", b =>
+                {
+                    b.HasOne("Backend.Entities.Employee", "Employee")
+                        .WithMany("Tickets")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("Backend.Entities.Department", b =>
                 {
                     b.Navigation("Employees");
+                });
+
+            modelBuilder.Entity("Backend.Entities.Employee", b =>
+                {
+                    b.Navigation("Tickets");
                 });
 #pragma warning restore 612, 618
         }

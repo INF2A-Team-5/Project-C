@@ -11,5 +11,6 @@ namespace Backend.TicketService
         Task<ActionResult<Ticket>> AddTicket(Ticket ticket);
         Task<IActionResult> DeleteTicket(int id);
         Task<ActionResult<IEnumerable<Ticket>>> GetTicketByDepartment(int Departmentname);
+        Task<ActionResult<IEnumerable<Ticket>>> GetAssignedTickets(int AccountId);
     }
 }
