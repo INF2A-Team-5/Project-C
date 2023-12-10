@@ -7,11 +7,23 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+} from "@/components/ui/table";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { MoreHorizontal } from "lucide-react";
 import { Card } from "../ui/card";
+import {
+  API_BASE_URL,
+  getBaseQueryRequest,
+  putBaseMutateRequest,
+} from "@/lib/api";
 
 interface TableProps {
   data: { [key: string]: any }[];
@@ -22,7 +34,7 @@ interface TableProps {
 function DataTable({ data, displayColumns, dataColumns }: TableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState<string | null>(null);
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
   const handleSort = (column: string) => {
     let temp;
@@ -37,7 +49,7 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
         temp = "customer_Id";
         break;
       case "Date":
-        temp = "date_Created"
+        temp = "date_Created";
         break;
       case "Status":
         temp = "status";
@@ -48,17 +60,19 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
     }
 
     if (sortDirection == "asc") {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
       sortByKey(data, temp);
     } else {
       setSortColumn(column);
-      setSortDirection('asc');
+      setSortDirection("asc");
       sortByKey(data, temp).reverse();
     }
   };
 
   function sortByKey<T>(array: T[], key: keyof T): T[] {
-    return array.sort((a, b) => (a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0));
+    return array.sort((a, b) =>
+      a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0,
+    );
   }
 
   const indexOfLastItem = currentPage * 10;
@@ -76,51 +90,61 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
   }
 
   async function handleButtonClick(ticket: any) {
-    const user = await fetch(`http://localhost:5119/api/Accounts/${localStorage.getItem("Id")}`, {
-      method: "GET",
-      headers:
-      {
-        "Content-Type": "application/json",
-        "Authorization": "bearer " + localStorage.getItem("Token"),
-      }
-    }).then((res) => res.json());
+    const user = await fetch(
+      API_BASE_URL +
+        "/api/Accounts/" +
+        localStorage.getItem("Id") +
+        getBaseQueryRequest,
+    ).then((data) => data.json());
+
+    // const user = await fetch(`http://localhost:5119/api/Accounts/${localStorage.getItem("Id")}`, {
+    //   method: "GET",
+    //   headers:
+    //   {
+    //     "Content-Type": "application/json",
+    //     "Authorization": "bearer " + localStorage.getItem("Token"),
+    //   }
+    // }).then((res) => res.json());
 
     if (user.class == "Admin" || user.class == "ServiceEmployee") {
       if (ticket.assigned_Id == null || ticket.assigned_Id == 0) {
-        const temp =
-        {
-          "TicketId": ticket.ticketId,
-          "Machine_Id": ticket.machine_Id,
-          "Customer_Id": ticket.customer_Id,
-          "Assigned_Id": localStorage.getItem("Id"),
-          "Priority": ticket.priority,
-          "Status": ticket.status,
+        const temp = {
+          TicketId: ticket.ticketId,
+          Machine_Id: ticket.machine_Id,
+          Customer_Id: ticket.customer_Id,
+          Assigned_Id: localStorage.getItem("Id"),
+          Priority: ticket.priority,
+          Status: ticket.status,
 
-          "Problem": ticket.problem,
-          "HaveTried": ticket.haveTried,
-          "MustBeDoing": ticket.mustBeDoing,
-          "Date_Created": ticket.date_Created,
+          Problem: ticket.problem,
+          HaveTried: ticket.haveTried,
+          MustBeDoing: ticket.mustBeDoing,
+          Date_Created: ticket.date_Created,
 
-          "Solution": ticket.solution,
-          "PhoneNumber": ticket.phoneNumber,
-          "Notes": ticket.notes,
-          "files": ticket.files
+          Solution: ticket.solution,
+          PhoneNumber: ticket.phoneNumber,
+          Notes: ticket.notes,
+          files: ticket.files,
         };
 
-        await fetch("http://localhost:5119/api/Tickets/" + temp.TicketId,
-          {
-            method: "PUT",
-            headers: {
-              "Authorization": "bearer " + localStorage.getItem("Token"),
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(temp)
-          });
+        await fetch(
+          API_BASE_URL + "/api/Tickets/" + temp.TicketId + putBaseMutateRequest,
+          { body: JSON.stringify(temp) },
+        );
+
+        // await fetch("http://localhost:5119/api/Tickets/" + temp.TicketId,
+        //   {
+        //     method: "PUT",
+        //     headers: {
+        //       "Authorization": "bearer " + localStorage.getItem("Token"),
+        //       "Content-Type": "application/json",
+        //     },
+        //     body: JSON.stringify(temp)
+        //   });
 
         localStorage.setItem("currentticket", ticket.ticketId.toString());
         window.location.href = "edit-ticket";
-      }
-      else {
+      } else {
         alert("Tickets is allready assigned");
       }
 
@@ -135,8 +159,19 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
         <TableHeader>
           <TableRow>
             {displayColumns.map((column, index) => (
-              <TableHead key={index} onClick={() => { column == "" ? null : handleSort(column) }}>
-                {column} {sortColumn === column && (sortDirection === 'asc' ? <ArrowDownIcon /> : <ArrowUpIcon />)}
+              <TableHead
+                key={index}
+                onClick={() => {
+                  column == "" ? null : handleSort(column);
+                }}
+              >
+                {column}{" "}
+                {sortColumn === column &&
+                  (sortDirection === "asc" ? (
+                    <ArrowDownIcon />
+                  ) : (
+                    <ArrowUpIcon />
+                  ))}
               </TableHead>
             ))}
           </TableRow>
@@ -159,9 +194,7 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem
-                        onClick={() => alert(7)}
-                      >
+                      <DropdownMenuItem onClick={() => alert(7)}>
                         Show seven
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
@@ -178,7 +211,11 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
       </Table>
 
       <div>
-        <Button className="m-4" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+        <Button
+          className="m-4"
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
           Previous
         </Button>
         <span>{`Page ${currentPage} of ${totalPages}`}</span>
@@ -191,7 +228,7 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
         </Button>
       </div>
     </Card>
-  )
+  );
 }
 
 export default DataTable;

@@ -23,6 +23,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { Icons } from "../foundations/icons";
+import {
+  API_BASE_URL,
+  getBaseMutateRequest,
+  getBaseQueryRequest,
+} from "@/lib/api";
 import { useTranslation } from "react-i18next";
 import { Value } from "@radix-ui/react-select";
 
@@ -48,6 +54,7 @@ function Tickets() {
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
   const [isChecked, setChecked] = useState<boolean>(false);
   const [selectMachine, setSelectMachine] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleCheckbox = () => {
     setChecked(!isChecked);
@@ -80,20 +87,25 @@ function Tickets() {
 
   async function getData() {
     let machinelist = await fetch(
-      "http://localhost:5119/GetMachinesPerAccount?accountId=" +
-        localStorage.getItem("Id"),
-      {
-        method: "GET",
-        headers: {
-          Authorization: "bearer " + localStorage.getItem("Token"),
-        },
-      }
+      API_BASE_URL + "/api/machines" + getBaseQueryRequest,
     ).then((data) => data.json());
+
+    // let machinelist = await fetch(
+    //   "http://localhost:5119/GetMachinesPerAccount?accountId=" +
+    //     localStorage.getItem("Id"),
+    //   {
+    //     method: "GET",
+    //     headers: {
+    //       Authorization: "bearer " + localStorage.getItem("Token"),
+    //     },
+    //   }
+    // ).then((data) => data.json());
+
     SetAccount(localStorage.getItem("Id")!);
     SetMachineNames(
       machinelist.map(
-        (machine: Machine) => machine.name + ", Id: " + machine.machineId
-      )
+        (machine: Machine) => machine.name + ", Id: " + machine.machineId,
+      ),
     );
   }
 
@@ -132,6 +144,7 @@ function Tickets() {
   }
 
   async function handleSubmit() {
+    setIsLoading(true);
     if (
       problem.length != 0 &&
       mustbedoing.length != 0 &&
@@ -144,7 +157,8 @@ function Tickets() {
           title: t("ticket.error"),
           description: t("ticket.machinealert"),
         });
-        navigate("/tickets");
+        setIsLoading(false);
+        // navigate("/tickets");
       } else if (
         problem.split(" ").length < 20 ||
         mustbedoing.split(" ").length < 20
@@ -154,14 +168,16 @@ function Tickets() {
           title: t("ticket.error"),
           description: t("ticket.wordsalert"),
         });
-        navigate("/tickets");
+        setIsLoading(false);
+        // navigate("/tickets");
       } else if (phonenumber == "" || phonenumber == null) {
         toast({
           variant: "destructive",
           title: t("ticket.error"),
           description: t("ticket.phonealert"),
         });
-        navigate("/tickets");
+        // navigate("/tickets");
+        setIsLoading(false);
       } else {
         var currentticket = {
           Machine_Id: selectMachine.split("Id: ")[1],
@@ -179,12 +195,7 @@ function Tickets() {
           phoneNumber: phonenumber,
         };
 
-        await fetch("http://localhost:5119/api/tickets/", {
-          method: "POST",
-          headers: {
-            Authorization: "bearer " + localStorage.getItem("Token"),
-            "Content-Type": "application/json",
-          },
+        await fetch(API_BASE_URL + "/api/tickets/" + getBaseMutateRequest, {
           body: JSON.stringify(currentticket),
         })
           .then((res) => {
@@ -193,12 +204,28 @@ function Tickets() {
           .catch((err) => {
             console.log("Message could not be updated", err);
           });
+
+        // await fetch("http://localhost:5119/api/tickets/", {
+        //   method: "POST",
+        //   headers: {
+        //     Authorization: "bearer " + localStorage.getItem("Token"),
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify(currentticket),
+        // })
+        // .then((res) => {
+        //   console.log("Message successfully updated", res);
+        // })
+        // .catch((err) => {
+        //   console.log("Message could not be updated", err);
+        // });
+
         toast({
           variant: "default",
           title: "Succes!",
           description: t("ticket.submitalert"),
         });
-
+        setIsLoading(false);
         navigate("/client");
 
         // reader.readAsDataURL(file);
@@ -209,6 +236,7 @@ function Tickets() {
         title: t("ticket.error"),
         description: t("ticket.emptyalert"),
       });
+      setIsLoading(false);
     }
   }
 
@@ -217,7 +245,7 @@ function Tickets() {
   }
 
   return (
-    <div className="text-left px-24">
+    <div className="px-24 text-left">
       <Settings></Settings>
       <div className="flex justify-center pb-16 pt-10">
         <Header></Header>
@@ -355,8 +383,18 @@ function Tickets() {
             {t("ticket.cancel")}
           </Button>
         </div>
+        <Button
+          className="w-1/6"
+          variant="default"
+          onClick={handleSubmit}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          ) : null}
+          Submit
+        </Button>
         <Toaster />
-        <div className="h-12"></div>
       </div>
     </div>
   );

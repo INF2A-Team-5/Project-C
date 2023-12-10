@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 
-import "./styles/index.css";
+// import "./styles/index.css";
 import "./styles/globals.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -15,7 +15,7 @@ import "./translations/i18n";
 import EditTicket from "./components/pages/EditTicket";
 
 import LogIn from "./components/pages/auth/log-in";
-import Register from "./components/pages/auth/register";
+// import Register from "./components/pages/auth/register";
 import ForgotPassword from "./components/pages/auth/forgot-password";
 import ViewTicket from "./components/pages/ViewTicket";
 
@@ -30,10 +30,10 @@ const router = createBrowserRouter([
     path: "/auth/login",
     element: <LogIn />,
   },
-  {
-    path: "/auth/register",
-    element: <Register />,
-  },
+  // {
+  //   path: "/auth/register",
+  //   element: <Register />,
+  // },
   {
     path: "/auth/forgot-password",
     element: <ForgotPassword />,
