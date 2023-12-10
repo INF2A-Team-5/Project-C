@@ -2,7 +2,7 @@ import { toast } from "@/components/ui/use-toast";
 import {
   API_BASE_URL,
   getBaseQueryRequest,
-  getBaseMutateRequest,
+  putBaseMutateRequest,
   ApiRequest,
 } from "@/lib/api";
 
@@ -24,7 +24,7 @@ export namespace ApiDepartments {
   }>): Promise<T | null> {
     const { onSuccess, onError, throwOnError } = options;
 
-    const requestInit = getBaseMutateRequest();
+    const requestInit = putBaseMutateRequest();
     const department = await getAll().then((departments) =>
       departments.find((dep: any) => dep.name == name)
     );

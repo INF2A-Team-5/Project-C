@@ -26,11 +26,10 @@ import {
 import { Icons } from "../foundations/icons";
 import {
   API_BASE_URL,
-  getBaseMutateRequest,
+  putBaseMutateRequest,
   getBaseQueryRequest,
 } from "@/lib/api";
 import { useTranslation } from "react-i18next";
-import { Value } from "@radix-ui/react-select";
 
 // import axios from 'axios';
 // export interface Machine {
@@ -86,20 +85,20 @@ function Tickets() {
   }
 
   async function getData() {
-    let machinelist = await fetch(
-      API_BASE_URL + "/api/machines" + getBaseQueryRequest,
-    ).then((data) => data.json());
-
     // let machinelist = await fetch(
-    //   "http://localhost:5119/GetMachinesPerAccount?accountId=" +
-    //     localStorage.getItem("Id"),
-    //   {
-    //     method: "GET",
-    //     headers: {
-    //       Authorization: "bearer " + localStorage.getItem("Token"),
-    //     },
-    //   }
+    //   API_BASE_URL + "/api/machines" + getBaseQueryRequest,
     // ).then((data) => data.json());
+
+    let machinelist = await fetch(
+      "http://localhost:5119/GetMachinesPerAccount?accountId=" +
+        localStorage.getItem("Id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: "bearer " + localStorage.getItem("Token"),
+        },
+      }
+    ).then((data) => data.json());
 
     SetAccount(localStorage.getItem("Id")!);
     SetMachineNames(
@@ -195,7 +194,7 @@ function Tickets() {
           phoneNumber: phonenumber,
         };
 
-        await fetch(API_BASE_URL + "/api/tickets/" + getBaseMutateRequest, {
+        await fetch(API_BASE_URL + "/api/tickets/" + putBaseMutateRequest, {
           body: JSON.stringify(currentticket),
         })
           .then((res) => {
@@ -205,20 +204,20 @@ function Tickets() {
             console.log("Message could not be updated", err);
           });
 
-        // await fetch("http://localhost:5119/api/tickets/", {
-        //   method: "POST",
-        //   headers: {
-        //     Authorization: "bearer " + localStorage.getItem("Token"),
-        //     "Content-Type": "application/json",
-        //   },
-        //   body: JSON.stringify(currentticket),
-        // })
-        // .then((res) => {
-        //   console.log("Message successfully updated", res);
-        // })
-        // .catch((err) => {
-        //   console.log("Message could not be updated", err);
-        // });
+        await fetch("http://localhost:5119/api/tickets/", {
+          method: "POST",
+          headers: {
+            Authorization: "bearer " + localStorage.getItem("Token"),
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(currentticket),
+        })
+        .then((res) => {
+          console.log("Message successfully updated", res);
+        })
+        .catch((err) => {
+          console.log("Message could not be updated", err);
+        });
 
         toast({
           variant: "default",
@@ -241,7 +240,7 @@ function Tickets() {
   }
 
   async function HandleCancel() {
-    navigate("/client");
+    navigate(-1);
   }
 
   return (

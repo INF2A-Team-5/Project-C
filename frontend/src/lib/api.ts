@@ -23,7 +23,7 @@ export const getBaseQueryRequest = (): RequestInit => {
   };
 };
 
-export const getBaseMutateRequest = (): RequestInit => {
+export const postBaseMutateRequest = (): RequestInit => {
   return {
     method: "POST",
     ...baseRequest,

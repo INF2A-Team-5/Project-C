@@ -20,20 +20,20 @@ function EditAccount() {
   async function handleSubmit() {
     setIsLoading(true);
 
-    let currentaccount = await fetch(
-      API_BASE_URL + "/api/accounts/" + getBaseQueryRequest,
-    ).then((data) => data.json());
-
     // let currentaccount = await fetch(
-    //   "http://localhost:5119/api/accounts/" + localStorage.getItem("Id"),
-    //   {
-    //     method: "GET",
-    //     headers: {
-    //       Authorization: "bearer " + localStorage.getItem("Token"),
-    //       "Content-Type": "application/json",
-    //     },
-    //   }
+    //   API_BASE_URL + "/api/accounts/" + getBaseQueryRequest,
     // ).then((data) => data.json());
+
+    let currentaccount = await fetch(
+      "http://localhost:5119/api/accounts/" + localStorage.getItem("Id"),
+      {
+        method: "GET",
+        headers: {
+          Authorization: "bearer " + localStorage.getItem("Token"),
+          "Content-Type": "application/json",
+        },
+      }
+    ).then((data) => data.json());
 
     if (password !== confirmPass) {
       alert("password and confirm password need to match");

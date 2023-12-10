@@ -31,17 +31,17 @@ function Admin() {
 
   async function GetData() {
     SetAllTickets(
-      await fetch(API_BASE_URL + "/api/tickets" + getBaseQueryRequest).then(
-        (data) => data.json(),
-      ),
+      // await fetch(API_BASE_URL + "/GetTicketByDepartment" + getBaseQueryRequest).then(
+      //   (data) => data.json(),
+      // ),
 
-      // await fetch("http://localhost:5119/api/tickets/", {
-      //   method: "GET",
-      //   headers: {
-      //     Authorization: "bearer " + localStorage.getItem("Token"),
-      //     "Content-Type": "application/json",
-      //   },
-      // }).then((data) => data.json())
+      await fetch("http://localhost:5119/api/tickets/", {
+        method: "GET",
+        headers: {
+          Authorization: "bearer " + localStorage.getItem("Token"),
+          "Content-Type": "application/json",
+        },
+      }).then((data) => data.json())
     );
   }
 
