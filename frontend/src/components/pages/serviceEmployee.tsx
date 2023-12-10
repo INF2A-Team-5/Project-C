@@ -17,7 +17,11 @@ import AddMachineSolution from "./AddMachineSolution";
 import AddSolution from "./AddTicketSolution";
 import AddMachine from "./addMachine";
 import { Separator } from "../ui/separator";
-import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
+import {
+  API_BASE_URL,
+  putBaseMutateRequest,
+  getBaseQueryRequest,
+} from "@/lib/api";
 
 function serviceEmployee() {
   useAuthenticated();
@@ -52,26 +56,61 @@ function serviceEmployee() {
 
   async function GetAllData() {
     SetAllTickets(
-      await fetch(API_BASE_URL + "/api/tickets" + getBaseQueryRequest).then(
-        (data) => data.json(),
-      ),
-
-      // await fetch("http://localhost:5119/api/tickets/", {
-      //   method: "GET",
-      //   headers: {
-      //     Authorization: "bearer " + localStorage.getItem("Token"),
-      //     "Content-Type": "application/json",
-      //   },
-      // }).then((data) => data.json())
+      await fetch( API_BASE_URL +
+        "/GetTicketByDepartment?AccountId=" +
+          localStorage.getItem("Id"), getBaseQueryRequest()
+        // {
+        //   method: "GET",
+        //   headers: {
+        //     Authorization: "bearer " + localStorage.getItem("Token"),
+        //     "Content-Type": "application/json",
+        //   },
+        // }
+      ).then((data) => data.json())
     );
   }
+
+  // async function GetAllData() {
+    //   SetAllTickets(
+      //     await fetch(
+        //       "http://localhost:5119/GetTicketByDepartment?AccountId=" +
+        //         localStorage.getItem("Id"),
+        //       {
+          //         method: "GET",
+          //         headers: {
+            //           Authorization: "bearer " + localStorage.getItem("Token"),
+            //           "Content-Type": "application/json",
+            //         },
+            //       }
+            //     ).then((data) => data.json())
+            //   );
+            // }
+            
+  console.log(AllTickets);
+
 
   async function GetAssignedData() {
     SetAssignedTickets(
-      await fetch(API_BASE_URL + "/api/tickets" + getBaseQueryRequest)
+      await fetch(API_BASE_URL + "/GetAssignedTickets?AccountId=" + localStorage.getItem("Id"), getBaseQueryRequest())
         .then((data) => data.json())
     );
   }
+
+// async function GetAssignedData() {
+//     SetAssignedTickets(
+//       await fetch(
+//         "http://localhost:5119/GetAssignedTickets?AccountId=" +
+//           localStorage.getItem("Id"),
+//         {
+//           method: "GET",
+//           headers: {
+//             Authorization: "bearer " + localStorage.getItem("Token"),
+//             "Content-Type": "application/json",
+//           },
+//         }
+//       )
+//         .then((data) => data.json()))
+//   }
 
   return (
     <div className="px-24 text-left">

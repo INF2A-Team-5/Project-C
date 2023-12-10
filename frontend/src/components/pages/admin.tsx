@@ -31,7 +31,7 @@ function Admin() {
 
   async function GetData() {
     SetAllTickets(
-      await fetch(API_BASE_URL + "/api/tickets" + getBaseQueryRequest).then(
+      await fetch(API_BASE_URL + "/GetTicketByDepartment" + getBaseQueryRequest).then(
         (data) => data.json(),
       ),
 

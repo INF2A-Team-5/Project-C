@@ -26,7 +26,7 @@ import {
 import { Icons } from "../foundations/icons";
 import {
   API_BASE_URL,
-  getBaseMutateRequest,
+  putBaseMutateRequest,
   getBaseQueryRequest,
 } from "@/lib/api";
 import { useTranslation } from "react-i18next";
@@ -194,7 +194,7 @@ function Tickets() {
           phoneNumber: phonenumber,
         };
 
-        await fetch(API_BASE_URL + "/api/tickets/" + getBaseMutateRequest, {
+        await fetch(API_BASE_URL + "/api/tickets/" + putBaseMutateRequest, {
           body: JSON.stringify(currentticket),
         })
           .then((res) => {

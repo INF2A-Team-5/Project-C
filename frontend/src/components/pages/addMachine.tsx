@@ -7,7 +7,7 @@ import { toast } from "../ui/use-toast";
 import { Icons } from "../foundations/icons";
 import {
   API_BASE_URL,
-  getBaseMutateRequest,
+  putBaseMutateRequest,
   getBaseQueryRequest,
 } from "@/lib/api";
 
@@ -88,7 +88,7 @@ function AddMachine() {
       });
       setIsLoading(false);
     } else {
-      fetch(API_BASE_URL + "/api/machines" + getBaseMutateRequest, {
+      fetch(API_BASE_URL + "/api/machines" + putBaseMutateRequest, {
         body: JSON.stringify({
           name: name,
           description: description,
