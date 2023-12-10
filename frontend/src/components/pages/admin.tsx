@@ -20,13 +20,21 @@ import AddMachineSolution from "./AddMachineSolution";
 import { Toaster } from "../ui/toaster";
 import { Separator } from "../ui/separator";
 import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
+import { Machine } from "@/services/Machine";
 
 function Admin() {
   useAuthenticated();
 
   const [AllTickets, SetAllTickets] = useState<DataRow[]>([]);
+  const [LoadMachines, SetMachines] = useState<Boolean>(false);
+  const [AllMachines, SetAllMachines] = useState<Machine[]>([]);
+
   if (AllTickets.length == 0) {
     GetData();
+  }
+  if (LoadMachines == false) {
+    GetAllMachines();
+    SetMachines(true);
   }
 
   async function GetData() {
@@ -42,6 +50,13 @@ function Admin() {
           "Content-Type": "application/json",
         },
       }).then((data) => data.json())
+    );
+  }
+
+  async function GetAllMachines() {
+    SetAllMachines(
+      await fetch(API_BASE_URL + "/api/Machines", getBaseQueryRequest())
+        .then((data) => data.json())
     );
   }
 
@@ -86,7 +101,19 @@ function Admin() {
               />
             </TabsContent>
             <TabsContent value="machines">
-              Pleur hier je machinestabel
+              <Table
+                displayColumns={[
+                  "ID",
+                  "Name",
+                  "Description",
+                ]}
+                data={AllMachines}
+                dataColumns={[
+                  "machineId",
+                  "name",
+                  "description",
+                ]}
+              />
             </TabsContent>
             <TabsContent value="departments">
               Pleur hier je departmentstabel
