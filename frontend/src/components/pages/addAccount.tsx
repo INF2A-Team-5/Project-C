@@ -11,6 +11,11 @@ import {
 } from "../ui/select";
 import { toast } from "../ui/use-toast";
 import { Icons } from "../foundations/icons";
+import {
+  API_BASE_URL,
+  getBaseMutateRequest,
+  getBaseQueryRequest,
+} from "@/lib/api";
 
 function AddAccount() {
   const [username, setUsername] = useState("");
@@ -22,13 +27,9 @@ function AddAccount() {
 
   async function handleSubmit() {
     setIsLoading(true);
-    const account = await fetch("http://localhost:5119/api/accounts", {
-      method: "GET",
-      headers: {
-        Authorization: "bearer " + localStorage.getItem("Token"),
-        "Content-Type": "application/json",
-      },
-    })
+    const account = await fetch(
+      API_BASE_URL + "/api/accounts" + getBaseQueryRequest,
+    )
       .then((data) => data.json())
       .then((accounts) => accounts.find((acc: any) => acc.name == username));
 
@@ -64,21 +65,29 @@ function AddAccount() {
 
     // WAAR IS CLASS CHECKING?
     else {
-      const requestOptions = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "bearer " + localStorage.getItem("Token"),
-        },
+      fetch(API_BASE_URL + "/api/accounts" + getBaseMutateRequest, {
         body: JSON.stringify({
           name: username,
           password: password,
           class: userType,
         }),
-      };
-      fetch("http://localhost:5119/api/accounts", requestOptions).then(
-        (response) => response.json()
-      );
+      }).then((response) => response.json());
+
+      // const requestOptions = {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: "bearer " + localStorage.getItem("Token"),
+      //   },
+      //   body: JSON.stringify({
+      //     name: username,
+      //     password: password,
+      //     class: userType,
+      //   }),
+      // };
+      // fetch("http://localhost:5119/api/accounts", requestOptions).then(
+      //   (response) => response.json()
+      // );
 
       toast({
         variant: "default",

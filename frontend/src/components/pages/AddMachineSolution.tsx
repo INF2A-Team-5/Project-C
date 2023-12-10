@@ -7,6 +7,11 @@ import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { toast } from "@/components/ui/use-toast";
 import { Textarea } from "../ui/textarea";
 import { Icons } from "../foundations/icons";
+import {
+  API_BASE_URL,
+  getBaseQueryRequest,
+  putBaseMutateRequest,
+} from "@/lib/api";
 
 function AddMachineSolution() {
   useAuthenticated();
@@ -33,30 +38,47 @@ function AddMachineSolution() {
       });
       setIsLoading(false);
     } else {
-      let machines = await fetch("http://localhost:5119/api/Machines", {
-        method: "GET",
-        headers: {
-          Authorization: "bearer " + localStorage.getItem("Token"),
-          "Content-Type": "application/json",
-        },
-      })
+      let machines = await fetch(
+        API_BASE_URL + "/api/machines" + getBaseQueryRequest,
+      )
         .then((data) => data.json())
         .then((machines) =>
-          machines.filter((machine: Machine) => machine.name == Name)
+          machines.filter((machine: Machine) => machine.name == Name),
         );
+
+      // let machines = await fetch("http://localhost:5119/api/Machines", {
+      //   method: "GET",
+      //   headers: {
+      //     Authorization: "bearer " + localStorage.getItem("Token"),
+      //     "Content-Type": "application/json",
+      //   },
+      // })
+      //   .then((data) => data.json())
+      //   .then((machines) =>
+      //     machines.filter((machine: Machine) => machine.name == Name)
+      //   );
+
       if (machines.length >= 1) {
         machines.map(
           (machine: Machine) => (
             (machine.solution = Solution),
-            fetch("http://localhost:5119/api/Machines/" + machine.machineId, {
-              method: "PUT",
-              headers: {
-                Authorization: "bearer " + localStorage.getItem("Token"),
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(machine),
-            })
-          )
+            fetch(
+              API_BASE_URL +
+                "/api/Machines/" +
+                machine.machineId +
+                putBaseMutateRequest,
+              { body: JSON.stringify(machine) },
+            )
+
+            // fetch("http://localhost:5119/api/Machines/" + machine.machineId, {
+            //   method: "PUT",
+            //   headers: {
+            //     Authorization: "bearer " + localStorage.getItem("Token"),
+            //     "Content-Type": "application/json",
+            //   },
+            //   body: JSON.stringify(machine),
+            // })
+          ),
         );
 
         if (machines.length == 1) {
