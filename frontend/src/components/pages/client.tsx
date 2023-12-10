@@ -64,11 +64,21 @@ function Client() {
       <Separator className="my-4" />
       {/* <Tablea></Tablea> */}
 
-      <Table
-        data={Tickets}
-        displayColumns={["ID", "Priority", "Date", "Status", ""]}
-        dataColumns={["ticketId", "priority", "date_Created", "status"]}
-      />
+
+      <Table data={Tickets} displayColumns={[
+        "ID",
+        "Title",
+        "Priority",
+        "Date",
+        "Status",
+        "",
+      ]} dataColumns={[
+        "ticketId",
+        "Title",
+        "priority",
+        "date_Created",
+        "status",
+      ]} />
 
       <Dialog>
         <DialogTrigger asChild>
