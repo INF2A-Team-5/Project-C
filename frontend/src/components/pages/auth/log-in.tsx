@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Cookies from "js-cookie";
-// import { t } from "i18next";
 import { Icons } from "@/components/foundations/icons";
 import Header from "@/components/foundations/header";
 import { Input } from "@/components/ui/input";
@@ -13,6 +12,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TextareaHint } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import React from "react";
+import { API_BASE_URL } from "@/lib/api";
 
 function LogIn() {
   const { t, i18n } = useTranslation();
@@ -51,7 +51,7 @@ function LogIn() {
       setIsLoading(false);
     } else {
       try {
-        const account = await fetch("http://localhost:5119/api/Auth/Login", {
+        const account = await fetch(API_BASE_URL + "/api/Auth/Login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

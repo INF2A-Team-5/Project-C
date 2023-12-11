@@ -41,29 +41,16 @@ function AddSolution() {
       });
       setIsLoading(false);
     } else {
-      // fetch(API_BASE_URL + "/api/solutions" + getBaseMutateRequest, {
-      //   body: JSON.stringify({
-      //     problemDescription: problemDescription,
-      //     solutionDescription: solutionDescription,
-      //     ticketId: ticketId,
-      //   }),
-      // }).then((response) => response.json());
-
-      const requestOptions = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "bearer " + localStorage.getItem("Token"),
-        },
-        body: JSON.stringify({
-          problemDescription: problemDescription,
-          solutionDescription: solutionDescription,
-          ticketId: ticketId,
-        }),
-      };
-      fetch("http://localhost:5119/api/solutions", requestOptions).then(
-        (response) => response.json()
-      );
+      fetch(
+        API_BASE_URL + "/api/solutions",
+        postBaseMutateRequest(
+          JSON.stringify({
+            problemDescription: problemDescription,
+            solutionDescription: solutionDescription,
+            ticketId: ticketId,
+          }),
+        ),
+      ).then((response) => response.json());
 
       toast({
         variant: "default",
