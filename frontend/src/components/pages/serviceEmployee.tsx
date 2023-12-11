@@ -5,57 +5,69 @@ import { DataRow } from "../../services/DataRow";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import Header from "../foundations/header";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "../ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "../ui/card";
 import { Toaster } from "../ui/toaster";
 import AddMachineSolution from "./AddMachineSolution";
 import AddSolution from "./AddTicketSolution";
 import AddMachine from "./addMachine";
 import { Separator } from "../ui/separator";
+import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
 
 function serviceEmployee() {
   useAuthenticated();
   const [AllTickets, SetAllTickets] = useState<DataRow[]>([]);
   const [AssignedTickets, SetAssignedTickets] = useState<DataRow[]>([]);
-  if (AllTickets.length == 0) {
-    GetAllData();
-  }
-  if (AssignedTickets.length == 0) {
+  const [Account, SetAccount] = useState();
+  const [LoadTicket, SetTickets] = useState<Boolean>(false);
+
+  if (LoadTicket == false) {
     GetAssignedData();
+    GetAllData();
+    SetTickets(true);
   }
-  // console.log(localStorage.getItem("Token"));
+  if (Account == undefined) {
+    GetAccount();
+  }
+
+  async function GetAccount() {
+    SetAccount(
+      await fetch(
+        API_BASE_URL + "/api/accounts/" + localStorage.getItem("Id"),
+        getBaseQueryRequest(),
+      ).then((data) => data.json()),
+    );
+  }
 
   async function GetAllData() {
     SetAllTickets(
-      await fetch("http://localhost:5119/api/tickets/", {
-        method: "GET",
-        headers: {
-          Authorization: "bearer " + localStorage.getItem("Token"),
-          "Content-Type": "application/json",
-        },
-      }).then((data) => data.json())
+      await fetch(
+        API_BASE_URL +
+          "/GetTicketByDepartment?AccountId=" +
+          localStorage.getItem("Id"),
+        getBaseQueryRequest(),
+      ).then((data) => data.json()),
     );
   }
 
   async function GetAssignedData() {
     SetAssignedTickets(
-      await fetch("http://localhost:5119/api/tickets/", {
-        method: "GET",
-        headers: {
-          Authorization: "bearer " + localStorage.getItem("Token"),
-          "Content-Type": "application/json",
-        },
-      })
-        .then((data) => data.json())
-        .then((tickets) =>
-          tickets.filter(
-            (client: any) => client.assigned_Id == localStorage.getItem("Id")
-          )
-        )
+      await fetch(
+        API_BASE_URL +
+          "/GetAssignedTickets?AccountId=" +
+          localStorage.getItem("Id"),
+        getBaseQueryRequest(),
+      ).then((data) => data.json()),
     );
   }
 
   return (
-    <div className="text-left px-24">
+    <div className="px-24 text-left">
       <Settings></Settings>
       <div className="flex justify-center pb-16 pt-10">
         <Header></Header>
@@ -64,12 +76,15 @@ function serviceEmployee() {
         <div>
           <h1 className="text-4xl font-medium">Serivce Employee</h1>
           <Separator className="my-4" />
-          <Tabs defaultValue="tickets">
+          <Tabs defaultValue="all tickets">
             <TabsList>
-              <TabsTrigger value="tickets">Tickets</TabsTrigger>
+              <TabsTrigger value="all tickets">All Tickets</TabsTrigger>
+              <TabsTrigger value="assigned tickets">
+                Assigned Tickets
+              </TabsTrigger>
               <TabsTrigger value="machines">Machines</TabsTrigger>
             </TabsList>
-            <TabsContent value="tickets">
+            <TabsContent value="all tickets">
               <Table
                 displayColumns={[
                   "ID",
@@ -77,9 +92,29 @@ function serviceEmployee() {
                   "Client",
                   "Date",
                   "Status",
-                  "",
+                  "Options",
                 ]}
                 data={AllTickets}
+                dataColumns={[
+                  "ticketId",
+                  "priority",
+                  "customer_Id",
+                  "date_Created",
+                  "status",
+                ]}
+              />
+            </TabsContent>
+            <TabsContent value="assigned tickets">
+              <Table
+                displayColumns={[
+                  "ID",
+                  "Priority",
+                  "Client",
+                  "Date",
+                  "Status",
+                  "Options",
+                ]}
+                data={AssignedTickets}
                 dataColumns={[
                   "ticketId",
                   "priority",

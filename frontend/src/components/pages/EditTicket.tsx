@@ -8,6 +8,11 @@ import { Input } from "../ui/input";
 import Header from "../foundations/header";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
+import {
+  API_BASE_URL,
+  getBaseQueryRequest,
+  putBaseMutateRequest,
+} from "@/lib/api";
 
 function EditTicket() {
   const { t, i18n } = useTranslation();
@@ -50,15 +55,10 @@ function EditTicket() {
   }
   async function GetTicket() {
     let currentticket = await fetch(
-      "http://localhost:5119/api/tickets/" + ticketid,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "bearer " + localStorage.getItem("Token"),
-          "Content-Type": "application/json",
-        },
-      }
+      API_BASE_URL + "/api/tickets/" + ticketid,
+      getBaseQueryRequest(),
     ).then((data) => data.json());
+
     console.log(currentticket);
     return currentticket;
   }
@@ -94,22 +94,16 @@ function EditTicket() {
 
     try {
       const response = await fetch(
-        "http://localhost:5119/api/tickets/" + ticketid,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: "bearer " + localStorage.getItem("Token"),
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(ticket),
-        }
+        API_BASE_URL + "/api/tickets/" + ticketid,
+        putBaseMutateRequest(JSON.stringify(ticket)),
       );
+
       if (!response.ok) {
         const errorResponse = await response.text(); // Capture response content
         throw new Error(
           `HTTP error! Status: ${
             response.status
-          }. Error message: ${JSON.stringify(errorResponse)}`
+          }. Error message: ${JSON.stringify(errorResponse)}`,
         );
       }
       alert("Ticket updated");
@@ -122,34 +116,25 @@ function EditTicket() {
 
   async function CloseTicket() {
     let currentticket = await fetch(
-      "http://localhost:5119/api/tickets/" + ticketid,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "bearer " + localStorage.getItem("Token"),
-          "Content-Type": "application/json",
-        },
-      }
+      API_BASE_URL + "/api/tickets/" + ticketid,
+      getBaseQueryRequest(),
     ).then((data) => data.json());
+
     currentticket.status = "Closed";
     try {
       const response = await fetch(
-        "http://localhost:5119/api/tickets/" + ticketid,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: "bearer " + localStorage.getItem("Token"),
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(currentticket),
-        }
+        API_BASE_URL +
+          "/api/tickets/" +
+          ticketid +
+          putBaseMutateRequest(JSON.stringify(currentticket)),
       );
+
       if (!response.ok) {
         const errorResponse = await response.text(); // Capture response content
         throw new Error(
           `HTTP error! Status: ${
             response.status
-          }. Error message: ${JSON.stringify(errorResponse)}`
+          }. Error message: ${JSON.stringify(errorResponse)}`,
         );
       }
       alert("Ticket closed");
@@ -161,7 +146,7 @@ function EditTicket() {
   }
 
   return (
-    <div className="text-left px-24">
+    <div className="px-24 text-left">
       <Settings></Settings>
       <div className="flex justify-center pb-16 pt-10">
         <Header></Header>
@@ -171,7 +156,7 @@ function EditTicket() {
           {/* <h1 className='text-4xl font-medium'>{t('editticket.header')}</h1> */}
           <h1 className="text-4xl font-medium">Your ticket</h1>
           <Label>View and edit ticket</Label>
-          <Separator className="my-4"/>
+          <Separator className="my-4" />
           <br />
           <Button variant="outline" onClick={ShowTicket}>
             {/* {t('editticket.ticketinfo')} */}View ticket info

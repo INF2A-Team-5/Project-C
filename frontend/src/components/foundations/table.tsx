@@ -25,6 +25,11 @@ import { MoreHorizontal } from "lucide-react";
 import { Card } from "../ui/card";
 import { Separator } from "../ui/separator";
 import { useNavigate } from "react-router-dom";
+import {
+  API_BASE_URL,
+  getBaseQueryRequest,
+  putBaseMutateRequest,
+} from "@/lib/api";
 
 interface TableProps {
   data: { [key: string]: any }[];
@@ -74,6 +79,7 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
   function sortByKey<T>(array: T[], key: keyof T): T[] {
     return array.sort((a, b) =>
       a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0
+//       a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0,
     );
   }
 
@@ -87,7 +93,8 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
     setCurrentPage(newPage);
   };
 
-  async function handleAssignTicket(ticket: any) {
+
+<!--   async function handleAssignTicket(ticket: any) {
     const user = await fetch(
       `http://localhost:5119/api/Accounts/${localStorage.getItem("Id")}`,
       {
@@ -97,7 +104,27 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
           Authorization: "bearer " + localStorage.getItem("Token"),
         },
       }
-    ).then((res) => res.json());
+    ).then((res) => res.json()); -->
+
+  async function viewticket(id: number) {
+    alert(id)
+  }
+
+  async function AssignTicket(ticket: any)
+  {
+    ticket.employee_Id = 1 // moet nog ff uitgezocht worden en pagina moet nu gereload worden iedere keer
+    await fetch(
+      API_BASE_URL + "/api/Tickets/" + ticket.ticketId, putBaseMutateRequest(JSON.stringify(ticket))
+    );
+  }
+
+  async function handleButtonClick(ticket: any) {
+    const user = await fetch(
+      API_BASE_URL +
+        "/api/Accounts/" +
+        localStorage.getItem("Id"),
+        getBaseQueryRequest(),
+    ).then((data) => data.json());
 
     if (user.class == "Admin" || user.class == "ServiceEmployee") {
       if (ticket.assigned_Id == null || ticket.assigned_Id == 0) {
@@ -120,14 +147,9 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
           files: ticket.files,
         };
 
-        await fetch("http://localhost:5119/api/Tickets/" + temp.TicketId, {
-          method: "PUT",
-          headers: {
-            Authorization: "bearer " + localStorage.getItem("Token"),
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(temp),
-        });
+        await fetch(
+          API_BASE_URL + "/api/Tickets/" + temp.TicketId, putBaseMutateRequest(JSON.stringify(temp))
+        );
 
         localStorage.setItem("currentticket", ticket.ticketId.toString());
         window.location.href = "edit-ticket";
@@ -145,85 +167,83 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
   }
 
   return (
-    <div>
-      <Card>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              {displayColumns.map((column, index) => (
-                <TableHead key={index}>
-                  <Button
-                    variant={"ghost"}
-                    onClick={() => {
-                      column == "" ? null : handleSort(column);
-                    }}
-                  >
-                    {column + " "}
-                    {sortColumn === column && sortDirection === "asc" ? (
-                      <ArrowDownIcon />
-                    ) : sortColumn === column && sortDirection === "desc" ? (
-                      <ArrowUpIcon />
-                    ) : (
-                      <CaretSortIcon />
-                    )}
-                  </Button>
-                </TableHead>
-              ))}
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {currentData.map((row, rowIndex) => (
-              <TableRow key={rowIndex}>
-                {dataColumns.map((column, columnIndex) => (
-                  <TableCell className="pl-8" key={columnIndex}>
-                    {row[column]}
-                  </TableCell>
-                ))}
-                <TableCell>
-                  {/* <button onClick={() => handleButtonClick(row)}>Edit</button> */}
-                  <div>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                          <span className="sr-only">Open menu</span>
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Options</DropdownMenuLabel>
-                        <DropdownMenuItem onClick={() => handleViewItem(row)}>
-                          View ticket
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                </TableCell>
-              </TableRow>
+    <Card>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            {displayColumns.map((column, index) => (
+              <TableHead key={index}>
+                <Button
+                  variant={"ghost"}
+                  onClick={() => {
+                    column == "" ? null : handleSort(column);
+                  }}
+                >
+                  {column + " "}
+                  {sortColumn === column && sortDirection === "asc" ? (
+                    <ArrowDownIcon />
+                  ) : sortColumn === column && sortDirection === "desc" ? (
+                    <ArrowUpIcon />
+                  ) : (
+                    <CaretSortIcon />
+                  )}
+                </Button>
+              </TableHead>
             ))}
-          </TableBody>
-        </Table>
-        <Separator />
-        <div className="flex items-center justify-end">
-          <Button
-            className="m-4"
-            variant={"outline"}
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            Previous
-          </Button>
-          <span>{`Page ${currentPage} of ${totalPages}`}</span>
-          <Button
-            className="m-4"
-            variant={"outline"}
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            Next
-          </Button>
-        </div>
-      </Card>
-    </div>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {currentData.map((row, rowIndex) => (
+            <TableRow key={rowIndex}>
+              {dataColumns.map((column, columnIndex) => (
+                <TableCell className="pl-8" key={columnIndex}>
+                  {row[column]}
+                </TableCell>
+              ))}
+              <TableCell>
+                {/* <button onClick={() => handleButtonClick(row)}>Edit</button> */}
+                <div>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="h-8 w-8 p-0">
+                        <span className="sr-only">Open menu</span>
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>Options</DropdownMenuLabel>
+                      <DropdownMenuItem onClick={() => handleViewItem(row)}>
+                        View ticket
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <Separator />
+      <div className="flex items-center justify-end">
+        <Button
+          className="m-4"
+          variant={"outline"}
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </Button>
+        <span>{`Page ${currentPage} of ${totalPages}`}</span>
+        <Button
+          className="m-4"
+          variant={"outline"}
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </Button>
+      </div>
+    </Card>
   );
 }
 
