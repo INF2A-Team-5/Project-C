@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Settings from "../foundations/settings";
-import { DataRow } from "../../services/DataRow";
+import { Ticket } from "../../services/Ticket";
 import Table from "../foundations/table";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
@@ -21,13 +21,18 @@ import { Toaster } from "../ui/toaster";
 import { Separator } from "../ui/separator";
 import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
 import { Machine } from "@/services/Machine";
+import { accountColumns, departmentColumns, machineColumns, ticketColumns } from "@/services/Columns";
+import { Account } from "@/services/Account";
+import { Department } from "@/services/Department";
 
 function Admin() {
   useAuthenticated();
 
-  const [AllTickets, SetAllTickets] = useState<DataRow[]>([]);
+  const [AllTickets, SetAllTickets] = useState<Ticket[]>([]);
   const [LoadMachines, SetMachines] = useState<Boolean>(false);
   const [AllMachines, SetAllMachines] = useState<Machine[]>([]);
+  const [AllAccounts, SetAllAccounts] = useState<Account[]>([]);
+  const [AllDepartments, SetAllDepartments] = useState<Department[]>([]);
 
   if (AllTickets.length == 0) {
     GetData();
@@ -35,6 +40,12 @@ function Admin() {
   if (LoadMachines == false) {
     GetAllMachines();
     SetMachines(true);
+  }
+  if (AllAccounts.length == 0) {
+    GetAllAccounts();
+  }
+  if (AllDepartments.length == 0) {
+    GetAllDepartments();
   }
 
   async function GetData() {
@@ -60,6 +71,20 @@ function Admin() {
     );
   }
 
+  async function GetAllAccounts() {
+    SetAllAccounts(
+      await fetch(API_BASE_URL + "/api/Accounts", getBaseQueryRequest())
+        .then((data) => data.json())
+    );
+  }
+
+  async function GetAllDepartments() {
+    SetAllDepartments(
+      await fetch(API_BASE_URL + "/api/Departments", getBaseQueryRequest())
+        .then((data) => data.json())
+    );
+  }
+
   return (
     <div className="px-24 text-left">
       <Settings></Settings>
@@ -78,45 +103,16 @@ function Admin() {
               <TabsTrigger value="departments">Departments</TabsTrigger>
             </TabsList>
             <TabsContent value="accounts">
-              Pleur hier je accounttabel
+              <Table data={AllAccounts} columns={accountColumns} />
             </TabsContent>
             <TabsContent value="tickets">
-              <Table
-                displayColumns={[
-                  "ID",
-                  "Priority",
-                  "Client",
-                  "Date",
-                  "Status",
-                  "",
-                ]}
-                data={AllTickets}
-                dataColumns={[
-                  "ticketId",
-                  "priority",
-                  "customer_Id",
-                  "date_Created",
-                  "status",
-                ]}
-              />
+              <Table data={AllTickets} columns={ticketColumns} />
             </TabsContent>
             <TabsContent value="machines">
-              <Table
-                displayColumns={[
-                  "ID",
-                  "Name",
-                  "Description",
-                ]}
-                data={AllMachines}
-                dataColumns={[
-                  "machineId",
-                  "name",
-                  "description",
-                ]}
-              />
+              <Table data={AllMachines} columns={machineColumns} />
             </TabsContent>
             <TabsContent value="departments">
-              Pleur hier je departmentstabel
+              <Table data={AllDepartments} columns={departmentColumns} />
             </TabsContent>
           </Tabs>
         </div>

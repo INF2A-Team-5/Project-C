@@ -17,12 +17,12 @@ import Header from "../foundations/header";
 import { Separator } from "../ui/separator";
 import Table from "../foundations/table";
 import { useState } from "react";
-import { DataRow } from "@/services/DataRow";
+import { Ticket } from "@/services/Ticket";
 import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
 import { ticketColumns } from "@/services/Columns";
 
 function Client() {
-  const [Tickets, SetTickets] = useState<DataRow[]>([]);
+  const [Tickets, SetTickets] = useState<Ticket[]>([]);
   // console.log(Tickets);
   if (Tickets.length == 0) {
     GetData();

@@ -1,4 +1,4 @@
-export type DataRow = {
+export type Ticket = {
     ticketId: number,
     machine_Id: number,
     customer_Id: number,

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Settings from "../foundations/settings";
 import Table from "../foundations/table";
-import { DataRow } from "../../services/DataRow";
+import { Ticket } from "../../services/Ticket";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import Header from "../foundations/header";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
@@ -23,12 +23,12 @@ import {
   getBaseQueryRequest,
 } from "@/lib/api";
 import { Machine } from "@/services/Machine";
-import { ticketColumns } from "@/services/Columns";
+import { machineColumns, ticketColumns } from "@/services/Columns";
 
 function serviceEmployee() {
   useAuthenticated();
-  const [AllTickets, SetAllTickets] = useState<DataRow[]>([]);
-  const [AssignedTickets, SetAssignedTickets] = useState<DataRow[]>([]);
+  const [AllTickets, SetAllTickets] = useState<Ticket[]>([]);
+  const [AssignedTickets, SetAssignedTickets] = useState<Ticket[]>([]);
   const [Account, SetAccount] = useState();
   const [LoadTicket, SetTickets] = useState<Boolean>(false);
   const [LoadMachines, SetMachines] = useState<Boolean>(false);
@@ -65,8 +65,10 @@ function serviceEmployee() {
   async function GetAllData() {
     SetAllTickets(
       await fetch(API_BASE_URL +
-        "/GetTicketByDepartment?AccountId=" +
-        localStorage.getItem("Id"), getBaseQueryRequest()
+        "/api/Tickets"
+        // "/GetTicketByDepartment?AccountId=" +
+        // localStorage.getItem("Id")
+        , getBaseQueryRequest()
       ).then((data) => data.json())
     );
   }
@@ -109,39 +111,10 @@ function serviceEmployee() {
               <Table columns={ticketColumns} data={AllTickets} />
             </TabsContent>
             <TabsContent value="assigned tickets">
-              {/* <Table
-                displayColumns={[
-                  "ID",
-                  "Priority",
-                  "Client",
-                  "Date",
-                  "Status",
-                  "",
-                ]}
-                data={AssignedTickets}
-                dataColumns={[
-                  "ticketId",
-                  "priority",
-                  "customer_Id",
-                  "date_Created",
-                  "status",
-                ]}
-              /> */}
+              <Table columns={ticketColumns} data={AssignedTickets} />
             </TabsContent>
             <TabsContent value="machines">
-              {/* <Table
-                displayColumns={[
-                  "ID",
-                  "Name",
-                  "Description",
-                ]}
-                data={AllMachines}
-                dataColumns={[
-                  "machineId",
-                  "name",
-                  "description",
-                ]}
-              /> */}
+              <Table columns={machineColumns} data={AllMachines} />
             </TabsContent>
           </Tabs>
         </div>
