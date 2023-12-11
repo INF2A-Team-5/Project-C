@@ -21,8 +21,8 @@ import { DataRow } from "@/services/DataRow";
 import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
 
 function Client() {
+  useAuthenticated();
   const [Tickets, SetTickets] = useState<DataRow[]>([]);
-  // console.log(Tickets);
   if (Tickets.length == 0) {
     GetData();
   }
@@ -36,24 +36,9 @@ function Client() {
             (client: any) => client.customer_Id == localStorage.getItem("Id"),
           ),
         ),
-
-      // await fetch("http://localhost:5119/api/tickets/", {
-      //   method: "GET",
-      //   headers: {
-      //     Authorization: "bearer " + localStorage.getItem("Token"),
-      //     "Content-Type": "application/json",
-      //   },
-      // })
-      //   .then((data) => data.json())
-      //   .then((tickets) =>
-      //     tickets.filter(
-      //       (client: any) => client.customer_Id == localStorage.getItem("Id")
-      //     )
-      //   )
     );
   }
 
-  useAuthenticated();
   return (
     <div className="px-24 text-left">
       <Settings></Settings>
@@ -62,23 +47,18 @@ function Client() {
       </div>
       <h1 className="text-4xl font-medium">Client</h1>
       <Separator className="my-4" />
-      {/* <Tablea></Tablea> */}
 
-
-      <Table data={Tickets} displayColumns={[
-        "ID",
-        "Title",
-        "Priority",
-        "Date",
-        "Status",
-        "",
-      ]} dataColumns={[
-        "ticketId",
-        "Title",
-        "priority",
-        "date_Created",
-        "status",
-      ]} />
+      <Table
+        data={Tickets}
+        displayColumns={["ID", "Title", "Priority", "Date", "Status", ""]}
+        dataColumns={[
+          "ticketId",
+          "Title",
+          "priority",
+          "date_Created",
+          "status",
+        ]}
+      />
 
       <Dialog>
         <DialogTrigger asChild>

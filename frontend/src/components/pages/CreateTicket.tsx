@@ -6,7 +6,6 @@ import { ChevronDownIcon } from "@radix-ui/react-icons";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import "bootstrap/dist/css/bootstrap.min.css";
 import Settings from "../foundations/settings";
 import { Button } from "../ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -28,6 +27,7 @@ import {
   API_BASE_URL,
   putBaseMutateRequest,
   getBaseQueryRequest,
+  postBaseMutateRequest,
 } from "@/lib/api";
 import { useTranslation } from "react-i18next";
 
@@ -91,17 +91,6 @@ function Tickets() {
         localStorage.getItem("Id"),
       getBaseQueryRequest(),
     ).then((data) => data.json());
-
-    // let machinelist = await fetch(
-    //   "http://localhost:5119/GetMachinesPerAccount?accountId=" +
-    //     localStorage.getItem("Id"),
-    //   {
-    //     method: "GET",
-    //     headers: {
-    //       Authorization: "bearer " + localStorage.getItem("Token"),
-    //     },
-    //   }
-    // ).then((data) => data.json());
 
     SetAccount(localStorage.getItem("Id")!);
     SetMachineNames(
@@ -197,9 +186,10 @@ function Tickets() {
           phoneNumber: phonenumber,
         };
 
-        await fetch(API_BASE_URL + "/api/tickets/" + putBaseMutateRequest, {
-          body: JSON.stringify(currentticket),
-        })
+        await fetch(
+          API_BASE_URL + "/api/tickets/",
+          putBaseMutateRequest(JSON.stringify(currentticket)),
+        )
           .then((res) => {
             console.log("Message successfully updated", res);
           })
@@ -207,20 +197,16 @@ function Tickets() {
             console.log("Message could not be updated", err);
           });
 
-        await fetch("http://localhost:5119/api/tickets/", {
-          method: "POST",
-          headers: {
-            Authorization: "bearer " + localStorage.getItem("Token"),
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(currentticket),
-        })
-        .then((res) => {
-          console.log("Message successfully updated", res);
-        })
-        .catch((err) => {
-          console.log("Message could not be updated", err);
-        });
+        await fetch(
+          API_BASE_URL + "/api/tickets/",
+          postBaseMutateRequest(JSON.stringify(currentticket)),
+        )
+          .then((res) => {
+            console.log("Message successfully updated", res);
+          })
+          .catch((err) => {
+            console.log("Message could not be updated", err);
+          });
 
         toast({
           variant: "default",
@@ -353,9 +339,9 @@ function Tickets() {
               type="file"
             />
           </div>
-          <div className="flex flex-wrap max-w-screen">
+          <div className="max-w-screen flex flex-wrap">
             {preview.map((previewItem, index) => (
-              <div key={index} className="flex items-center m-4">
+              <div key={index} className="m-4 flex items-center">
                 <img
                   src={previewItem as string}
                   alt={`Preview ${index}`}

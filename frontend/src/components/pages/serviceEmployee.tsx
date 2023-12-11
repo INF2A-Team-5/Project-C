@@ -17,11 +17,7 @@ import AddMachineSolution from "./AddMachineSolution";
 import AddSolution from "./AddTicketSolution";
 import AddMachine from "./addMachine";
 import { Separator } from "../ui/separator";
-import {
-  API_BASE_URL,
-  putBaseMutateRequest,
-  getBaseQueryRequest,
-} from "@/lib/api";
+import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
 
 function serviceEmployee() {
   useAuthenticated();
@@ -45,33 +41,28 @@ function serviceEmployee() {
         API_BASE_URL + "/api/accounts/" + localStorage.getItem("Id"),
         getBaseQueryRequest(),
       ).then((data) => data.json()),
-
-      // await fetch(
-      //   "http://localhost:5119/api/accounts/" + localStorage.getItem("Id"),
-      //   {
-      //     method: "GET",
-      //     headers: {
-      //       Authorization: "bearer " + localStorage.getItem("Token"),
-      //       "Content-Type": "application/json",
-      //     },
-      //   }
-      // ).then((data) => data.json())
     );
   }
 
   async function GetAllData() {
     SetAllTickets(
-      await fetch( API_BASE_URL +
-        "/GetTicketByDepartment?AccountId=" +
-          localStorage.getItem("Id"), getBaseQueryRequest()
-      ).then((data) => data.json())
+      await fetch(
+        API_BASE_URL +
+          "/GetTicketByDepartment?AccountId=" +
+          localStorage.getItem("Id"),
+        getBaseQueryRequest(),
+      ).then((data) => data.json()),
     );
   }
 
   async function GetAssignedData() {
     SetAssignedTickets(
-      await fetch(API_BASE_URL + "/GetAssignedTickets?AccountId=" + localStorage.getItem("Id"), getBaseQueryRequest())
-        .then((data) => data.json())
+      await fetch(
+        API_BASE_URL +
+          "/GetAssignedTickets?AccountId=" +
+          localStorage.getItem("Id"),
+        getBaseQueryRequest(),
+      ).then((data) => data.json()),
     );
   }
 

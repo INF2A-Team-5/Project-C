@@ -27,35 +27,12 @@ function AddAccount() {
 
   async function handleSubmit() {
     setIsLoading(true);
-    // const account = await fetch(
-    //   "http://localhost:5119/api/accounts",
-    //   {
-    //     method: "GET",
-    //     headers: {
-    //       Authorization: "bearer " + localStorage.getItem("Token"),
-    //     },
-    //   }
-    // )
-    // .then((data) => data.json())
-    // .then((accounts) => accounts.find((acc: any) => acc.name == username));
     const account = await fetch(
-        API_BASE_URL + "/api/accounts", getBaseQueryRequest(),
-      )
+      API_BASE_URL + "/api/accounts",
+      getBaseQueryRequest(),
+    )
       .then((data) => data.json())
       .then((accounts) => accounts.find((acc: any) => acc.name == username));
-    // console.log("--------------------");
-    // console.log("http://localhost:5119/api/accounts", {
-    //   method: "GET",
-    //   headers: {
-    //     Authorization: "bearer " + localStorage.getItem("Token"),
-    //   },
-    // });
-    // console.log("--------------------");
-
-    // console.log(API_BASE_URL + "/api/accounts", getBaseQueryRequest());
-    // console.log("--------------------");
-      
-    
 
     if (account !== undefined) {
       toast({
@@ -89,45 +66,16 @@ function AddAccount() {
 
     // WAAR IS CLASS CHECKING?
     else {
-
-      // console.log(
-      //   postBaseMutateRequest(
-      //     JSON.stringify({
-      //       name: username,
-      //       password: password,
-      //       class: userType,
-      //     }),
-      //   ),
-      // );
-
-
-      fetch(API_BASE_URL + "/api/accounts", postBaseMutateRequest(JSON.stringify({
-              name: username,
-              password: password,
-              class: userType,
-            })),
-          
-          )
-        .then((response) => response.json());
-          
-          
-
-      // const requestOptions = {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: "bearer " + localStorage.getItem("Token"),
-      //   },
-      //   body: JSON.stringify({
-      //     name: username,
-      //     password: password,
-      //     class: userType,
-      //   }),
-      // };
-      // console.log(requestOptions);
-      // fetch("http://localhost:5119/api/accounts", requestOptions).then(
-      //   (response) => response.json()
-      // );
+      fetch(
+        API_BASE_URL + "/api/accounts",
+        postBaseMutateRequest(
+          JSON.stringify({
+            name: username,
+            password: password,
+            class: userType,
+          }),
+        ),
+      ).then((response) => response.json());
 
       toast({
         variant: "default",

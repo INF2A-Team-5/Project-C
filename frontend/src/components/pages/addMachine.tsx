@@ -7,7 +7,6 @@ import { toast } from "../ui/use-toast";
 import { Icons } from "../foundations/icons";
 import {
   API_BASE_URL,
-  putBaseMutateRequest,
   getBaseQueryRequest,
   postBaseMutateRequest,
 } from "@/lib/api";
@@ -22,40 +21,17 @@ function AddMachine() {
   async function handleSubmit() {
     setIsLoading(true);
     const machine = await fetch(
-      API_BASE_URL + "/api/machines", getBaseQueryRequest(),
+      API_BASE_URL + "/api/machines",
+      getBaseQueryRequest(),
     )
       .then((data) => data.json())
       .then((machines) => machines.find((mach: any) => mach.name == name));
 
-    // const machine = await fetch(
-    //   "http://localhost:5119/api/machines/" + localStorage.getItem("Id"),
-    //   {
-    //     method: "GET",
-    //     headers: {
-    //       Authorization: "bearer " + localStorage.getItem("Token"),
-    //     },
-    //   }
-    // )
-    //   .then((data) => data.json())
-    //   .then((machines) => machines.find((mach: any) => mach.name == name));
-
-    // const departments = await fetch(
-    //   API_BASE_URL + "/api/departments" + getBaseQueryRequest,
-    // )
-    //   .then((data) => data.json())
-    //   .then((dep) => dep.find((depar: any) => depar.name == department));
-
-    // await fetch("http://localhost:5119/api/departments/", {
-    //   method: "GET",
-    //   headers: {
-    //     Authorization: "bearer " + localStorage.getItem("Token"),
-    //   },
-    // });
-
     setDepartment(
       await fetch(API_BASE_URL + "/api/departments/", getBaseQueryRequest())
-      .then((data) => data.json())
-      .then((dep) => dep.find((depar: any) => depar.name == department)));
+        .then((data) => data.json())
+        .then((dep) => dep.find((depar: any) => depar.name == department)),
+    );
 
     if (machine !== undefined) {
       toast({
@@ -93,35 +69,16 @@ function AddMachine() {
       });
       setIsLoading(false);
     } else {
-      fetch(API_BASE_URL + "/api/machines", postBaseMutateRequest(JSON.stringify({
-          name: name,
-          description: description,
-          department: department,
-        })), 
-      //   {
-      //   body: JSON.stringify({
-      //     name: name,
-      //     description: description,
-      //     department: department,
-      //   }),
-      // }
+      fetch(
+        API_BASE_URL + "/api/machines",
+        postBaseMutateRequest(
+          JSON.stringify({
+            name: name,
+            description: description,
+            department: department,
+          }),
+        ),
       ).then((response) => response.json());
-
-      // const requestOptions = {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: "bearer " + localStorage.getItem("Token"),
-      //   },
-      //   body: JSON.stringify({
-      //     name: name,
-      //     description: description,
-      //     department: department,
-      //   }),
-      // };
-      // fetch("http://localhost:5119/api/machines", requestOptions).then(
-      //   (response) => response.json(),
-      // );
 
       toast({
         variant: "default",

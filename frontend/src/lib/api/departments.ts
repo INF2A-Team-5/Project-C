@@ -8,8 +8,7 @@ import {
 
 export namespace ApiDepartments {
   export async function getAll() {
-    const departments = await fetch(
-      `${API_BASE_URL}/api/departments`,
+    const departments = await fetch(API_BASE_URL +"/api/departments",
       getBaseQueryRequest()
     ).then((res) => res.json());
 
@@ -23,8 +22,6 @@ export namespace ApiDepartments {
     name: string;
   }>): Promise<T | null> {
     const { onSuccess, onError, throwOnError } = options;
-
-    const requestInit = putBaseMutateRequest();
     const department = await getAll().then((departments) =>
       departments.find((dep: any) => dep.name == name)
     );
@@ -42,10 +39,8 @@ export namespace ApiDepartments {
         description: "Enter a department name",
       });
     } else {
-      const response = await fetch("http://localhost:5119/api/departments", {
-        ...requestInit,
-        body: JSON.stringify({ name: name }),
-      });
+      const response = await fetch(API_BASE_URL + "/api/departments", putBaseMutateRequest(JSON.stringify({ name: name }))
+      );
 
       try {
         const json = response.json();

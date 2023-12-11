@@ -8,7 +8,11 @@ import Header from "../foundations/header";
 import { Separator } from "../ui/separator";
 import { Label } from "../ui/label";
 import { Icons } from "../foundations/icons";
-import { API_BASE_URL, getBaseQueryRequest, putBaseMutateRequest } from "@/lib/api";
+import {
+  API_BASE_URL,
+  getBaseQueryRequest,
+  putBaseMutateRequest,
+} from "@/lib/api";
 
 function EditAccount() {
   useAuthenticated();
@@ -21,19 +25,9 @@ function EditAccount() {
     setIsLoading(true);
 
     let currentaccount = await fetch(
-      API_BASE_URL + "/api/accounts/", getBaseQueryRequest(),
+      API_BASE_URL + "/api/accounts/",
+      getBaseQueryRequest(),
     ).then((data) => data.json());
-
-    // let currentaccount = await fetch(
-    //   "http://localhost:5119/api/accounts/" + localStorage.getItem("Id"),
-    //   {
-    //     method: "GET",
-    //     headers: {
-    //       Authorization: "bearer " + localStorage.getItem("Token"),
-    //       "Content-Type": "application/json",
-    //     },
-    //   }
-    // ).then((data) => data.json());
 
     if (password !== confirmPass) {
       alert("password and confirm password need to match");
@@ -51,17 +45,6 @@ function EditAccount() {
         putBaseMutateRequest(JSON.stringify(data)),
       );
 
-      // await fetch(
-      //   "http://localhost:5119/api/accounts/" + localStorage.getItem("Id"),
-      //   {
-      //     method: "PUT",
-      //     headers: {
-      //       Authorization: "bearer " + localStorage.getItem("Token"),
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify(data),
-      //   },
-      // );
       setIsLoading(false);
     }
 

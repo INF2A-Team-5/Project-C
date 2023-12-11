@@ -24,11 +24,6 @@ import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
 function Admin() {
   useAuthenticated();
 
-  // const [AllTickets, SetAllTickets] = useState<DataRow[]>([]);
-  // if (AllTickets.length == 0) {
-  //   GetData();
-  // }
-
   const [AllTickets, SetAllTickets] = useState<DataRow[]>([]);
   const [AssignedTickets, SetAssignedTickets] = useState<DataRow[]>([]);
   const [LoadTicket, SetTickets] = useState<Boolean>(false);
@@ -39,34 +34,24 @@ function Admin() {
   }
   async function GetAllData() {
     SetAllTickets(
-      await fetch( API_BASE_URL +
-        "/GetTicketByDepartment?AccountId=" +
-          localStorage.getItem("Id"), getBaseQueryRequest()
-      ).then((data) => data.json())
+      await fetch(
+        API_BASE_URL +
+          "/GetTicketByDepartment?AccountId=" +
+          localStorage.getItem("Id"),
+        getBaseQueryRequest(),
+      ).then((data) => data.json()),
     );
   }
   async function GetAssignedData() {
     SetAssignedTickets(
-      await fetch(API_BASE_URL + "/GetAssignedTickets?AccountId=" + localStorage.getItem("Id"), getBaseQueryRequest())
-        .then((data) => data.json())
+      await fetch(
+        API_BASE_URL +
+          "/GetAssignedTickets?AccountId=" +
+          localStorage.getItem("Id"),
+        getBaseQueryRequest(),
+      ).then((data) => data.json()),
     );
   }
-
-  // async function GetData() {
-  //   SetAllTickets(
-  //     await fetch(API_BASE_URL + "/api/tickets/", getBaseQueryRequest()).then(
-  //       (data) => data.json(),
-  //     ),
-
-  //     // await fetch("http://localhost:5119/api/tickets/", {
-  //     //   method: "GET",
-  //     //   headers: {
-  //     //     Authorization: "bearer " + localStorage.getItem("Token"),
-  //     //     "Content-Type": "application/json",
-  //     //   },
-  //     // }).then((data) => data.json())
-  //   );
-  // }
 
   return (
     <div className="px-24 text-left">
@@ -81,7 +66,8 @@ function Admin() {
           <Tabs defaultValue="accounts">
             <TabsList>
               <TabsTrigger value="accounts">Accounts</TabsTrigger>
-              <TabsTrigger value="tickets">Tickets</TabsTrigger><TabsTrigger value="assigned tickets">
+              <TabsTrigger value="tickets">Tickets</TabsTrigger>
+              <TabsTrigger value="assigned tickets">
                 Assigned Tickets
               </TabsTrigger>
               <TabsTrigger value="machines">Machines</TabsTrigger>

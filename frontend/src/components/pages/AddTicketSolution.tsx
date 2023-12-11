@@ -50,30 +50,7 @@ function AddSolution() {
             ticketId: ticketId,
           }),
         ),
-        // {
-        //   body: JSON.stringify({
-        //     problemDescription: problemDescription,
-        //     solutionDescription: solutionDescription,
-        //     ticketId: ticketId,
-        //   }),
-        // },
       ).then((response) => response.json());
-
-      // const requestOptions = {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: "bearer " + localStorage.getItem("Token"),
-      //   },
-      //   body: JSON.stringify({
-      //     problemDescription: problemDescription,
-      //     solutionDescription: solutionDescription,
-      //     ticketId: ticketId,
-      //   }),
-      // };
-      // fetch("http://localhost:5119/api/solutions", requestOptions).then(
-      //   (response) => response.json()
-      // );
 
       toast({
         variant: "default",

@@ -59,16 +59,6 @@ function EditTicket() {
       getBaseQueryRequest(),
     ).then((data) => data.json());
 
-    // let currentticket = await fetch(
-    //   "http://localhost:5119/api/tickets/" + ticketid,
-    //   {
-    //     method: "GET",
-    //     headers: {
-    //       Authorization: "bearer " + localStorage.getItem("Token"),
-    //       "Content-Type": "application/json",
-    //     },
-    //   }
-    // ).then((data) => data.json());
     console.log(currentticket);
     return currentticket;
   }
@@ -104,20 +94,10 @@ function EditTicket() {
 
     try {
       const response = await fetch(
-        API_BASE_URL + "/api/tickets/" + ticketid, putBaseMutateRequest(JSON.stringify(ticket)),
+        API_BASE_URL + "/api/tickets/" + ticketid,
+        putBaseMutateRequest(JSON.stringify(ticket)),
       );
 
-      // const response = await fetch(
-      //   "http://localhost:5119/api/tickets/" + ticketid,
-      //   {
-      //     method: "PUT",
-      //     headers: {
-      //       Authorization: "bearer " + localStorage.getItem("Token"),
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify(ticket),
-      //   }
-      // );
       if (!response.ok) {
         const errorResponse = await response.text(); // Capture response content
         throw new Error(
@@ -136,38 +116,19 @@ function EditTicket() {
 
   async function CloseTicket() {
     let currentticket = await fetch(
-      API_BASE_URL + "/api/tickets/" + ticketid, getBaseQueryRequest(),
+      API_BASE_URL + "/api/tickets/" + ticketid,
+      getBaseQueryRequest(),
     ).then((data) => data.json());
-
-    // let currentticket = await fetch(
-    //   "http://localhost:5119/api/tickets/" + ticketid,
-    //   {
-    //     method: "GET",
-    //     headers: {
-    //       Authorization: "bearer " + localStorage.getItem("Token"),
-    //       "Content-Type": "application/json",
-    //     },
-    //   }
-    // ).then((data) => data.json());
 
     currentticket.status = "Closed";
     try {
       const response = await fetch(
-        API_BASE_URL + "/api/tickets/" + ticketid + putBaseMutateRequest(JSON.stringify(currentticket)),
-        // { body: JSON.stringify(currentticket) },
+        API_BASE_URL +
+          "/api/tickets/" +
+          ticketid +
+          putBaseMutateRequest(JSON.stringify(currentticket)),
       );
 
-      // const response = await fetch(
-      //   "http://localhost:5119/api/tickets/" + ticketid,
-      //   {
-      //     method: "PUT",
-      //     headers: {
-      //       Authorization: "bearer " + localStorage.getItem("Token"),
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify(currentticket),
-      //   }
-      // );
       if (!response.ok) {
         const errorResponse = await response.text(); // Capture response content
         throw new Error(
