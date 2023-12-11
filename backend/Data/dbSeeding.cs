@@ -106,6 +106,8 @@ public static class DBSeeding
         emp2.Tickets.Add(ticket6); //ticket 21
         emp2.Tickets.Add(ticket7); //ticket 22
         emp2.Tickets.Add(ticket8); //ticket 23
+        admin.Tickets.Add(ticket9); 
+        admin.Tickets.Add(ticket10); 
 
         var db = new DataContext();
         foreach (Machine machine in machines)
