@@ -2,12 +2,16 @@ export type DataRow = {
     ticketId: number,
     machine_Id: number,
     customer_Id: number,
-    assigned_Id: number,
+    employee_Id: number,
+    title: string,
     priority: string,
     status: string,
+    problem: string,
+    haveTried: string,
+    mustBeDoing: string,
     date_Created: string,
     solution: string,
-    files: string[],
     phoneNumber: string,
-    notes: string;
+    notes: string,
+    files: string[]
 };

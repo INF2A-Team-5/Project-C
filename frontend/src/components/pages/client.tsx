@@ -19,6 +19,7 @@ import Table from "../foundations/table";
 import { useState } from "react";
 import { DataRow } from "@/services/DataRow";
 import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
+import { ticketColumns } from "@/services/Columns";
 
 function Client() {
   const [Tickets, SetTickets] = useState<DataRow[]>([]);
@@ -64,20 +65,7 @@ function Client() {
       <Separator className="my-4" />
       {/* <Tablea></Tablea> */}
 
-      <Table data={Tickets} displayColumns={[
-        "ID",
-        "Title",
-        "Priority",
-        "Date",
-        "Status",
-        "",
-      ]} dataColumns={[
-        "ticketId",
-        "Title",
-        "priority",
-        "date_Created",
-        "status",
-      ]} />
+      <Table data={Tickets} columns={ticketColumns} />
 
       <Dialog>
         <DialogTrigger asChild>

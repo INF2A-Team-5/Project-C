@@ -24,56 +24,81 @@ import {
   getBaseQueryRequest,
   putBaseMutateRequest,
 } from "@/lib/api";
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+  getPaginationRowModel,
+  SortingState,
+  getSortedRowModel
+} from "@tanstack/react-table";
 
-interface TableProps {
-  data: { [key: string]: any }[];
-  displayColumns: string[];
-  dataColumns: string[];
+interface TableProps<TData, TValue> {
+  // data: { [key: string]: any }[];
+  // displayColumns: string[];
+  // dataColumns: string[];
+  data: TData[];
+  columns: ColumnDef<TData, TValue>[];
 }
 
-function DataTable({ data, displayColumns, dataColumns }: TableProps) {
+function DataTable<TData, TValue>({ data, columns }: TableProps<TData, TValue>) {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
-  const handleSort = (column: string) => {
-    let temp;
-    switch (column) {
-      case "ID":
-        temp = "ticketId";
-        break;
-      case "Priority":
-        temp = "priority";
-        break;
-      case "Client":
-        temp = "customer_Id";
-        break;
-      case "Date":
-        temp = "date_Created";
-        break;
-      case "Status":
-        temp = "status";
-        break;
-      default:
-        temp = column;
-        break;
-    }
+  const [sorting, setSorting] = useState<SortingState>([])
 
-    if (sortDirection == "asc") {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-      sortByKey(data, temp);
-    } else {
-      setSortColumn(column);
-      setSortDirection("asc");
-      sortByKey(data, temp).reverse();
-    }
-  };
+  const table = useReactTable({
+    data,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+    },
+  })
 
-  function sortByKey<T>(array: T[], key: keyof T): T[] {
-    return array.sort((a, b) =>
-      a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0,
-    );
-  }
+  // const handleSort = (column: string) => {
+  //   let temp = "";
+  //   switch (column) {
+  //     case "ID":
+  //       temp = "ticketId";
+  //       break;
+  //     case "Priority":
+  //       temp = "priority";
+  //       break;
+  //     case "Client":
+  //       temp = "customer_Id";
+  //       break;
+  //     case "Date":
+  //       temp = "date_Created";
+  //       break;
+  //     case "Status":
+  //       temp = "status";
+  //       break;
+  //     default:
+  //       temp = column;
+  //       break;
+  //   }
+
+  //   if (sortDirection == "asc") {
+  //     setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+  //     sortByKey(data, temp);
+  //   } else {
+  //     setSortColumn(column);
+  //     setSortDirection("asc");
+  //     sortByKey(data, temp).reverse();
+  //   }
+  // };
+
+  // function sortByKey<T>(array: T[], key: keyof T): T[] {
+  //   return array.sort((a, b) =>
+  //     a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0,
+  //   );
+  // }
 
   const indexOfLastItem = currentPage * 10;
   const indexOfFirstItem = indexOfLastItem - 10;
@@ -172,77 +197,76 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
 
   return (
     <Card>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            {displayColumns.map((column, index) => (
-              <TableHead
-                key={index}
-                onClick={() => {
-                  column == "" ? null : handleSort(column);
-                }}
-              >
-                {column}{" "}
-                {sortColumn === column &&
-                  (sortDirection === "asc" ? (
-                    <ArrowDownIcon />
-                  ) : (
-                    <ArrowUpIcon />
-                  ))}
-              </TableHead>
-            ))}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {currentData.map((row, rowIndex) => (
-            <TableRow key={rowIndex}>
-              {dataColumns.map((column, columnIndex) => (
-                <TableCell key={columnIndex}>{row[column]}</TableCell>
-              ))}
-              <TableCell>
-                {/* <button onClick={() => handleButtonClick(row)}>Edit</button> */}
-                <div>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="h-8 w-8 p-0">
-                        <span className="sr-only">Open menu</span>
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                      <DropdownMenuItem onClick={() => alert(7)}>
-                        Show seven
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem>View customer</DropdownMenuItem>
-                      {localStorage.getItem("Class") == "ServiceEmployee" || localStorage.getItem("Class") == "Admin" ?
-                        <DropdownMenuItem onClick={() => AssignTicket(currentData[rowIndex])}>Assign Ticket</DropdownMenuItem> : null
-                      }
-                      {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
-                      <DropdownMenuItem>View payment details</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-
       <div>
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                    </TableHead>
+                  )
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      <div className="flex items-center justify-end space-x-2 py-4">
         <Button
-          className="m-4"
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
+          variant="outline"
+          size="sm"
+          onClick={function () {
+            table.previousPage();
+            setCurrentPage(
+              currentPage - 1
+            );
+          }}
+          disabled={!table.getCanPreviousPage()}
         >
           Previous
         </Button>
         <span>{`Page ${currentPage} of ${totalPages}`}</span>
         <Button
           className="m-4"
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
+          variant="outline"
+          size="sm"
+          onClick={function () {
+            table.nextPage();
+            setCurrentPage(
+              currentPage + 1
+            )
+          }}
+          disabled={!table.getCanNextPage()}
         >
           Next
         </Button>

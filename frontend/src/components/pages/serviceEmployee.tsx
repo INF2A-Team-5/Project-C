@@ -23,6 +23,7 @@ import {
   getBaseQueryRequest,
 } from "@/lib/api";
 import { Machine } from "@/services/Machine";
+import { ticketColumns } from "@/services/Columns";
 
 function serviceEmployee() {
   useAuthenticated();
@@ -105,26 +106,10 @@ function serviceEmployee() {
               <TabsTrigger value="machines">Machines</TabsTrigger>
             </TabsList>
             <TabsContent value="all tickets">
-              <Table
-                displayColumns={[
-                  "ID",
-                  "Priority",
-                  "Client",
-                  "Date",
-                  "Status"
-                ]}
-                data={AllTickets}
-                dataColumns={[
-                  "ticketId",
-                  "priority",
-                  "customer_Id",
-                  "date_Created",
-                  "status",
-                ]}
-              />
+              <Table columns={ticketColumns} data={AllTickets} />
             </TabsContent>
             <TabsContent value="assigned tickets">
-              <Table
+              {/* <Table
                 displayColumns={[
                   "ID",
                   "Priority",
@@ -141,10 +126,10 @@ function serviceEmployee() {
                   "date_Created",
                   "status",
                 ]}
-              />
+              /> */}
             </TabsContent>
             <TabsContent value="machines">
-              <Table
+              {/* <Table
                 displayColumns={[
                   "ID",
                   "Name",
@@ -156,7 +141,7 @@ function serviceEmployee() {
                   "name",
                   "description",
                 ]}
-              />
+              /> */}
             </TabsContent>
           </Tabs>
         </div>
