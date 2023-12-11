@@ -29,27 +29,27 @@ function Client() {
 
   async function GetData() {
     SetTickets(
-      // await fetch(API_BASE_URL + "/api/tickets/" + getBaseQueryRequest)
-      //   .then((data) => data.json())
-      //   .then((tickets) =>
-      //     tickets.filter(
-      //       (client: any) => client.customer_Id == localStorage.getItem("Id"),
-      //     ),
-      //   ),
-
-      await fetch("http://localhost:5119/api/tickets/", {
-        method: "GET",
-        headers: {
-          Authorization: "bearer " + localStorage.getItem("Token"),
-          "Content-Type": "application/json",
-        },
-      })
+      await fetch(API_BASE_URL + "/api/tickets/", getBaseQueryRequest())
         .then((data) => data.json())
         .then((tickets) =>
           tickets.filter(
-            (client: any) => client.customer_Id == localStorage.getItem("Id")
-          )
-        )
+            (client: any) => client.customer_Id == localStorage.getItem("Id"),
+          ),
+        ),
+
+      // await fetch("http://localhost:5119/api/tickets/", {
+      //   method: "GET",
+      //   headers: {
+      //     Authorization: "bearer " + localStorage.getItem("Token"),
+      //     "Content-Type": "application/json",
+      //   },
+      // })
+      //   .then((data) => data.json())
+      //   .then((tickets) =>
+      //     tickets.filter(
+      //       (client: any) => client.customer_Id == localStorage.getItem("Id")
+      //     )
+      //   )
     );
   }
 

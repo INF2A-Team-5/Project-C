@@ -85,20 +85,23 @@ function Tickets() {
   }
 
   async function getData() {
-    // let machinelist = await fetch(
-    //   API_BASE_URL + "/api/machines" + getBaseQueryRequest,
-    // ).then((data) => data.json());
-
     let machinelist = await fetch(
-      "http://localhost:5119/GetMachinesPerAccount?accountId=" +
+      API_BASE_URL +
+        "/GetMachinesPerAccount?accountId=" +
         localStorage.getItem("Id"),
-      {
-        method: "GET",
-        headers: {
-          Authorization: "bearer " + localStorage.getItem("Token"),
-        },
-      }
+      getBaseQueryRequest(),
     ).then((data) => data.json());
+
+    // let machinelist = await fetch(
+    //   "http://localhost:5119/GetMachinesPerAccount?accountId=" +
+    //     localStorage.getItem("Id"),
+    //   {
+    //     method: "GET",
+    //     headers: {
+    //       Authorization: "bearer " + localStorage.getItem("Token"),
+    //     },
+    //   }
+    // ).then((data) => data.json());
 
     SetAccount(localStorage.getItem("Id")!);
     SetMachineNames(
