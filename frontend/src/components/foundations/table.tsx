@@ -8,16 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
-import { MoreHorizontal } from "lucide-react";
 import { Card } from "../ui/card";
 import {
   API_BASE_URL,
@@ -44,11 +35,9 @@ interface TableProps<TData, TValue> {
 
 function DataTable<TData, TValue>({ data, columns }: TableProps<TData, TValue>) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortColumn, setSortColumn] = useState<string | null>(null);
-  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-
   const [sorting, setSorting] = useState<SortingState>([])
 
+  const totalPages = Math.ceil(data.length / 10);
   const table = useReactTable({
     data,
     columns,
@@ -60,76 +49,6 @@ function DataTable<TData, TValue>({ data, columns }: TableProps<TData, TValue>) 
       sorting,
     },
   })
-
-  // const handleSort = (column: string) => {
-  //   let temp = "";
-  //   switch (column) {
-  //     case "ID":
-  //       temp = "ticketId";
-  //       break;
-  //     case "Priority":
-  //       temp = "priority";
-  //       break;
-  //     case "Client":
-  //       temp = "customer_Id";
-  //       break;
-  //     case "Date":
-  //       temp = "date_Created";
-  //       break;
-  //     case "Status":
-  //       temp = "status";
-  //       break;
-  //     default:
-  //       temp = column;
-  //       break;
-  //   }
-
-  //   if (sortDirection == "asc") {
-  //     setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-  //     sortByKey(data, temp);
-  //   } else {
-  //     setSortColumn(column);
-  //     setSortDirection("asc");
-  //     sortByKey(data, temp).reverse();
-  //   }
-  // };
-
-  // function sortByKey<T>(array: T[], key: keyof T): T[] {
-  //   return array.sort((a, b) =>
-  //     a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0,
-  //   );
-  // }
-
-  const indexOfLastItem = currentPage * 10;
-  const indexOfFirstItem = indexOfLastItem - 10;
-  const currentData = data.slice(indexOfFirstItem, indexOfLastItem);
-
-  const totalPages = Math.ceil(data.length / 10);
-
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-  };
-
-  async function viewticket(id: number) {
-    alert(id)
-  }
-
-  async function AssignTicket(ticket: any) {
-    ticket.employee_Id = 1 // moet nog ff uitgezocht worden en pagina moet nu gereload worden iedere keer
-    await fetch(
-      "http://localhost:5119/api/tickets/" + ticket.ticketId,
-      {
-        method: "PUT",
-        headers: {
-          Authorization: "bearer " + localStorage.getItem("Token"),
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(ticket),
-      }
-    );
-    console.log(ticket);
-    console.log("Assigned employee to ticket")
-  }
 
   async function handleButtonClick(ticket: any) {
     const user = await fetch(
