@@ -92,7 +92,7 @@ function serviceEmployee() {
                   "Client",
                   "Date",
                   "Status",
-                  "",
+                  "Options",
                 ]}
                 data={AllTickets}
                 dataColumns={[
@@ -112,7 +112,7 @@ function serviceEmployee() {
                   "Client",
                   "Date",
                   "Status",
-                  "",
+                  "Options",
                 ]}
                 data={AssignedTickets}
                 dataColumns={[

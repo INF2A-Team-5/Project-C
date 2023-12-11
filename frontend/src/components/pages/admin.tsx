@@ -84,7 +84,7 @@ function Admin() {
                   "Client",
                   "Date",
                   "Status",
-                  "",
+                  "Options",
                 ]}
                 data={AllTickets}
                 dataColumns={[
@@ -104,7 +104,7 @@ function Admin() {
                   "Client",
                   "Date",
                   "Status",
-                  "",
+                  "Options",
                 ]}
                 data={AssignedTickets}
                 dataColumns={[
