@@ -28,6 +28,7 @@ import { Department } from "@/services/Department";
 function Admin() {
   useAuthenticated();
 
+  const [AssignedTickets, SetAssignedTickets] = useState<Ticket[]>([]);
   const [AllTickets, SetAllTickets] = useState<Ticket[]>([]);
   const [LoadMachines, SetMachines] = useState<Boolean>(false);
   const [AllMachines, SetAllMachines] = useState<Machine[]>([]);
@@ -50,17 +51,22 @@ function Admin() {
 
   async function GetData() {
     SetAllTickets(
-      // await fetch(API_BASE_URL + "/GetTicketByDepartment" + getBaseQueryRequest).then(
-      //   (data) => data.json(),
-      // ),
-
-      await fetch("http://localhost:5119/api/tickets/", {
-        method: "GET",
-        headers: {
-          Authorization: "bearer " + localStorage.getItem("Token"),
-          "Content-Type": "application/json",
-        },
-      }).then((data) => data.json())
+      await fetch(
+        API_BASE_URL +
+        "/GetTicketByDepartment?AccountId=" +
+        localStorage.getItem("Id"),
+        getBaseQueryRequest(),
+      ).then((data) => data.json()),
+    );
+  }
+  async function GetAssignedData() {
+    SetAssignedTickets(
+      await fetch(
+        API_BASE_URL +
+        "/GetAssignedTickets?AccountId=" +
+        localStorage.getItem("Id"),
+        getBaseQueryRequest(),
+      ).then((data) => data.json()),
     );
   }
 
@@ -99,6 +105,9 @@ function Admin() {
             <TabsList>
               <TabsTrigger value="accounts">Accounts</TabsTrigger>
               <TabsTrigger value="tickets">Tickets</TabsTrigger>
+              <TabsTrigger value="assigned tickets">
+                Assigned Tickets
+              </TabsTrigger>
               <TabsTrigger value="machines">Machines</TabsTrigger>
               <TabsTrigger value="departments">Departments</TabsTrigger>
             </TabsList>
@@ -107,6 +116,9 @@ function Admin() {
             </TabsContent>
             <TabsContent value="tickets">
               <Table data={AllTickets} columns={ticketColumns} />
+            </TabsContent>
+            <TabsContent value="assigned tickets">
+              <Table data={AssignedTickets} columns={ticketColumns} />
             </TabsContent>
             <TabsContent value="machines">
               <Table data={AllMachines} columns={machineColumns} />

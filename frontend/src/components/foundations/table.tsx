@@ -58,14 +58,6 @@ function DataTable<TData, TValue>({ data, columns }: TableProps<TData, TValue>) 
       getBaseQueryRequest(),
     ).then((data) => data.json());
 
-    // const user = await fetch(`http://localhost:5119/api/Accounts/${localStorage.getItem("Id")}`, {
-    //   method: "GET",
-    //   headers:
-    //   {
-    //     "Content-Type": "application/json",
-    //     "Authorization": "bearer " + localStorage.getItem("Token"),
-    //   }
-    // }).then((res) => res.json());
 
     if (user.class == "Admin" || user.class == "ServiceEmployee") {
       if (ticket.assigned_Id == null || ticket.assigned_Id == 0) {
@@ -89,19 +81,9 @@ function DataTable<TData, TValue>({ data, columns }: TableProps<TData, TValue>) 
         };
 
         await fetch(
-          API_BASE_URL + "/api/Tickets/" + temp.TicketId, putBaseMutateRequest(JSON.stringify(temp)),
-          // { body:  },
+          API_BASE_URL + "/api/Tickets/" + temp.TicketId, putBaseMutateRequest(JSON.stringify(temp))
         );
 
-        // await fetch("http://localhost:5119/api/Tickets/" + temp.TicketId,
-        //   {
-        //     method: "PUT",
-        //     headers: {
-        //       "Authorization": "bearer " + localStorage.getItem("Token"),
-        //       "Content-Type": "application/json",
-        //     },
-        //     body: JSON.stringify(temp)
-        //   });
 
         localStorage.setItem("currentticket", ticket.ticketId.toString());
         window.location.href = "edit-ticket";

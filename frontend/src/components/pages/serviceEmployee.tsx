@@ -50,33 +50,31 @@ function serviceEmployee() {
   async function GetAccount() {
     SetAccount(
       await fetch(
-        "http://localhost:5119/api/accounts/" + localStorage.getItem("Id"),
-        {
-          method: "GET",
-          headers: {
-            Authorization: "bearer " + localStorage.getItem("Token"),
-            "Content-Type": "application/json",
-          },
-        }
-      ).then((data) => data.json())
+        API_BASE_URL + "/api/accounts/" + localStorage.getItem("Id"),
+        getBaseQueryRequest(),
+      ).then((data) => data.json()),
     );
   }
 
   async function GetAllData() {
     SetAllTickets(
-      await fetch(API_BASE_URL +
-        "/api/Tickets"
-        // "/GetTicketByDepartment?AccountId=" +
-        // localStorage.getItem("Id")
-        , getBaseQueryRequest()
-      ).then((data) => data.json())
+      await fetch(
+        API_BASE_URL +
+        "/GetTicketByDepartment?AccountId=" +
+        localStorage.getItem("Id"),
+        getBaseQueryRequest(),
+      ).then((data) => data.json()),
     );
   }
 
   async function GetAssignedData() {
     SetAssignedTickets(
-      await fetch(API_BASE_URL + "/GetAssignedTickets?AccountId=" + localStorage.getItem("Id"), getBaseQueryRequest())
-        .then((data) => data.json())
+      await fetch(
+        API_BASE_URL +
+        "/GetAssignedTickets?AccountId=" +
+        localStorage.getItem("Id"),
+        getBaseQueryRequest(),
+      ).then((data) => data.json()),
     );
   }
 
