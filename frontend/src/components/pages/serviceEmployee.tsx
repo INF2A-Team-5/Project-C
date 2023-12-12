@@ -35,7 +35,7 @@ function serviceEmployee() {
 
   if (LoadData == false) {
     GetAllData();
-    SetTickets(true);
+    SetData(true);
   }
   if (Account == undefined) {
     GetAccount();
