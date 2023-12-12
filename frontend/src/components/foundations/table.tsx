@@ -22,8 +22,9 @@ import {
   useReactTable,
   getPaginationRowModel,
   SortingState,
-  getSortedRowModel
+  getSortedRowModel,
 } from "@tanstack/react-table";
+import { Separator } from "../ui/separator";
 
 interface TableProps<TData, TValue> {
   // data: { [key: string]: any }[];
@@ -33,9 +34,12 @@ interface TableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
 }
 
-function DataTable<TData, TValue>({ data, columns }: TableProps<TData, TValue>) {
+function DataTable<TData, TValue>({
+  data,
+  columns,
+}: TableProps<TData, TValue>) {
   const [currentPage, setCurrentPage] = useState(1);
-  const [sorting, setSorting] = useState<SortingState>([])
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const totalPages = Math.ceil(data.length / 10);
   const table = useReactTable({
@@ -48,16 +52,13 @@ function DataTable<TData, TValue>({ data, columns }: TableProps<TData, TValue>) 
     state: {
       sorting,
     },
-  })
+  });
 
   async function handleButtonClick(ticket: any) {
     const user = await fetch(
-      API_BASE_URL +
-      "/api/Accounts/" +
-      localStorage.getItem("Id"),
+      API_BASE_URL + "/api/Accounts/" + localStorage.getItem("Id"),
       getBaseQueryRequest(),
     ).then((data) => data.json());
-
 
     if (user.class == "Admin" || user.class == "ServiceEmployee") {
       if (ticket.assigned_Id == null || ticket.assigned_Id == 0) {
@@ -81,9 +82,9 @@ function DataTable<TData, TValue>({ data, columns }: TableProps<TData, TValue>) 
         };
 
         await fetch(
-          API_BASE_URL + "/api/Tickets/" + temp.TicketId, putBaseMutateRequest(JSON.stringify(temp))
+          API_BASE_URL + "/api/Tickets/" + temp.TicketId,
+          putBaseMutateRequest(JSON.stringify(temp)),
         );
-
 
         localStorage.setItem("currentticket", ticket.ticketId.toString());
         window.location.href = "edit-ticket";
@@ -92,7 +93,6 @@ function DataTable<TData, TValue>({ data, columns }: TableProps<TData, TValue>) 
       }
 
       // Navigate to page were you can see ticket info
-
     }
   }
 
@@ -109,11 +109,11 @@ function DataTable<TData, TValue>({ data, columns }: TableProps<TData, TValue>) 
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -121,35 +121,40 @@ function DataTable<TData, TValue>({ data, columns }: TableProps<TData, TValue>) 
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  data-state={row.getIsSelected() && "selected"}
-                >
+                <TableRow data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      <div className="ml-4">
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
+                      </div>
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   No results.
                 </TableCell>
               </TableRow>
             )}
+            <Separator />
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-end space-x-2 py-4 pr-8">
         <Button
           variant="outline"
           size="sm"
           onClick={function () {
             table.previousPage();
-            setCurrentPage(
-              currentPage - 1
-            );
+            setCurrentPage(currentPage - 1);
           }}
           disabled={!table.getCanPreviousPage()}
         >
@@ -162,9 +167,7 @@ function DataTable<TData, TValue>({ data, columns }: TableProps<TData, TValue>) 
           size="sm"
           onClick={function () {
             table.nextPage();
-            setCurrentPage(
-              currentPage + 1
-            )
+            setCurrentPage(currentPage + 1);
           }}
           disabled={!table.getCanNextPage()}
         >
