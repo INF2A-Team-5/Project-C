@@ -25,6 +25,7 @@ import { MoreHorizontal } from "lucide-react";
 import { Card } from "../ui/card";
 import { Separator } from "../ui/separator";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL, getBaseQueryRequest, putBaseMutateRequest } from "@/lib/api";
 
 interface TableProps {
   data: { [key: string]: any }[];
@@ -95,11 +96,6 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
     ticket.employee_Id = 1 // moet nog ff uitgezocht worden en pagina moet nu gereload worden iedere keer
     await fetch(
       API_BASE_URL + "/api/Tickets/" + ticket.ticketId, putBaseMutateRequest(JSON.stringify(ticket))
-
-
-
-
-
 
     );
     console.log(ticket);

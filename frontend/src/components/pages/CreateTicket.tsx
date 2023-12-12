@@ -87,8 +87,8 @@ function Tickets() {
   async function getData() {
     let machinelist = await fetch(
       API_BASE_URL +
-        "/GetMachinesPerAccount?accountId=" +
-        localStorage.getItem("Id"),
+      "/GetMachinesPerAccount?accountId=" +
+      localStorage.getItem("Id"),
       getBaseQueryRequest(),
     ).then((data) => data.json());
 

@@ -16,6 +16,8 @@ import {
 } from "@/lib/api";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { Toaster } from "../ui/toaster";
+import { use } from "i18next";
+import { toast } from "../ui/use-toast";
 
 function EditTicket() {
   useAuthenticated();
@@ -31,6 +33,7 @@ function EditTicket() {
   const ticketid = localStorage.getItem("currentticket");
   const [showTicketInfo, setShowTicketInfo] = useState(false);
   const [isClient, setIsClient] = useState<boolean>(false);
+  const [solution, setSolution] = useState("");
 
   useEffect(() => {
     CheckAccount();
@@ -155,27 +158,38 @@ function EditTicket() {
       getBaseQueryRequest(),
     ).then((data) => data.json());
 
-    currentticket.status = "Closed";
-    try {
-      const response = await fetch(
-        API_BASE_URL +
+    if (solution.length != 0) {
+      currentticket.status = "Closed";
+      currentticket.solution = solution;
+      console.log(currentticket);
+      try {
+        const response = await fetch(
+          API_BASE_URL +
           "/api/tickets/" +
-          ticketid +
+          currentticket.ticketId +
           putBaseMutateRequest(JSON.stringify(currentticket)),
-      );
-
-      if (!response.ok) {
-        const errorResponse = await response.text(); // Capture response content
-        throw new Error(
-          `HTTP error! Status: ${response.status
-          }. Error message: ${JSON.stringify(errorResponse)}`,
         );
+
+        if (!response.ok) {
+          const errorResponse = await response.text(); // Capture response content
+          throw new Error(
+            `HTTP error! Status: ${response.status
+            }. Error message: ${JSON.stringify(errorResponse)}`,
+          );
+        }
+        alert("Ticket closed");
+        navigate(-1);
+        // If needed, you can handle the response data here
+      } catch (error) {
+        console.error("Error during PUT request:", error);
       }
-      alert("Ticket closed");
-      navigate(-1);
-      // If needed, you can handle the response data here
-    } catch (error) {
-      console.error("Error during PUT request:", error);
+    }
+    else {
+      toast({
+        variant: "destructive",
+        title: "Error! Something went wrong.",
+        description: "You need to enter a solution if you want to close the ticket",
+      });
     }
   }
 
@@ -226,7 +240,7 @@ function EditTicket() {
             Give us a detailed description on what you want to update the ticket
             with
           </TextareaHint>
-          
+
 
         </div>
         <div className="grid gap-2">
@@ -266,38 +280,38 @@ function EditTicket() {
         {/* <Button variant='destructive'  onClick={HandleSubmit}>{t('editticket.submit')}</Button>
         <Button variant='destructive'  onClick={HandleCancel}>{t('editticket.cancel')}</Button> */}
         <div>
-        <Dialog>
-        <DialogTrigger asChild>
-        {isClient ? null : <Button className="w-fit" variant="destructive">
-            Close ticket
-          </Button>}
-        </DialogTrigger>
+          <Dialog>
+            <DialogTrigger asChild>
+              {isClient ? null : <Button className="w-fit" variant="destructive">
+                Close ticket
+              </Button>}
+            </DialogTrigger>
 
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Fill in solution</DialogTitle>
-          </DialogHeader>
-          <DialogDescription>
-          <h2 className="text-lg font-medium">Add solution</h2>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Fill in solution</DialogTitle>
+              </DialogHeader>
+              <DialogDescription>
+                <h2 className="text-lg font-medium">Add solution</h2>
 
-          {/* <Textarea placeholder={t('editticket.notes2')} onChange={(e: any) => setNotes(e.currentTarget.value)}></Textarea> */}
-          {/* <p className='text-md text-grey-900 '>{t('editticket.description')}</p> */}
-          <Textarea
-            placeholder="Still does not work because..."
-            onChange={(e: any) => setNotes(e.currentTarget.value)}
-          ></Textarea>
-          <TextareaHint>
-            Give us a detailed description on what was the solution of fixing the ticket
-          </TextareaHint>
-          </DialogDescription>
-          <DialogFooter>
-            <DialogClose>
-              <Button variant="outline">Submit</Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-      <Toaster />
+                {/* <Textarea placeholder={t('editticket.notes2')} onChange={(e: any) => setNotes(e.currentTarget.value)}></Textarea> */}
+                {/* <p className='text-md text-grey-900 '>{t('editticket.description')}</p> */}
+                <Textarea
+                  placeholder="Fixed this and this"
+                  onChange={(e: any) => setSolution(e.currentTarget.value)}
+                ></Textarea>
+                <TextareaHint>
+                  Give us a detailed description on what was the solution of fixing the ticket
+                </TextareaHint>
+              </DialogDescription>
+              <DialogFooter>
+                <DialogClose>
+                  <Button variant="outline" onClick={CloseTicket}>Submit</Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+          <Toaster />
           <Button variant="default" onClick={HandleSubmit}>
             Submit
           </Button>
