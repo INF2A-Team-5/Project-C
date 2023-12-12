@@ -123,7 +123,7 @@ function DataTable<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <TableRow data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell>
+                    <TableCell className="max-w-sm">
                       <div className="ml-4">
                         {flexRender(
                           cell.column.columnDef.cell,
