@@ -54,8 +54,8 @@ function DataTable<TData, TValue>({ data, columns }: TableProps<TData, TValue>) 
     const user = await fetch(
       API_BASE_URL +
       "/api/Accounts/" +
-      localStorage.getItem("Id") +
-      getBaseQueryRequest,
+      localStorage.getItem("Id"),
+      getBaseQueryRequest(),
     ).then((data) => data.json());
 
     // const user = await fetch(`http://localhost:5119/api/Accounts/${localStorage.getItem("Id")}`, {
@@ -89,8 +89,8 @@ function DataTable<TData, TValue>({ data, columns }: TableProps<TData, TValue>) 
         };
 
         await fetch(
-          API_BASE_URL + "/api/Tickets/" + temp.TicketId + putBaseMutateRequest,
-          { body: JSON.stringify(temp) },
+          API_BASE_URL + "/api/Tickets/" + temp.TicketId, putBaseMutateRequest(JSON.stringify(temp)),
+          // { body:  },
         );
 
         // await fetch("http://localhost:5119/api/Tickets/" + temp.TicketId,
