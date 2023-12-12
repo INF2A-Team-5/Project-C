@@ -86,33 +86,24 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
   };
 
   async function viewticket(id: number) {
-    alert(id)
+    alert(id);
   }
 
-  async function AssignTicket(ticket: any)
-  {
-    ticket.employee_Id = 1 // moet nog ff uitgezocht worden en pagina moet nu gereload worden iedere keer
+  async function AssignTicket(ticket: any) {
+    ticket.employee_Id = 1; // moet nog ff uitgezocht worden en pagina moet nu gereload worden iedere keer
     await fetch(
-      API_BASE_URL + "/api/Tickets/" + ticket.ticketId, putBaseMutateRequest(JSON.stringify(ticket))
-
-
-
-
-
-
+      API_BASE_URL + "/api/Tickets/" + ticket.ticketId,
+      putBaseMutateRequest(JSON.stringify(ticket)),
     );
     console.log(ticket);
-    console.log("Assigned employee to ticket")
+    console.log("Assigned employee to ticket");
   }
 
   async function handleButtonClick(ticket: any) {
     const user = await fetch(
-      API_BASE_URL +
-        "/api/Accounts/" +
-        localStorage.getItem("Id"),
-        getBaseQueryRequest(),
+      API_BASE_URL + "/api/Accounts/" + localStorage.getItem("Id"),
+      getBaseQueryRequest(),
     ).then((data) => data.json());
-
 
     if (user.class == "Admin" || user.class == "ServiceEmployee") {
       if (ticket.assigned_Id == null || ticket.assigned_Id == 0) {
@@ -136,9 +127,9 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
         };
 
         await fetch(
-          API_BASE_URL + "/api/Tickets/" + temp.TicketId, putBaseMutateRequest(JSON.stringify(temp))
+          API_BASE_URL + "/api/Tickets/" + temp.TicketId,
+          putBaseMutateRequest(JSON.stringify(temp)),
         );
-
 
         localStorage.setItem("currentticket", ticket.ticketId.toString());
         window.location.href = "edit-ticket";
@@ -147,7 +138,6 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
       }
 
       // Navigate to page were you can see ticket info
-
     }
   }
 
@@ -197,9 +187,14 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem>View customer</DropdownMenuItem>
-                      { localStorage.getItem("Class") == "ServiceEmployee" || localStorage.getItem("Class") == "Admin" ? 
-                        <DropdownMenuItem onClick={() => AssignTicket(currentData[rowIndex])}>Assign Ticket</DropdownMenuItem> : null
-                      }
+                      {localStorage.getItem("Class") == "ServiceEmployee" ||
+                      localStorage.getItem("Class") == "Admin" ? (
+                        <DropdownMenuItem
+                          onClick={() => AssignTicket(currentData[rowIndex])}
+                        >
+                          Assign Ticket
+                        </DropdownMenuItem>
+                      ) : null}
                       {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
                       <DropdownMenuItem>View payment details</DropdownMenuItem>
                     </DropdownMenuContent>
