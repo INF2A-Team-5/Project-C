@@ -30,23 +30,14 @@ function Admin() {
 
   const [AssignedTickets, SetAssignedTickets] = useState<Ticket[]>([]);
   const [AllTickets, SetAllTickets] = useState<Ticket[]>([]);
-  const [LoadMachines, SetMachines] = useState<Boolean>(false);
+  const [LoadData, SetData] = useState<Boolean>(false);
   const [AllMachines, SetAllMachines] = useState<Machine[]>([]);
   const [AllAccounts, SetAllAccounts] = useState<Account[]>([]);
   const [AllDepartments, SetAllDepartments] = useState<Department[]>([]);
 
-  if (AllTickets.length == 0) {
+  if (LoadData == false) {
     GetData();
-  }
-  if (LoadMachines == false) {
-    GetAllMachines();
     SetMachines(true);
-  }
-  if (AllAccounts.length == 0) {
-    GetAllAccounts();
-  }
-  if (AllDepartments.length == 0) {
-    GetAllDepartments();
   }
 
   async function GetData() {
@@ -57,8 +48,6 @@ function Admin() {
         getBaseQueryRequest(),
       ).then((data) => data.json()),
     );
-  }
-  async function GetAssignedData() {
     SetAssignedTickets(
       await fetch(
         API_BASE_URL +
@@ -67,24 +56,15 @@ function Admin() {
         getBaseQueryRequest(),
       ).then((data) => data.json()),
     );
-  }
-
-  async function GetAllMachines() {
-    SetAllMachines(
+      SetAllMachines(
       await fetch(API_BASE_URL + "/api/Machines", getBaseQueryRequest())
         .then((data) => data.json())
     );
-  }
-
-  async function GetAllAccounts() {
-    SetAllAccounts(
+        SetAllAccounts(
       await fetch(API_BASE_URL + "/api/Accounts", getBaseQueryRequest())
         .then((data) => data.json())
     );
-  }
-
-  async function GetAllDepartments() {
-    SetAllDepartments(
+        SetAllDepartments(
       await fetch(API_BASE_URL + "/api/Departments", getBaseQueryRequest())
         .then((data) => data.json())
     );
