@@ -53,8 +53,7 @@ function Admin() {
     SetAllTickets(
       await fetch(
         API_BASE_URL +
-        "/GetTicketByDepartment?AccountId=" +
-        localStorage.getItem("Id"),
+        "/api/tickets",
         getBaseQueryRequest(),
       ).then((data) => data.json()),
     );
