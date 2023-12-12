@@ -19,41 +19,43 @@ import Table from "../foundations/table";
 import { useState } from "react";
 import { DataRow } from "@/services/DataRow";
 import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
+import { Machine } from "@/services/Machine";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 
 function Client() {
+  useAuthenticated();
   const [Tickets, SetTickets] = useState<DataRow[]>([]);
-  // console.log(Tickets);
-  if (Tickets.length == 0) {
+  const [Machines, setMachines] = useState<Machine[]>([]);
+  const [LoadData, SetData] = useState<Boolean>(false);
+
+
+  if (LoadData == false) {
     GetData();
+    getMachines();
+    SetData(true);
   }
 
+  async function getMachines() {
+    setMachines( await fetch(
+      API_BASE_URL +
+        "/GetMachinesPerAccount?accountId=" +
+        localStorage.getItem("Id"),
+      getBaseQueryRequest(),
+    ).then((data) => data.json()));
+  }
+  
   async function GetData() {
     SetTickets(
-      // await fetch(API_BASE_URL + "/api/tickets/" + getBaseQueryRequest)
-      //   .then((data) => data.json())
-      //   .then((tickets) =>
-      //     tickets.filter(
-      //       (client: any) => client.customer_Id == localStorage.getItem("Id"),
-      //     ),
-      //   ),
-
-      await fetch("http://localhost:5119/api/tickets/", {
-        method: "GET",
-        headers: {
-          Authorization: "bearer " + localStorage.getItem("Token"),
-          "Content-Type": "application/json",
-        },
-      })
+      await fetch(API_BASE_URL + "/api/tickets/", getBaseQueryRequest())
         .then((data) => data.json())
         .then((tickets) =>
           tickets.filter(
-            (client: any) => client.customer_Id == localStorage.getItem("Id")
-          )
-        )
+            (client: any) => client.customer_Id == localStorage.getItem("Id"),
+          ),
+        ),
     );
   }
 
-  useAuthenticated();
   return (
     <div className="px-24 text-left">
       <Settings></Settings>
@@ -62,23 +64,55 @@ function Client() {
       </div>
       <h1 className="text-4xl font-medium">Client</h1>
       <Separator className="my-4" />
-      {/* <Tablea></Tablea> */}
+      <Tabs defaultValue="tickets">
+        <TabsList>
+          <TabsTrigger value="tickets">Tickets</TabsTrigger>
+          <TabsTrigger value="machines">Machines</TabsTrigger>
+          </TabsList>
+          <TabsContent value="tickets">
+            <Table
+                    data={Tickets}
+                    displayColumns={["ID", "Title", "Priority", "Date", "Status", ""]}
+                    dataColumns={[
+                      "ticketId",
+                      "Title",
+                      "priority",
+                      "date_Created",
+                      "status",
+                    ]}
+                  />
+          </TabsContent>
+          <TabsContent value="machines">
+              <Table
+                displayColumns={[
+                  "ID",
+                  "Name",
+                  "Description",
+                  "Options",
+                ]}
+                data={Machines}
+                dataColumns={[
+                  "machineId",
+                  "name",
+                  "description",
+                ]}
+              />
+            </TabsContent>
+      </Tabs>
+      
+      {/* public class Machine
+    {
+        public int MachineId { get; set; }
+        public string Name { get; set; } = null! ;
+        public string Description {get; set;} = null !;
+        public int? AccountId {get; set;}
+        public string? Solution {get; set; } = null; 
+        public int DepartmentId {get; set; }
+    } */}
 
 
-      <Table data={Tickets} displayColumns={[
-        "ID",
-        "Title",
-        "Priority",
-        "Date",
-        "Status",
-        "",
-      ]} dataColumns={[
-        "ticketId",
-        "Title",
-        "priority",
-        "date_Created",
-        "status",
-      ]} />
+
+
 
       <Dialog>
         <DialogTrigger asChild>

@@ -23,16 +23,18 @@ export const getBaseQueryRequest = (): RequestInit => {
   };
 };
 
-export const postBaseMutateRequest = (): RequestInit => {
+export const postBaseMutateRequest = (item : string): RequestInit => {
   return {
     method: "POST",
     ...baseRequest,
+    body: item ,
   };
 };
 
-export const putBaseMutateRequest = (): RequestInit => {
+export const putBaseMutateRequest = (item: string): RequestInit => {
   return {
     method: "PUT",
     ...baseRequest,
+    body: item,
   };
 };

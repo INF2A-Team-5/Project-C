@@ -87,17 +87,33 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
     setCurrentPage(newPage);
   };
 
-  async function handleAssignTicket(ticket: any) {
+  async function viewticket(id: number) {
+    alert(id)
+  }
+
+  async function AssignTicket(ticket: any) {
+    ticket.employee_Id = 1 // moet nog ff uitgezocht worden en pagina moet nu gereload worden iedere keer
+    await fetch(
+      API_BASE_URL + "/api/Tickets/" + ticket.ticketId, putBaseMutateRequest(JSON.stringify(ticket))
+
+
+
+
+
+
+    );
+    console.log(ticket);
+    console.log("Assigned employee to ticket")
+  }
+
+  async function handleButtonClick(ticket: any) {
     const user = await fetch(
-      `http://localhost:5119/api/Accounts/${localStorage.getItem("Id")}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "bearer " + localStorage.getItem("Token"),
-        },
-      }
-    ).then((res) => res.json());
+      API_BASE_URL +
+      "/api/Accounts/" +
+      localStorage.getItem("Id"),
+      getBaseQueryRequest(),
+    ).then((data) => data.json());
+
 
     if (user.class == "Admin" || user.class == "ServiceEmployee") {
       if (ticket.assigned_Id == null || ticket.assigned_Id == 0) {
@@ -120,14 +136,10 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
           files: ticket.files,
         };
 
-        await fetch("http://localhost:5119/api/Tickets/" + temp.TicketId, {
-          method: "PUT",
-          headers: {
-            Authorization: "bearer " + localStorage.getItem("Token"),
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(temp),
-        });
+        await fetch(
+          API_BASE_URL + "/api/Tickets/" + temp.TicketId, putBaseMutateRequest(JSON.stringify(temp))
+        );
+
 
         localStorage.setItem("currentticket", ticket.ticketId.toString());
         window.location.href = "edit-ticket";
