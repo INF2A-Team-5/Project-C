@@ -6,6 +6,7 @@ import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Machine } from "./Machine";
 import { Account } from "./Account";
 import { Department } from "./Department";
+import { ArrowDownIcon, ArrowUpIcon, CaretSortIcon } from "@radix-ui/react-icons";
 
 async function AssignTicket(ticket: any) {
   ticket.employee_Id = 1 // moet nog ff uitgezocht worden en pagina moet nu gereload worden iedere keer
@@ -33,8 +34,14 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          ID
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
         </Button>
       )
     },
@@ -48,7 +55,13 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Title
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
         </Button>
       )
     },
@@ -62,7 +75,13 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Priority
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
         </Button>
       )
     },
@@ -76,7 +95,13 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Date
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
         </Button>
       )
     },
@@ -90,7 +115,13 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Status
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
         </Button>
       )
     },
@@ -137,7 +168,13 @@ export const machineColumns: ColumnDef<Machine>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           ID
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
         </Button>
       )
     },
@@ -151,7 +188,13 @@ export const machineColumns: ColumnDef<Machine>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
         </Button>
       )
     },
@@ -165,7 +208,13 @@ export const machineColumns: ColumnDef<Machine>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Description
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
         </Button>
       )
     },
@@ -182,8 +231,13 @@ export const accountColumns: ColumnDef<Account>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           ID
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}        </Button>
       )
     },
   },
@@ -196,7 +250,13 @@ export const accountColumns: ColumnDef<Account>[] = [
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
         </Button>
       )
     },
@@ -209,7 +269,13 @@ export const accountColumns: ColumnDef<Account>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
           Phone number
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
         </Button>
       )
     },
@@ -225,7 +291,13 @@ export const departmentColumns: ColumnDef<Department>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
           ID
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
         </Button>
       )
     },
@@ -238,7 +310,13 @@ export const departmentColumns: ColumnDef<Department>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
           Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
         </Button>
       )
     },
