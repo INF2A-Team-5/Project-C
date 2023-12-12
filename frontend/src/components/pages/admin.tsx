@@ -37,7 +37,7 @@ function Admin() {
 
   if (LoadData == false) {
     GetData();
-    SetMachines(true);
+    SetData(true);
   }
 
   async function GetData() {
