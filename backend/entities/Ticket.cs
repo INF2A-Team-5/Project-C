@@ -12,7 +12,7 @@ public class Ticket
     public string Problem { get; set; } = null!;
     public string HaveTried { get; set; } = null!;
     public string MustBeDoing { get; set; } = null!;
-    public DateTime Date_Created { get; set; }
+    public string Date_Created { get; set; }
     public string? Solution { get; set; }
     public string? PhoneNumber { get; set; }
     public string? Notes { get; set; }

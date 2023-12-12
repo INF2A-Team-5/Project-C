@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231211155627_peer5jihubkrtegsyt")]
-    partial class peer5jihubkrtegsyt
+    [Migration("20231212153243_latestMigration")]
+    partial class latestMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -158,8 +158,9 @@ namespace backend.Migrations
                     b.Property<int>("Customer_Id")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Date_Created")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<string>("Date_Created")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int?>("Employee_Id")
                         .HasColumnType("integer");
