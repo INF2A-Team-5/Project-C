@@ -30,23 +30,17 @@ function serviceEmployee() {
   const [AllTickets, SetAllTickets] = useState<Ticket[]>([]);
   const [AssignedTickets, SetAssignedTickets] = useState<Ticket[]>([]);
   const [Account, SetAccount] = useState();
-  const [LoadTicket, SetTickets] = useState<Boolean>(false);
-  const [LoadMachines, SetMachines] = useState<Boolean>(false);
+  const [LoadData, SetData] = useState<Boolean>(false);
   const [AllMachines, SetAllMachines] = useState<Machine[]>([]);
 
-  if (LoadTicket == false) {
-    GetAssignedData();
+  if (LoadData == false) {
     GetAllData();
     SetTickets(true);
   }
   if (Account == undefined) {
     GetAccount();
   }
-  if (LoadMachines == false) {
-    GetAllMachines();
-    SetMachines(true);
-  }
-
+  
   async function GetAccount() {
     SetAccount(
       await fetch(
@@ -65,10 +59,7 @@ function serviceEmployee() {
         getBaseQueryRequest(),
       ).then((data) => data.json()),
     );
-  }
-
-  async function GetAssignedData() {
-    SetAssignedTickets(
+      SetAssignedTickets(
       await fetch(
         API_BASE_URL +
         "/GetAssignedTickets?AccountId=" +
@@ -76,16 +67,11 @@ function serviceEmployee() {
         getBaseQueryRequest(),
       ).then((data) => data.json()),
     );
-  }
-
-  async function GetAllMachines() {
-    SetAllMachines(
+      SetAllMachines(
       await fetch(API_BASE_URL + "/api/Machines", getBaseQueryRequest())
         .then((data) => data.json())
     );
   }
-
-  console.log(AllMachines);
 
   return (
     <div className="px-24 text-left">

@@ -183,7 +183,7 @@ function Tickets() {
             hour: '2-digit',
             minute: '2-digit',
             second: '2-digit',
-          }).replace(',', ''),
+          }).replace(',', '').replace('/', '-').replace('/', '-'),
           Problem: problem,
           MustBeDoing: mustbedoing,
           HaveTried: havetried,
