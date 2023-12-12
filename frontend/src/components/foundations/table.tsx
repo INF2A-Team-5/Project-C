@@ -102,10 +102,10 @@ function DataTable<TData, TValue>({ data, columns }: TableProps<TData, TValue>) 
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -122,11 +122,10 @@ function DataTable<TData, TValue>({ data, columns }: TableProps<TData, TValue>) 
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
