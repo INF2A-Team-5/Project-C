@@ -21,6 +21,16 @@ function EditAccount() {
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const phoneRegex: RegExp = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+
+  const navigate = useNavigate();
+  const goBack = () => {
+    navigate(-1);
+  };
+
+  function validatePhone() {
+    return phoneRegex.test(phone);
+  }
 
   async function handlePhoneSubmit() {
     setIsLoading(true);
@@ -32,22 +42,28 @@ function EditAccount() {
     .then((data) => data.json())
     .then((accounts) => accounts.find((acc: any) => acc.accountId == localStorage.getItem("Id")));
     
-    currentaccount.phoneNumber = phone;
+    if (validatePhone() == true) {
+      currentaccount.phoneNumber = phone;
 
-    console.log(currentaccount);
+      await fetch(
+        API_BASE_URL + "/api/accounts/" + localStorage.getItem("Id"),
+        putBaseMutateRequest(JSON.stringify(currentaccount),),
+      )
 
-    await fetch(
-      API_BASE_URL + "/api/accounts/" + localStorage.getItem("Id"),
-      putBaseMutateRequest(JSON.stringify(currentaccount),),
-    )
-
-    toast({
-      variant: "default",
-      title: "Succes!",
-      description: "Phone number changed succesfully.",
-    });
-
-    setIsLoading(false);
+      toast({
+        variant: "default",
+        title: "Succes!",
+        description: "Phone number changed succesfully.",
+      });
+      setIsLoading(false);
+    } else{
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Phone number is not valid.",
+      });
+      setIsLoading(false);
+    }
   }
 
   async function handleSubmit() {
@@ -94,10 +110,6 @@ function EditAccount() {
 
     // need accounts to be connected to current user so i can change the phone number of the current user
   }
-  const navigate = useNavigate();
-  const goBack = () => {
-    navigate(-1);
-  };
   return (
     <div className="px-24 text-left">
       <Settings></Settings>

@@ -1,7 +1,6 @@
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import React from "react";
 import {
   Select,
@@ -24,7 +23,6 @@ function AddAccount() {
   const [confirmpassword, setconfirmPassword] = useState("");
   const [userType, setUserType] = useState("Client");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const navigate = useNavigate();
 
   const usernameRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
