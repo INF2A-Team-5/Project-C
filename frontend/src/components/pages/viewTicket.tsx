@@ -166,7 +166,7 @@ function ViewTicket() {
         const response = await fetch(
           API_BASE_URL +
           "/api/tickets/" +
-          currentticket.ticketId +
+          currentticket.ticketId,
           putBaseMutateRequest(JSON.stringify(currentticket)),
         );
 
