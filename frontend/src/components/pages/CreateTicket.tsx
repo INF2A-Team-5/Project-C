@@ -87,8 +87,8 @@ function Tickets() {
   async function getData() {
     let machinelist = await fetch(
       API_BASE_URL +
-        "/GetMachinesPerAccount?accountId=" +
-        localStorage.getItem("Id"),
+      "/GetMachinesPerAccount?accountId=" +
+      localStorage.getItem("Id"),
       getBaseQueryRequest(),
     ).then((data) => data.json());
 
@@ -174,7 +174,7 @@ function Tickets() {
           Machine_Id: selectMachine.split("Id: ")[1],
           Customer_Id: account,
           Title: title,
-          Priority: "unknown",
+          Priority: "Not Set",
           Status: "Open",
           Date_Created: new Date()
             .toLocaleString("en-GB", {
