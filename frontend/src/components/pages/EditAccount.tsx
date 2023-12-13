@@ -39,7 +39,7 @@ function EditAccount() {
     await fetch(
       API_BASE_URL + "/api/accounts/" + localStorage.getItem("Id"),
       putBaseMutateRequest(JSON.stringify(currentaccount),),
-    ).then((response) => response.json());
+    )
 
     toast({
       variant: "default",
