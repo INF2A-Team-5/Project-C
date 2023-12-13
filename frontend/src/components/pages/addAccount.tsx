@@ -2,6 +2,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import React from "react";
 import {
   Select,
   SelectContent,
@@ -24,6 +25,27 @@ function AddAccount() {
   const [userType, setUserType] = useState("Client");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  const usernameRef = React.useRef<HTMLInputElement>(null);
+  const passwordRef = React.useRef<HTMLInputElement>(null);
+  const confirmpasswordRef = React.useRef<HTMLInputElement>(null);
+  const userTypeRef = React.useRef<HTMLInputElement>(null);
+  
+  const handleEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+
+      if (event.currentTarget === usernameRef.current) {
+        passwordRef.current?.focus();
+      } else if (event.currentTarget === passwordRef.current) {
+        confirmpasswordRef.current?.focus();
+      } else if (event.currentTarget === confirmpasswordRef.current) {
+        userTypeRef.current?.focus();
+      } else if (event.currentTarget === userTypeRef.current) {
+        handleSubmit();
+      }
+    }
+  };
 
   async function handleSubmit() {
     setIsLoading(true);
@@ -90,15 +112,28 @@ function AddAccount() {
   return (
     <div className="grid gap-2">
       <Input
-        placeholder="Enter Username"
+        ref={usernameRef}
+        name="username"
+        placeholder="Username"
+        onKeyDown={handleEnter}
         onChange={(e) => setUsername(e.currentTarget.value)}
       />
       <Input
-        placeholder="Enter Password"
+        ref={passwordRef}
+        name="password"
+        placeholder="Password"
+        type="password"
+        onKeyDown={handleEnter}
+        // ●●●●●●●● als je circels wilt
         onChange={(e) => setPassword(e.currentTarget.value)}
       />
       <Input
+        ref={confirmpasswordRef}
+        name="confirm password"
         placeholder="Confirm Password"
+        type="password"
+        onKeyDown={handleEnter}
+        // ●●●●●●●● als je circels wilt
         onChange={(e) => setconfirmPassword(e.currentTarget.value)}
       />
       <Select value={userType} onValueChange={(value) => setUserType(value)}>

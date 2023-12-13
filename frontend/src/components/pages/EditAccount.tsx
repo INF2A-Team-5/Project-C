@@ -7,6 +7,7 @@ import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import Header from "../foundations/header";
 import { Separator } from "../ui/separator";
 import { Label } from "../ui/label";
+import { toast } from "../ui/use-toast";
 import { Icons } from "../foundations/icons";
 import {
   API_BASE_URL,
@@ -21,6 +22,34 @@ function EditAccount() {
   const [confirmPass, setConfirmPass] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  async function handlePhoneSubmit() {
+    setIsLoading(true);
+
+    let currentaccount = await fetch(
+      API_BASE_URL + "/api/accounts/",
+      getBaseQueryRequest(),
+    )
+    .then((data) => data.json())
+    .then((accounts) => accounts.find((acc: any) => acc.accountId == localStorage.getItem("Id")));
+    
+    currentaccount.phoneNumber = phone;
+
+    console.log(currentaccount);
+
+    await fetch(
+      API_BASE_URL + "/api/accounts/" + localStorage.getItem("Id"),
+      putBaseMutateRequest(JSON.stringify(currentaccount),),
+    ).then((response) => response.json());
+
+    toast({
+      variant: "default",
+      title: "Succes!",
+      description: "Phone number changed succesfully.",
+    });
+
+    setIsLoading(false);
+  }
+
   async function handleSubmit() {
     setIsLoading(true);
 
@@ -30,7 +59,11 @@ function EditAccount() {
     ).then((data) => data.json());
 
     if (password !== confirmPass) {
-      alert("password and confirm password need to match");
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Password and confirmed password need to match.",
+      });
       setIsLoading(false);
     } else {
       const data = {
@@ -38,12 +71,19 @@ function EditAccount() {
         name: currentaccount.name,
         password: password,
         class: currentaccount.class,
+        phoneNumber: currentaccount.phoneNumber,
       };
 
       await fetch(
         API_BASE_URL + "/api/accounts/" + localStorage.getItem("Id"),
         putBaseMutateRequest(JSON.stringify(data)),
-      );
+      ).then((response) => response.json());
+
+      toast({
+        variant: "default",
+        title: "Succes!",
+        description: "Password changed successfully.",
+      });
 
       setIsLoading(false);
     }
@@ -75,7 +115,7 @@ function EditAccount() {
             placeholder="Enter Phone Number"
             onChange={(e) => setPhone(e.currentTarget.value)}
           />
-          <Button className="w-fit" onClick={handleSubmit} disabled={isLoading}>
+          <Button className="w-fit" onClick={handlePhoneSubmit} disabled={isLoading}>
             {isLoading ? (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             ) : null}
