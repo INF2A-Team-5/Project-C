@@ -12,6 +12,7 @@ import {
   getBaseQueryRequest,
   putBaseMutateRequest,
 } from "@/lib/api";
+import { ComboboxDemo } from "../ui/combobox";
 
 function AddMachineSolution() {
   useAuthenticated();
@@ -94,9 +95,9 @@ function AddMachineSolution() {
 
   return (
     <div className="grid gap-2">
-      <Input
-        placeholder="Enter Machine Name"
-        onChange={(e) => SetName(e.currentTarget.value)}
+      <ComboboxDemo 
+        //get selected machine name
+        
       />
       <Textarea
         placeholder="Describe solution"
