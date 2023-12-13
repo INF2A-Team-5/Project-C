@@ -9,6 +9,7 @@ import { Separator } from "../ui/separator";
 import { Label } from "../ui/label";
 import { toast } from "../ui/use-toast";
 import { Icons } from "../foundations/icons";
+import { useEffect } from "react";
 import {
   API_BASE_URL,
   getBaseQueryRequest,
@@ -22,6 +23,20 @@ function EditAccount() {
   const [confirmPass, setConfirmPass] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const phoneRegex: RegExp = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+  const [phonePlaceholder, setPhonePlaceholder] = useState("");
+
+  useEffect(() => {
+    async function fetchPhoneStatus() {
+      const phoneStatus = await hasPhoneConnected();
+      setPhonePlaceholder(phoneStatus);
+    }
+
+    fetchPhoneStatus();
+
+    return () => {
+      // cleanup
+    };
+  }, []);
 
   const navigate = useNavigate();
   const goBack = () => {
@@ -30,6 +45,21 @@ function EditAccount() {
 
   function validatePhone() {
     return phoneRegex.test(phone);
+  }
+
+  async function hasPhoneConnected() : Promise<string>{
+    let currentaccount = await fetch(
+      API_BASE_URL + "/api/accounts/",
+      getBaseQueryRequest(),
+    )
+    .then((data) => data.json())
+    .then((accounts) => accounts.find((acc: any) => acc.accountId == localStorage.getItem("Id")));
+    
+    if (currentaccount.phoneNumber == null) {
+      return "Enter Phone Number";
+    } else {
+      return "Current Phone Number: " + currentaccount.phoneNumber;
+    }
   }
 
   async function handlePhoneSubmit() {
@@ -72,8 +102,10 @@ function EditAccount() {
     let currentaccount = await fetch(
       API_BASE_URL + "/api/accounts/",
       getBaseQueryRequest(),
-    ).then((data) => data.json());
-
+    )
+    .then((data) => data.json())
+    .then((accounts) => accounts.find((acc: any) => acc.accountId == localStorage.getItem("Id")));
+    
     if (password !== confirmPass) {
       toast({
         variant: "destructive",
@@ -82,18 +114,12 @@ function EditAccount() {
       });
       setIsLoading(false);
     } else {
-      const data = {
-        accountId: localStorage.getItem("Id"),
-        name: currentaccount.name,
-        password: password,
-        class: currentaccount.class,
-        phoneNumber: currentaccount.phoneNumber,
-      };
+      currentaccount.password = password;
 
       await fetch(
         API_BASE_URL + "/api/accounts/" + localStorage.getItem("Id"),
-        putBaseMutateRequest(JSON.stringify(data)),
-      ).then((response) => response.json());
+        putBaseMutateRequest(JSON.stringify(currentaccount)),
+      )
 
       toast({
         variant: "default",
@@ -104,11 +130,6 @@ function EditAccount() {
       setIsLoading(false);
     }
 
-    //add logic to check if new password and confirm password are the same, maybe also not the same as the old password
-
-    // also need another function for changing phone number
-
-    // need accounts to be connected to current user so i can change the phone number of the current user
   }
   return (
     <div className="px-24 text-left">
@@ -124,7 +145,7 @@ function EditAccount() {
           <h2>Change Phone Number</h2>
           <Input
             name="username"
-            placeholder="Enter Phone Number"
+            placeholder={phonePlaceholder}
             onChange={(e) => setPhone(e.currentTarget.value)}
           />
           <Button className="w-fit" onClick={handlePhoneSubmit} disabled={isLoading}>
@@ -139,11 +160,13 @@ function EditAccount() {
           <Input
             name="password"
             placeholder="Enter New Password"
+            type="password"
             onChange={(e) => setPassword(e.currentTarget.value)}
           />
           <Input
             name="password"
             placeholder="Confirm New Password"
+            type="password"
             onChange={(e) => setConfirmPass(e.currentTarget.value)}
           />
           <Button className="w-fit" onClick={handleSubmit} disabled={isLoading}>
