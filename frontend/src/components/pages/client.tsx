@@ -17,14 +17,15 @@ import Header from "../foundations/header";
 import { Separator } from "../ui/separator";
 import Table from "../foundations/table";
 import { useState } from "react";
-import { DataRow } from "@/services/DataRow";
+import { Ticket } from "@/services/Ticket";
 import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
 import { Machine } from "@/services/Machine";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { machineColumns, ticketColumns } from "@/services/Columns";
 
 function Client() {
   useAuthenticated();
-  const [Tickets, SetTickets] = useState<DataRow[]>([]);
+  const [Tickets, SetTickets] = useState<Ticket[]>([]);
   const [Machines, setMachines] = useState<Machine[]>([]);
   const [LoadData, SetData] = useState<Boolean>(false);
 
@@ -36,14 +37,14 @@ function Client() {
   }
 
   async function getMachines() {
-    setMachines( await fetch(
+    setMachines(await fetch(
       API_BASE_URL +
-        "/GetMachinesPerAccount?accountId=" +
-        localStorage.getItem("Id"),
+      "/GetMachinesPerAccount?accountId=" +
+      localStorage.getItem("Id"),
       getBaseQueryRequest(),
     ).then((data) => data.json()));
   }
-  
+
   async function GetData() {
     SetTickets(
       await fetch(API_BASE_URL + "/api/tickets/", getBaseQueryRequest())
@@ -68,52 +69,14 @@ function Client() {
         <TabsList>
           <TabsTrigger value="tickets">Tickets</TabsTrigger>
           <TabsTrigger value="machines">Machines</TabsTrigger>
-          </TabsList>
-          <TabsContent value="tickets">
-            <Table
-                    data={Tickets}
-                    displayColumns={["ID", "Title", "Priority", "Date", "Status", ""]}
-                    dataColumns={[
-                      "ticketId",
-                      "Title",
-                      "priority",
-                      "date_Created",
-                      "status",
-                    ]}
-                  />
-          </TabsContent>
-          <TabsContent value="machines">
-              <Table
-                displayColumns={[
-                  "ID",
-                  "Name",
-                  "Description",
-                  "Options",
-                ]}
-                data={Machines}
-                dataColumns={[
-                  "machineId",
-                  "name",
-                  "description",
-                ]}
-              />
-            </TabsContent>
+        </TabsList>
+        <TabsContent value="tickets">
+          <Table data={Tickets} columns={ticketColumns} />
+        </TabsContent>
+        <TabsContent value="machines">
+          <Table data={Machines} columns={machineColumns} />
+        </TabsContent>
       </Tabs>
-      
-      {/* public class Machine
-    {
-        public int MachineId { get; set; }
-        public string Name { get; set; } = null! ;
-        public string Description {get; set;} = null !;
-        public int? AccountId {get; set;}
-        public string? Solution {get; set; } = null; 
-        public int DepartmentId {get; set; }
-    } */}
-
-
-
-
-
       <Dialog>
         <DialogTrigger asChild>
           <Button variant="outline">Create Ticket</Button>

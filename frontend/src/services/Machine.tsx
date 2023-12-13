@@ -3,5 +3,6 @@ export type Machine = {
     name: string,
     description: string,
     accountId: number,
+    departmentId: number,
     solution: string
 };

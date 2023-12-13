@@ -155,8 +155,9 @@ namespace backend.Migrations
                     b.Property<int>("Customer_Id")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Date_Created")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<string>("Date_Created")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int?>("Employee_Id")
                         .HasColumnType("integer");
