@@ -87,8 +87,8 @@ function Tickets() {
   async function getData() {
     let machinelist = await fetch(
       API_BASE_URL +
-        "/GetMachinesPerAccount?accountId=" +
-        localStorage.getItem("Id"),
+      "/GetMachinesPerAccount?accountId=" +
+      localStorage.getItem("Id"),
       getBaseQueryRequest(),
     ).then((data) => data.json());
 
@@ -174,10 +174,20 @@ function Tickets() {
           Machine_Id: selectMachine.split("Id: ")[1],
           Customer_Id: account,
           Title: title,
-          Priority: "unknown",
+          Priority: "Not Set",
           Status: "Open",
-          Date_Created: new Date(),
-
+          Date_Created: new Date()
+            .toLocaleString("en-GB", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+            })
+            .replace(",", "")
+            .replace("/", "-")
+            .replace("/", "-"),
           Problem: problem,
           MustBeDoing: mustbedoing,
           HaveTried: havetried,
@@ -360,7 +370,15 @@ function Tickets() {
           </div>
         </div>
         <div>
-          <Button className="w-1/6" onClick={handleSubmit}>
+          <Button
+            className="w-1/6"
+            variant="default"
+            onClick={handleSubmit}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            ) : null}
             {t("ticket.submit")}
           </Button>
           <Button
@@ -371,17 +389,6 @@ function Tickets() {
             {t("ticket.cancel")}
           </Button>
         </div>
-        <Button
-          className="w-1/6"
-          variant="default"
-          onClick={handleSubmit}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-          ) : null}
-          Submit
-        </Button>
         <Toaster />
       </div>
     </div>
