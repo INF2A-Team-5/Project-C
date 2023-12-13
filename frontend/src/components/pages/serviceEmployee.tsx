@@ -40,7 +40,7 @@ function serviceEmployee() {
   if (Account == undefined) {
     GetAccount();
   }
-  
+
   async function GetAccount() {
     SetAccount(
       await fetch(
@@ -59,7 +59,7 @@ function serviceEmployee() {
         getBaseQueryRequest(),
       ).then((data) => data.json()),
     );
-      SetAssignedTickets(
+    SetAssignedTickets(
       await fetch(
         API_BASE_URL +
         "/GetAssignedTickets?AccountId=" +
@@ -67,7 +67,7 @@ function serviceEmployee() {
         getBaseQueryRequest(),
       ).then((data) => data.json()),
     );
-      SetAllMachines(
+    SetAllMachines(
       await fetch(API_BASE_URL + "/api/Machines", getBaseQueryRequest())
         .then((data) => data.json())
     );
@@ -81,7 +81,7 @@ function serviceEmployee() {
       </div>
       <div className="grid gap-12">
         <div>
-          <h1 className="text-4xl font-medium">Serivce Employee</h1>
+          <h1 className="text-4xl font-medium">Service Employee</h1>
           <Separator className="my-4" />
           <Tabs defaultValue="all tickets">
             <TabsList>
