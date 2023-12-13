@@ -19,7 +19,7 @@ import { Toaster } from "../ui/toaster";
 import { use } from "i18next";
 import { toast } from "../ui/use-toast";
 
-function EditTicket() {
+function ViewTicket() {
   useAuthenticated();
   const { t, i18n } = useTranslation();
   useEffect(() => {
@@ -30,7 +30,7 @@ function EditTicket() {
   const [notes, setNotes] = useState("");
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
   const [ticketInfo, setTicketInfo] = useState<any>(null);
-  const ticketid = localStorage.getItem("currentticket");
+  const ticketid = localStorage.getItem("currentticketID");
   const [showTicketInfo, setShowTicketInfo] = useState(false);
   const [isClient, setIsClient] = useState<boolean>(false);
   const [solution, setSolution] = useState("");
@@ -324,4 +324,4 @@ function EditTicket() {
   );
 }
 
-export default EditTicket;
+export default ViewTicket;

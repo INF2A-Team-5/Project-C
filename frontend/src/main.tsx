@@ -12,7 +12,7 @@ import ServiceEmployee from "./components/pages/serviceEmployee";
 import Admin from "./components/pages/admin";
 import EditAccount from "./components/pages/EditAccount";
 import "./translations/i18n";
-import EditTicket from "./components/pages/EditTicket";
+import ViewTicket from "./components/pages/viewTicket";
 
 import LogIn from "./components/pages/auth/log-in";
 // import Register from "./components/pages/auth/register";
@@ -60,8 +60,8 @@ const router = createBrowserRouter([
     element: <EditAccount />,
   },
   {
-    path: "edit-ticket",
-    element: <EditTicket />
+    path: "view-ticket",
+    element: <ViewTicket />
   }
 ]);
 

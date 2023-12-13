@@ -8,6 +8,9 @@ import { Account } from "./Account";
 import { Department } from "./Department";
 import { ArrowDownIcon, ArrowUpIcon, CaretSortIcon } from "@radix-ui/react-icons";
 import { API_BASE_URL, putBaseMutateRequest } from "@/lib/api";
+import { useNavigate } from "react-router-dom";
+
+
 
 async function AssignTicket(ticket: any) {
   ticket.employee_Id = 1 // moet nog ff uitgezocht worden en pagina moet nu gereload worden iedere keer
@@ -122,6 +125,8 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
     id: "actions",
     cell: ({ row }) => {
       const ticket = row.original
+      const navigate = useNavigate();
+      localStorage.setItem("currentticketID", ticket.ticketId.toString());
 
       return (
         <DropdownMenu>
@@ -137,12 +142,15 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
               Show seven
             </DropdownMenuItem>
             <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => navigate(`/view-ticket`)}>
+              View ticket
+            </DropdownMenuItem>
             <DropdownMenuItem>View customer</DropdownMenuItem>
             {localStorage.getItem("Class") == "ServiceEmployee" || localStorage.getItem("Class") == "Admin" ?
               <DropdownMenuItem onClick={() => AssignTicket(ticket)}>Assign Ticket</DropdownMenuItem> : null
             }
             {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+
           </DropdownMenuContent>
         </DropdownMenu>
       );

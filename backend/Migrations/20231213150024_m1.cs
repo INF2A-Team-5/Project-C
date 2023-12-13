@@ -6,11 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:backend/Migrations/20231212152917_m1.cs
     public partial class m1 : Migration
-========
-    public partial class latestMigration : Migration
->>>>>>>> main:backend/Migrations/20231212153243_latestMigration.cs
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
