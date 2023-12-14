@@ -123,6 +123,7 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
   },
   {
     id: "actions",
+    header: "Options",
     cell: ({ row }) => {
       const ticket = row.original
       const navigate = useNavigate();

@@ -174,7 +174,7 @@ function Tickets() {
           Machine_Id: selectMachine.split("Id: ")[1],
           Customer_Id: account,
           Title: title,
-          Priority: "unknown",
+          Priority: "Not Set",
           Status: "Open",
           Date_Created: new Date()
             .toLocaleString("en-GB", {

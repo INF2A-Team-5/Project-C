@@ -37,7 +37,7 @@ function AddMachine() {
       toast({
         variant: "destructive",
         title: "Error!",
-        description: "Machine name already exists.",
+        description: "Machine already exists.",
       });
       setIsLoading(false);
     } else if (name == "") {
