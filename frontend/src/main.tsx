@@ -20,6 +20,7 @@ import CreateTickets from "./components/pages/CreateTicket";
 import Tickets from "./components/pages/tickets";
 import Machines from "./components/pages/machines";
 import Solutions from "./components/pages/solutions";
+import Departments from "./components/pages/departments";
 
 
 const router = createBrowserRouter([
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
   {
     path: "solutions",
     element: <Solutions />
+  },
+  {
+    path: "departments",
+    element: <Departments />
   }
 
 ]);
