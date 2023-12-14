@@ -21,7 +21,6 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { useNavigate } from "react-router-dom";
 import { Input } from "../ui/input";
 import { toast } from "../ui/use-toast";
 import { Icons } from "../foundations/icons";
@@ -33,13 +32,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { TextareaHint } from "../ui/textarea";
 
 function Departments() {
   useAuthenticated();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setconfirmPassword] = useState("");
-  const [AllAccounts, SetAllAccounts] = useState<Account[]>([]);
+  const [allAccounts, setAllAccounts] = useState<Account[]>([]);
   const [userType, setUserType] = useState("Client");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadData, setData] = useState<Boolean>(false);
@@ -49,7 +49,7 @@ function Departments() {
   }
 
   async function getData() {
-    SetAllAccounts(
+    setAllAccounts(
       await fetch(API_BASE_URL + "/api/Accounts", getBaseQueryRequest()).then(
         (data) => data.json(),
       ),
@@ -93,10 +93,7 @@ function Departments() {
         description: "Password and confirmed password need to match.",
       });
       setIsLoading(false);
-    }
-
-    // WAAR IS CLASS CHECKING?
-    else {
+    } else {
       fetch(
         API_BASE_URL + "/api/accounts",
         postBaseMutateRequest(
@@ -113,7 +110,6 @@ function Departments() {
         title: "Succes!",
         description: "Account added successfully.",
       });
-      // navigate("/admin");
       setIsLoading(false);
     }
   }
@@ -128,14 +124,13 @@ function Departments() {
           <h1 className="text-5xl font-medium">Accounts</h1>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="default">Add Account</Button>
+              <Button variant="default">Add account</Button>
             </DialogTrigger>
 
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>
-                  Before you make a ticket, have you tried?
-                </DialogTitle>
+                <DialogTitle>Add Account</DialogTitle>
+                <TextareaHint>Create accounts for new clients</TextareaHint>
               </DialogHeader>
               <DialogDescription className="grid gap-2">
                 <Input
@@ -168,7 +163,7 @@ function Departments() {
               </DialogDescription>
               <DialogFooter>
                 <DialogClose>
-                  <Button variant="outline">No, I haven't.</Button>
+                  <Button variant="outline">Close</Button>
                 </DialogClose>
                 <Button
                   className="w-fit"
@@ -185,13 +180,12 @@ function Departments() {
             </DialogContent>
           </Dialog>
         </div>
-        {/* <Button variant="outline" className="w-fit" >dddddddddddddd</Button> */}
         <div className="grid gap-12">
-          <Table data={AllAccounts} columns={accountColumns} />
+          <Table data={allAccounts} columns={accountColumns} />
           <div className="h-44"></div>
         </div>
-        <Toaster />
       </div>
+      <Toaster />
     </>
   );
 }

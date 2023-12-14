@@ -22,15 +22,15 @@ import { Link } from "react-router-dom";
 
 function Tickets() {
   useAuthenticated();
-  const [AllTickets, SetAllTickets] = useState<Ticket[]>([]);
-  const [LoadData, SetData] = useState<Boolean>(false);
-  if (LoadData == false) {
-    GetData();
-    SetData(true);
+  const [allTickets, setAllTickets] = useState<Ticket[]>([]);
+  const [loadData, setData] = useState<Boolean>(false);
+  if (loadData == false) {
+    getData();
+    setData(true);
   }
 
-  async function GetData() {
-    SetAllTickets(
+  async function getData() {
+    setAllTickets(
       await fetch(API_BASE_URL + "/api/tickets", getBaseQueryRequest()).then(
         (data) => data.json(),
       ),
@@ -77,11 +77,11 @@ function Tickets() {
         </div>
         {/* <Button variant="outline" className="w-fit" >dddddddddddddd</Button> */}
         <div className="grid gap-12">
-          <Table data={AllTickets} columns={ticketColumns} />
+          <Table data={allTickets} columns={ticketColumns} />
           <div className="h-44"></div>
         </div>
-        <Toaster />
       </div>
+      <Toaster />
     </>
   );
 }

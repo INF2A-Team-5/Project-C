@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Settings from "../foundations/settings";
-import { Ticket } from "../../services/Ticket";
 import Table from "../foundations/table";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { Toaster } from "../ui/toaster";
@@ -9,7 +8,7 @@ import {
   getBaseQueryRequest,
   postBaseMutateRequest,
 } from "@/lib/api";
-import { departmentColumns, ticketColumns } from "@/services/Columns";
+import { departmentColumns } from "@/services/Columns";
 import Navbar from "../foundations/navbar";
 import {
   Dialog,
@@ -22,11 +21,11 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { Link, useNavigate } from "react-router-dom";
 import { Input } from "../ui/input";
 import { Department } from "@/services/Department";
 import { toast } from "../ui/use-toast";
 import { Icons } from "../foundations/icons";
+import { TextareaHint } from "../ui/textarea";
 
 function Departments() {
   useAuthenticated();
@@ -34,7 +33,6 @@ function Departments() {
   const [loadData, setData] = useState<Boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [allDepartments, setAllDepartments] = useState<Department[]>([]);
-  const navigate = useNavigate();
   if (loadData == false) {
     getData();
     setData(true);
@@ -96,25 +94,22 @@ function Departments() {
           <h1 className="text-5xl font-medium">Departments</h1>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="default">Add Department</Button>
+              <Button variant="default">Add department</Button>
             </DialogTrigger>
-
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>
-                  Before you make a ticket, have you tried?
-                </DialogTitle>
+                <DialogTitle>Add department</DialogTitle>
+                <TextareaHint>Create Departments for new services</TextareaHint>
               </DialogHeader>
               <DialogDescription>
                 <Input
                   placeholder="Enter Department Name"
                   onChange={(e) => setName(e.currentTarget.value)}
                 />
-                
               </DialogDescription>
               <DialogFooter>
                 <DialogClose>
-                  <Button variant="outline">No, I haven't.</Button>
+                  <Button variant="outline">Close</Button>
                 </DialogClose>
                 <Button
                   className="w-fit"
@@ -131,13 +126,12 @@ function Departments() {
             </DialogContent>
           </Dialog>
         </div>
-        {/* <Button variant="outline" className="w-fit" >dddddddddddddd</Button> */}
         <div className="grid gap-12">
           <Table data={allDepartments} columns={departmentColumns} />
           <div className="h-44"></div>
         </div>
-        <Toaster />
       </div>
+      <Toaster />
     </>
   );
 }

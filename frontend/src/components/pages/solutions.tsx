@@ -1,13 +1,11 @@
 import { useState } from "react";
 import Settings from "../foundations/settings";
-import { Ticket } from "../../services/Ticket";
 import Table from "../foundations/table";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { Toaster } from "../ui/toaster";
 import {
   API_BASE_URL,
   getBaseQueryRequest,
-  postBaseMutateRequest,
   putBaseMutateRequest,
 } from "@/lib/api";
 import { Machine } from "@/services/Machine";
@@ -24,8 +22,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { Link, useNavigate } from "react-router-dom";
-import { machineColumns } from "@/services/Columns";
+// import { useNavigate } from "react-router-dom";
 import { Textarea, TextareaHint } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
 import { Input } from "../ui/input";
@@ -38,21 +35,20 @@ function Solutions() {
   const [allSolutions, setAllSolutions] = useState("");
   const [loadData, setData] = useState<Boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const navigate = useNavigate();
+  //   const navigate = useNavigate();
 
   if (loadData == false) {
     getData();
     setData(true);
   }
 
-  async function getData(){
+  async function getData() {
     setAllSolutions(
-        await fetch(API_BASE_URL + "/api/Solutions", getBaseQueryRequest())
-          .then((data) => data.json())
-      );
+      await fetch(API_BASE_URL + "/api/Solutions", getBaseQueryRequest()).then(
+        (data) => data.json(),
+      ),
+    );
   }
-
-
 
   async function handleSubmit() {
     setIsLoading(true);
@@ -114,19 +110,16 @@ function Solutions() {
         });
         setIsLoading(false);
       }
-      switch (localStorage.getItem("Class")) {
-        case "Admin":
-          navigate("/admin");
-          break;
-        case "ServiceEmployee":
-          navigate("/serviceEmployee");
-          break;
-      }
+      //   switch (localStorage.getItem("Class")) {
+      //     case "Admin":
+      //       navigate("/admin");
+      //       break;
+      //     case "ServiceEmployee":
+      //       navigate("/serviceEmployee");
+      //       break;
+      //   }
     }
   }
- 
-
-  
 
   return (
     <>
@@ -173,10 +166,11 @@ function Solutions() {
           </Dialog>
         </div>
         <div className="grid gap-12">
+          {/* add table hereeeeee */}
           <div className="h-44"></div>
         </div>
-        <Toaster />
       </div>
+      <Toaster />
     </>
   );
 }

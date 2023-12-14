@@ -1,10 +1,13 @@
 import { useState } from "react";
 import Settings from "../foundations/settings";
-import { Ticket } from "../../services/Ticket";
 import Table from "../foundations/table";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { Toaster } from "../ui/toaster";
-import { API_BASE_URL, getBaseQueryRequest, postBaseMutateRequest } from "@/lib/api";
+import {
+  API_BASE_URL,
+  getBaseQueryRequest,
+  postBaseMutateRequest,
+} from "@/lib/api";
 import { Machine } from "@/services/Machine";
 
 import Navbar from "../foundations/navbar";
@@ -19,9 +22,8 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { machineColumns } from "@/services/Columns";
-import AddMachine from "./addMachine";
 import { Textarea, TextareaHint } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
 import { Input } from "../ui/input";
@@ -31,18 +33,18 @@ function Machines() {
   useAuthenticated();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [AllMachines, SetAllMachines] = useState<Machine[]>([]);
-  const [LoadData, SetData] = useState<Boolean>(false);
+  const [allMachines, setAllMachines] = useState<Machine[]>([]);
+  const [loadData, setData] = useState<Boolean>(false);
   const [department, setDepartment] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-  if (LoadData == false) {
-    GetData();
-    SetData(true);
+  if (loadData == false) {
+    getData();
+    setData(true);
   }
 
-  async function GetData() {
-    SetAllMachines(
+  async function getData() {
+    setAllMachines(
       await fetch(API_BASE_URL + "/api/Machines", getBaseQueryRequest()).then(
         (data) => data.json(),
       ),
@@ -81,14 +83,14 @@ function Machines() {
       toast({
         variant: "destructive",
         title: "Error!",
-        description: "Enter a department.", //choose a department
+        description: "Enter a department.",
       });
       setIsLoading(false);
     } else if (department == undefined) {
       toast({
         variant: "destructive",
         title: "Error!",
-        description: "Department does not exist.", //choose a department
+        description: "Department does not exist.",
       });
       setIsLoading(false);
     } else if (description == "") {
@@ -142,7 +144,7 @@ function Machines() {
 
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Add Machine</DialogTitle>
+                <DialogTitle>Add machine</DialogTitle>
                 <TextareaHint>Create new machines</TextareaHint>
               </DialogHeader>
               <DialogDescription>
@@ -159,36 +161,28 @@ function Machines() {
                     placeholder="Enter Description"
                     onChange={(e) => setDescription(e.currentTarget.value)}
                   ></Textarea>
-                  
                 </div>
-                {/* Restarting the machine?
-                <br />
-                Checking if the sensors are blocked?
-                <br />
-                Checking for any stuck items?
-                <br /> */}
               </DialogDescription>
               <DialogFooter>
                 <DialogClose>
                   <Button variant="outline">Close</Button>
                 </DialogClose>
                 <Button onClick={handleSubmit} disabled={isLoading}>
-                {isLoading ? (
-                      <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                    ) : null}
-                    Add machine
+                  {isLoading ? (
+                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                  ) : null}
+                  Add machine
                 </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
         </div>
-        {/* <Button variant="outline" className="w-fit" >dddddddddddddd</Button> */}
         <div className="grid gap-12">
-          <Table data={AllMachines} columns={machineColumns} />
+          <Table data={allMachines} columns={machineColumns} />
           <div className="h-44"></div>
         </div>
-        <Toaster />
       </div>
+      <Toaster />
     </>
   );
 }
