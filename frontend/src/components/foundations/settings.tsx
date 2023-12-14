@@ -40,7 +40,7 @@ function Settings() {
         <DropdownMenuTrigger asChild aria-label="Customize options">
           {/* <HamburgerMenuIcon className="w-6 h-6" /> */}
           <div className="p-2.5 border border-border rounded-full cursor-pointer hover:bg-muted transition-colors duration-300">
-          <PersonIcon className="w-4 h-4"/></div>
+          <PersonIcon className="w-5 h-5"/></div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="mt-2">
           <DropdownMenuLabel>Options</DropdownMenuLabel>
