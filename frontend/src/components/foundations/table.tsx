@@ -1,4 +1,3 @@
-import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import {
   Table,
@@ -43,32 +42,15 @@ function DataTable<TData, TValue>({
 
   const totalPages = Math.ceil(data.length / 10);
 
-  // const handlePageChange = (newPage: number) => {
-  //   setCurrentPage(newPage);
-  // };
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
 
-  // async function viewticket(id: number) {
-  //   alert(id)
-  // }
+  async function viewticket(id: number) {
+    alert(id)
+  }
 
-  // async function AssignTicket(ticket: any)
-  // {
-  //   ticket.employee_Id = await fetch("http://localhost:5119/GetEmployeeById/" + localStorage.getItem("Id"), getBaseQueryRequest()).then((data) => data.json()); // moet nog ff uitgezocht worden en pagina moet nu gereload worden iedere keer
-    
-  //   await fetch(
-  //     "http://localhost:5119/api/tickets/" + ticket.ticketId,
-  //     {
-  //       method: "PUT",
-  //       headers: {
-  //         Authorization: "bearer " + localStorage.getItem("Token"),
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(ticket),
-  //     }
-  //   );
-  //   console.log(ticket);
-  //   console.log("Assigned employee to ticket")
-  // }
+
   const table = useReactTable({
     data,
     columns,

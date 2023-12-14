@@ -7,15 +7,17 @@ import { Machine } from "./Machine";
 import { Account } from "./Account";
 import { Department } from "./Department";
 import { ArrowDownIcon, ArrowUpIcon, CaretSortIcon } from "@radix-ui/react-icons";
-import { API_BASE_URL, putBaseMutateRequest } from "@/lib/api";
+import { API_BASE_URL, getBaseQueryRequest, putBaseMutateRequest } from "@/lib/api";
 
 async function AssignTicket(ticket: any) {
-  ticket.employee_Id = 1 // moet nog ff uitgezocht worden en pagina moet nu gereload worden iedere keer
+  let employee = await fetch("http://localhost:5119/GetEmployeeById?id=" + localStorage.getItem("Id"), getBaseQueryRequest()).then((data) => data.json());
+  ticket.employee_Id = employee.employeeId;
   await fetch(API_BASE_URL + "/api/tickets/" + ticket.ticketId, putBaseMutateRequest(JSON.stringify(ticket))
   );
   console.log(ticket);
   console.log("Assigned employee to ticket")
 }
+
 
 export const ticketColumns: ColumnDef<Ticket>[] = [
   {

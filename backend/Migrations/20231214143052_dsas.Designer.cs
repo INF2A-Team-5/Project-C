@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231212153243_latestMigration")]
-    partial class latestMigration
+    [Migration("20231214143052_dsas")]
+    partial class dsas
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -179,8 +179,8 @@ namespace backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Notes")
-                        .HasColumnType("text");
+                    b.Property<string[]>("Notes")
+                        .HasColumnType("text[]");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("text");
