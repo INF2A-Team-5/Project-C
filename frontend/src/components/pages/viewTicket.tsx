@@ -119,6 +119,14 @@ function ViewTicket() {
     }
   }
 
+  async function changePriority() {
+    if (currentticket) {
+      if (currentticket.priority == "Critical") {
+        currentticket.priority = "Non critical"
+      }
+    }
+  }
+
   async function reopenTicket() {
     if (currentticket) {
       if (reopen.length != 0) {
@@ -279,7 +287,7 @@ function ViewTicket() {
           )}
         </div>
         {/* Hij checkt hieronder eerst of de ticket open is, anders kan je namelijk niks meer toevoegen, dan krijg je wel de optie om hem te heropenen */}
-        {currentticket?.status === "Open" || currentticket?.status === "In Progress" ? <><div className="grid gap-2">
+        {currentticket?.status === "Open" || currentticket?.status === "In Process" ? <><div className="grid gap-2">
           {/* <h2 className='text-lg font-medium'>{t('editticket.notes')}</h2> */}
           {isClient ? null : <Button className="w-fit" variant="default">
             Change priority
