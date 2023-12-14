@@ -10,5 +10,6 @@ namespace Backend.AccountService
         Task<ActionResult<Account>> AddAccount(Account newAccount);
         Task<IActionResult> UpdateAccount(int id, Account updatedAccount);
         Task<IActionResult> DeleteAccount(int id);
+        Task<ActionResult<Employee>> GetEmployeeId(int id);
     }
 }

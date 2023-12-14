@@ -91,7 +91,8 @@ function DataTable({ data, displayColumns, dataColumns }: TableProps) {
 
   async function AssignTicket(ticket: any)
   {
-    ticket.employee_Id = 1 // moet nog ff uitgezocht worden en pagina moet nu gereload worden iedere keer
+    ticket.employee_Id = await fetch("http://localhost:5119/GetEmployeeById/" + localStorage.getItem("Id"), getBaseQueryRequest()).then((data) => data.json()); // moet nog ff uitgezocht worden en pagina moet nu gereload worden iedere keer
+    
     await fetch(
       "http://localhost:5119/api/tickets/" + ticket.ticketId,
       {
