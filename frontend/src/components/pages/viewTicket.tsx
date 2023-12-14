@@ -281,6 +281,42 @@ function ViewTicket() {
         {/* Hij checkt hieronder eerst of de ticket open is, anders kan je namelijk niks meer toevoegen, dan krijg je wel de optie om hem te heropenen */}
         {currentticket?.status === "Open" || currentticket?.status === "In Progress" ? <><div className="grid gap-2">
           {/* <h2 className='text-lg font-medium'>{t('editticket.notes')}</h2> */}
+          {isClient ? null : <Button className="w-fit" variant="default">
+            Change priority
+          </Button>}
+          <Dialog>
+            <DialogTrigger asChild>
+              {isClient ? null : <Button className="w-fit" variant="destructive">
+                Close ticket
+              </Button>}
+            </DialogTrigger>
+
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Fill in solution</DialogTitle>
+              </DialogHeader>
+              <DialogDescription>
+                <h2 className="text-lg font-medium">Add solution</h2>
+
+                {/* <Textarea placeholder={t('editticket.notes2')} onChange={(e: any) => setNotes(e.currentTarget.value)}></Textarea> */}
+                {/* <p className='text-md text-grey-900 '>{t('editticket.description')}</p> */}
+                <Textarea
+                  placeholder="Fixed this and this"
+                  onChange={(e: any) => setSolution(e.currentTarget.value)}
+                ></Textarea>
+                <TextareaHint>
+                  Give us a detailed description on what was the solution of fixing the ticket
+                </TextareaHint>
+              </DialogDescription>
+              <DialogFooter>
+                <DialogClose>
+                  <Button variant="ghost" onClick={() => navigate(`/view-ticket`)}>Cancel</Button>
+                  <Button variant="secondary" onClick={CloseTicket}>Submit</Button>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+          <Toaster />
           <h2 className="text-lg font-medium">Add notes</h2>
 
           {/* <Textarea placeholder={t('editticket.notes2')} onChange={(e: any) => setNotes(e.currentTarget.value)}></Textarea> */}
@@ -327,39 +363,6 @@ function ViewTicket() {
             </div>
           </div>
           <div>
-            <Dialog>
-              <DialogTrigger asChild>
-                {isClient ? null : <Button className="w-fit" variant="destructive">
-                  Close ticket
-                </Button>}
-              </DialogTrigger>
-
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Fill in solution</DialogTitle>
-                </DialogHeader>
-                <DialogDescription>
-                  <h2 className="text-lg font-medium">Add solution</h2>
-
-                  {/* <Textarea placeholder={t('editticket.notes2')} onChange={(e: any) => setNotes(e.currentTarget.value)}></Textarea> */}
-                  {/* <p className='text-md text-grey-900 '>{t('editticket.description')}</p> */}
-                  <Textarea
-                    placeholder="Fixed this and this"
-                    onChange={(e: any) => setSolution(e.currentTarget.value)}
-                  ></Textarea>
-                  <TextareaHint>
-                    Give us a detailed description on what was the solution of fixing the ticket
-                  </TextareaHint>
-                </DialogDescription>
-                <DialogFooter>
-                  <DialogClose>
-                    <Button variant="ghost" onClick={() => navigate(`/view-ticket`)}>Cancel</Button>
-                    <Button variant="secondary" onClick={CloseTicket}>Submit</Button>
-                  </DialogClose>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-            <Toaster />
             <Button variant="default" onClick={HandleSubmit}>
               Submit
             </Button>
