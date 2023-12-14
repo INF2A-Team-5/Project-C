@@ -18,6 +18,7 @@ import LogIn from "./components/pages/auth/log-in";
 import ForgotPassword from "./components/pages/auth/forgot-password";
 import CreateTickets from "./components/pages/CreateTicket";
 import Tickets from "./components/pages/tickets";
+import Machines from "./components/pages/machines";
 
 
 const router = createBrowserRouter([
@@ -68,6 +69,10 @@ const router = createBrowserRouter([
   {
     path: "tickets",
     element: <Tickets />
+  },
+  {
+    path: "machines",
+    element: <Machines />
   }
 ]);
 

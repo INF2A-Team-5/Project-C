@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 
 function Navbar() {
   const location = useLocation();
-  const role = localStorage.getItem<string>("Role");
+  // const role = localStorage.getItem("Role");
 
   const navItems = [
     { label: "Tickets", path: ["/tickets", "/create-ticket"] },
