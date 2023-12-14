@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231210145712_test3")]
-    partial class test3
+    [Migration("20231212153243_latestMigration")]
+    partial class latestMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,7 +85,8 @@ namespace backend.Migrations
 
                     b.HasKey("EmployeeId");
 
-                    b.HasIndex("AccountId");
+                    b.HasIndex("AccountId")
+                        .IsUnique();
 
                     b.HasIndex("DepartmentId");
 
@@ -157,10 +158,11 @@ namespace backend.Migrations
                     b.Property<int>("Customer_Id")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime>("Date_Created")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<string>("Date_Created")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.Property<int>("EmployeeId")
+                    b.Property<int?>("Employee_Id")
                         .HasColumnType("integer");
 
                     b.Property<string[]>("Files")
@@ -204,7 +206,7 @@ namespace backend.Migrations
 
                     b.HasKey("TicketId");
 
-                    b.HasIndex("EmployeeId");
+                    b.HasIndex("Employee_Id");
 
                     b.ToTable("Tickets");
                 });
@@ -237,8 +239,8 @@ namespace backend.Migrations
             modelBuilder.Entity("Backend.Entities.Employee", b =>
                 {
                     b.HasOne("Backend.Entities.Account", "Account")
-                        .WithMany()
-                        .HasForeignKey("AccountId")
+                        .WithOne()
+                        .HasForeignKey("Backend.Entities.Employee", "AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -255,13 +257,9 @@ namespace backend.Migrations
 
             modelBuilder.Entity("Backend.Entities.Ticket", b =>
                 {
-                    b.HasOne("Backend.Entities.Employee", "Employee")
+                    b.HasOne("Backend.Entities.Employee", null)
                         .WithMany("Tickets")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
+                        .HasForeignKey("Employee_Id");
                 });
 
             modelBuilder.Entity("Backend.Entities.Department", b =>
