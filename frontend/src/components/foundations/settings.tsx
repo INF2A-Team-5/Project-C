@@ -1,5 +1,5 @@
 import i18next from "i18next";
-import { HamburgerMenuIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
+import { HamburgerMenuIcon, MoonIcon, PersonIcon, SunIcon } from "@radix-ui/react-icons";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,12 +35,14 @@ const changeLanguage = (lng: string) => {
 function Settings() {
   const isLoggedIn = localStorage.getItem("Token") != null;
   return (
-    <div className="top-7 right-7 fixed">
+    <div className="top-7 right-7 fixed z-20">
       <DropdownMenu>
         <DropdownMenuTrigger asChild aria-label="Customize options">
-          <HamburgerMenuIcon className="w-6 h-6" />
+          {/* <HamburgerMenuIcon className="w-6 h-6" /> */}
+          <div className="p-2.5 border border-border rounded-full cursor-pointer hover:bg-muted transition-colors duration-300">
+          <PersonIcon className="w-4 h-4"/></div>
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
+        <DropdownMenuContent align="end" className="mt-2">
           <DropdownMenuLabel>Options</DropdownMenuLabel>
 
           <DropdownMenuSeparator />

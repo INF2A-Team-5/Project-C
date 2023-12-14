@@ -6,7 +6,6 @@ import "./styles/globals.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
-import Tickets from "./components/pages/CreateTicket";
 import Client from "./components/pages/client";
 import ServiceEmployee from "./components/pages/serviceEmployee";
 import Admin from "./components/pages/admin";
@@ -17,6 +16,9 @@ import EditTicket from "./components/pages/EditTicket";
 import LogIn from "./components/pages/auth/log-in";
 // import Register from "./components/pages/auth/register";
 import ForgotPassword from "./components/pages/auth/forgot-password";
+import CreateTickets from "./components/pages/CreateTicket";
+import Tickets from "./components/pages/tickets";
+
 
 const router = createBrowserRouter([
   {
@@ -40,8 +42,8 @@ const router = createBrowserRouter([
 
   /** OTHER */
   {
-    path: "tickets",
-    element: <Tickets />,
+    path: "create-ticket",
+    element: <CreateTickets />,
   },
   {
     path: "client",
@@ -62,6 +64,10 @@ const router = createBrowserRouter([
   {
     path: "edit-ticket",
     element: <EditTicket />
+  },
+  {
+    path: "tickets",
+    element: <Tickets />
   }
 ]);
 
