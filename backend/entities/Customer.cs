@@ -1,8 +1,11 @@
 namespace Backend.Entities;
     
-    public class Customer : Account
+    public class Customer
     {
-        public List<Machine> OwnedMachines {get; set; } = new();
-        // public string? PhoneNumber {get; set; }
-        // public List<Ticket> Tickets {get; set; } = new List<Ticket>();
+        public int CustomerId {get; set; }
+        public int AccountId {get; set; } 
+        public Account Account {get; set; } = null!;
+        public ICollection<Machine> Machines { get; } = new List<Machine>();
+        public string? PhoneNumber {get; set; }
+        public ICollection<Ticket> Tickets { get; } = new List<Ticket>();
     }

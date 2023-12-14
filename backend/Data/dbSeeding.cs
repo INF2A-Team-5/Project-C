@@ -10,35 +10,37 @@ public static class DBSeeding
         Department dep2 = new() { DepartmentId = 2, Name = "Department2" };
         Department dep3 = new() { DepartmentId = 3, Name = "Department3" };
 
-        Machine Machine1 = new() { Name = "Machine1", Description = "This is machine 1", AccountId = 1, DepartmentId = 1 };
-        Machine Machine2 = new() { Name = "Machine2", Description = "This is machine 2", AccountId = 2, DepartmentId = 2 };
-        Machine Machine3 = new() { Name = "Machine3", Description = "This is machine 3", AccountId = 2, DepartmentId = 3 };
-        Machine Machine4 = new() { Name = "Machine4", Description = "This is machine 4", AccountId = 3, DepartmentId = 1 };
-        Machine Machine5 = new() { Name = "Machine5", Description = "This is machine 5", AccountId = 3, DepartmentId = 2 };
-        Machine Machine6 = new() { Name = "Machine6", Description = "This is machine 6", AccountId = 3, DepartmentId = 3 };
-        Machine Machine7 = new() { Name = "Machine7", Description = "This is machine 7", AccountId = 1, DepartmentId = 3 };
-        Machine Machine8 = new() { Name = "Machine8", Description = "This is machine 8", AccountId = 2, DepartmentId = 2 };
-        Machine Machine9 = new() { Name = "Machine9", Description = "This is machine 9", AccountId = 2, DepartmentId = 1 };
-        Machine Machine10 = new() { Name = "Machine10", Description = "This is machine 10", AccountId = 2, DepartmentId = 2 };
-        Machine Machine11 = new() { Name = "Machine11", Description = "This is machine 11", AccountId = 3, DepartmentId = 3 };
-        Machine Machine12 = new() { Name = "Machine12", Description = "This is machine 12", AccountId = 2, DepartmentId = 1 };
-        Machine Machine13 = new() { Name = "Machine13", Description = "This is machine 13", AccountId = 2, DepartmentId = 2 };
-        Machine Machine14 = new() { Name = "Machine14", Description = "This is machine 14", AccountId = 1, DepartmentId = 3 };
-        Machine Machine15 = new() { Name = "Machine15", Description = "This is machine 15", AccountId = 3, DepartmentId = 1 };
-        Machine Machine16 = new() { Name = "Machine16", Description = "This is machine 16", AccountId = 2, DepartmentId = 2 };
-        Machine Machine17 = new() { Name = "Machine17", Description = "This is machine 17", AccountId = 3, DepartmentId = 3 };
-        Machine Machine18 = new() { Name = "Machine18", Description = "This is machine 18", AccountId = 3, DepartmentId = 1 };
-        Machine Machine19 = new() { Name = "Machine19", Description = "This is machine 19", AccountId = 1, DepartmentId = 2 };
-        Machine Machine20 = new() { Name = "Machine20", Description = "This is machine 20", AccountId = 1, DepartmentId = 3 };
-        Machine Machine21 = new() { Name = "Machine21", Description = "This is machine 21", AccountId = 3, DepartmentId = 1 };
-        Machine Machine22 = new() { Name = "Machine22", Description = "This is machine 22", AccountId = 3, DepartmentId = 2 };
-        Machine Machine23 = new() { Name = "Machine23", Description = "This is machine 23", AccountId = 2, DepartmentId = 3 };
-        Machine Machine24 = new() { Name = "Machine24", Description = "This is machine 24", AccountId = 1, DepartmentId = 2 };
-        Machine Machine25 = new() { Name = "Machine25", Description = "This is machine 25", AccountId = 2, DepartmentId = 1 };
+        Machine Machine1 = new() { Name = "Machine1", Description = "This is machine 1", DepartmentId = 1 };
+        Machine Machine2 = new() { Name = "Machine2", Description = "This is machine 2", DepartmentId = 2 };
+        Machine Machine3 = new() { Name = "Machine3", Description = "This is machine 3", DepartmentId = 3 };
+        Machine Machine4 = new() { Name = "Machine4", Description = "This is machine 4", DepartmentId = 1 };
+        Machine Machine5 = new() { Name = "Machine5", Description = "This is machine 5", DepartmentId = 2 };
+        Machine Machine6 = new() { Name = "Machine6", Description = "This is machine 6", DepartmentId = 3 };
+        Machine Machine7 = new() { Name = "Machine7", Description = "This is machine 7", DepartmentId = 3 };
+        Machine Machine8 = new() { Name = "Machine8", Description = "This is machine 8", DepartmentId = 2 };
+        Machine Machine9 = new() { Name = "Machine9", Description = "This is machine 9", DepartmentId = 1 };
+        Machine Machine10 = new() { Name = "Machine10", Description = "This is machine 10", DepartmentId = 2 };
+        Machine Machine11 = new() { Name = "Machine11", Description = "This is machine 11", DepartmentId = 3 };
+        Machine Machine12 = new() { Name = "Machine12", Description = "This is machine 12", DepartmentId = 1 };
+        Machine Machine13 = new() { Name = "Machine13", Description = "This is machine 13", DepartmentId = 2 };
+        Machine Machine14 = new() { Name = "Machine14", Description = "This is machine 14", DepartmentId = 3 };
+        Machine Machine15 = new() { Name = "Machine15", Description = "This is machine 15", DepartmentId = 1 };
+        Machine Machine16 = new() { Name = "Machine16", Description = "This is machine 16", DepartmentId = 2 };
+        Machine Machine17 = new() { Name = "Machine17", Description = "This is machine 17", DepartmentId = 3 };
+        Machine Machine18 = new() { Name = "Machine18", Description = "This is machine 18", DepartmentId = 1 };
+        Machine Machine19 = new() { Name = "Machine19", Description = "This is machine 19", DepartmentId = 2 };
+        Machine Machine20 = new() { Name = "Machine20", Description = "This is machine 20", DepartmentId = 3 };
+        Machine Machine21 = new() { Name = "Machine21", Description = "This is machine 21", DepartmentId = 1 };
+        Machine Machine22 = new() { Name = "Machine22", Description = "This is machine 22", DepartmentId = 2 };
+        Machine Machine23 = new() { Name = "Machine23", Description = "This is machine 23", DepartmentId = 3 };
+        Machine Machine24 = new() { Name = "Machine24", Description = "This is machine 24", DepartmentId = 2 };
+        Machine Machine25 = new() { Name = "Machine25", Description = "This is machine 25", DepartmentId = 1 };
 
         List<Machine> machines = new() { Machine1, Machine2, Machine3, Machine4, Machine5, Machine6, Machine7, Machine8, Machine9, Machine10, Machine11, Machine12, Machine13, Machine14, Machine15, Machine16, Machine17, Machine18, Machine19, Machine20, Machine21, Machine22, Machine23, Machine24, Machine25 };
 
-        Customer Client = new() { Name = "clientname", Password = "clientpw", Class = AccountType.Client };
+        Account Client = new() { Name = "clientname", Password = "clientpw", Class = AccountType.Client };
+        Account Client1 = new() { Name = "clientname1", Password = "clientpw1", Class = AccountType.Client };
+        Account Client2 = new() { Name = "clientname2", Password = "clientpw2", Class = AccountType.Client };
         Account employee1 = new() { Name = "empname", Password = "emppw", Class = AccountType.ServiceEmployee };
         Account employee2 = new() { Name = "empname2", Password = "emppw2", Class = AccountType.ServiceEmployee };
         Account employee3 = new() { Name = "empname3", Password = "emppw3", Class = AccountType.ServiceEmployee };
@@ -55,6 +57,28 @@ public static class DBSeeding
         Employee emp6 = new() { Account = employee6 };
         Employee admin = new() { Account = Admin };
 
+        Customer customer = new() { Account = Client };
+        Customer customer1 = new() { Account = Client1 };
+        Customer customer2 = new() { Account = Client2 };
+
+        customer.Machines.Add(Machine1);
+        customer.Machines.Add(Machine7);
+        customer.Machines.Add(Machine10);
+        customer.Machines.Add(Machine15);
+        customer.Machines.Add(Machine20);
+        
+        customer1.Machines.Add(Machine2);
+        customer1.Machines.Add(Machine3);
+        customer1.Machines.Add(Machine4);
+        customer1.Machines.Add(Machine5);
+        customer1.Machines.Add(Machine6);
+        
+        customer2.Machines.Add(Machine8);
+        customer2.Machines.Add(Machine9);
+        customer2.Machines.Add(Machine11);
+        customer2.Machines.Add(Machine12);
+        customer2.Machines.Add(Machine23);
+
         dep1.Employees.Add(emp1);
         dep1.Employees.Add(emp2);
         dep2.Employees.Add(emp3);
@@ -66,6 +90,7 @@ public static class DBSeeding
         List<Employee> employees = new() { emp1, emp2, emp3, emp4, emp5, emp6, admin };
         List<Account> accounts = new() { Client, employee1, employee2, employee3, employee4, employee5, employee6, Admin };
         List<Department> deps = new() { dep1, dep2, dep3 };
+        List<Customer> customers = new() {customer, customer1, customer2 };
 
         Ticket ticket1 = new() { Machine_Id = 1, Customer_Id = 1, Title = "test", Priority = "Critical", Status = "In Process", Date_Created = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"), Problem = "test", HaveTried = "Test", MustBeDoing = "test", Solution = "Test", PhoneNumber = "0612345678" };
         Ticket ticket2 = new() { Machine_Id = 2, Customer_Id = 1, Title = "test", Priority = "Non critical", Status = "In Process", Date_Created = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"), Problem = "test", HaveTried = "Test", MustBeDoing = "test", Solution = "Test", PhoneNumber = "0612345678" };
@@ -129,6 +154,10 @@ public static class DBSeeding
         foreach (Employee employee in employees)
         {
             db.Add(employee);
+        }
+        foreach (Customer cust in customers)
+        {
+            db.Add(cust);
         }
         db.SaveChanges();
     }

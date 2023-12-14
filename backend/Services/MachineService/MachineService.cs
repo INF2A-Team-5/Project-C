@@ -42,7 +42,7 @@ namespace Backend.MachineService
             {
                 return NotFound("No machines in db");
             }
-            var machine = await _context.Machines.Where(machine => machine.AccountId == id).ToListAsync();
+            var machine = await _context.Machines.Where(machine => machine.Customer_Id == id).ToListAsync();
 
             if (machine == null)
             {
