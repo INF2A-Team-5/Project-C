@@ -8,7 +8,8 @@ function Navbar() {
     { label: "Tickets", path: ["/tickets", "/create-ticket"] },
     { label: "Machines", path: ["/machines"] },
     { label: "Solutions", path: ["/solutions"] },
-    { label: "Admin", path: ["/admin"] },
+    { label: "Departments", path: ["/departments"] },
+    { label: "Accounts", path: ["/accounts"] },
   ];
   return (
     <>

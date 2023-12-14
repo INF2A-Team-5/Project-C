@@ -19,6 +19,7 @@ import ForgotPassword from "./components/pages/auth/forgot-password";
 import CreateTickets from "./components/pages/CreateTicket";
 import Tickets from "./components/pages/tickets";
 import Machines from "./components/pages/machines";
+import Solutions from "./components/pages/solutions";
 
 
 const router = createBrowserRouter([
@@ -73,7 +74,12 @@ const router = createBrowserRouter([
   {
     path: "machines",
     element: <Machines />
+  },
+  {
+    path: "solutions",
+    element: <Solutions />
   }
+
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
