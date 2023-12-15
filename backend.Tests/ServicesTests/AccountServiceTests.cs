@@ -9,14 +9,14 @@ namespace backend.Tests.ServicesTests
 {
     public class AccountServiceTests
     {
-        private readonly DataContext db = new();
+        private readonly DataContext _db = new();
         public AccountServiceTests() { }
 
         [Fact]
         public async void AccountService_GetAllAccounts_ReturnsAllAccounts()
         {
             // Arrange
-            var service = new AccountService(db);
+            var service = new AccountService(_db);
 
             // Act
             var result = await service.GetAllAccounts();
@@ -33,7 +33,7 @@ namespace backend.Tests.ServicesTests
         public async void AccountService_GetAccountById_ReturnsAccount(int id)
         {
             // Arrange
-            var service = new AccountService(db);
+            var service = new AccountService(_db);
 
             // Act
             var result = await service.GetAccountById(id);
@@ -51,7 +51,7 @@ namespace backend.Tests.ServicesTests
         public async void AccountService_GetAccountById_ReturnsNotFound(int id)
         {
             // Arrange
-            var service = new AccountService(db);
+            var service = new AccountService(_db);
 
             // Act
             var result = await service.GetAccountById(id);
@@ -69,7 +69,7 @@ namespace backend.Tests.ServicesTests
         public async void AccountService_UpdateAccount_ReturnsNoContent(int id, string name, AccountType accountType)
         {
             // Arrange
-            var service = new AccountService(db);
+            var service = new AccountService(_db);
 
             string newPw = "newPw";
             Account updatedAccount = new() { AccountId = id, Name = name, Password = newPw, Class = accountType };
@@ -90,7 +90,7 @@ namespace backend.Tests.ServicesTests
         public async void AccountService_UpdateAccount_ReturnsBadRequest(int wrongId, int id, string name, AccountType accountType)
         {
             // Arrange
-            var service = new AccountService(db);
+            var service = new AccountService(_db);
             string newPw = "newPw";
             Account updatedAccount = new() { AccountId = id, Name = name, Password = newPw, Class = accountType };
 
@@ -109,7 +109,7 @@ namespace backend.Tests.ServicesTests
         public async void AccountService_AddAccount_ReturnsCreatedAtActionResult(string name, string password, AccountType accountType)
         {
             // Arrange
-            var service = new AccountService(db);
+            var service = new AccountService(_db);
             Account newAccount = new() { Name = name, Password = password, Class = accountType };
 
             // Act
@@ -131,7 +131,7 @@ namespace backend.Tests.ServicesTests
         public async void AccountService_DeleteAccount_ReturnsNoContent(int id)
         {
             // Arrange
-            var service = new AccountService(db);
+            var service = new AccountService(_db);
 
             // Act
             var result = await service.DeleteAccount(id);
@@ -149,7 +149,7 @@ namespace backend.Tests.ServicesTests
         public async void AccountService_DeleteAccount_ReturnsNotFound(int id)
         {
             // Arrange
-            var service = new AccountService(db);
+            var service = new AccountService(_db);
 
             // Act
             var result = await service.DeleteAccount(id);
