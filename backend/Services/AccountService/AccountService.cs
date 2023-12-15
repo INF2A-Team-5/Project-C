@@ -35,21 +35,6 @@ namespace Backend.AccountService
             }
             return account;
         }
-        public async Task<ActionResult<Employee>> GetEmployeeId(int id)
-        {
-            if (_context.Accounts == null || _context.Employees == null)
-            {
-                return NotFound();
-            }
-            var account = await _context.Accounts.FindAsync(id);
-            if (account == null)
-            {
-                return NotFound();
-            }
-            var employee = await (from employees in _context.Employees where employees.AccountId == account.AccountId select employees).FirstOrDefaultAsync();
-            return employee;
-        }
-
         public async Task<IActionResult> UpdateAccount(int id, Account account)
         {
             if (id != account.AccountId)

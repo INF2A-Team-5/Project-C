@@ -29,18 +29,19 @@ public class DataContext : DbContext
         modelBuilder.Entity<Machine>().HasKey(x => x.MachineId);
 
         modelBuilder.Entity<Ticket>().HasKey(x => x.TicketId);
-
-        modelBuilder.Entity<Department>().HasMany(d => d.Employees).WithOne(e => e.Department).HasForeignKey(e => e.DepartmentId);
         
+        modelBuilder.Entity<Department>().HasMany(d => d.Employees).WithOne(e => e.Department).HasForeignKey(e => e.DepartmentId).IsRequired();
+        // modelBuilder.Entity<Department>().Navigation(d => d.Employees).UsePropertyAccessMode(PropertyAccessMode.Property);
+
         modelBuilder.Entity<Solution>().HasKey(x => x.SolutionId);
 
         modelBuilder.Entity<TicketFile>().HasKey(x => x.FileId);
 
 
-        modelBuilder.Entity<Employee>().HasOne(e => e.Account).WithOne().IsRequired();
-        modelBuilder.Entity<Employee>().HasMany(e => e.Tickets).WithOne().HasForeignKey(t => t.Employee_Id);
+        modelBuilder.Entity<Employee>().HasMany(e => e.Tickets).WithOne().HasForeignKey(t => t.Employee_Id).IsRequired(false);
+        // modelBuilder.Entity<Employee>().Navigation(e => e.Department).UsePropertyAccessMode(PropertyAccessMode.Property);
 
         modelBuilder.Entity<Customer>().HasOne(e => e.Account).WithOne().IsRequired();
-        modelBuilder.Entity<Customer>().HasMany(c => c.Machines).WithOne(m => m.Customer).HasForeignKey(m => m.Customer_Id);
+        modelBuilder.Entity<Customer>().HasMany(c => c.Machines).WithOne(m => m.Customer).HasForeignKey(m => m.Customer_Id).IsRequired(false);
     }
 }
