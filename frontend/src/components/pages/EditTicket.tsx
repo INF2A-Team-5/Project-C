@@ -75,7 +75,7 @@ function EditTicket() {
       TicketId: currentticket.ticketId,
       Machine_Id: currentticket.machine_Id,
       Customer_Id: currentticket.customer_Id,
-      Assigned_Id: currentticket.assigned_Id,
+      employee_Id: currentticket.employee_Id,
       Priority: currentticket.priority,
       Status: currentticket.status,
 

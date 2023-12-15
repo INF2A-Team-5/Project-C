@@ -15,6 +15,9 @@ import {
   putBaseMutateRequest,
 } from "@/lib/api";
 import {
+  getFilteredRowModel,
+  ColumnFiltersState,
+
   ColumnDef,
   flexRender,
   getCoreRowModel,
@@ -24,6 +27,7 @@ import {
   getSortedRowModel,
 } from "@tanstack/react-table";
 import { Separator } from "../ui/separator";
+import { Input } from "@/components/ui/input"
 
 interface TableProps<TData, TValue> {
   // data: { [key: string]: any }[];
@@ -39,6 +43,7 @@ function DataTable<TData, TValue>({
 }: TableProps<TData, TValue>) {
   const [currentPage, setCurrentPage] = useState(1);
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
   const totalPages = Math.ceil(data.length / 10);
 
@@ -54,12 +59,16 @@ function DataTable<TData, TValue>({
   const table = useReactTable({
     data,
     columns,
+    
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
+      columnFilters,
     },
   });
 
@@ -70,12 +79,12 @@ function DataTable<TData, TValue>({
     ).then((data) => data.json());
 
     if (user.class == "Admin" || user.class == "ServiceEmployee") {
-      if (ticket.assigned_Id == null || ticket.assigned_Id == 0) {
+      if (ticket.employee_Id == null || ticket.employee_Id == 0) {
         const temp = {
           TicketId: ticket.ticketId,
           Machine_Id: ticket.machine_Id,
           Customer_Id: ticket.customer_Id,
-          Assigned_Id: localStorage.getItem("Id"),
+          employee_Id: localStorage.getItem("Id"),
           Priority: ticket.priority,
           Status: ticket.status,
 
@@ -105,9 +114,32 @@ function DataTable<TData, TValue>({
     }
   }
 
+  let column = "";
+  let columnplaceholder = "";
+  if (table.getAllColumns().find((el) => el.id == "title") != undefined)
+  {
+    column = "title";
+    columnplaceholder = "Title";
+  }
+  else if (table.getAllColumns().find((el) => el.id == "name") != undefined)
+  {
+    column = "name";
+    columnplaceholder = "Name"
+  }
   return (
     <Card>
       <div>
+     {  
+     <div className="flex items-center py-4">
+        <Input
+          placeholder={'Search for ' + column + "..."}
+          value={(table.getColumn(column)?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn(column)?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+      </div> }
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
