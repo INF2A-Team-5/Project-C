@@ -41,13 +41,13 @@ function Tickets() {
     <>
       <Navbar />
       <Settings></Settings>
-      <div className="grid gap-8 px-24 text-left">
-        <div className="h-24" />
+      <div className="grid gap-6 px-24 text-left">
+        <div className="h-16" />
         <div className="flex items-center justify-between">
-          <h1 className="text-5xl font-medium">Tickets</h1>
+          <h1 className="text-3xl font-medium">Tickets</h1>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="default">Create Ticket</Button>
+              <Button variant="default">Create ticket</Button>
             </DialogTrigger>
 
             <DialogContent>
@@ -75,7 +75,6 @@ function Tickets() {
             </DialogContent>
           </Dialog>
         </div>
-        {/* <Button variant="outline" className="w-fit" >dddddddddddddd</Button> */}
         <div className="grid gap-12">
           <Table data={allTickets} columns={ticketColumns} />
           <div className="h-44"></div>

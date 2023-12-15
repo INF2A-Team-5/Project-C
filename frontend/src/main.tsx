@@ -1,9 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-
-// import "./styles/index.css";
 import "./styles/globals.css";
-
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 import Client from "./components/pages/client";
@@ -12,17 +9,13 @@ import Admin from "./components/pages/admin";
 import EditAccount from "./components/pages/EditAccount";
 import "./translations/i18n";
 import EditTicket from "./components/pages/EditTicket";
-
 import LogIn from "./components/pages/auth/log-in";
-// import Register from "./components/pages/auth/register";
 import ForgotPassword from "./components/pages/auth/forgot-password";
 import CreateTickets from "./components/pages/CreateTicket";
 import Tickets from "./components/pages/tickets";
 import Machines from "./components/pages/machines";
-import Solutions from "./components/pages/solutions";
 import Departments from "./components/pages/departments";
 import Accounts from "./components/pages/accounts";
-
 
 const router = createBrowserRouter([
   {
@@ -35,10 +28,6 @@ const router = createBrowserRouter([
     path: "/auth/login",
     element: <LogIn />,
   },
-  // {
-  //   path: "/auth/register",
-  //   element: <Register />,
-  // },
   {
     path: "/auth/forgot-password",
     element: <ForgotPassword />,
@@ -67,33 +56,28 @@ const router = createBrowserRouter([
   },
   {
     path: "edit-ticket",
-    element: <EditTicket />
+    element: <EditTicket />,
   },
   {
     path: "tickets",
-    element: <Tickets />
+    element: <Tickets />,
   },
   {
     path: "machines",
-    element: <Machines />
-  },
-  {
-    path: "solutions",
-    element: <Solutions />
+    element: <Machines />,
   },
   {
     path: "departments",
-    element: <Departments />
+    element: <Departments />,
   },
   {
     path: "accounts",
-    element: <Accounts />
-  }
-
+    element: <Accounts />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>
+  </React.StrictMode>,
 );

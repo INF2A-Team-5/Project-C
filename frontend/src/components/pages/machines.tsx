@@ -9,7 +9,6 @@ import {
   postBaseMutateRequest,
 } from "@/lib/api";
 import { Machine } from "@/services/Machine";
-
 import Navbar from "../foundations/navbar";
 import {
   Dialog,
@@ -133,10 +132,10 @@ function Machines() {
     <>
       <Navbar />
       <Settings></Settings>
-      <div className="grid gap-8 px-24 text-left">
-        <div className="h-24" />
+      <div className="grid gap-6 px-24 text-left">
+        <div className="h-16" />
         <div className="flex items-center justify-between">
-          <h1 className="text-5xl font-medium">Machines</h1>
+          <h1 className="text-3xl font-medium">Machines</h1>
           <Dialog>
             <DialogTrigger asChild>
               <Button variant="default">Add machine</Button>

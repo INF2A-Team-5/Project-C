@@ -7,27 +7,26 @@ function Navbar() {
   const navItems = [
     { label: "Tickets", path: ["/tickets", "/create-ticket"] },
     { label: "Machines", path: ["/machines"] },
-    { label: "Solutions", path: ["/solutions"] },
     { label: "Departments", path: ["/departments"] },
     { label: "Accounts", path: ["/accounts"] },
   ];
   return (
     <>
-      <div className="fixed z-10 flex h-24 w-full items-center border-b border-border bg-background">
-        <div className="ml-6 flex items-center">
+      <div className="fixed z-10 flex h-16 w-full items-center border-b border-border bg-background">
+        <div className="ml-12 flex items-center">
           <img
-            className="h-14 "
+            className="h-10"
             src="/viscon_logo_transparant.png"
             alt="Viscon Logo"
           />
-          {/* <h1 className="text-5xl font-medium">VISCON</h1> */}
+          <h1 className="ml-2 text-3xl font-medium">VISCON</h1>
         </div>
-        <nav className="flex items-center space-x-4 pl-8 lg:space-x-8">
+        <nav className="flex items-center space-x-4 pl-4">
           {navItems.map((item) => (
             <Link
               key={item.label}
               to={item.path[0]}
-              className={`text-3xl font-medium transition-colors duration-300 hover:text-primary ${
+              className={`text-md font-medium transition-colors duration-300 hover:text-primary lg:px-4 ${
                 item.path.includes(location.pathname)
                   ? "text-primary"
                   : "text-muted-foreground"
