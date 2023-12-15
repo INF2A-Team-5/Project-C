@@ -11,8 +11,20 @@ import { API_BASE_URL, getBaseQueryRequest, putBaseMutateRequest } from "@/lib/a
 import { toast } from "@/components/ui/use-toast";
 
 async function AssignTicket(ticket: any) {
-  let employee = await fetch("http://localhost:5119/GetEmployeeById?id=" + localStorage.getItem("Id"), getBaseQueryRequest()).then((data) => data.json());
-  if (employee == null)
+  console.log(localStorage.getItem("Id"))
+  try 
+  {
+  let employee = await fetch("http://localhost:5119/GetEmployeeById?id=" + localStorage.getItem("Id"), getBaseQueryRequest()).then((data) => data.json());  
+  ticket.employee_Id = employee.employeeId;
+  await fetch(API_BASE_URL + "/api/tickets/" + ticket.ticketId, putBaseMutateRequest(JSON.stringify(ticket))
+  );
+    toast({
+      variant: "default",
+      title: "Succes!",
+      description: "Assigned employee to ticket.",
+    });
+  }
+  catch (error)
   {
     toast({
       variant: "destructive",
@@ -20,14 +32,6 @@ async function AssignTicket(ticket: any) {
       description: "Error! unknown user identified"
     })
   }
-  ticket.employee_Id = employee.employeeId;
-  await fetch(API_BASE_URL + "/api/tickets/" + ticket.ticketId, putBaseMutateRequest(JSON.stringify(ticket))
-  );
-  toast({
-    variant: "default",
-    title: "Succes!",
-    description: "Assigned employee to ticket.",
-  });
 }
 
 
