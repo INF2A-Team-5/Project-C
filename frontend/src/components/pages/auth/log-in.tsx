@@ -129,21 +129,24 @@ function LogIn() {
             </TextareaHint>
           </div>
           <div className="grid gap-2">
-            <Label>{t("login.username")}</Label>
+            <Label htmlFor="username">{t("login.username")}</Label>
+            {/* <Label htmlFor="username">Voer gegevens in</Label> */}
             <Input
+              id="username"
               ref={usernameRef}
               name="username"
-              placeholder="Username"
+              placeholder="Client123"
               onKeyDown={handleEnter}
               onChange={(e) => setUsername(e.currentTarget.value)}
             />
           </div>
           <div className="grid gap-2">
-            <Label>{t("login.password")}</Label>
+            <Label htmlFor="password">{t("login.password")}</Label>
             <Input
+              id="password"
               ref={passwordRef}
               name="password"
-              placeholder="******"
+              placeholder="*******"
               type="password"
               onKeyDown={handleEnter}
               // ●●●●●●●● als je circels wilt
