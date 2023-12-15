@@ -37,6 +37,7 @@ function EditAccount() {
         accountId: localStorage.getItem("Id"),
         name: currentaccount.name,
         password: password,
+        // phoneNumber: phone === "" ? currentaccount.phoneNumber : phone,
         class: currentaccount.class,
       };
 

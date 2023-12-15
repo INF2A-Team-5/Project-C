@@ -40,8 +40,8 @@ import { useTranslation } from "react-i18next";
 //   AccountId: number; Name: string; Password: string; Class: number
 // }
 
-function Tickets() {
-  useAuthenticated();
+function CreateTickets() {
+  // useAuthenticated();
   const [title, setTitle] = useState("");
   const [problem, setProblem] = useState("");
   const [mustbedoing, setMustBeDoing] = useState("");
@@ -395,4 +395,4 @@ function Tickets() {
   );
 }
 
-export default Tickets;
+export default CreateTickets;
