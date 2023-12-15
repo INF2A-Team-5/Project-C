@@ -1,4 +1,4 @@
-import { SetStateAction, useEffect, useState } from "react";
+import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, SetStateAction, useEffect, useState } from "react";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { Link, useNavigate } from "react-router-dom";
 import Settings from "../foundations/settings";
@@ -19,6 +19,10 @@ import { Toaster } from "../ui/toaster";
 import { use } from "i18next";
 import { toast } from "../ui/use-toast";
 import { Ticket } from "@/services/Ticket";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
+import { BoxIcon, CardStackIcon, CardStackMinusIcon } from "@radix-ui/react-icons";
+import { BookIcon, CalendarDays, CatIcon } from "lucide-react";
+import { Icon } from "@radix-ui/react-select";
 
 function ViewTicket() {
   useAuthenticated();
@@ -29,7 +33,7 @@ function ViewTicket() {
 
   const navigate = useNavigate();
   const [notes, setNotes] = useState("");
-  const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
+  const [preview, setPreview] = useState<(string)[]>([]);
   const [ticketInfo, setTicketInfo] = useState<any>(null);
   const ticketid = localStorage.getItem("currentticketID");
   const [showTicketInfo, setShowTicketInfo] = useState(false);
@@ -69,35 +73,50 @@ function ViewTicket() {
   };
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    // const target = e.target as HTMLInputElement & {
-    //   files: FileList;
-    // }
     const fileList = e.target.files;
 
     if (fileList) {
-      const allPreviews: (string | ArrayBuffer)[] = [];
+      const allPreviews: string[] = [];
 
       for (let i = 0; i < fileList.length; i++) {
         const file = fileList[i];
 
         const reader = new FileReader();
-        reader.onload = () => {
-          const result = reader.result;
-          if (result) {
-            allPreviews.push(result);
-            // console.log(allPreviews);
-            // You may want to set a state or perform other actions with 'result' here
 
-            if (preview.length != null) {
-              preview.forEach(function (item) {
-                allPreviews.push(item);
-              });
-            }
-            setPreview(allPreviews);
-            console.log(preview);
+        reader.onload = (event) => {
+          const result = event.target?.result;
+
+          if (result && typeof result === 'string') {
+            allPreviews.push(result); // Add strings (URLs or Base64-encoded) to previews
+            setPreview([...allPreviews]); // Set the state after adding all previews
           }
         };
+
         reader.readAsDataURL(file);
+      }
+    }
+  }
+
+  async function SendTicket(ticket: Ticket) {
+    if (ticket) {
+      try {
+        const response = await fetch(
+          API_BASE_URL +
+          "/api/tickets/" +
+          ticket.ticketId,
+          putBaseMutateRequest(JSON.stringify(ticket)),
+        );
+
+        if (!response.ok) {
+          const errorResponse = await response.text(); // Capture response content
+          throw new Error(
+            `HTTP error! Status: ${response.status
+            }. Error message: ${JSON.stringify(errorResponse)}`,
+          );
+        }
+        console.log("Ticket sended to database")
+      } catch (error) {
+        console.error("Error during PUT request:", error);
       }
     }
   }
@@ -124,6 +143,12 @@ function ViewTicket() {
       if (currentticket.priority == "Critical") {
         currentticket.priority = "Non critical"
       }
+      else {
+        currentticket.priority = "Critical"
+      }
+      SendTicket(currentticket);
+      alert("Changed priority")
+      navigate("/view-ticket")
     }
   }
 
@@ -132,27 +157,7 @@ function ViewTicket() {
       if (reopen.length != 0) {
         currentticket.notes = currentticket.notes ? [...currentticket.notes, reopen] : [reopen];
         currentticket.status = "Open"
-        try {
-          const response = await fetch(
-            API_BASE_URL +
-            "/api/tickets/" +
-            currentticket.ticketId,
-            putBaseMutateRequest(JSON.stringify(currentticket)),
-          );
-
-          if (!response.ok) {
-            const errorResponse = await response.text(); // Capture response content
-            throw new Error(
-              `HTTP error! Status: ${response.status
-              }. Error message: ${JSON.stringify(errorResponse)}`,
-            );
-          }
-          alert("Ticket reopened");
-          navigate(-1);
-          // If needed, you can handle the response data here
-        } catch (error) {
-          console.error("Error during PUT request:", error);
-        }
+        SendTicket(currentticket)
       }
       else {
         toast({
@@ -170,27 +175,7 @@ function ViewTicket() {
         currentticket.status = "Closed";
         currentticket.solution = solution;
         console.log(currentticket);
-        try {
-          const response = await fetch(
-            API_BASE_URL +
-            "/api/tickets/" +
-            currentticket.ticketId,
-            putBaseMutateRequest(JSON.stringify(currentticket)),
-          );
-
-          if (!response.ok) {
-            const errorResponse = await response.text(); // Capture response content
-            throw new Error(
-              `HTTP error! Status: ${response.status
-              }. Error message: ${JSON.stringify(errorResponse)}`,
-            );
-          }
-          alert("Ticket closed");
-          navigate(-1);
-          // If needed, you can handle the response data here
-        } catch (error) {
-          console.error("Error during PUT request:", error);
-        }
+        SendTicket(currentticket)
       }
       else {
         toast({
@@ -207,53 +192,39 @@ function ViewTicket() {
     if (currentticket) {
       // currentticket.notes = currentticket.notes ? [...currentticket.notes, notes] : [notes];
       // currentticket.files = currentticket.files ? [...currentticket.files, ...preview] : [preview];
+      currentticket.notes = currentticket.notes ? [...currentticket.notes, notes] : [notes]
+      currentticket.files = currentticket.files
+        ? [...currentticket.files, ...preview]
+        : [...preview]
+      // const ticket = {
+      //   TicketId: currentticket.ticketId,
+      //   Machine_Id: currentticket.machine_Id,
+      //   Customer_Id: currentticket.customer_Id,
+      //   Assigned_Id: currentticket.employee_Id,
+      //   Title: currentticket.title,
+      //   Priority: currentticket.priority,
+      //   Status: currentticket.status,
 
-      const ticket = {
-        TicketId: currentticket.ticketId,
-        Machine_Id: currentticket.machine_Id,
-        Customer_Id: currentticket.customer_Id,
-        Assigned_Id: currentticket.employee_Id,
-        Title: currentticket.title,
-        Priority: currentticket.priority,
-        Status: currentticket.status,
+      //   Problem: currentticket.problem,
+      //   HaveTried: currentticket.haveTried,
+      //   MustBeDoing: currentticket.mustBeDoing,
+      //   Date_Created: currentticket.date_Created,
 
-        Problem: currentticket.problem,
-        HaveTried: currentticket.haveTried,
-        MustBeDoing: currentticket.mustBeDoing,
-        Date_Created: currentticket.date_Created,
-
-        Solution: currentticket.solution,
-        PhoneNumber: currentticket.phoneNumber,
-        Notes: currentticket.notes ? [...currentticket.notes, notes] : [notes],
-        files: currentticket.files
-          ? [...currentticket.files, ...preview]
-          : [...preview],
-      }
-      try {
-        const response = await fetch(
-          API_BASE_URL + "/api/tickets/" + ticketid,
-          putBaseMutateRequest(JSON.stringify(ticket)),
-        );
-
-        if (!response.ok) {
-          const errorResponse = await response.text(); // Capture response content
-          throw new Error(
-            `HTTP error! Status: ${response.status
-            }. Error message: ${JSON.stringify(errorResponse)}`,
-          );
-        }
-        alert("Ticket updated");
-        navigate(-1);
-        // If needed, you can handle the response data here
-      } catch (error) {
-        console.error("Error during PUT request:", error);
-      }
+      //   Solution: currentticket.solution,
+      //   PhoneNumber: currentticket.phoneNumber,
+      //   Notes: currentticket.notes ? [...currentticket.notes, notes] : [notes],
+      //   files: currentticket.files
+      //     ? [...currentticket.files, ...preview]
+      //     : [...preview],
+      // }
+      SendTicket(currentticket)
+      alert("Ticket updated");
+      navigate(-1);
+      // If needed, you can handle the response data here
     };
 
 
   }
-
-
 
   return (
     <div className="px-24 text-left">
@@ -268,30 +239,48 @@ function ViewTicket() {
           <Label>View and edit ticket</Label>
           <Separator className="my-4" />
           <br />
+
           <Label></Label>
           {showTicketInfo && (
             <div>
+              <Card>
+                <CardHeader><CardTitle>Title: {ticketInfo.title}</CardTitle> ID: {ticketInfo.ticketId}</CardHeader>
+
+                <CardContent>
+                  <h1> <b>What is the problem?</b></h1>
+                  <p className="XL">{ticketInfo.problem}</p>
+                  <h1> <b>What have you tried?</b></h1>
+                  <p className="XL">{ticketInfo.haveTried}</p>
+                  <h1> <b>What should it be doing?</b></h1>
+                  <p className="XL">{ticketInfo.mustBeDoing}</p>
+                  <h1> <b>Notes:</b></h1>
+                  {ticketInfo.notes && ticketInfo.notes.map((note: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Iterable<ReactNode> | null | undefined, index: Key | null | undefined) => (
+                    <p key={index} className="XL">{note}</p>
+                  ))}
+
+                </CardContent>
+                <CardFooter>
+                  <h1><b>Contact: </b></h1>
+                  <p>{ticketInfo.phoneNumber}</p></CardFooter>
+                <CardDescription>Ticketinformation</CardDescription>
+              </Card>
               {/* Display your ticket information here */}
-              <p>TicketID: {ticketInfo.ticketId}</p>
-              <p>MachineID: {ticketInfo.machine_Id}</p>
-              <p>Status: {ticketInfo.status}</p>
-              {/* <p><b>{t('editticket.problem')}</b>{ticketInfo.problem}</p>
-          <p><b>{t('editticket.mbd')}</b>{ticketInfo.mustBeDoing}</p>
-          <p><b>{t('editticket.tried')}</b>{ticketInfo.haveTried}</p>
-          <p><b>{t('editticket.notes3')}</b>{ticketInfo.notes}</p> */}
-              <p>Problem: {ticketInfo.problem}</p>
-              <p>Must be doing: {ticketInfo.mustBeDoing}</p>
-              <p>What have you tried?: {ticketInfo.haveTried}</p>
-              <p>Notes: {ticketInfo.notes}</p>
+
             </div>
           )}
         </div>
         {/* Hij checkt hieronder eerst of de ticket open is, anders kan je namelijk niks meer toevoegen, dan krijg je wel de optie om hem te heropenen */}
         {currentticket?.status === "Open" || currentticket?.status === "In Process" ? <><div className="grid gap-2">
           {/* <h2 className='text-lg font-medium'>{t('editticket.notes')}</h2> */}
-          {isClient ? null : <Button className="w-fit" variant="default">
-            Change priority
-          </Button>}
+          {!isClient && showTicketInfo ? (
+            <>
+              <h1><b>Priority at the moment:</b></h1>
+              {ticketInfo.priority}
+              <Button className="w-fit" variant="default" onClick={changePriority}>
+                Change priority
+              </Button>
+            </>
+          ) : null}
           <Dialog>
             <DialogTrigger asChild>
               {isClient ? null : <Button className="w-fit" variant="destructive">
@@ -380,9 +369,10 @@ function ViewTicket() {
           </div></> :
 
           <div>
+            <label>Ticket is closed</label><br></br>
             <Dialog>
               <DialogTrigger asChild>
-                {isClient ? null : <Button className="w-fit" variant="destructive">
+                {isClient ? null : <Button className="w-fit" variant="default">
                   Reopen ticket
                 </Button>}
               </DialogTrigger>
