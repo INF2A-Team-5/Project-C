@@ -5,6 +5,7 @@ import {
   API_BASE_URL,
   getBaseQueryRequest,
   postBaseMutateRequest,
+  useQuery,
 } from "@/lib/api";
 import { Machine } from "@/services/Machine";
 import Navbar from "../foundations/navbar";
@@ -25,27 +26,38 @@ import { Textarea, TextareaHint } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
 import { Input } from "../ui/input";
 import { Icons } from "../foundations/icons";
+import Layout from "../layout";
 
 function Machines() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [allMachines, setAllMachines] = useState<Machine[]>([]);
-  const [loadData, setData] = useState<Boolean>(false);
+  // const [allMachines, setAllMachines] = useState<Machine[]>([]);
+  // const [loadData, setData] = useState<Boolean>(false);
   const [department, setDepartment] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-  if (loadData == false) {
-    getData();
-    setData(true);
-  }
+  // if (loadData == false) {
+  //   getData();
+  //   setData(true);
+  // }
 
-  async function getData() {
-    setAllMachines(
-      await fetch(API_BASE_URL + "/api/Machines", getBaseQueryRequest()).then(
-        (data) => data.json(),
-      ),
-    );
-  }
+  // async function getData() {
+  //   setAllMachines(
+  //     await fetch(API_BASE_URL + "/api/Machines", getBaseQueryRequest()).then(
+  //       (data) => data.json(),
+  //     ),
+  //   );
+  // }
+  const { data, isFetching } = useQuery<Machine[]>("/api/machines", {
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Whomp whomp:(",
+        description: "U get no data",
+      });
+    },
+  });
+
   async function handleSubmit() {
     setIsLoading(true);
     const machine = await fetch(
@@ -126,16 +138,15 @@ function Machines() {
   }
 
   return (
-    <>
-      <Navbar />
-
-      <div className="grid gap-6 px-24 text-left">
-        <div className="h-16" />
+    <Layout>
+      <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-medium">Machines</h1>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="default">Add machine</Button>
+              <Button variant="default" size="sm" disabled={isFetching}>
+                Add machine
+              </Button>
             </DialogTrigger>
 
             <DialogContent>
@@ -174,12 +185,18 @@ function Machines() {
           </Dialog>
         </div>
         <div className="grid gap-12">
-          <Table data={allMachines} columns={machineColumns} />
+          {data ? (
+            <Table data={data} columns={machineColumns} />
+          ) : (
+            <div className="flex h-[20rem] w-full items-center justify-center">
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            </div>
+          )}
           <div className="h-44"></div>
         </div>
       </div>
       <Toaster />
-    </>
+    </Layout>
   );
 }
 

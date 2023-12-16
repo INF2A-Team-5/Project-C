@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Settings from "../foundations/settings";
 import Table from "../foundations/table";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { Toaster } from "../ui/toaster";
@@ -7,6 +6,7 @@ import {
   API_BASE_URL,
   getBaseQueryRequest,
   postBaseMutateRequest,
+  useQuery,
 } from "@/lib/api";
 import { departmentColumns } from "@/services/Columns";
 import Navbar from "../foundations/navbar";
@@ -26,26 +26,36 @@ import { Department } from "@/services/Department";
 import { toast } from "../ui/use-toast";
 import { Icons } from "../foundations/icons";
 import { TextareaHint } from "../ui/textarea";
+import Layout from "../layout";
 
 function Departments() {
   useAuthenticated();
   const [name, setName] = useState("");
-  const [loadData, setData] = useState<Boolean>(false);
+  // const [loadData, setData] = useState<Boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [allDepartments, setAllDepartments] = useState<Department[]>([]);
-  if (loadData == false) {
-    getData();
-    setData(true);
-  }
+  // const [allDepartments, setAllDepartments] = useState<Department[]>([]);
+  // if (loadData == false) {
+  //   getData();
+  //   setData(true);
+  // }
+  const { data, isFetching } = useQuery<Department[]>("/api/departments", {
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Whomp whomp:(",
+        description: "U get no data",
+      });
+    },
+  });
 
-  async function getData() {
-    setAllDepartments(
-      await fetch(
-        API_BASE_URL + "/api/Departments",
-        getBaseQueryRequest(),
-      ).then((data) => data.json()),
-    );
-  }
+  // async function getData() {
+  //   setAllDepartments(
+  //     await fetch(
+  //       API_BASE_URL + "/api/Departments",
+  //       getBaseQueryRequest(),
+  //     ).then((data) => data.json()),
+  //   );
+  // }
 
   async function handleSubmit() {
     setIsLoading(true);
@@ -85,16 +95,13 @@ function Departments() {
   }
 
   return (
-    <>
-      <Navbar />
-
-      <div className="grid gap-6 px-24 text-left">
-        <div className="h-16" />
+    <Layout>
+      <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-medium">Departments</h1>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="default">Add department</Button>
+              <Button variant="default" disabled={isFetching}>Add department</Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -127,12 +134,18 @@ function Departments() {
           </Dialog>
         </div>
         <div className="grid gap-12">
-          <Table data={allDepartments} columns={departmentColumns} />
+          {/* <Table data={allDepartments} columns={departmentColumns} /> */}
+          {data ? (
+            <Table data={data} columns={departmentColumns} />
+          ) : (
+            <div className="flex h-[20rem] w-full items-center justify-center">
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            </div>
+          )}
           <div className="h-44"></div>
         </div>
       </div>
-      <Toaster />
-    </>
+    </Layout>
   );
 }
 

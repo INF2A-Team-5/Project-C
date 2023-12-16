@@ -122,7 +122,6 @@ function DataTable<TData, TValue>({
     columnplaceholder = "Name";
   }
   return (
-    <>
       <div className="grid gap-4">
         <div className="flex items-center">
           <Input
@@ -212,7 +211,6 @@ function DataTable<TData, TValue>({
           </footer>
         </Card>
       </div>
-    </>
   );
 }
 

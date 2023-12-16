@@ -1,7 +1,6 @@
 import { Icons } from "../foundations/icons";
 import { Ticket } from "../../services/Ticket";
 import Table from "../foundations/table";
-import { Toaster } from "../ui/toaster";
 import { useQuery } from "@/lib/api";
 import { ticketColumns } from "@/services/Columns";
 import {
@@ -18,7 +17,6 @@ import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import Layout from "../layout";
 import { toast } from "../ui/use-toast";
-import { useEffect } from "react";
 
 function Tickets() {
   const { data, isFetching } = useQuery<Ticket[]>("/api/tickets", {

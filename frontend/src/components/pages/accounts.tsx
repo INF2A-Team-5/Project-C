@@ -5,6 +5,7 @@ import {
   API_BASE_URL,
   getBaseQueryRequest,
   postBaseMutateRequest,
+  useQuery,
 } from "@/lib/api";
 import { accountColumns } from "@/services/Columns";
 import Navbar from "../foundations/navbar";
@@ -31,27 +32,38 @@ import {
   SelectValue,
 } from "../ui/select";
 import { TextareaHint } from "../ui/textarea";
+import Layout from "../layout";
 
 function Departments() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setconfirmPassword] = useState("");
-  const [allAccounts, setAllAccounts] = useState<Account[]>([]);
+  // const [allAccounts, setAllAccounts] = useState<Account[]>([]);
   const [userType, setUserType] = useState("Client");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [loadData, setData] = useState<Boolean>(false);
-  if (loadData == false) {
-    getData();
-    setData(true);
-  }
 
-  async function getData() {
-    setAllAccounts(
-      await fetch(API_BASE_URL + "/api/Accounts", getBaseQueryRequest()).then(
-        (data) => data.json(),
-      ),
-    );
-  }
+  const { data, isFetching } = useQuery<Account[]>("/api/accounts", {
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Whomp whomp:(",
+        description: "U get no data",
+      });
+    },
+  });
+  // const [loadData, setData] = useState<Boolean>(false);
+  // if (loadData == false) {
+  //   getData();
+  //   setData(true);
+  // }
+
+  // async function getData() {
+  //   setAllAccounts(
+  //     await fetch(API_BASE_URL + "/api/Accounts", getBaseQueryRequest()).then(
+  //       (data) => data.json(),
+  //     ),
+  //   );
+  // }
 
   async function handleSubmit() {
     setIsLoading(true);
@@ -112,11 +124,8 @@ function Departments() {
   }
 
   return (
-    <>
-      <Navbar />
-
-      <div className="grid gap-6 px-24 text-left">
-        <div className="h-16" />
+    <Layout>
+      <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-medium">Accounts</h1>
           <Dialog>
@@ -178,12 +187,17 @@ function Departments() {
           </Dialog>
         </div>
         <div className="grid gap-12">
-          <Table data={allAccounts} columns={accountColumns} />
+          {data ? (
+            <Table data={data} columns={accountColumns} />
+          ) : (
+            <div className="flex h-[20rem] w-full items-center justify-center">
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            </div>
+          )}
           <div className="h-44"></div>
         </div>
       </div>
-      <Toaster />
-    </>
+    </Layout>
   );
 }
 
