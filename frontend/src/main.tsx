@@ -11,7 +11,7 @@ import "./translations/i18n";
 import ViewTicket from "./components/pages/view-ticket";
 
 import LogIn from "./components/pages/auth/log-in";
-import ForgotPassword from "./components/pages/auth/forgot-password";
+import ForgotPassword from "./components/pages/auth/--forgot-password";
 import CreateTickets from "./components/pages/create-ticket";
 import Tickets from "./components/pages/tickets";
 import Machines from "./components/pages/machines";
