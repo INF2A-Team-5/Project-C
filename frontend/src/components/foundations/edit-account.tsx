@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Settings from "./settings";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
@@ -30,43 +30,73 @@ function EditAccount() {
   const goBack = () => {
     navigate(-1);
   };
+
+  const phoneRegex: RegExp = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+  const [phonePlaceholder, setPhonePlaceholder] = useState("");
+
+  useEffect(() => {
+    async function fetchPhoneStatus() {
+      const phoneStatus = await hasPhoneConnected();
+      setPhonePlaceholder(phoneStatus);
+    }
+
+    fetchPhoneStatus();
+
+    return () => {
+      // cleanup
+    };
+  }, []);
+
+  function validatePhone() {
+    return phoneRegex.test(phone);
+  }
+
+  async function hasPhoneConnected() : Promise<string>{
+    let currentaccount = await fetch(
+      API_BASE_URL + "/api/accounts/",
+      getBaseQueryRequest(),
+    )
+    .then((data) => data.json())
+    .then((accounts) => accounts.find((acc: any) => acc.accountId == localStorage.getItem("Id")));
+    
+    if (currentaccount.phoneNumber == null) {
+      return "Enter Phone Number";
+    } else {
+      return "Current Phone Number: " + currentaccount.phoneNumber;
+    }
+  }
+
   async function handleSubmitPhone() {
     setIsLoading(true);
     let currentaccount = await fetch(
       API_BASE_URL + "/api/accounts/" + localStorage.getItem("Id"),
       getBaseQueryRequest(),
     ).then((data) => data.json());
-    if (phone == "")
-    {
-      toast({
-        variant: "destructive",
-        title: "Error!",
-        description: "Please fill in a valid phone number",
-      });
-      setIsLoading(false);
-    }
-    else 
-    {
-      const data = {
-        accountId: localStorage.getItem("Id"),
-        name: currentaccount.name,
-        password: currentaccount.password,
-        phoneNumber: phone,
-        class: currentaccount.class,
-      };
+    
+    if (validatePhone() == true) {
+      currentaccount.phoneNumber = phone;
+
       await fetch(
         API_BASE_URL + "/api/accounts/" + localStorage.getItem("Id"),
-        putBaseMutateRequest(JSON.stringify(data)),
-      );
+        putBaseMutateRequest(JSON.stringify(currentaccount)),
+      )
+
       toast({
         variant: "default",
         title: "Succes!",
-        description: "Phone number successfully editted",
+        description: "Phone number changed succesfully.",
+      });
+      setIsLoading(false);
+    } else{
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Phone number is not valid.",
       });
       setIsLoading(false);
     }
-
   }
+
   async function handleSubmitPass() {
     setIsLoading(true);
     let currentaccount = await fetch(
@@ -83,16 +113,10 @@ function EditAccount() {
       setIsLoading(false);
     }
     else {
-      const data = {
-        accountId: localStorage.getItem("Id"),
-        name: currentaccount.name,
-        password: password,
-        // phoneNumber: phone === "" ? currentaccount.phoneNumber : phone,
-        class: currentaccount.class,
-      };
+      currentaccount.password = password
       await fetch(
         API_BASE_URL + "/api/accounts/" + localStorage.getItem("Id"),
-        putBaseMutateRequest(JSON.stringify(data)),
+        putBaseMutateRequest(JSON.stringify(currentaccount)),
       );
       toast({
         variant: "default",
@@ -101,7 +125,6 @@ function EditAccount() {
       });
       setIsLoading(false);
     }
-    // also need another function for changing phone number
   }
 
   return (
