@@ -12,6 +12,6 @@ export type Ticket = {
     date_Created: string,
     solution: string,
     phoneNumber: string,
-    notes: string,
+    notes: string[],
     files: string[]
 };
