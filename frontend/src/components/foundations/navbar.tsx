@@ -2,7 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import Settings from "./settings";
 
 const navItems = [
-  { label: "Tickets", path: ["/tickets", "/create-ticket"] },
+  { label: "Tickets", path: ["/tickets", "/create-ticket", "/view-ticket"] },
   { label: "Machines", path: ["/machines"] },
   { label: "Departments", path: ["/departments"] },
   { label: "Accounts", path: ["/accounts"] },

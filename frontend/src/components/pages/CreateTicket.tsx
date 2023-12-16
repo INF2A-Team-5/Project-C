@@ -1,12 +1,7 @@
 import Header from "../foundations/header";
 import React, { useEffect } from "react";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
-
-// import UploadService from "../../services/FileUploadService";
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Settings from "../foundations/settings";
 import { Button } from "../ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "../ui/input";
@@ -38,6 +33,7 @@ import {
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Machine } from "@/services/Machine";
+import Layout from "../layout";
 
 function CreateTickets() {
   useAuthenticated();
@@ -106,7 +102,6 @@ function CreateTickets() {
             allPreviews.push(result);
             // console.log(allPreviews);
             // You may want to set a state or perform other actions with 'result' here
-
             if (preview.length != null) {
               preview.forEach(function (item) {
                 allPreviews.push(item);
@@ -139,7 +134,6 @@ function CreateTickets() {
           description: t("ticket.machinealert"),
         });
         setIsLoading(false);
-        // navigate("/tickets");
       } else if (
         problem.split(" ").length < 20 ||
         mustbedoing.split(" ").length < 20
@@ -150,14 +144,12 @@ function CreateTickets() {
           description: t("ticket.wordsalert"),
         });
         setIsLoading(false);
-        // navigate("/tickets");
       } else if (phonenumber == "" || phonenumber == null) {
         toast({
           variant: "destructive",
           title: t("ticket.error"),
           description: t("ticket.phonealert"),
         });
-        // navigate("/tickets");
         setIsLoading(false);
       } else {
         var currentticket = {
@@ -234,64 +226,64 @@ function CreateTickets() {
   }
 
   return (
-    <div className="px-24 text-left">
-      <div className="flex justify-center pb-16 pt-10">
-        <Header></Header>
-      </div>
-      <div className="grid gap-12">
-        <div className="">
-          <h1 className="text-4xl font-medium">{t("ticket.header")}</h1>
-          <Label>{t("ticket.details")}</Label>
-        </div>
-        <div className="grid gap-2">
-          <Label>{t("ticket.selectmachinedes")}</Label>
-          <div className="w-1/6">
-            <Popover open={open} onOpenChange={setOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  aria-expanded={open}
-                  className="w-[200px] justify-between"
-                >
-                  {value
-                    ? machines.find(
-                        (machine: any) => machine.name.toLowerCase() == value,
-                      )?.name
-                    : "Select machine..."}
-                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-[200px] p-0">
-                <Command>
-                  <CommandInput placeholder="Search machine..." />
-                  <CommandEmpty>No machine found.</CommandEmpty>
-                  <CommandGroup>
-                    {machines.map((machine) => (
-                      <CommandItem
-                        key={machine.name}
-                        value={machine.name}
-                        onSelect={(currentValue) => {
-                          setValue(currentValue === value ? "" : currentValue);
-                          setOpen(false);
-                        }}
-                      >
-                        <Check
-                          className={cn(
-                            "mr-2 h-4 w-4",
-                            value === machine.name
-                              ? "opacity-100"
-                              : "opacity-0",
-                          )}
-                        />
-                        {machine.name}
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </Command>
-              </PopoverContent>
-            </Popover>
-            {/* <Select
+    <Layout>
+      <div className="mt-16 flex w-full max-w-screen flex-col">
+        <div className="grid gap-8">
+          <div className="">
+            <h1 className="text-3xl font-medium">{t("ticket.header")}</h1>
+            <Label>{t("ticket.details")}</Label>
+          </div>
+          <div className="grid gap-2">
+            <Label>{t("ticket.selectmachinedes")}</Label>
+            <div className="w-1/6">
+              <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="w-[200px] justify-between"
+                  >
+                    {value
+                      ? machines.find(
+                          (machine: any) => machine.name.toLowerCase() == value,
+                        )?.name
+                      : "Select machine..."}
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command>
+                    <CommandInput placeholder="Search machine..." />
+                    <CommandEmpty>No machine found.</CommandEmpty>
+                    <CommandGroup>
+                      {machines.map((machine) => (
+                        <CommandItem
+                          key={machine.name}
+                          value={machine.name}
+                          onSelect={(currentValue) => {
+                            setValue(
+                              currentValue === value ? "" : currentValue,
+                            );
+                            setOpen(false);
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              value === machine.name
+                                ? "opacity-100"
+                                : "opacity-0",
+                            )}
+                          />
+                          {machine.name}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              {/* <Select
               value={selectMachine}
               onValueChange={(value) => setSelectMachine(value)}
             >
@@ -306,127 +298,129 @@ function CreateTickets() {
                 ))}
               </SelectContent>
             </Select> */}
+            </div>
           </div>
-        </div>
 
-        <div className="grid gap-2">
-          <Label>{t("ticket.title")}</Label>
-          <Textarea
-            className="custom-scrollbar"
-            required
-            placeholder={t("ticket.titledes")}
-            onChange={(e) => setTitle(e.currentTarget.value)}
-          />
-        </div>
-
-        <div className="grid gap-2">
-          <Label>{t("ticket.problem")}</Label>
-          <Textarea
-            className="custom-scrollbar"
-            required
-            placeholder={t("ticket.place1")}
-            onChange={(e) => setProblem(e.currentTarget.value)}
-          />
-          <TextareaHint>{t("ticket.problemdes")}</TextareaHint>
-        </div>
-
-        <div className="grid gap-2">
-          <Label>{t("ticket.bedoing")}</Label>
-          <Textarea
-            className="custom-scrollbar"
-            placeholder={t("ticket.place2")}
-            onChange={(e) => setMustBeDoing(e.currentTarget.value)}
-          />
-          <TextareaHint>{t("ticket.bedoingdes")}</TextareaHint>
-        </div>
-
-        <div className="grid gap-2">
-          <Label>{t("ticket.havetried")}</Label>
-          <Textarea
-            className="custom-scrollbar"
-            placeholder={t("ticket.place3")}
-            onChange={(e) => setHaveTried(e.currentTarget.value)}
-          />
-          <TextareaHint>{t("ticket.havetrieddes")}</TextareaHint>
-        </div>
-
-        <div>
-          <div className="mx-auto flex items-center space-x-2">
-            <Checkbox id="" onClick={handleCheckbox} />
-            <label
-              htmlFor="terms"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              {t("ticket.phonenum")}
-            </label>
-          </div>
-          {isChecked ? (
-            <>
-              <div className="pt-2">
-                <Input
-                  placeholder={t("ticket.place4")}
-                  onChange={(e) => setPhonenumber(e.currentTarget.value)}
-                />
-              </div>
-            </>
-          ) : null}
-        </div>
-        <div className="grid gap-2">
-          <div className="">
-            <Label>{t("ticket.files")}</Label>
-            <Input
-              className="w-2/6"
-              name="image"
-              multiple={true}
-              onChange={handleFileUpload}
-              accept="image/png, image/jpeg"
-              id="picture"
-              type="file"
+          <div className="grid gap-2">
+            <Label>{t("ticket.title")}</Label>
+            <Textarea
+              className="custom-scrollbar"
+              required
+              placeholder={t("ticket.titledes")}
+              onChange={(e) => setTitle(e.currentTarget.value)}
             />
+            <TextareaHint>Enter the title for the ticket (visible in the tickets table)...</TextareaHint>
           </div>
-          <div className="flex max-w-screen flex-wrap">
-            {preview.map((previewItem, index) => (
-              <div key={index} className="m-4 flex items-center">
-                <img
-                  src={previewItem as string}
-                  alt={`Preview ${index}`}
-                  style={{ maxWidth: "500px", maxHeight: "400px" }}
-                />
-                <Button
-                  variant={"destructive"}
-                  onClick={() => handleRemove(index)}
-                  className="ml-2"
-                >
-                  {t("ticket.remove")}
-                </Button>{" "}
-                {/* Button to remove uploaded picture */}
-              </div>
-            ))}
+
+          <div className="grid gap-2">
+            <Label>{t("ticket.problem")}</Label>
+            <Textarea
+              className="custom-scrollbar"
+              required
+              placeholder={t("ticket.place1")}
+              onChange={(e) => setProblem(e.currentTarget.value)}
+            />
+            <TextareaHint>{t("ticket.problemdes")}</TextareaHint>
           </div>
-        </div>
-        <div>
-          <Button
-            className="w-1/6"
-            variant="default"
-            onClick={handleSubmit}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+
+          <div className="grid gap-2">
+            <Label>{t("ticket.bedoing")}</Label>
+            <Textarea
+              className="custom-scrollbar"
+              placeholder={t("ticket.place2")}
+              onChange={(e) => setMustBeDoing(e.currentTarget.value)}
+            />
+            <TextareaHint>{t("ticket.bedoingdes")}</TextareaHint>
+          </div>
+
+          <div className="grid gap-2">
+            <Label>{t("ticket.havetried")}</Label>
+            <Textarea
+              className="custom-scrollbar"
+              placeholder={t("ticket.place3")}
+              onChange={(e) => setHaveTried(e.currentTarget.value)}
+            />
+            <TextareaHint>{t("ticket.havetrieddes")}</TextareaHint>
+          </div>
+
+          <div>
+            <div className="mx-auto flex items-center space-x-2">
+              <Checkbox id="" onClick={handleCheckbox} />
+              <label
+                htmlFor="terms"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                {t("ticket.phonenum")}
+              </label>
+            </div>
+            {isChecked ? (
+              <>
+                <div className="pt-2">
+                  <Input
+                    placeholder={t("ticket.place4")}
+                    onChange={(e) => setPhonenumber(e.currentTarget.value)}
+                  />
+                </div>
+              </>
             ) : null}
-            {t("ticket.submit")}
-          </Button>
-          <Button
-            className="w-1/6"
-            variant={"destructive"}
-            onClick={HandleCancel}
-          >
-            {t("ticket.cancel")}
-          </Button>
+          </div>
+          <div className="grid gap-2">
+            <div className="">
+              <Label>{t("ticket.files")}</Label>
+              <Input
+                className="w-2/6"
+                name="image"
+                multiple={true}
+                onChange={handleFileUpload}
+                accept="image/png, image/jpeg"
+                id="picture"
+                type="file"
+              />
+            </div>
+            <div className="flex max-w-screen flex-wrap">
+              {preview.map((previewItem, index) => (
+                <div key={index} className="m-4 flex items-center">
+                  <img
+                    src={previewItem as string}
+                    alt={`Preview ${index}`}
+                    style={{ maxWidth: "500px", maxHeight: "400px" }}
+                  />
+                  <Button
+                    variant={"destructive"}
+                    onClick={() => handleRemove(index)}
+                    className="ml-2"
+                  >
+                    {t("ticket.remove")}
+                  </Button>{" "}
+                  {/* Button to remove uploaded picture */}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <Button
+              className="w-1/6"
+              variant="default"
+              onClick={handleSubmit}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+              ) : null}
+              {t("ticket.submit")}
+            </Button>
+            <Button
+              className="w-1/6"
+              variant={"destructive"}
+              onClick={HandleCancel}
+            >
+              {t("ticket.cancel")}
+            </Button>
+          </div>
+          <Toaster />
         </div>
-        <Toaster />
       </div>
-    </div>
+    </Layout>
   );
 }
 

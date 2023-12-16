@@ -122,97 +122,97 @@ function DataTable<TData, TValue>({
     columnplaceholder = "Name";
   }
   return (
-    <Card>
-      <div>
-        {
-          <div className="flex items-center py-4">
-            <Input
-              placeholder={"Search for " + column + "..."}
-              value={
-                (table.getColumn(column)?.getFilterValue() as string) ?? ""
-              }
-              onChange={(event) =>
-                table.getColumn(column)?.setFilterValue(event.target.value)
-              }
-              className="max-w-sm"
-            />
-          </div>
-        }
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow data-state={row.getIsSelected() && "selected"}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell className="max-w-sm">
-                      <div className="ml-4">
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </div>
+    <>
+      <div className="grid gap-4">
+        <div className="flex items-center">
+          <Input
+            placeholder={"Search for " + column + "..."}
+            value={(table.getColumn(column)?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn(column)?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        </div>
+        <Card>
+          <div>
+            <Table>
+              <TableHeader>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow>
+                    {headerGroup.headers.map((header) => {
+                      return (
+                        <TableHead>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext(),
+                              )}
+                        </TableHead>
+                      );
+                    })}
+                  </TableRow>
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows?.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <TableRow data-state={row.getIsSelected() && "selected"}>
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell className="max-w-sm">
+                          <div className="ml-4">
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext(),
+                            )}
+                          </div>
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-24 text-center"
+                    >
+                      No results.
                     </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-            <Separator />
-          </TableBody>
-        </Table>
+                  </TableRow>
+                )}
+                <Separator />
+              </TableBody>
+            </Table>
+          </div>
+          <footer className="flex items-center justify-between gap-4 p-4 ">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={function () {
+                table.previousPage();
+                setCurrentPage(currentPage - 1);
+              }}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Previous
+            </Button>
+            <span>{`Page ${currentPage} of ${totalPages}`}</span>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={function () {
+                table.nextPage();
+                setCurrentPage(currentPage + 1);
+              }}
+              disabled={!table.getCanNextPage()}
+            >
+              Next
+            </Button>
+          </footer>
+        </Card>
       </div>
-      <footer className="flex items-center justify-between gap-4 p-4 ">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={function () {
-            table.previousPage();
-            setCurrentPage(currentPage - 1);
-          }}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <span>{`Page ${currentPage} of ${totalPages}`}</span>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={function () {
-            table.nextPage();
-            setCurrentPage(currentPage + 1);
-          }}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
-      </footer>
-    </Card>
+    </>
   );
 }
 

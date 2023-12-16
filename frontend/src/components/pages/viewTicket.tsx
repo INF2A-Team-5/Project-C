@@ -52,6 +52,7 @@ import {
 } from "@radix-ui/react-icons";
 import { BookIcon, CalendarDays, CatIcon } from "lucide-react";
 import { Icon } from "@radix-ui/react-select";
+import Layout from "../layout";
 
 function ViewTicket() {
   useAuthenticated();
@@ -257,48 +258,30 @@ function ViewTicket() {
   }
 
   return (
-    <div className="px-24 text-left">
-      <Settings></Settings>
-      <div className="flex justify-center pb-16 pt-10">
-        <Header></Header>
-      </div>
-      <div className="grid gap-12">
-        <div className="">
-          {/* <h1 className='text-4xl font-medium'>{t('editticket.header')}</h1> */}
-          <h1 className="text-4xl font-medium">Your ticket</h1>
-          <Label>View and edit ticket</Label>
-          <Separator className="my-4" />
-          <br />
+    <Layout>
+      <div className="mt-16 flex w-full max-w-screen flex-col">
+        <div className="grid gap-8">
+          <div>
+            <h1 className="text-3xl font-medium">Your ticket</h1>
+            <Label>View and edit ticket</Label>
+          </div>
 
-          <Label></Label>
           {showTicketInfo && (
             <div>
               <Card>
                 <CardHeader>
-                  <CardTitle>Title: {ticketInfo.title}</CardTitle> ID:{" "}
-                  {ticketInfo.ticketId}
+                  <CardTitle>Title: {ticketInfo.title}</CardTitle>
+                  {"ID: " + ticketInfo.ticketId}
                 </CardHeader>
 
                 <CardContent>
-                  <h1>
-                    {" "}
-                    <b>What is the problem?</b>
-                  </h1>
+                  <h1>What is the problem?</h1>
                   <p className="XL">{ticketInfo.problem}</p>
-                  <h1>
-                    {" "}
-                    <b>What have you tried?</b>
-                  </h1>
+                  <h1>What have you tried?</h1>
                   <p className="XL">{ticketInfo.haveTried}</p>
-                  <h1>
-                    {" "}
-                    <b>What should it be doing?</b>
-                  </h1>
+                  <h1>What should it be doing?</h1>
                   <p className="XL">{ticketInfo.mustBeDoing}</p>
-                  <h1>
-                    {" "}
-                    <b>Notes:</b>
-                  </h1>
+                  <h1>Notes:</h1>
                   {ticketInfo.notes &&
                     ticketInfo.notes.map(
                       (
@@ -329,58 +312,162 @@ function ViewTicket() {
                   </h1>
                   <p>{ticketInfo.phoneNumber}</p>
                 </CardFooter>
-                <CardDescription>Ticketinformation</CardDescription>
               </Card>
-              {/* Display your ticket information here */}
+              <CardDescription>Ticketinformation</CardDescription>
             </div>
           )}
-        </div>
-        {/* Hij checkt hieronder eerst of de ticket open is, anders kan je namelijk niks meer toevoegen, dan krijg je wel de optie om hem te heropenen */}
-        {currentticket?.status === "Open" ||
-        currentticket?.status === "In Process" ? (
-          <>
-            <div className="grid gap-2">
-              {/* <h2 className='text-lg font-medium'>{t('editticket.notes')}</h2> */}
-              {!isClient && showTicketInfo ? (
-                <>
-                  <h1>
-                    <b>Priority at the moment:</b>
-                  </h1>
-                  {ticketInfo.priority}
-                  <Button
-                    className="w-fit"
-                    variant="default"
-                    onClick={changePriority}
-                  >
-                    Change priority
-                  </Button>
-                </>
-              ) : null}
+          {/* Hij checkt hieronder eerst of de ticket open is, anders kan je namelijk niks meer toevoegen, dan krijg je wel de optie om hem te heropenen */}
+          {currentticket?.status === "Open" ||
+          currentticket?.status === "In Process" ? (
+            <>
+              <div className="grid gap-2">
+                {/* <h2 className='text-lg font-medium'>{t('editticket.notes')}</h2> */}
+                {!isClient && showTicketInfo ? (
+                  <>
+                    <h1>
+                      <b>Priority at the moment:</b>
+                    </h1>
+                    {ticketInfo.priority}
+                    <Button
+                      className="w-fit"
+                      variant="default"
+                      onClick={changePriority}
+                    >
+                      Change priority
+                    </Button>
+                  </>
+                ) : null}
+                <Dialog>
+                  <DialogTrigger asChild>
+                    {isClient ? null : (
+                      <Button className="w-fit" variant="destructive">
+                        Close ticket
+                      </Button>
+                    )}
+                  </DialogTrigger>
+
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Fill in solution</DialogTitle>
+                    </DialogHeader>
+                    <DialogDescription>
+                      <h2 className="text-lg font-medium">Add solution</h2>
+
+                      {/* <Textarea placeholder={t('editticket.notes2')} onChange={(e: any) => setNotes(e.currentTarget.value)}></Textarea> */}
+                      {/* <p className='text-md text-grey-900 '>{t('editticket.description')}</p> */}
+                      <Textarea
+                        placeholder="Fixed this and this"
+                        onChange={(e: any) =>
+                          setSolution(e.currentTarget.value)
+                        }
+                      ></Textarea>
+                      <TextareaHint>
+                        Give us a detailed description on what was the solution
+                        of fixing the ticket
+                      </TextareaHint>
+                    </DialogDescription>
+                    <DialogFooter>
+                      <DialogClose>
+                        <Button
+                          variant="ghost"
+                          onClick={() => navigate(`/view-ticket`)}
+                        >
+                          Cancel
+                        </Button>
+                        <Button variant="secondary" onClick={CloseTicket}>
+                          Submit
+                        </Button>
+                      </DialogClose>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
+                <Toaster />
+                <h2 className="text-lg font-medium">Add notes</h2>
+
+                {/* <Textarea placeholder={t('editticket.notes2')} onChange={(e: any) => setNotes(e.currentTarget.value)}></Textarea> */}
+                {/* <p className='text-md text-grey-900 '>{t('editticket.description')}</p> */}
+                <Textarea
+                  placeholder="Still does not work because..."
+                  onChange={(e: any) => setNotes(e.currentTarget.value)}
+                ></Textarea>
+                <TextareaHint>
+                  Give us a detailed description on what you want to update the
+                  ticket with
+                </TextareaHint>
+              </div>
+              <div className="grid gap-2">
+                <div className="">
+                  <Label>{t("ticket.files")}</Label>
+                  <Input
+                    className="w-2/6"
+                    name="image"
+                    multiple={true}
+                    onChange={handleFileUpload}
+                    accept="image/png, image/jpeg"
+                    id="picture"
+                    type="file"
+                  />
+                </div>
+                <div className="flex max-w-screen flex-wrap">
+                  {preview.map((previewItem, index) => (
+                    <div key={index} className="m-4 flex items-center">
+                      <img
+                        src={previewItem as string}
+                        alt={`Preview ${index}`}
+                        style={{ maxWidth: "500px", maxHeight: "400px" }}
+                      />
+                      <Button
+                        variant={"destructive"}
+                        onClick={() => handleRemove(index)}
+                        className="ml-2"
+                      >
+                        {t("ticket.remove")}
+                      </Button>{" "}
+                      {/* Button to remove uploaded picture */}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <Button variant="default" onClick={HandleSubmit}>
+                  Submit
+                </Button>
+                <Button variant="destructive" onClick={HandleCancel}>
+                  Go back
+                </Button>
+              </div>
+            </>
+          ) : (
+            <div>
+              <label>Ticket is closed</label>
+              <br></br>
               <Dialog>
                 <DialogTrigger asChild>
                   {isClient ? null : (
-                    <Button className="w-fit" variant="destructive">
-                      Close ticket
+                    <Button className="w-fit" variant="default">
+                      Reopen ticket
                     </Button>
                   )}
                 </DialogTrigger>
 
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>Fill in solution</DialogTitle>
+                    <DialogTitle>Reopen ticket</DialogTitle>
                   </DialogHeader>
                   <DialogDescription>
-                    <h2 className="text-lg font-medium">Add solution</h2>
+                    <h2 className="text-lg font-medium">
+                      Why do you want to reopen the ticket?
+                    </h2>
 
                     {/* <Textarea placeholder={t('editticket.notes2')} onChange={(e: any) => setNotes(e.currentTarget.value)}></Textarea> */}
                     {/* <p className='text-md text-grey-900 '>{t('editticket.description')}</p> */}
                     <Textarea
-                      placeholder="Fixed this and this"
-                      onChange={(e: any) => setSolution(e.currentTarget.value)}
+                      placeholder="The error is not solved because..."
+                      onChange={(e: any) => setReopen(e.currentTarget.value)}
                     ></Textarea>
                     <TextareaHint>
-                      Give us a detailed description on what was the solution of
-                      fixing the ticket
+                      Give us a detailed description on why you want to reopen
+                      your ticket
                     </TextareaHint>
                   </DialogDescription>
                   <DialogFooter>
@@ -391,7 +478,7 @@ function ViewTicket() {
                       >
                         Cancel
                       </Button>
-                      <Button variant="secondary" onClick={CloseTicket}>
+                      <Button variant="secondary" onClick={reopenTicket}>
                         Submit
                       </Button>
                     </DialogClose>
@@ -399,120 +486,17 @@ function ViewTicket() {
                 </DialogContent>
               </Dialog>
               <Toaster />
-              <h2 className="text-lg font-medium">Add notes</h2>
-
-              {/* <Textarea placeholder={t('editticket.notes2')} onChange={(e: any) => setNotes(e.currentTarget.value)}></Textarea> */}
-              {/* <p className='text-md text-grey-900 '>{t('editticket.description')}</p> */}
-              <Textarea
-                placeholder="Still does not work because..."
-                onChange={(e: any) => setNotes(e.currentTarget.value)}
-              ></Textarea>
-              <TextareaHint>
-                Give us a detailed description on what you want to update the
-                ticket with
-              </TextareaHint>
-            </div>
-            <div className="grid gap-2">
-              <div className="">
-                <Label>{t("ticket.files")}</Label>
-                <Input
-                  className="w-2/6"
-                  name="image"
-                  multiple={true}
-                  onChange={handleFileUpload}
-                  accept="image/png, image/jpeg"
-                  id="picture"
-                  type="file"
-                />
-              </div>
-              <div className="flex max-w-screen flex-wrap">
-                {preview.map((previewItem, index) => (
-                  <div key={index} className="m-4 flex items-center">
-                    <img
-                      src={previewItem as string}
-                      alt={`Preview ${index}`}
-                      style={{ maxWidth: "500px", maxHeight: "400px" }}
-                    />
-                    <Button
-                      variant={"destructive"}
-                      onClick={() => handleRemove(index)}
-                      className="ml-2"
-                    >
-                      {t("ticket.remove")}
-                    </Button>{" "}
-                    {/* Button to remove uploaded picture */}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div>
-              <Button variant="default" onClick={HandleSubmit}>
-                Submit
-              </Button>
               <Button variant="destructive" onClick={HandleCancel}>
                 Go back
               </Button>
             </div>
-          </>
-        ) : (
-          <div>
-            <label>Ticket is closed</label>
-            <br></br>
-            <Dialog>
-              <DialogTrigger asChild>
-                {isClient ? null : (
-                  <Button className="w-fit" variant="default">
-                    Reopen ticket
-                  </Button>
-                )}
-              </DialogTrigger>
+          )}
 
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Reopen ticket</DialogTitle>
-                </DialogHeader>
-                <DialogDescription>
-                  <h2 className="text-lg font-medium">
-                    Why do you want to reopen the ticket?
-                  </h2>
-
-                  {/* <Textarea placeholder={t('editticket.notes2')} onChange={(e: any) => setNotes(e.currentTarget.value)}></Textarea> */}
-                  {/* <p className='text-md text-grey-900 '>{t('editticket.description')}</p> */}
-                  <Textarea
-                    placeholder="The error is not solved because..."
-                    onChange={(e: any) => setReopen(e.currentTarget.value)}
-                  ></Textarea>
-                  <TextareaHint>
-                    Give us a detailed description on why you want to reopen
-                    your ticket
-                  </TextareaHint>
-                </DialogDescription>
-                <DialogFooter>
-                  <DialogClose>
-                    <Button
-                      variant="ghost"
-                      onClick={() => navigate(`/view-ticket`)}
-                    >
-                      Cancel
-                    </Button>
-                    <Button variant="secondary" onClick={reopenTicket}>
-                      Submit
-                    </Button>
-                  </DialogClose>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-            <Toaster />
-            <Button variant="destructive" onClick={HandleCancel}>
-              Go back
-            </Button>
-          </div>
-        )}
-
-        {/* <Button variant='destructive'  onClick={HandleSubmit}>{t('editticket.submit')}</Button>
+          {/* <Button variant='destructive'  onClick={HandleSubmit}>{t('editticket.submit')}</Button>
         <Button variant='destructive'  onClick={HandleCancel}>{t('editticket.cancel')}</Button> */}
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 

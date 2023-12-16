@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class m1 : Migration
+    public partial class peer : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -57,23 +57,6 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Machines",
-                columns: table => new
-                {
-                    MachineId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    AccountId = table.Column<int>(type: "integer", nullable: true),
-                    Solution = table.Column<string>(type: "text", nullable: true),
-                    DepartmentId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Machines", x => x.MachineId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Solutions",
                 columns: table => new
                 {
@@ -86,6 +69,25 @@ namespace backend.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Solutions", x => x.SolutionId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Customers",
+                columns: table => new
+                {
+                    CustomerId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    AccountId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Customers", x => x.CustomerId);
+                    table.ForeignKey(
+                        name: "FK_Customers_Accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Accounts",
+                        principalColumn: "AccountId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -115,6 +117,34 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Machines",
+                columns: table => new
+                {
+                    MachineId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Customer_Id = table.Column<int>(type: "integer", nullable: true),
+                    Solution = table.Column<string>(type: "text", nullable: true),
+                    DepartmentId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Machines", x => x.MachineId);
+                    table.ForeignKey(
+                        name: "FK_Machines_Customers_Customer_Id",
+                        column: x => x.Customer_Id,
+                        principalTable: "Customers",
+                        principalColumn: "CustomerId");
+                    table.ForeignKey(
+                        name: "FK_Machines_Departments_DepartmentId",
+                        column: x => x.DepartmentId,
+                        principalTable: "Departments",
+                        principalColumn: "DepartmentId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tickets",
                 columns: table => new
                 {
@@ -133,11 +163,17 @@ namespace backend.Migrations
                     Solution = table.Column<string>(type: "text", nullable: true),
                     PhoneNumber = table.Column<string>(type: "text", nullable: true),
                     Notes = table.Column<string[]>(type: "text[]", nullable: true),
-                    Files = table.Column<string[]>(type: "text[]", nullable: true)
+                    Files = table.Column<string[]>(type: "text[]", nullable: true),
+                    CustomerId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tickets", x => x.TicketId);
+                    table.ForeignKey(
+                        name: "FK_Tickets_Customers_CustomerId",
+                        column: x => x.CustomerId,
+                        principalTable: "Customers",
+                        principalColumn: "CustomerId");
                     table.ForeignKey(
                         name: "FK_Tickets_Employees_Employee_Id",
                         column: x => x.Employee_Id,
@@ -146,15 +182,35 @@ namespace backend.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employees_AccountId",
-                table: "Employees",
+                name: "IX_Customers_AccountId",
+                table: "Customers",
                 column: "AccountId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employees_AccountId",
+                table: "Employees",
+                column: "AccountId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_DepartmentId",
                 table: "Employees",
                 column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Machines_Customer_Id",
+                table: "Machines",
+                column: "Customer_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Machines_DepartmentId",
+                table: "Machines",
+                column: "DepartmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tickets_CustomerId",
+                table: "Tickets",
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tickets_Employee_Id",
@@ -176,6 +232,9 @@ namespace backend.Migrations
 
             migrationBuilder.DropTable(
                 name: "Tickets");
+
+            migrationBuilder.DropTable(
+                name: "Customers");
 
             migrationBuilder.DropTable(
                 name: "Employees");
