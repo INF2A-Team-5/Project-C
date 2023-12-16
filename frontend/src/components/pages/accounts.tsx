@@ -1,7 +1,5 @@
 import { useState } from "react";
-import Settings from "../foundations/settings";
 import Table from "../foundations/table";
-import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { Toaster } from "../ui/toaster";
 import {
   API_BASE_URL,
@@ -35,7 +33,6 @@ import {
 import { TextareaHint } from "../ui/textarea";
 
 function Departments() {
-  useAuthenticated();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setconfirmPassword] = useState("");
@@ -117,7 +114,7 @@ function Departments() {
   return (
     <>
       <Navbar />
-      <Settings></Settings>
+      
       <div className="grid gap-6 px-24 text-left">
         <div className="h-16" />
         <div className="flex items-center justify-between">

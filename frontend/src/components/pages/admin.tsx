@@ -26,7 +26,7 @@ import { Account } from "@/services/Account";
 import { Department } from "@/services/Department";
 
 function Admin() {
-  useAuthenticated();
+  // useAuthenticated();
 
   const [AssignedTickets, SetAssignedTickets] = useState<Ticket[]>([]);
   const [AllTickets, SetAllTickets] = useState<Ticket[]>([]);
@@ -72,7 +72,7 @@ function Admin() {
 
   return (
     <div className="px-24 text-left">
-      <Settings></Settings>
+      
       <div className="flex justify-center pb-16 pt-10">
         <Header></Header>
       </div>

@@ -148,7 +148,7 @@ function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4 pr-8">
+      <footer className="flex items-center p-4 gap-4 justify-between ">
         <Button
           variant="outline"
           size="sm"
@@ -162,7 +162,6 @@ function DataTable<TData, TValue>({
         </Button>
         <span>{`Page ${currentPage} of ${totalPages}`}</span>
         <Button
-          className="m-4"
           variant="outline"
           size="sm"
           onClick={function () {
@@ -173,7 +172,7 @@ function DataTable<TData, TValue>({
         >
           Next
         </Button>
-      </div>
+      </footer>
     </Card>
   );
 }
