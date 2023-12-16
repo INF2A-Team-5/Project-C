@@ -28,14 +28,12 @@ function Tickets() {
         title: "Whomp whomp:(",
         description: "U get no data",
       });
-    }
+    },
   });
-
-  
 
   return (
     <Layout>
-      <div className="max-w-screen mt-16 flex w-full flex-col gap-8">
+      <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-medium">Tickets</h1>
           <Dialog>

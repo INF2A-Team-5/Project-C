@@ -54,25 +54,38 @@ function serviceEmployee() {
     SetAllTickets(
       await fetch(
         API_BASE_URL +
-        "/GetTicketByDepartment?AccountId=" +
-        localStorage.getItem("Id"),
+          "/GetTicketByDepartment?AccountId=" +
+          localStorage.getItem("Id"),
         getBaseQueryRequest(),
-      ).then((data) => data.json()).then((data) => data.sort((a: Ticket, b: Ticket) => a.ticketId - b.ticketId)));
+      )
+        .then((data) => data.json())
+        .then((data) =>
+          data.sort((a: Ticket, b: Ticket) => a.ticketId - b.ticketId),
+        ),
+    );
     SetAssignedTickets(
       await fetch(
         API_BASE_URL +
-        "/GetAssignedTickets?AccountId=" +
-        localStorage.getItem("Id"),
+          "/GetAssignedTickets?AccountId=" +
+          localStorage.getItem("Id"),
         getBaseQueryRequest(),
-      ).then((data) => data.json()).then((data) => data.sort((a: Ticket, b: Ticket) => a.ticketId - b.ticketId)));
+      )
+        .then((data) => data.json())
+        .then((data) =>
+          data.sort((a: Ticket, b: Ticket) => a.ticketId - b.ticketId),
+        ),
+    );
     SetAllMachines(
       await fetch(API_BASE_URL + "/api/Machines", getBaseQueryRequest())
-        .then((data) => data.json()).then((data) => data.sort((a: Machine, b: Machine) => a.machineId - b.machineId)));
+        .then((data) => data.json())
+        .then((data) =>
+          data.sort((a: Machine, b: Machine) => a.machineId - b.machineId),
+        ),
+    );
   }
 
   return (
     <div className="px-24 text-left">
-      
       <div className="flex justify-center pb-16 pt-10">
         <Header></Header>
       </div>

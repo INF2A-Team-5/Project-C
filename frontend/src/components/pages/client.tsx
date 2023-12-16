@@ -29,7 +29,6 @@ function Client() {
   const [Machines, setMachines] = useState<Machine[]>([]);
   const [LoadData, SetData] = useState<Boolean>(false);
 
-
   if (LoadData == false) {
     GetData();
     getMachines();
@@ -37,12 +36,14 @@ function Client() {
   }
 
   async function getMachines() {
-    setMachines(await fetch(
-      API_BASE_URL +
-      "/GetMachinesPerAccount?accountId=" +
-      localStorage.getItem("Id"),
-      getBaseQueryRequest(),
-    ).then((data) => data.json()));
+    setMachines(
+      await fetch(
+        API_BASE_URL +
+          "/GetMachinesPerAccount?accountId=" +
+          localStorage.getItem("Id"),
+        getBaseQueryRequest(),
+      ).then((data) => data.json()),
+    );
   }
 
   async function GetData() {
@@ -59,7 +60,6 @@ function Client() {
 
   return (
     <div className="px-24 text-left">
-      
       <div className="flex justify-center pb-16 pt-10">
         <Header></Header>
       </div>

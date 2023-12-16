@@ -114,7 +114,7 @@ function Departments() {
   return (
     <>
       <Navbar />
-      
+
       <div className="grid gap-6 px-24 text-left">
         <div className="h-16" />
         <div className="flex items-center justify-between">

@@ -49,7 +49,14 @@ export function query(urlHandle: string): Promise<Response> {
   return fetch(API_BASE_URL + urlHandle, getBaseQueryRequest());
 }
 
-export function useQuery<T>(url: string, options? : { onSuccess?: () => void; onError?: () => void; throwOnError?: boolean; }) {
+export function useQuery<T>(
+  url: string,
+  options?: {
+    onSuccess?: () => void;
+    onError?: () => void;
+    throwOnError?: boolean;
+  },
+) {
   const [state, setState] = useState<{
     data: T | null;
     isFetching: boolean;
@@ -60,7 +67,7 @@ export function useQuery<T>(url: string, options? : { onSuccess?: () => void; on
     isError: false,
   });
 
-  const { data, isFetching, isError} = state;
+  const { data, isFetching, isError } = state;
 
   useEffect(() => {
     setState((prevState) => ({ ...prevState, isFetching: true }));
@@ -73,7 +80,8 @@ export function useQuery<T>(url: string, options? : { onSuccess?: () => void; on
           data: data,
           isFetching: false,
         })),
-      ).catch((error) => {
+      )
+      .catch((error) => {
         if (options?.throwOnError) {
           throw error;
         }

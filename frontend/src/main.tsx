@@ -57,7 +57,7 @@ const router = createBrowserRouter([
   },
   {
     path: "view-ticket",
-    element: <ViewTicket />
+    element: <ViewTicket />,
   },
   {
     path: "tickets",

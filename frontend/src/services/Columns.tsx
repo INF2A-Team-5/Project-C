@@ -1,42 +1,56 @@
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Ticket } from "./Ticket";
-import { ColumnDef } from "@tanstack/react-table"
+import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Machine } from "./Machine";
 import { Account } from "./Account";
 import { Department } from "./Department";
-import { ArrowDownIcon, ArrowUpIcon, CaretSortIcon } from "@radix-ui/react-icons";
-import { API_BASE_URL, getBaseQueryRequest, putBaseMutateRequest } from "@/lib/api";
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  CaretSortIcon,
+} from "@radix-ui/react-icons";
+import {
+  API_BASE_URL,
+  getBaseQueryRequest,
+  putBaseMutateRequest,
+} from "@/lib/api";
 import { toast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
 
-
-
 async function AssignTicket(ticket: any) {
-  console.log(localStorage.getItem("Id"))
-  try 
-  {
-  let employee = await fetch("http://localhost:5119/GetEmployeeById?id=" + localStorage.getItem("Id"), getBaseQueryRequest()).then((data) => data.json());  
-  ticket.employee_Id = employee.employeeId;
-  await fetch(API_BASE_URL + "/api/tickets/" + ticket.ticketId, putBaseMutateRequest(JSON.stringify(ticket))
-  );
+  console.log(localStorage.getItem("Id"));
+  try {
+    let employee = await fetch(
+      "http://localhost:5119/GetEmployeeById?id=" + localStorage.getItem("Id"),
+      getBaseQueryRequest(),
+    ).then((data) => data.json());
+    ticket.employee_Id = employee.employeeId;
+    await fetch(
+      API_BASE_URL + "/api/tickets/" + ticket.ticketId,
+      putBaseMutateRequest(JSON.stringify(ticket)),
+    );
     toast({
       variant: "default",
       title: "Succes!",
       description: "Assigned employee to ticket.",
     });
-  }
-  catch (error)
-  {
+  } catch (error) {
     toast({
       variant: "destructive",
       title: "Error!",
-      description: "Error! unknown user identified"
-    })
+      description: "Error! unknown user identified",
+    });
   }
 }
-
 
 export const ticketColumns: ColumnDef<Ticket>[] = [
   {
@@ -56,7 +70,7 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
             <CaretSortIcon className="ml-2 h-4 w-4" />
           )}
         </Button>
-      )
+      );
     },
   },
   {
@@ -76,7 +90,7 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
             <CaretSortIcon className="ml-2 h-4 w-4" />
           )}
         </Button>
-      )
+      );
     },
   },
   {
@@ -96,7 +110,7 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
             <CaretSortIcon className="ml-2 h-4 w-4" />
           )}
         </Button>
-      )
+      );
     },
   },
   {
@@ -116,7 +130,7 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
             <CaretSortIcon className="ml-2 h-4 w-4" />
           )}
         </Button>
-      )
+      );
     },
   },
   {
@@ -136,14 +150,14 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
             <CaretSortIcon className="ml-2 h-4 w-4" />
           )}
         </Button>
-      )
+      );
     },
   },
   {
     id: "actions",
     header: "Options",
     cell: ({ row }) => {
-      const ticket = row.original
+      const ticket = row.original;
       const navigate = useNavigate();
 
       return (
@@ -160,24 +174,31 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
               Show seven
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => {
-              localStorage.setItem("currentticketID", ticket.ticketId.toString());
-              navigate(`/view-ticket`);
-            }}>
+            <DropdownMenuItem
+              onClick={() => {
+                localStorage.setItem(
+                  "currentticketID",
+                  ticket.ticketId.toString(),
+                );
+                navigate(`/view-ticket`);
+              }}
+            >
               View ticket
             </DropdownMenuItem>
             <DropdownMenuItem>View customer</DropdownMenuItem>
-            {localStorage.getItem("Class") == "ServiceEmployee" || localStorage.getItem("Class") == "Admin" ?
-              <DropdownMenuItem onClick={() => AssignTicket(ticket)}>Assign Ticket</DropdownMenuItem> : null
-            }
+            {localStorage.getItem("Class") == "ServiceEmployee" ||
+            localStorage.getItem("Class") == "Admin" ? (
+              <DropdownMenuItem onClick={() => AssignTicket(ticket)}>
+                Assign Ticket
+              </DropdownMenuItem>
+            ) : null}
             {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
-
           </DropdownMenuContent>
         </DropdownMenu>
       );
-    }
-  }
-]
+    },
+  },
+];
 
 export const machineColumns: ColumnDef<Machine>[] = [
   {
@@ -197,7 +218,7 @@ export const machineColumns: ColumnDef<Machine>[] = [
             <CaretSortIcon className="ml-2 h-4 w-4" />
           )}
         </Button>
-      )
+      );
     },
   },
   {
@@ -217,7 +238,7 @@ export const machineColumns: ColumnDef<Machine>[] = [
             <CaretSortIcon className="ml-2 h-4 w-4" />
           )}
         </Button>
-      )
+      );
     },
   },
   {
@@ -237,10 +258,10 @@ export const machineColumns: ColumnDef<Machine>[] = [
             <CaretSortIcon className="ml-2 h-4 w-4" />
           )}
         </Button>
-      )
+      );
     },
   },
-]
+];
 
 export const accountColumns: ColumnDef<Account>[] = [
   {
@@ -258,8 +279,9 @@ export const accountColumns: ColumnDef<Account>[] = [
             <ArrowUpIcon className="ml-2 h-4 w-4" />
           ) : (
             <CaretSortIcon className="ml-2 h-4 w-4" />
-          )}        </Button>
-      )
+          )}{" "}
+        </Button>
+      );
     },
   },
   {
@@ -279,7 +301,7 @@ export const accountColumns: ColumnDef<Account>[] = [
             <CaretSortIcon className="ml-2 h-4 w-4" />
           )}
         </Button>
-      )
+      );
     },
   },
   {
@@ -288,7 +310,8 @@ export const accountColumns: ColumnDef<Account>[] = [
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
           Phone number
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
@@ -298,10 +321,10 @@ export const accountColumns: ColumnDef<Account>[] = [
             <CaretSortIcon className="ml-2 h-4 w-4" />
           )}
         </Button>
-      )
+      );
     },
   },
-]
+];
 
 export const departmentColumns: ColumnDef<Department>[] = [
   {
@@ -310,7 +333,8 @@ export const departmentColumns: ColumnDef<Department>[] = [
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
           ID
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
@@ -320,7 +344,7 @@ export const departmentColumns: ColumnDef<Department>[] = [
             <CaretSortIcon className="ml-2 h-4 w-4" />
           )}
         </Button>
-      )
+      );
     },
   },
   {
@@ -329,7 +353,8 @@ export const departmentColumns: ColumnDef<Department>[] = [
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
           Name
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
@@ -339,7 +364,7 @@ export const departmentColumns: ColumnDef<Department>[] = [
             <CaretSortIcon className="ml-2 h-4 w-4" />
           )}
         </Button>
-      )
+      );
     },
   },
-]
+];

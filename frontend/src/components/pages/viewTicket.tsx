@@ -1,4 +1,13 @@
-import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, SetStateAction, useEffect, useState } from "react";
+import {
+  JSXElementConstructor,
+  Key,
+  ReactElement,
+  ReactNode,
+  ReactPortal,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { Link, useNavigate } from "react-router-dom";
 import Settings from "../foundations/settings";
@@ -14,13 +23,33 @@ import {
   getBaseQueryRequest,
   putBaseMutateRequest,
 } from "@/lib/api";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
 import { Toaster } from "../ui/toaster";
 import { use } from "i18next";
 import { toast } from "../ui/use-toast";
 import { Ticket } from "@/services/Ticket";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
-import { BoxIcon, CardStackIcon, CardStackMinusIcon } from "@radix-ui/react-icons";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
+import {
+  BoxIcon,
+  CardStackIcon,
+  CardStackMinusIcon,
+} from "@radix-ui/react-icons";
 import { BookIcon, CalendarDays, CatIcon } from "lucide-react";
 import { Icon } from "@radix-ui/react-select";
 
@@ -33,13 +62,15 @@ function ViewTicket() {
 
   const navigate = useNavigate();
   const [notes, setNotes] = useState("");
-  const [preview, setPreview] = useState<(string)[]>([]);
+  const [preview, setPreview] = useState<string[]>([]);
   const [ticketInfo, setTicketInfo] = useState<any>(null);
   const ticketid = localStorage.getItem("currentticketID");
   const [showTicketInfo, setShowTicketInfo] = useState(false);
   const [isClient, setIsClient] = useState<boolean>(false);
   const [solution, setSolution] = useState("");
-  const [currentticket, setcurrenticket] = useState<Ticket | undefined>(undefined);
+  const [currentticket, setcurrenticket] = useState<Ticket | undefined>(
+    undefined,
+  );
   const [reopen, setReopen] = useState("");
 
   useEffect(() => {
@@ -52,7 +83,7 @@ function ViewTicket() {
 
   useEffect(() => {
     ShowTicket();
-  })
+  });
 
   async function HandleCancel() {
     navigate(-1);
@@ -61,9 +92,8 @@ function ViewTicket() {
   const CheckAccount = () => {
     const accountclass = localStorage.getItem("Class");
     console.log(accountclass);
-    setIsClient((accountclass == "Client"));
-  }
-
+    setIsClient(accountclass == "Client");
+  };
 
   const handleRemove = (indexToRemove: number) => {
     const updatedPreview = [...preview];
@@ -86,7 +116,7 @@ function ViewTicket() {
         reader.onload = (event) => {
           const result = event.target?.result;
 
-          if (result && typeof result === 'string') {
+          if (result && typeof result === "string") {
             allPreviews.push(result); // Add strings (URLs or Base64-encoded) to previews
             setPreview([...allPreviews]); // Set the state after adding all previews
           }
@@ -101,20 +131,19 @@ function ViewTicket() {
     if (ticket) {
       try {
         const response = await fetch(
-          API_BASE_URL +
-          "/api/tickets/" +
-          ticket.ticketId,
+          API_BASE_URL + "/api/tickets/" + ticket.ticketId,
           putBaseMutateRequest(JSON.stringify(ticket)),
         );
 
         if (!response.ok) {
           const errorResponse = await response.text(); // Capture response content
           throw new Error(
-            `HTTP error! Status: ${response.status
+            `HTTP error! Status: ${
+              response.status
             }. Error message: ${JSON.stringify(errorResponse)}`,
           );
         }
-        console.log("Ticket sended to database")
+        console.log("Ticket sended to database");
       } catch (error) {
         console.error("Error during PUT request:", error);
       }
@@ -141,29 +170,30 @@ function ViewTicket() {
   async function changePriority() {
     if (currentticket) {
       if (currentticket.priority == "Critical") {
-        currentticket.priority = "Non critical"
-      }
-      else {
-        currentticket.priority = "Critical"
+        currentticket.priority = "Non critical";
+      } else {
+        currentticket.priority = "Critical";
       }
       SendTicket(currentticket);
-      alert("Changed priority")
-      navigate("/view-ticket")
+      alert("Changed priority");
+      navigate("/view-ticket");
     }
   }
 
   async function reopenTicket() {
     if (currentticket) {
       if (reopen.length != 0) {
-        currentticket.notes = currentticket.notes ? [...currentticket.notes, reopen] : [reopen];
-        currentticket.status = "Open"
-        SendTicket(currentticket)
-      }
-      else {
+        currentticket.notes = currentticket.notes
+          ? [...currentticket.notes, reopen]
+          : [reopen];
+        currentticket.status = "Open";
+        SendTicket(currentticket);
+      } else {
         toast({
           variant: "destructive",
           title: "Error! Something went wrong.",
-          description: "You need to enter a reason why you want to reopen the ticket",
+          description:
+            "You need to enter a reason why you want to reopen the ticket",
         });
       }
     }
@@ -175,13 +205,13 @@ function ViewTicket() {
         currentticket.status = "Closed";
         currentticket.solution = solution;
         console.log(currentticket);
-        SendTicket(currentticket)
-      }
-      else {
+        SendTicket(currentticket);
+      } else {
         toast({
           variant: "destructive",
           title: "Error! Something went wrong.",
-          description: "You need to enter a solution if you want to close the ticket",
+          description:
+            "You need to enter a solution if you want to close the ticket",
         });
       }
     }
@@ -192,10 +222,12 @@ function ViewTicket() {
     if (currentticket) {
       // currentticket.notes = currentticket.notes ? [...currentticket.notes, notes] : [notes];
       // currentticket.files = currentticket.files ? [...currentticket.files, ...preview] : [preview];
-      currentticket.notes = currentticket.notes ? [...currentticket.notes, notes] : [notes]
+      currentticket.notes = currentticket.notes
+        ? [...currentticket.notes, notes]
+        : [notes];
       currentticket.files = currentticket.files
         ? [...currentticket.files, ...preview]
-        : [...preview]
+        : [...preview];
       // const ticket = {
       //   TicketId: currentticket.ticketId,
       //   Machine_Id: currentticket.machine_Id,
@@ -217,13 +249,11 @@ function ViewTicket() {
       //     ? [...currentticket.files, ...preview]
       //     : [...preview],
       // }
-      SendTicket(currentticket)
+      SendTicket(currentticket);
       alert("Ticket updated");
       navigate(-1);
       // If needed, you can handle the response data here
-    };
-
-
+    }
   }
 
   return (
@@ -244,137 +274,197 @@ function ViewTicket() {
           {showTicketInfo && (
             <div>
               <Card>
-                <CardHeader><CardTitle>Title: {ticketInfo.title}</CardTitle> ID: {ticketInfo.ticketId}</CardHeader>
+                <CardHeader>
+                  <CardTitle>Title: {ticketInfo.title}</CardTitle> ID:{" "}
+                  {ticketInfo.ticketId}
+                </CardHeader>
 
                 <CardContent>
-                  <h1> <b>What is the problem?</b></h1>
+                  <h1>
+                    {" "}
+                    <b>What is the problem?</b>
+                  </h1>
                   <p className="XL">{ticketInfo.problem}</p>
-                  <h1> <b>What have you tried?</b></h1>
+                  <h1>
+                    {" "}
+                    <b>What have you tried?</b>
+                  </h1>
                   <p className="XL">{ticketInfo.haveTried}</p>
-                  <h1> <b>What should it be doing?</b></h1>
+                  <h1>
+                    {" "}
+                    <b>What should it be doing?</b>
+                  </h1>
                   <p className="XL">{ticketInfo.mustBeDoing}</p>
-                  <h1> <b>Notes:</b></h1>
-                  {ticketInfo.notes && ticketInfo.notes.map((note: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Iterable<ReactNode> | null | undefined, index: Key | null | undefined) => (
-                    <p key={index} className="XL">{note}</p>
-                  ))}
-
+                  <h1>
+                    {" "}
+                    <b>Notes:</b>
+                  </h1>
+                  {ticketInfo.notes &&
+                    ticketInfo.notes.map(
+                      (
+                        note:
+                          | string
+                          | number
+                          | boolean
+                          | ReactElement<
+                              any,
+                              string | JSXElementConstructor<any>
+                            >
+                          | Iterable<ReactNode>
+                          | ReactPortal
+                          | Iterable<ReactNode>
+                          | null
+                          | undefined,
+                        index: Key | null | undefined,
+                      ) => (
+                        <p key={index} className="XL">
+                          {note}
+                        </p>
+                      ),
+                    )}
                 </CardContent>
                 <CardFooter>
-                  <h1><b>Contact: </b></h1>
-                  <p>{ticketInfo.phoneNumber}</p></CardFooter>
+                  <h1>
+                    <b>Contact: </b>
+                  </h1>
+                  <p>{ticketInfo.phoneNumber}</p>
+                </CardFooter>
                 <CardDescription>Ticketinformation</CardDescription>
               </Card>
               {/* Display your ticket information here */}
-
             </div>
           )}
         </div>
         {/* Hij checkt hieronder eerst of de ticket open is, anders kan je namelijk niks meer toevoegen, dan krijg je wel de optie om hem te heropenen */}
-        {currentticket?.status === "Open" || currentticket?.status === "In Process" ? <><div className="grid gap-2">
-          {/* <h2 className='text-lg font-medium'>{t('editticket.notes')}</h2> */}
-          {!isClient && showTicketInfo ? (
-            <>
-              <h1><b>Priority at the moment:</b></h1>
-              {ticketInfo.priority}
-              <Button className="w-fit" variant="default" onClick={changePriority}>
-                Change priority
-              </Button>
-            </>
-          ) : null}
-          <Dialog>
-            <DialogTrigger asChild>
-              {isClient ? null : <Button className="w-fit" variant="destructive">
-                Close ticket
-              </Button>}
-            </DialogTrigger>
-
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Fill in solution</DialogTitle>
-              </DialogHeader>
-              <DialogDescription>
-                <h2 className="text-lg font-medium">Add solution</h2>
-
-                {/* <Textarea placeholder={t('editticket.notes2')} onChange={(e: any) => setNotes(e.currentTarget.value)}></Textarea> */}
-                {/* <p className='text-md text-grey-900 '>{t('editticket.description')}</p> */}
-                <Textarea
-                  placeholder="Fixed this and this"
-                  onChange={(e: any) => setSolution(e.currentTarget.value)}
-                ></Textarea>
-                <TextareaHint>
-                  Give us a detailed description on what was the solution of fixing the ticket
-                </TextareaHint>
-              </DialogDescription>
-              <DialogFooter>
-                <DialogClose>
-                  <Button variant="ghost" onClick={() => navigate(`/view-ticket`)}>Cancel</Button>
-                  <Button variant="secondary" onClick={CloseTicket}>Submit</Button>
-                </DialogClose>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-          <Toaster />
-          <h2 className="text-lg font-medium">Add notes</h2>
-
-          {/* <Textarea placeholder={t('editticket.notes2')} onChange={(e: any) => setNotes(e.currentTarget.value)}></Textarea> */}
-          {/* <p className='text-md text-grey-900 '>{t('editticket.description')}</p> */}
-          <Textarea
-            placeholder="Still does not work because..."
-            onChange={(e: any) => setNotes(e.currentTarget.value)}
-          ></Textarea>
-          <TextareaHint>
-            Give us a detailed description on what you want to update the ticket
-            with
-          </TextareaHint>
-
-
-        </div><div className="grid gap-2">
-            <div className="">
-              <Label>{t("ticket.files")}</Label>
-              <Input
-                className="w-2/6"
-                name="image"
-                multiple={true}
-                onChange={handleFileUpload}
-                accept="image/png, image/jpeg"
-                id="picture"
-                type="file" />
-            </div>
-            <div className="flex flex-wrap max-w-screen">
-              {preview.map((previewItem, index) => (
-                <div key={index} className="flex items-center m-4">
-                  <img
-                    src={previewItem as string}
-                    alt={`Preview ${index}`}
-                    style={{ maxWidth: "500px", maxHeight: "400px" }} />
+        {currentticket?.status === "Open" ||
+        currentticket?.status === "In Process" ? (
+          <>
+            <div className="grid gap-2">
+              {/* <h2 className='text-lg font-medium'>{t('editticket.notes')}</h2> */}
+              {!isClient && showTicketInfo ? (
+                <>
+                  <h1>
+                    <b>Priority at the moment:</b>
+                  </h1>
+                  {ticketInfo.priority}
                   <Button
-                    variant={"destructive"}
-                    onClick={() => handleRemove(index)}
-                    className="ml-2"
+                    className="w-fit"
+                    variant="default"
+                    onClick={changePriority}
                   >
-                    {t("ticket.remove")}
-                  </Button>{" "}
-                  {/* Button to remove uploaded picture */}
-                </div>
-              ))}
-            </div>
-          </div>
-          <div>
-            <Button variant="default" onClick={HandleSubmit}>
-              Submit
-            </Button>
-            <Button variant="destructive" onClick={HandleCancel}>
-              Go back
-            </Button>
-          </div></> :
+                    Change priority
+                  </Button>
+                </>
+              ) : null}
+              <Dialog>
+                <DialogTrigger asChild>
+                  {isClient ? null : (
+                    <Button className="w-fit" variant="destructive">
+                      Close ticket
+                    </Button>
+                  )}
+                </DialogTrigger>
 
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Fill in solution</DialogTitle>
+                  </DialogHeader>
+                  <DialogDescription>
+                    <h2 className="text-lg font-medium">Add solution</h2>
+
+                    {/* <Textarea placeholder={t('editticket.notes2')} onChange={(e: any) => setNotes(e.currentTarget.value)}></Textarea> */}
+                    {/* <p className='text-md text-grey-900 '>{t('editticket.description')}</p> */}
+                    <Textarea
+                      placeholder="Fixed this and this"
+                      onChange={(e: any) => setSolution(e.currentTarget.value)}
+                    ></Textarea>
+                    <TextareaHint>
+                      Give us a detailed description on what was the solution of
+                      fixing the ticket
+                    </TextareaHint>
+                  </DialogDescription>
+                  <DialogFooter>
+                    <DialogClose>
+                      <Button
+                        variant="ghost"
+                        onClick={() => navigate(`/view-ticket`)}
+                      >
+                        Cancel
+                      </Button>
+                      <Button variant="secondary" onClick={CloseTicket}>
+                        Submit
+                      </Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+              <Toaster />
+              <h2 className="text-lg font-medium">Add notes</h2>
+
+              {/* <Textarea placeholder={t('editticket.notes2')} onChange={(e: any) => setNotes(e.currentTarget.value)}></Textarea> */}
+              {/* <p className='text-md text-grey-900 '>{t('editticket.description')}</p> */}
+              <Textarea
+                placeholder="Still does not work because..."
+                onChange={(e: any) => setNotes(e.currentTarget.value)}
+              ></Textarea>
+              <TextareaHint>
+                Give us a detailed description on what you want to update the
+                ticket with
+              </TextareaHint>
+            </div>
+            <div className="grid gap-2">
+              <div className="">
+                <Label>{t("ticket.files")}</Label>
+                <Input
+                  className="w-2/6"
+                  name="image"
+                  multiple={true}
+                  onChange={handleFileUpload}
+                  accept="image/png, image/jpeg"
+                  id="picture"
+                  type="file"
+                />
+              </div>
+              <div className="flex max-w-screen flex-wrap">
+                {preview.map((previewItem, index) => (
+                  <div key={index} className="m-4 flex items-center">
+                    <img
+                      src={previewItem as string}
+                      alt={`Preview ${index}`}
+                      style={{ maxWidth: "500px", maxHeight: "400px" }}
+                    />
+                    <Button
+                      variant={"destructive"}
+                      onClick={() => handleRemove(index)}
+                      className="ml-2"
+                    >
+                      {t("ticket.remove")}
+                    </Button>{" "}
+                    {/* Button to remove uploaded picture */}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <Button variant="default" onClick={HandleSubmit}>
+                Submit
+              </Button>
+              <Button variant="destructive" onClick={HandleCancel}>
+                Go back
+              </Button>
+            </div>
+          </>
+        ) : (
           <div>
-            <label>Ticket is closed</label><br></br>
+            <label>Ticket is closed</label>
+            <br></br>
             <Dialog>
               <DialogTrigger asChild>
-                {isClient ? null : <Button className="w-fit" variant="default">
-                  Reopen ticket
-                </Button>}
+                {isClient ? null : (
+                  <Button className="w-fit" variant="default">
+                    Reopen ticket
+                  </Button>
+                )}
               </DialogTrigger>
 
               <DialogContent>
@@ -382,7 +472,9 @@ function ViewTicket() {
                   <DialogTitle>Reopen ticket</DialogTitle>
                 </DialogHeader>
                 <DialogDescription>
-                  <h2 className="text-lg font-medium">Why do you want to reopen the ticket?</h2>
+                  <h2 className="text-lg font-medium">
+                    Why do you want to reopen the ticket?
+                  </h2>
 
                   {/* <Textarea placeholder={t('editticket.notes2')} onChange={(e: any) => setNotes(e.currentTarget.value)}></Textarea> */}
                   {/* <p className='text-md text-grey-900 '>{t('editticket.description')}</p> */}
@@ -391,13 +483,21 @@ function ViewTicket() {
                     onChange={(e: any) => setReopen(e.currentTarget.value)}
                   ></Textarea>
                   <TextareaHint>
-                    Give us a detailed description on why you want to reopen your ticket
+                    Give us a detailed description on why you want to reopen
+                    your ticket
                   </TextareaHint>
                 </DialogDescription>
                 <DialogFooter>
                   <DialogClose>
-                    <Button variant="ghost" onClick={() => navigate(`/view-ticket`)}>Cancel</Button>
-                    <Button variant="secondary" onClick={reopenTicket}>Submit</Button>
+                    <Button
+                      variant="ghost"
+                      onClick={() => navigate(`/view-ticket`)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button variant="secondary" onClick={reopenTicket}>
+                      Submit
+                    </Button>
                   </DialogClose>
                 </DialogFooter>
               </DialogContent>
@@ -406,12 +506,11 @@ function ViewTicket() {
             <Button variant="destructive" onClick={HandleCancel}>
               Go back
             </Button>
-          </div>}
-
+          </div>
+        )}
 
         {/* <Button variant='destructive'  onClick={HandleSubmit}>{t('editticket.submit')}</Button>
         <Button variant='destructive'  onClick={HandleCancel}>{t('editticket.cancel')}</Button> */}
-
       </div>
     </div>
   );

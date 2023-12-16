@@ -17,7 +17,6 @@ import {
 import {
   getFilteredRowModel,
   ColumnFiltersState,
-
   ColumnDef,
   flexRender,
   getCoreRowModel,
@@ -27,7 +26,7 @@ import {
   getSortedRowModel,
 } from "@tanstack/react-table";
 import { Separator } from "../ui/separator";
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
 
 interface TableProps<TData, TValue> {
   // data: { [key: string]: any }[];
@@ -43,7 +42,7 @@ function DataTable<TData, TValue>({
 }: TableProps<TData, TValue>) {
   const [currentPage, setCurrentPage] = useState(1);
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const totalPages = Math.ceil(data.length / 10);
 
@@ -52,14 +51,13 @@ function DataTable<TData, TValue>({
   };
 
   async function viewticket(id: number) {
-    alert(id)
+    alert(id);
   }
-
 
   const table = useReactTable({
     data,
     columns,
-    
+
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
@@ -116,30 +114,30 @@ function DataTable<TData, TValue>({
 
   let column = "";
   let columnplaceholder = "";
-  if (table.getAllColumns().find((el) => el.id == "title") != undefined)
-  {
+  if (table.getAllColumns().find((el) => el.id == "title") != undefined) {
     column = "title";
     columnplaceholder = "Title";
-  }
-  else if (table.getAllColumns().find((el) => el.id == "name") != undefined)
-  {
+  } else if (table.getAllColumns().find((el) => el.id == "name") != undefined) {
     column = "name";
-    columnplaceholder = "Name"
+    columnplaceholder = "Name";
   }
   return (
     <Card>
       <div>
-     {  
-     <div className="flex items-center py-4">
-        <Input
-          placeholder={'Search for ' + column + "..."}
-          value={(table.getColumn(column)?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn(column)?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-      </div> }
+        {
+          <div className="flex items-center py-4">
+            <Input
+              placeholder={"Search for " + column + "..."}
+              value={
+                (table.getColumn(column)?.getFilterValue() as string) ?? ""
+              }
+              onChange={(event) =>
+                table.getColumn(column)?.setFilterValue(event.target.value)
+              }
+              className="max-w-sm"
+            />
+          </div>
+        }
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -150,9 +148,9 @@ function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
                     </TableHead>
                   );
                 })}
@@ -189,7 +187,7 @@ function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <footer className="flex items-center p-4 gap-4 justify-between ">
+      <footer className="flex items-center justify-between gap-4 p-4 ">
         <Button
           variant="outline"
           size="sm"

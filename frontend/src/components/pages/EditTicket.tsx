@@ -147,7 +147,6 @@ function EditTicket() {
 
   return (
     <div className="px-24 text-left">
-      
       <div className="flex justify-center pb-16 pt-10">
         <Header></Header>
       </div>

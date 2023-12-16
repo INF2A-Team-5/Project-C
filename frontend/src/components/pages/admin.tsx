@@ -21,7 +21,12 @@ import { Toaster } from "../ui/toaster";
 import { Separator } from "../ui/separator";
 import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
 import { Machine } from "@/services/Machine";
-import { accountColumns, departmentColumns, machineColumns, ticketColumns } from "@/services/Columns";
+import {
+  accountColumns,
+  departmentColumns,
+  machineColumns,
+  ticketColumns,
+} from "@/services/Columns";
 import { Account } from "@/services/Account";
 import { Department } from "@/services/Department";
 
@@ -42,32 +47,51 @@ function Admin() {
 
   async function GetData() {
     SetAllTickets(
-      await fetch(
-        API_BASE_URL +
-        "/api/tickets",
-        getBaseQueryRequest(),
-      ).then((data) => data.json()).then((data) => data.sort((a: Ticket, b: Ticket) => a.ticketId - b.ticketId)));
+      await fetch(API_BASE_URL + "/api/tickets", getBaseQueryRequest())
+        .then((data) => data.json())
+        .then((data) =>
+          data.sort((a: Ticket, b: Ticket) => a.ticketId - b.ticketId),
+        ),
+    );
     SetAssignedTickets(
       await fetch(
         API_BASE_URL +
-        "/GetAssignedTickets?AccountId=" +
-        localStorage.getItem("Id"),
+          "/GetAssignedTickets?AccountId=" +
+          localStorage.getItem("Id"),
         getBaseQueryRequest(),
-      ).then((data) => data.json()).then((data) => data.sort((a: Ticket, b: Ticket) => a.ticketId - b.ticketId)));
-      SetAllMachines(
+      )
+        .then((data) => data.json())
+        .then((data) =>
+          data.sort((a: Ticket, b: Ticket) => a.ticketId - b.ticketId),
+        ),
+    );
+    SetAllMachines(
       await fetch(API_BASE_URL + "/api/Machines", getBaseQueryRequest())
-        .then((data) => data.json()).then((data) => data.sort((a: Machine, b: Machine) => a.machineId - b.machineId)));
-        SetAllAccounts(
+        .then((data) => data.json())
+        .then((data) =>
+          data.sort((a: Machine, b: Machine) => a.machineId - b.machineId),
+        ),
+    );
+    SetAllAccounts(
       await fetch(API_BASE_URL + "/api/Accounts", getBaseQueryRequest())
-        .then((data) => data.json()).then((data) => data.sort((a: Account, b: Account) => a.accountId - b.accountId)));
-        SetAllDepartments(
+        .then((data) => data.json())
+        .then((data) =>
+          data.sort((a: Account, b: Account) => a.accountId - b.accountId),
+        ),
+    );
+    SetAllDepartments(
       await fetch(API_BASE_URL + "/api/Departments", getBaseQueryRequest())
-        .then((data) => data.json()).then((data) => data.sort((a: Department, b: Department) => a.departmentId - b.departmentId)));
+        .then((data) => data.json())
+        .then((data) =>
+          data.sort(
+            (a: Department, b: Department) => a.departmentId - b.departmentId,
+          ),
+        ),
+    );
   }
 
   return (
     <div className="px-24 text-left">
-      
       <div className="flex justify-center pb-16 pt-10">
         <Header></Header>
       </div>

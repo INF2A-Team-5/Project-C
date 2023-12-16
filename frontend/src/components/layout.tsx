@@ -13,7 +13,10 @@ function Layout({ children, className, ...props }: LayoutProps) {
       <Toaster />
       <Navbar />
 
-      <main className={`flex w-full justify-center px-4 md:px-6 ${className}`} {...props}>
+      <main
+        className={`flex w-full justify-center px-4 md:px-6 ${className}`}
+        {...props}
+      >
         {children}
       </main>
     </div>

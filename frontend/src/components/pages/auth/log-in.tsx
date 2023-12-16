@@ -118,7 +118,7 @@ function LogIn() {
           </div>
         </div>
       </div>
-      
+
       <div className="flex flex-col items-center justify-center text-center">
         <Header></Header>
         <div className="grid w-2/5 gap-4">

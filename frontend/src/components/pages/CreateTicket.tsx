@@ -29,16 +29,15 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { Check, ChevronsUpDown } from "lucide-react"
+} from "@/components/ui/popover";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Machine } from "@/services/Machine";
-
 
 function CreateTickets() {
   useAuthenticated();
@@ -53,7 +52,7 @@ function CreateTickets() {
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
   const [isChecked, setChecked] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
   const handleCheckbox = () => {
@@ -79,8 +78,8 @@ function CreateTickets() {
   async function getData() {
     let machinelist = await fetch(
       API_BASE_URL +
-      "/GetMachinesPerAccount?accountId=" +
-      localStorage.getItem("Id"),
+        "/GetMachinesPerAccount?accountId=" +
+        localStorage.getItem("Id"),
       getBaseQueryRequest(),
     ).then((data) => data.json());
 
@@ -130,7 +129,9 @@ function CreateTickets() {
       havetried.length != 0 &&
       title.length != 0
     ) {
-      let machine = machines.find((machine: Machine) => machine.name.toLowerCase() == value);
+      let machine = machines.find(
+        (machine: Machine) => machine.name.toLowerCase() == value,
+      );
       if (machine == undefined) {
         toast({
           variant: "destructive",
@@ -212,7 +213,7 @@ function CreateTickets() {
           title: "Succes!",
           description: t("ticket.submitalert"),
         });
-        console.log(currentticket); 
+        console.log(currentticket);
         setIsLoading(false);
         navigate("/client");
 
@@ -234,7 +235,6 @@ function CreateTickets() {
 
   return (
     <div className="px-24 text-left">
-      
       <div className="flex justify-center pb-16 pt-10">
         <Header></Header>
       </div>
@@ -246,47 +246,51 @@ function CreateTickets() {
         <div className="grid gap-2">
           <Label>{t("ticket.selectmachinedes")}</Label>
           <div className="w-1/6">
-          <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-[200px] justify-between"
-        >
-          {value
-            ? machines.find((machine: any) => machine.name.toLowerCase() == value)?.name
-            : "Select machine..."}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
-          <CommandInput placeholder="Search machine..." />
-          <CommandEmpty>No machine found.</CommandEmpty>
-          <CommandGroup>
-            {machines.map((machine) => (
-              <CommandItem
-                key={machine.name}
-                value={machine.name}  
-                onSelect={(currentValue) => {
-                  setValue(currentValue === value ? "" : currentValue)
-                  setOpen(false)
-                }}
-              >
-                <Check
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    value === machine.name ? "opacity-100" : "opacity-0"
-                  )}
-                />
-                {machine.name}
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        </Command>
-      </PopoverContent>
-    </Popover>
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={open}
+                  className="w-[200px] justify-between"
+                >
+                  {value
+                    ? machines.find(
+                        (machine: any) => machine.name.toLowerCase() == value,
+                      )?.name
+                    : "Select machine..."}
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[200px] p-0">
+                <Command>
+                  <CommandInput placeholder="Search machine..." />
+                  <CommandEmpty>No machine found.</CommandEmpty>
+                  <CommandGroup>
+                    {machines.map((machine) => (
+                      <CommandItem
+                        key={machine.name}
+                        value={machine.name}
+                        onSelect={(currentValue) => {
+                          setValue(currentValue === value ? "" : currentValue);
+                          setOpen(false);
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            value === machine.name
+                              ? "opacity-100"
+                              : "opacity-0",
+                          )}
+                        />
+                        {machine.name}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </Command>
+              </PopoverContent>
+            </Popover>
             {/* <Select
               value={selectMachine}
               onValueChange={(value) => setSelectMachine(value)}
@@ -380,7 +384,7 @@ function CreateTickets() {
               type="file"
             />
           </div>
-          <div className="max-w-screen flex flex-wrap">
+          <div className="flex max-w-screen flex-wrap">
             {preview.map((previewItem, index) => (
               <div key={index} className="m-4 flex items-center">
                 <img
