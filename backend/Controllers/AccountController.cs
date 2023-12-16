@@ -19,6 +19,6 @@ namespace Backend.Controllers
         [HttpGet("{id}")] public async Task<ActionResult<Account>> GetAccountById(int id) => await _accountService.GetAccountById(id);
         [HttpPut("{id}")] public async Task<IActionResult> UpdateAccount(int id, Account account) => await _accountService.UpdateAccount(id, account);
         [HttpPost] public async Task<ActionResult<Account>> AddAccount(Account newAccount) => await _accountService.AddAccount(newAccount);
-        [HttpDelete("{id}")] public async Task<IActionResult> DeleteAccount(int id) => await _accountService.DeleteAccount(id);
+        [HttpDelete("{id}")] public async Task<IActionResult> DeleteAccount(int id) => await _accountService.DeleteAccount(id);        
     }
 }

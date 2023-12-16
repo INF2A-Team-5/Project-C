@@ -16,6 +16,22 @@ import {
   getBaseQueryRequest,
   postBaseMutateRequest,
 } from "@/lib/api";
+import { Department } from "@/services/Department";
+import { Account } from "@/services/Account";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 function AddAccount() {
   const [username, setUsername] = useState("");
@@ -23,7 +39,24 @@ function AddAccount() {
   const [confirmpassword, setconfirmPassword] = useState("");
   const [userType, setUserType] = useState("Client");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [department, setDepartment] = useState("");
+  const [deparmentList, setDepartmentList] = useState<Department[]>([]);
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false)
+
+  if (deparmentList.length == 0) {
+    getDepartments();
+  }
+
+  async function getDepartments() {
+    let deps =
+      await fetch(
+        API_BASE_URL + "/api/departments/",
+        getBaseQueryRequest()
+      ).then((data) => data.json());
+    
+    setDepartmentList(deps);
+  }
 
   async function handleSubmit() {
     setIsLoading(true);
@@ -66,7 +99,7 @@ function AddAccount() {
 
     // WAAR IS CLASS CHECKING?
     else {
-      fetch(
+      await fetch(
         API_BASE_URL + "/api/accounts",
         postBaseMutateRequest(
           JSON.stringify({
@@ -77,11 +110,39 @@ function AddAccount() {
         ),
       ).then((response) => response.json());
 
-      toast({
-        variant: "default",
-        title: "Succes!",
-        description: "Account added successfully.",
-      });
+      let acc : any = await fetch(API_BASE_URL + "/api/accounts", getBaseQueryRequest(),
+      )
+        .then((data) => data.json())
+        .then((accounts) => accounts.find((acc: Account) => acc.name == username));
+
+      let dep : any = await fetch(API_BASE_URL + "/api/departments", getBaseQueryRequest(),
+      )
+        .then((data) => data.json())
+        .then((deps) => deps.find((dep: Department) => dep.name.toLowerCase() == department));
+      
+      try 
+      {
+        await fetch(API_BASE_URL + "/api/employees", postBaseMutateRequest(
+          JSON.stringify({
+            departmentId: dep.departmentId,
+            accountId: acc.accountId,
+          })
+        ))
+        toast({
+          variant: "default",
+          title: "Succes!",
+          description: "Account added successfully.",
+        });
+      }
+      catch (error)
+      {
+        console.log(error);
+        toast({
+          variant: "destructive",
+          title: "Error!",
+          description: "Something went wrong!",
+        });
+      }
       // navigate("/admin");
       setIsLoading(false);
     }
@@ -111,6 +172,59 @@ function AddAccount() {
           <SelectItem value="ServiceEmployee">Service Employee</SelectItem>
         </SelectContent>
       </Select>
+      {userType == "ServiceEmployee" ?
+        // <Select value={department} onValueChange={(value) => setDepartment(value)}>
+        //   <SelectTrigger>
+        //     <SelectValue placeholder="Select a Department" />
+        //   </SelectTrigger>
+        //   <SelectContent>
+        //     {deparmentList.map((dep) => (
+        //       <SelectItem key={dep} value={dep}>{dep}</SelectItem>
+        //     ))}
+        //   </SelectContent>
+        // </Select>
+        <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-[200px] justify-between"
+        >
+          {department
+            ? deparmentList.find((dep: Department) => dep.name.toLowerCase() == department)?.name
+            : "Select department..."}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[200px] p-0">
+        <Command>
+          <CommandInput placeholder="Search department..." />
+          <CommandEmpty>No departments found.</CommandEmpty>
+          <CommandGroup>
+            {deparmentList.map((dep) => (
+              <CommandItem
+                key={dep.name}
+                value={dep.name}  
+                onSelect={(currentValue) => {
+                  setDepartment(currentValue === department ? "" : currentValue)
+                  setOpen(false)
+                }}
+              >
+                <Check
+                  className={cn(
+                    "mr-2 h-4 w-4",
+                    department === dep.name ? "opacity-100" : "opacity-0"
+                  )}
+                />
+                {dep.name}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </Command>
+      </PopoverContent>
+    </Popover>
+        : null}
       <Button
         className="w-fit"
         variant="default"

@@ -35,7 +35,6 @@ namespace Backend.AccountService
             }
             return account;
         }
-
         public async Task<IActionResult> UpdateAccount(int id, Account account)
         {
             if (id != account.AccountId)
