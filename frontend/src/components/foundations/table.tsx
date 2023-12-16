@@ -1,4 +1,8 @@
-import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
+import {
+  ArrowDownIcon,
+  ArrowUpIcon,
+  CaretSortIcon,
+} from "@radix-ui/react-icons";
 import { useState } from "react";
 import {
   Table,
@@ -109,9 +113,9 @@ function DataTable<TData, TValue>({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
                     </TableHead>
                   );
                 })}
