@@ -18,6 +18,20 @@ import {
 } from "@/lib/api";
 import { Department } from "@/services/Department";
 import { Account } from "@/services/Account";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 function AddAccount() {
   const [username, setUsername] = useState("");
@@ -26,9 +40,9 @@ function AddAccount() {
   const [userType, setUserType] = useState("Client");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [department, setDepartment] = useState("");
-  const [deparmentList, setDepartmentList] = useState<[]>([]);
+  const [deparmentList, setDepartmentList] = useState<Department[]>([]);
   const navigate = useNavigate();
-
+  const [open, setOpen] = useState(false)
 
   if (deparmentList.length == 0) {
     getDepartments();
@@ -41,7 +55,7 @@ function AddAccount() {
         getBaseQueryRequest()
       ).then((data) => data.json());
     
-    setDepartmentList(deps.map((dep: any) => dep.name));
+    setDepartmentList(deps);
   }
 
   async function handleSubmit() {
@@ -104,7 +118,7 @@ function AddAccount() {
       let dep : any = await fetch(API_BASE_URL + "/api/departments", getBaseQueryRequest(),
       )
         .then((data) => data.json())
-        .then((deps) => deps.find((dep: Department) => dep.name == department));
+        .then((deps) => deps.find((dep: Department) => dep.name.toLowerCase() == department));
       
       try 
       {
@@ -159,16 +173,57 @@ function AddAccount() {
         </SelectContent>
       </Select>
       {userType == "ServiceEmployee" ?
-        <Select value={department} onValueChange={(value) => setDepartment(value)}>
-          <SelectTrigger>
-            <SelectValue placeholder="Select a Department" />
-          </SelectTrigger>
-          <SelectContent>
+        // <Select value={department} onValueChange={(value) => setDepartment(value)}>
+        //   <SelectTrigger>
+        //     <SelectValue placeholder="Select a Department" />
+        //   </SelectTrigger>
+        //   <SelectContent>
+        //     {deparmentList.map((dep) => (
+        //       <SelectItem key={dep} value={dep}>{dep}</SelectItem>
+        //     ))}
+        //   </SelectContent>
+        // </Select>
+        <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-[200px] justify-between"
+        >
+          {department
+            ? deparmentList.find((dep: Department) => dep.name.toLowerCase() == department)?.name
+            : "Select department..."}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[200px] p-0">
+        <Command>
+          <CommandInput placeholder="Search department..." />
+          <CommandEmpty>No departments found.</CommandEmpty>
+          <CommandGroup>
             {deparmentList.map((dep) => (
-              <SelectItem key={dep} value={dep}>{dep}</SelectItem>
+              <CommandItem
+                key={dep.name}
+                value={dep.name}  
+                onSelect={(currentValue) => {
+                  setDepartment(currentValue === department ? "" : currentValue)
+                  setOpen(false)
+                }}
+              >
+                <Check
+                  className={cn(
+                    "mr-2 h-4 w-4",
+                    department === dep.name ? "opacity-100" : "opacity-0"
+                  )}
+                />
+                {dep.name}
+              </CommandItem>
             ))}
-          </SelectContent>
-        </Select>
+          </CommandGroup>
+        </Command>
+      </PopoverContent>
+    </Popover>
         : null}
       <Button
         className="w-fit"

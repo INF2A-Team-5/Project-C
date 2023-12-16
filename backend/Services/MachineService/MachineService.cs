@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Backend.Data;
 using Backend.Entities;
+using Backend.Dto;
 
 namespace Backend.MachineService
 {
@@ -76,15 +77,17 @@ namespace Backend.MachineService
             return NoContent();
         }
 
-        public async Task<ActionResult<Machine>> AddMachine(Machine machine)
+        public async Task<ActionResult<Machine>> AddMachine(MachineDto machine)
         {
             if (_context.Machines == null)
             {
                 return Problem("Entity set 'DataContext.Machines'  is null.");
             }
-            _context.Machines.Add(machine);
+            var department = await (from departments in _context.Departments where departments.DepartmentId == machine.DepartmentId select departments).FirstOrDefaultAsync();
+            Machine newMachine = new() { Department = department, Description = machine.Description, Name = machine.Name };
+            _context.Machines.Add(newMachine);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetMachineById), new { id = machine.MachineId }, machine);
+            return CreatedAtAction(nameof(GetMachineById), new { id = newMachine.MachineId }, newMachine);
         }
 
         public async Task<IActionResult> DeleteMachine(int id)
