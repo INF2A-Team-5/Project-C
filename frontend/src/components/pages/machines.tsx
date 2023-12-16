@@ -8,7 +8,6 @@ import {
   useQuery,
 } from "@/lib/api";
 import { Machine } from "@/services/Machine";
-import Navbar from "../foundations/navbar";
 import {
   Dialog,
   DialogClose,
@@ -31,23 +30,9 @@ import Layout from "../layout";
 function Machines() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  // const [allMachines, setAllMachines] = useState<Machine[]>([]);
-  // const [loadData, setData] = useState<Boolean>(false);
   const [department, setDepartment] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-  // if (loadData == false) {
-  //   getData();
-  //   setData(true);
-  // }
-
-  // async function getData() {
-  //   setAllMachines(
-  //     await fetch(API_BASE_URL + "/api/Machines", getBaseQueryRequest()).then(
-  //       (data) => data.json(),
-  //     ),
-  //   );
-  // }
   const { data, isFetching } = useQuery<Machine[]>("/api/machines", {
     onError: () => {
       toast({

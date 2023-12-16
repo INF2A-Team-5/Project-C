@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Table from "../foundations/table";
-import { Toaster } from "../ui/toaster";
 import {
   API_BASE_URL,
   getBaseQueryRequest,
@@ -8,7 +7,6 @@ import {
   useQuery,
 } from "@/lib/api";
 import { accountColumns } from "@/services/Columns";
-import Navbar from "../foundations/navbar";
 import {
   Dialog,
   DialogClose,
@@ -38,7 +36,6 @@ function Departments() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setconfirmPassword] = useState("");
-  // const [allAccounts, setAllAccounts] = useState<Account[]>([]);
   const [userType, setUserType] = useState("Client");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -51,19 +48,6 @@ function Departments() {
       });
     },
   });
-  // const [loadData, setData] = useState<Boolean>(false);
-  // if (loadData == false) {
-  //   getData();
-  //   setData(true);
-  // }
-
-  // async function getData() {
-  //   setAllAccounts(
-  //     await fetch(API_BASE_URL + "/api/Accounts", getBaseQueryRequest()).then(
-  //       (data) => data.json(),
-  //     ),
-  //   );
-  // }
 
   async function handleSubmit() {
     setIsLoading(true);
@@ -130,7 +114,9 @@ function Departments() {
           <h1 className="text-3xl font-medium">Accounts</h1>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="default">Add account</Button>
+              <Button variant="default" disabled={isFetching}>
+                Add account
+              </Button>
             </DialogTrigger>
 
             <DialogContent>

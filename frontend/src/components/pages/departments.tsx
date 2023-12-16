@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Table from "../foundations/table";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
-import { Toaster } from "../ui/toaster";
 import {
   API_BASE_URL,
   getBaseQueryRequest,
@@ -9,7 +8,6 @@ import {
   useQuery,
 } from "@/lib/api";
 import { departmentColumns } from "@/services/Columns";
-import Navbar from "../foundations/navbar";
 import {
   Dialog,
   DialogClose,
@@ -31,13 +29,7 @@ import Layout from "../layout";
 function Departments() {
   useAuthenticated();
   const [name, setName] = useState("");
-  // const [loadData, setData] = useState<Boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  // const [allDepartments, setAllDepartments] = useState<Department[]>([]);
-  // if (loadData == false) {
-  //   getData();
-  //   setData(true);
-  // }
   const { data, isFetching } = useQuery<Department[]>("/api/departments", {
     onError: () => {
       toast({
@@ -47,15 +39,6 @@ function Departments() {
       });
     },
   });
-
-  // async function getData() {
-  //   setAllDepartments(
-  //     await fetch(
-  //       API_BASE_URL + "/api/Departments",
-  //       getBaseQueryRequest(),
-  //     ).then((data) => data.json()),
-  //   );
-  // }
 
   async function handleSubmit() {
     setIsLoading(true);
@@ -101,7 +84,9 @@ function Departments() {
           <h1 className="text-3xl font-medium">Departments</h1>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="default" disabled={isFetching}>Add department</Button>
+              <Button variant="default" disabled={isFetching}>
+                Add department
+              </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -134,7 +119,6 @@ function Departments() {
           </Dialog>
         </div>
         <div className="grid gap-12">
-          {/* <Table data={allDepartments} columns={departmentColumns} /> */}
           {data ? (
             <Table data={data} columns={departmentColumns} />
           ) : (

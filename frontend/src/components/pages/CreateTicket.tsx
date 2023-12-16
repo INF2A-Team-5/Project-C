@@ -309,7 +309,9 @@ function CreateTickets() {
               placeholder={t("ticket.titledes")}
               onChange={(e) => setTitle(e.currentTarget.value)}
             />
-            <TextareaHint>Enter the title for the ticket (visible in the tickets table)...</TextareaHint>
+            <TextareaHint>
+              Enter the title for the ticket (visible in the tickets table)...
+            </TextareaHint>
           </div>
 
           <div className="grid gap-2">
