@@ -5,10 +5,10 @@ import Table from "../foundations/table";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import Header from "../foundations/header";
-import AddAccount from "./addAccount";
-import AddMachine from "./addMachine";
-import AddDepartment from "./addDepartment";
-import AddSolution from "./AddTicketSolution";
+import AddAccount from "../foundations/add-account";
+import AddMachine from "../foundations/add-machine";
+import AddDepartment from "../foundations/add-department";
+import AddSolution from "../foundations/add-ticket-solution";
 import {
   Card,
   CardContent,
@@ -16,7 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import AddMachineSolution from "./AddMachineSolution";
+import AddMachineSolution from "../foundations/add-machine-solution";
 import { Toaster } from "../ui/toaster";
 import { Separator } from "../ui/separator";
 import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";

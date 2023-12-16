@@ -10,7 +10,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import { toast } from "../ui/use-toast";
-import { Icons } from "../foundations/icons";
+import { Icons } from "./icons";
 import {
   API_BASE_URL,
   getBaseQueryRequest,

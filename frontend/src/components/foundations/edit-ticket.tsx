@@ -1,11 +1,11 @@
 import { SetStateAction, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Settings from "../foundations/settings";
+import Settings from "./settings";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import { Textarea, TextareaHint } from "../ui/textarea";
 import { Input } from "../ui/input";
-import Header from "../foundations/header";
+import Header from "./header";
 import { Label } from "../ui/label";
 import { Separator } from "../ui/separator";
 import {

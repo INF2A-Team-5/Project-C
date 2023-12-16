@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { Textarea } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
-import { Icons } from "../foundations/icons";
+import { Icons } from "./icons";
 import { API_BASE_URL, postBaseMutateRequest } from "@/lib/api";
 
 function AddSolution() {

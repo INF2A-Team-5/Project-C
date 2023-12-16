@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { toast } from "@/components/ui/use-toast";
 import { Textarea } from "../ui/textarea";
-import { Icons } from "../foundations/icons";
+import { Icons } from "./icons";
 import {
   API_BASE_URL,
   getBaseQueryRequest,

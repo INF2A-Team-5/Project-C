@@ -2,7 +2,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Icons } from "../foundations/icons";
+import { Icons } from "./icons";
 import {
   API_BASE_URL,
   getBaseQueryRequest,

@@ -1,13 +1,13 @@
 import { useState } from "react";
-import Settings from "../foundations/settings";
+import Settings from "./settings";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useNavigate } from "react-router-dom";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
-import Header from "../foundations/header";
+import Header from "./header";
 import { Separator } from "../ui/separator";
 import { Label } from "../ui/label";
-import { Icons } from "../foundations/icons";
+import { Icons } from "./icons";
 import {
   API_BASE_URL,
   getBaseQueryRequest,

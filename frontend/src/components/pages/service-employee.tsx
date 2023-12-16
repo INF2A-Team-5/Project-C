@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Settings from "../foundations/settings";
 import Table from "../foundations/table";
 import { Ticket } from "../../services/Ticket";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
@@ -13,13 +12,12 @@ import {
   CardContent,
 } from "../ui/card";
 import { Toaster } from "../ui/toaster";
-import AddMachineSolution from "./AddMachineSolution";
-import AddSolution from "./AddTicketSolution";
-import AddMachine from "./addMachine";
+import AddMachineSolution from "../foundations/add-machine-solution";
+import AddSolution from "../foundations/add-ticket-solution";
+import AddMachine from "../foundations/add-machine";
 import { Separator } from "../ui/separator";
 import {
   API_BASE_URL,
-  putBaseMutateRequest,
   getBaseQueryRequest,
 } from "@/lib/api";
 import { Machine } from "@/services/Machine";
