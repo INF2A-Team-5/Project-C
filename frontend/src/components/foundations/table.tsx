@@ -27,6 +27,7 @@ import {
 } from "@tanstack/react-table";
 import { Separator } from "../ui/separator";
 import { Input } from "@/components/ui/input";
+import { Skeleton } from "../ui/skeleton";
 
 interface TableProps<TData, TValue> {
   // data: { [key: string]: any }[];
@@ -170,14 +171,15 @@ function DataTable<TData, TValue>({
                     ))}
                   </TableRow>
                 ))
-              ) : (
-                <TableRow>
-                  <TableCell
+                ) : (
+                  <TableRow>
+                  {/* <TableCell
                     colSpan={columns.length}
                     className="h-24 text-center"
-                  >
+                    >
                     No results.
-                  </TableCell>
+                  </TableCell> */}
+                    <Skeleton className="h-4 ml-4 my-6"/>
                 </TableRow>
               )}
               <Separator />

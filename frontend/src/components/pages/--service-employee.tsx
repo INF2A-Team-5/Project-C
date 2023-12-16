@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Table from "../foundations/table";
-import { Ticket } from "../../services/Ticket";
+import { Ticket } from "../../types/Ticket";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import Header from "../foundations/header";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
@@ -20,7 +20,7 @@ import {
   API_BASE_URL,
   getBaseQueryRequest,
 } from "@/lib/api";
-import { Machine } from "@/services/Machine";
+import { Machine } from "@/types/Machine";
 import { machineColumns, ticketColumns } from "@/services/Columns";
 
 function serviceEmployee() {

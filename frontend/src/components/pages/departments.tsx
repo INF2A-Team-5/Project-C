@@ -20,7 +20,7 @@ import {
 } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { Department } from "@/services/Department";
+import { Department } from "@/types/Department";
 import { toast } from "../ui/use-toast";
 import { Icons } from "../foundations/icons";
 import { TextareaHint } from "../ui/textarea";

@@ -7,7 +7,7 @@ import {
   postBaseMutateRequest,
   useQuery,
 } from "@/lib/api";
-import { Machine } from "@/services/Machine";
+import { Machine } from "@/types/Machine";
 import {
   Dialog,
   DialogClose,

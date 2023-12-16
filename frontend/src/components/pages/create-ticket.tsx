@@ -32,7 +32,7 @@ import {
 } from "@/components/ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Machine } from "@/services/Machine";
+import { Machine } from "@/types/Machine";
 import Layout from "../layout";
 
 function CreateTickets() {

@@ -11,7 +11,7 @@ import {
   postBaseMutateRequest,
 } from "@/lib/api";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Department } from "@/services/Department";
+import { Department } from "@/types/Department";
 import {
   Command,
   CommandEmpty,
@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/command";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Machine } from "@/services/Machine";
+import { Machine } from "@/types/Machine";
 
 function AddMachine() {
   const [name, setName] = useState("");

@@ -36,7 +36,7 @@ import {
 import { Toaster } from "../ui/toaster";
 import { use } from "i18next";
 import { toast } from "../ui/use-toast";
-import { Ticket } from "@/services/Ticket";
+import { Ticket } from "@/types/Ticket";
 import {
   Card,
   CardContent,

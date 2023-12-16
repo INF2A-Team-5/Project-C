@@ -21,7 +21,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { toast } from "../ui/use-toast";
 import { Icons } from "../foundations/icons";
-import { Account } from "@/services/Account";
+import { Account } from "@/types/Account";
 import {
   Select,
   SelectContent,

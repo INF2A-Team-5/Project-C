@@ -6,13 +6,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Ticket } from "./Ticket";
+import { Ticket } from "../types/Ticket";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { Machine } from "./Machine";
-import { Account } from "./Account";
-import { Department } from "./Department";
+import { Machine } from "../types/Machine";
+import { Account } from "../types/Account";
+import { Department } from "../types/Department";
 import {
   ArrowDownIcon,
   ArrowUpIcon,

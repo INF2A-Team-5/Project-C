@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Settings from "../foundations/settings";
-import { Ticket } from "../../services/Ticket";
+import { Ticket } from "../../types/Ticket";
 import Table from "../foundations/table";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
@@ -20,15 +20,15 @@ import AddMachineSolution from "../foundations/add-machine-solution";
 import { Toaster } from "../ui/toaster";
 import { Separator } from "../ui/separator";
 import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
-import { Machine } from "@/services/Machine";
+import { Machine } from "@/types/Machine";
 import {
   accountColumns,
   departmentColumns,
   machineColumns,
   ticketColumns,
 } from "@/services/Columns";
-import { Account } from "@/services/Account";
-import { Department } from "@/services/Department";
+import { Account } from "@/types/Account";
+import { Department } from "@/types/Department";
 
 function Admin() {
   // useAuthenticated();

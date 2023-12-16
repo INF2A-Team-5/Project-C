@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { Machine } from "@/services/Machine";
+import { Machine } from "@/types/Machine";
 import { useNavigate } from "react-router-dom";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { toast } from "@/components/ui/use-toast";

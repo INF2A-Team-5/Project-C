@@ -17,9 +17,9 @@ import Header from "../foundations/header";
 import { Separator } from "../ui/separator";
 import Table from "../foundations/table";
 import { useState } from "react";
-import { Ticket } from "@/services/Ticket";
+import { Ticket } from "@/types/Ticket";
 import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
-import { Machine } from "@/services/Machine";
+import { Machine } from "@/types/Machine";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { machineColumns, ticketColumns } from "@/services/Columns";
 

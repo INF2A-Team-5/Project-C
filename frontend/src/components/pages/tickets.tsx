@@ -1,5 +1,5 @@
 import { Icons } from "../foundations/icons";
-import { Ticket } from "../../services/Ticket";
+import { Ticket } from "../../types/Ticket";
 import Table from "../foundations/table";
 import { useQuery } from "@/lib/api";
 import { ticketColumns } from "@/services/Columns";
@@ -17,6 +17,7 @@ import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import Layout from "../layout";
 import { toast } from "../ui/use-toast";
+import { Skeleton } from "../ui/skeleton";
 
 function Tickets() {
   const { data, isFetching } = useQuery<Ticket[]>("/api/tickets", {
@@ -28,7 +29,6 @@ function Tickets() {
       });
     },
   });
-
   return (
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
@@ -67,12 +67,16 @@ function Tickets() {
           </Dialog>
         </div>
         <div className="grid gap-12">
+          {/* <Skeleton className="h-4"/> */}
           {data ? (
             <Table data={data} columns={ticketColumns} />
           ) : (
+
             <div className="flex h-[20rem] w-full items-center justify-center">
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             </div>
+            // null
+
           )}
           <div className="h-44"></div>
         </div>
