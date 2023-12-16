@@ -127,7 +127,6 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
     cell: ({ row }) => {
       const ticket = row.original
       const navigate = useNavigate();
-      localStorage.setItem("currentticketID", ticket.ticketId.toString());
 
       return (
         <DropdownMenu>
@@ -143,7 +142,10 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
               Show seven
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => navigate(`/view-ticket`)}>
+            <DropdownMenuItem onClick={() => {
+              localStorage.setItem("currentticketID", ticket.ticketId.toString());
+              navigate(`/view-ticket`);
+            }}>
               View ticket
             </DropdownMenuItem>
             <DropdownMenuItem>View customer</DropdownMenuItem>
