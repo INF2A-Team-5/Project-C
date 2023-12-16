@@ -14,6 +14,7 @@ using Backend.MachineService;
 using Backend.SolutionService;
 using Backend.TicketService;
 using Backend.DepartmentService;
+using Backend.EmployeeService;
 
 // var builder = WebApplication.CreateBuilder(args);
 var builder = WebApplication.CreateBuilder(args);
@@ -81,12 +82,16 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 
         // ignore omitted parameters on models to enable optional params (e.g. User update)
         x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+
+        x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     });
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IMachineService, MachinesService>();
 builder.Services.AddScoped<ISolutionService, SolutionsService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+
 
 var app = builder.Build();
 
