@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../api";
 import { toast } from "@/components/ui/use-toast";
 
 export async function useAuthenticated() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  useEffect(() => {
+    if (localStorage.getItem("Token") == null) {
+      navigate("/auth/login");
+    }
+  });
 
   const isLoggedIn = await fetch(
     API_BASE_URL + "/api/Auth/auth?token=" + localStorage.getItem("Token"),
@@ -17,8 +21,8 @@ export async function useAuthenticated() {
       },
     },
   ).then((data) => data.json());
+
   if (isLoggedIn) {
-    setIsAuthenticated(true);
     if (
       (location.pathname == "/accounts" ||
         location.pathname == "/departments") &&
@@ -36,5 +40,5 @@ export async function useAuthenticated() {
     });
   }
 
-  return { isAuthenticated };
+  return { isLoggedIn };
 }

@@ -19,7 +19,6 @@ import Layout from "../layout";
 import AddDepartment from "../foundations/add-department";
 
 function Departments() {
-  // useAuthenticated();
   const { data, isFetching } = useQuery<Department[]>("/api/departments", {
     onError: () => {
       toast({

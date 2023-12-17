@@ -47,8 +47,12 @@ namespace Backend.Controllers
             }
             return NotFound("Invalid credentials");
         }
-        [HttpPost("auth")] public async Task<ActionResult<Boolean>> CheckAuth(string token)
+        [HttpPost("auth")] public async Task<ActionResult<bool>> CheckAuth(string? token)
         {
+            if (token == null)
+            {
+                return Ok(false);
+            }
             var tokenHandler = new JwtSecurityTokenHandler(); 
             var DecodedToken = tokenHandler.ReadJwtToken(token);
             string name = DecodedToken.Claims.First(claim => claim.Type == "unique_name").Value;
@@ -68,7 +72,7 @@ namespace Backend.Controllers
             }
             if (_dataContext.Accounts == null)
             {
-                return BadRequest();
+                return Ok(false);
             }
             var account = (from accs in _dataContext.Accounts where accs.Name == name && accs.Class == Class select accs).FirstOrDefaultAsync();
             if (account != null)

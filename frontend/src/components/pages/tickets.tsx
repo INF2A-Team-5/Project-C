@@ -21,7 +21,6 @@ import { Skeleton } from "../ui/skeleton";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 
 function Tickets() {
-  useAuthenticated();
   const { data, isFetching } = useQuery<Ticket[]>("/api/tickets", {
     onError: () => {
       toast({
