@@ -26,7 +26,7 @@ import {
 import { toast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
 
-async function AssignTicket(ticket: any) {
+async function Claimticket(ticket: any) {
   console.log(localStorage.getItem("Id"));
   try {
     let employee = await fetch(
@@ -170,9 +170,6 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => alert(7)}>
-              Show seven
-            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
@@ -185,11 +182,11 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
             >
               View ticket
             </DropdownMenuItem>
-            <DropdownMenuItem>View customer</DropdownMenuItem>
+            {/* <DropdownMenuItem>View customer</DropdownMenuItem> */}
             {localStorage.getItem("Class") == "ServiceEmployee" ||
             localStorage.getItem("Class") == "Admin" ? (
-              <DropdownMenuItem onClick={() => AssignTicket(ticket)}>
-                Assign Ticket
+              <DropdownMenuItem onClick={() => Claimticket(ticket)}>
+                Claim ticket
               </DropdownMenuItem>
             ) : null}
             {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
@@ -261,6 +258,47 @@ export const machineColumns: ColumnDef<Machine>[] = [
       );
     },
   },
+  {
+    id: "actions",
+    header: "Options",
+    cell: ({ row }) => {
+      const machine = row.original;
+      const navigate = useNavigate();
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              // onClick={() => {
+              //   localStorage.setItem(
+              //     "currentticketID",
+              //     machine.machineId.toString(),
+              //   );
+              //   navigate(`/view-ticket`);
+              // }}
+            >
+              View machine
+            </DropdownMenuItem>
+            {/* {localStorage.getItem("Class") == "ServiceEmployee" ||
+            localStorage.getItem("Class") == "Admin" ? (
+              <DropdownMenuItem onClick={() => AssignTicket(ticket)}>
+                Assign Ticket
+              </DropdownMenuItem>
+            ) : null} */}
+            {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
 ];
 
 export const accountColumns: ColumnDef<Account>[] = [
@@ -324,6 +362,47 @@ export const accountColumns: ColumnDef<Account>[] = [
       );
     },
   },
+  {
+    id: "actions",
+    header: "Options",
+    cell: ({ row }) => {
+      const account = row.original;
+      const navigate = useNavigate();
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+            //   onClick={() => {
+            //     localStorage.setItem(
+            //       "currentticketID",
+            //       account.accountId.toString(),
+            //     );
+            //     navigate(`/view-ticket`);
+            //   }}
+             >
+              View account
+            </DropdownMenuItem>
+            {/* {localStorage.getItem("Class") == "ServiceEmployee" ||
+            localStorage.getItem("Class") == "Admin" ? (
+              <DropdownMenuItem onClick={() => AssignTicket(ticket)}>
+                Assign Ticket
+              </DropdownMenuItem>
+            ) : null} */}
+            {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
 ];
 
 export const departmentColumns: ColumnDef<Department>[] = [
@@ -364,6 +443,47 @@ export const departmentColumns: ColumnDef<Department>[] = [
             <CaretSortIcon className="ml-2 h-4 w-4" />
           )}
         </Button>
+      );
+    },
+  },
+  {
+    id: "actions",
+    header: "Options",
+    cell: ({ row }) => {
+      const department = row.original;
+      const navigate = useNavigate();
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              // onClick={() => {
+              //   localStorage.setItem(
+              //     "currentticketID",
+              //     department.departmentId.toString(),
+              //   );
+              //   navigate(`/view-ticket`);
+              // }}
+            >
+              View department
+            </DropdownMenuItem>
+            {/* {localStorage.getItem("Class") == "ServiceEmployee" ||
+            localStorage.getItem("Class") == "Admin" ? (
+              <DropdownMenuItem onClick={() => AssignTicket(ticket)}>
+                Assign Ticket
+              </DropdownMenuItem>
+            ) : null} */}
+            {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
+          </DropdownMenuContent>
+        </DropdownMenu>
       );
     },
   },

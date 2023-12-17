@@ -40,16 +40,25 @@ function AddDepartment() {
       });
       setIsLoading(false);
     } else {
-      fetch(
-        API_BASE_URL + "/api/departments",
-        postBaseMutateRequest(JSON.stringify({ name: name })),
-      ).then((data) => data.json());
-      toast({
-        variant: "default",
-        title: "Succes!",
-        description: "Account added successfully.",
-      });
-      setIsLoading(false);
+      try {
+        fetch(
+          API_BASE_URL + "/api/departments",
+          postBaseMutateRequest(JSON.stringify({ name: name })),
+        );
+        toast({
+          variant: "default",
+          title: "Succes!",
+          description: "Account added successfully.",
+        });
+        setIsLoading(false);
+      } catch {
+        toast({
+          variant: "destructive",
+          title: "Error!",
+          description: "Something went wrong.",
+        });
+        setIsLoading(false);
+      }
     }
   }
   return (
