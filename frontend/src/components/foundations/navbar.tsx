@@ -23,14 +23,16 @@ function Navbar() {
       <div className="sticky top-0 z-10 flex h-16 w-full justify-center border-b border-border bg-background px-4 md:px-6">
         <div className="flex w-full max-w-screen items-center justify-between">
           <div className="flex items-center gap-12">
-            <div className="flex items-center border-r border-border pr-12">
-              <img
-                className="h-8"
-                src="/viscon_logo_transparant.png"
-                alt="Viscon Logo"
-              />
-              <h1 className="ml-2 text-xl font-medium">VISCON</h1>
-            </div>
+            <Link to="/tickets">
+              <div className="flex items-center border-r border-border pr-12">
+                <img
+                  className="h-8"
+                  src="/viscon_logo_transparant.png"
+                  alt="Viscon Logo"
+                />
+                <h1 className="ml-2 text-xl font-medium">VISCON</h1>
+              </div>
+            </Link>
             <nav className="flex items-center gap-6">
               {navItems.map((item) => (
                 <Link
