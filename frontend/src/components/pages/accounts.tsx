@@ -32,6 +32,7 @@ import {
 import { TextareaHint } from "../ui/textarea";
 import Layout from "../layout";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
+import AddAccount from "../foundations/add-account";
 
 function Accounts() {
   useAuthenticated();
@@ -127,50 +128,8 @@ function Accounts() {
                 <TextareaHint>Create accounts for new clients</TextareaHint>
               </DialogHeader>
               <DialogDescription className="grid gap-2">
-                <Input
-                  placeholder="Enter Username"
-                  onChange={(e) => setUsername(e.currentTarget.value)}
-                />
-                <Input
-                  placeholder="Enter Password"
-                  onChange={(e) => setPassword(e.currentTarget.value)}
-                />
-                <Input
-                  placeholder="Confirm Password"
-                  onChange={(e) => setconfirmPassword(e.currentTarget.value)}
-                />
-                <Select
-                  value={userType}
-                  onValueChange={(value) => setUserType(value)}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a User Type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Admin">Admin</SelectItem>
-                    <SelectItem value="Client">Client</SelectItem>
-                    <SelectItem value="ServiceEmployee">
-                      Service Employee
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+              <AddAccount/>
               </DialogDescription>
-              <DialogFooter>
-                <DialogClose>
-                  <Button variant="outline">Close</Button>
-                </DialogClose>
-                <Button
-                  className="w-fit"
-                  variant="default"
-                  onClick={handleSubmit}
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                  ) : null}
-                  Add account
-                </Button>
-              </DialogFooter>
             </DialogContent>
           </Dialog>
         </div>

@@ -33,6 +33,7 @@ import {
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import React from "react";
+import { DialogClose, DialogFooter } from "../ui/dialog";
 
 function AddAccount() {
   const [username, setUsername] = useState("");
@@ -100,17 +101,26 @@ function AddAccount() {
 
     // WAAR IS CLASS CHECKING?
     else {
-      await fetch(
-        API_BASE_URL + "/api/accounts",
-        postBaseMutateRequest(
-          JSON.stringify({
-            name: username,
-            password: password,
-            class: userType,
-          }),
-        ),
-      ).then((response) => response.json());
-
+      try {
+        await fetch(
+          API_BASE_URL + "/api/accounts",
+          postBaseMutateRequest(
+            JSON.stringify({
+              name: username,
+              password: password,
+              class: userType,
+            }),
+          ),
+        ).then((response) => response.json());
+      } catch (error) {
+        console.log(error);
+        toast({
+          variant: "destructive",
+          title: "Error!",
+          description: "Something went wrong!",
+        });
+        setIsLoading(false);
+      }
       let acc: any = await fetch(
         API_BASE_URL + "/api/accounts",
         getBaseQueryRequest(),
@@ -120,40 +130,46 @@ function AddAccount() {
           accounts.find((acc: Account) => acc.name == username),
         );
 
-      let dep: any = await fetch(
-        API_BASE_URL + "/api/departments",
-        getBaseQueryRequest(),
-      )
-        .then((data) => data.json())
-        .then((deps) =>
-          deps.find((dep: Department) => dep.name.toLowerCase() == department),
-        );
+      if (acc.class != "Client") {
+        let dep: any = await fetch(
+          API_BASE_URL + "/api/departments",
+          getBaseQueryRequest(),
+        )
+          .then((data) => data.json())
+          .then((deps) =>
+            deps.find(
+              (dep: Department) => dep.name.toLowerCase() == department,
+            ),
+          );
 
-      try {
-        await fetch(
-          API_BASE_URL + "/api/employees",
-          postBaseMutateRequest(
-            JSON.stringify({
-              departmentId: dep.departmentId,
-              accountId: acc.accountId,
-            }),
-          ),
-        );
-        toast({
-          variant: "default",
-          title: "Succes!",
-          description: "Account added successfully.",
-        });
-      } catch (error) {
-        console.log(error);
-        toast({
-          variant: "destructive",
-          title: "Error!",
-          description: "Something went wrong!",
-        });
+        try {
+          await fetch(
+            API_BASE_URL + "/api/employees",
+            postBaseMutateRequest(
+              JSON.stringify({
+                departmentId: dep.departmentId,
+                accountId: acc.accountId,
+              }),
+            ),
+          );
+          toast({
+            variant: "default",
+            title: "Succes!",
+            description: "Account added successfully.",
+          });
+          setIsLoading(false);
+        } catch (error) {
+          console.log(error);
+          toast({
+            variant: "destructive",
+            title: "Error!",
+            description: "Something went wrong!",
+          });
+          setIsLoading(false);
+        }
       }
       // navigate("/admin");
-      setIsLoading(false);
+      DialogClose
     }
   }
 
@@ -181,7 +197,7 @@ function AddAccount() {
         // ●●●●●●●● als je circels wilt
         onChange={(e) => setconfirmPassword(e.currentTarget.value)}
       />
-      <Select value={userType} onValueChange={(value) => setUserType(value)}>
+      <Select onValueChange={(value) => setUserType(value)}>
         <SelectTrigger>
           <SelectValue placeholder="Select a User Type" />
         </SelectTrigger>
@@ -238,17 +254,22 @@ function AddAccount() {
           </PopoverContent>
         </Popover>
       ) : null}
-      <Button
-        className="w-fit"
-        variant="default"
-        onClick={handleSubmit}
-        disabled={isLoading}
-      >
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : null}
-        Add Account
-      </Button>
+      <DialogFooter>
+        <DialogClose>
+          <Button variant="outline">Close</Button>
+        </DialogClose>
+        <Button
+          className="w-fit"
+          variant="default"
+          onClick={handleSubmit}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          ) : null}
+          Add account
+        </Button>
+      </DialogFooter>
     </div>
   );
 }
