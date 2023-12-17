@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
@@ -30,7 +29,6 @@ function AddMachine() {
   const [description, setDescription] = useState("");
   const [department, setDepartment] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
   const { data } = useQuery<Department[]>("/api/departments", {
@@ -114,7 +112,8 @@ function AddMachine() {
         description: "Machine added successfully.",
       });
       setIsLoading(false);
-      window.location.reload();
+      setName("");
+      setDescription("");
     }
   }
 
@@ -123,6 +122,7 @@ function AddMachine() {
       <Input
         placeholder="Enter Machine Name"
         onChange={(e) => setName(e.currentTarget.value)}
+        value={name}
       />
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
@@ -175,6 +175,7 @@ function AddMachine() {
       </Popover>
       <Textarea
         placeholder="Enter Description"
+        value={description}
         onChange={(e) => setDescription(e.currentTarget.value)}
       ></Textarea>
       <DialogFooter>
