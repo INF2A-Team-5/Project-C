@@ -32,7 +32,7 @@ import {
 import { TextareaHint } from "../ui/textarea";
 import Layout from "../layout";
 
-function Departments() {
+function Accounts() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setconfirmPassword] = useState("");
@@ -187,4 +187,4 @@ function Departments() {
   );
 }
 
-export default Departments;
+export default Accounts;

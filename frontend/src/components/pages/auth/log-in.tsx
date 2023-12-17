@@ -65,17 +65,7 @@ function LogIn() {
           localStorage.setItem("Class", account.class);
           document.cookie = `jwtToken=${account.token}`;
           // Cookies.set('token', token, { expires: 1, secure: true })
-          switch (account.class) {
-            case "Client":
-              navigate("/client");
-              break;
-            case "Admin":
-              navigate("/admin");
-              break;
-            case "ServiceEmployee":
-              navigate("/serviceEmployee");
-              break;
-          }
+          navigate("/tickets");
         }
       } catch {
         toast({

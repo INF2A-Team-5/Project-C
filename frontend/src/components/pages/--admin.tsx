@@ -31,7 +31,7 @@ import { Account } from "@/types/Account";
 import { Department } from "@/types/Department";
 
 function Admin() {
-  // useAuthenticated();
+  useAuthenticated();
 
   const [AssignedTickets, SetAssignedTickets] = useState<Ticket[]>([]);
   const [AllTickets, SetAllTickets] = useState<Ticket[]>([]);

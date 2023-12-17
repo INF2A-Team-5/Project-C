@@ -1,17 +1,23 @@
 import { Link, useLocation } from "react-router-dom";
 import Settings from "./settings";
 
-const navItems = [
-  { label: "Tickets", path: ["/tickets", "/create-ticket", "/view-ticket"] },
-  { label: "Machines", path: ["/machines"] },
-  { label: "Departments", path: ["/departments"] },
-  { label: "Accounts", path: ["/accounts"] },
-];
 
 function Navbar() {
   const location = useLocation();
   // const role = localStorage.getItem("Role");
-
+  let navItems = [
+    { label: "Tickets", path: ["/tickets", "/create-ticket", "/view-ticket"] }
+  ];
+  if (localStorage.getItem("Class") == "ServiceEmployee")
+  {
+    navItems.push(  { label: "Machines", path: ["/machines"] } );
+  }
+  if (localStorage.getItem("Class") == "Admin")
+  {
+    navItems.push( { label: "Machines", path: ["/machines"] }, { label: "Departments", path: ["/departments"] },
+    { label: "Accounts", path: ["/accounts"] } );
+  }
+  
   return (
     <>
       <div className="sticky top-0 z-10 flex h-16 w-full justify-center border-b border-border bg-background px-4 md:px-6">
