@@ -40,7 +40,7 @@ function AddAccount() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setconfirmPassword] = useState("");
-  const [userType, setUserType] = useState("Client");
+  const [userType, setUserType] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [department, setDepartment] = useState("");
   const navigate = useNavigate();
@@ -58,6 +58,8 @@ function AddAccount() {
   });
 
   async function handleSubmit() {
+    console.log(userType);
+
     setIsLoading(true);
     const account = await fetch(
       API_BASE_URL + "/api/accounts",
@@ -95,7 +97,15 @@ function AddAccount() {
       });
       setIsLoading(false);
     }
-
+    else if (userType == "")
+    {
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Please select a user type.",
+      });
+      setIsLoading(false);
+    }
     // WAAR IS CLASS CHECKING?
     else {
       try {
@@ -125,8 +135,7 @@ function AddAccount() {
         .then((data) => data.json())
         .then((accounts) =>
           accounts.find((acc: Account) => acc.name == username),
-        );
-
+        );  
       if (acc.class != "Client") {
         let dep: any = await fetch(
           API_BASE_URL + "/api/departments",
@@ -166,7 +175,6 @@ function AddAccount() {
         }
       }
       // navigate("/admin");
-      DialogClose
     }
   }
 
