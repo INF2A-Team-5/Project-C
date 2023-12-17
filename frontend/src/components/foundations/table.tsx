@@ -171,15 +171,15 @@ function DataTable<TData, TValue>({
                     ))}
                   </TableRow>
                 ))
-                ) : (
-                  <TableRow>
+              ) : (
+                <TableRow>
                   {/* <TableCell
                     colSpan={columns.length}
                     className="h-24 text-center"
                     >
                     No results.
                   </TableCell> */}
-                    <Skeleton className="h-4 ml-4 my-6"/>
+                  <Skeleton className="my-6 ml-4 h-4" />
                 </TableRow>
               )}
               <Separator />

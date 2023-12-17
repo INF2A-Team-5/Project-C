@@ -31,7 +31,8 @@ function EditAccount() {
     navigate(-1);
   };
 
-  const phoneRegex: RegExp = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+  const phoneRegex: RegExp =
+    /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
   const [phonePlaceholder, setPhonePlaceholder] = useState("");
 
   useEffect(() => {
@@ -51,14 +52,18 @@ function EditAccount() {
     return phoneRegex.test(phone);
   }
 
-  async function hasPhoneConnected() : Promise<string>{
+  async function hasPhoneConnected(): Promise<string> {
     let currentaccount = await fetch(
       API_BASE_URL + "/api/accounts/",
       getBaseQueryRequest(),
     )
-    .then((data) => data.json())
-    .then((accounts) => accounts.find((acc: any) => acc.accountId == localStorage.getItem("Id")));
-    
+      .then((data) => data.json())
+      .then((accounts) =>
+        accounts.find(
+          (acc: any) => acc.accountId == localStorage.getItem("Id"),
+        ),
+      );
+
     if (currentaccount.phoneNumber == null) {
       return "Enter Phone Number";
     } else {
@@ -72,14 +77,14 @@ function EditAccount() {
       API_BASE_URL + "/api/accounts/" + localStorage.getItem("Id"),
       getBaseQueryRequest(),
     ).then((data) => data.json());
-    
+
     if (validatePhone() == true) {
       currentaccount.phoneNumber = phone;
 
       await fetch(
         API_BASE_URL + "/api/accounts/" + localStorage.getItem("Id"),
         putBaseMutateRequest(JSON.stringify(currentaccount)),
-      )
+      );
 
       toast({
         variant: "default",
@@ -87,7 +92,7 @@ function EditAccount() {
         description: "Phone number changed succesfully.",
       });
       setIsLoading(false);
-    } else{
+    } else {
       toast({
         variant: "destructive",
         title: "Error!",
@@ -104,16 +109,16 @@ function EditAccount() {
       getBaseQueryRequest(),
     ).then((data) => data.json());
 
-    if (password !== confirmPass || oldPassword != currentaccount.password ) {
+    if (password !== confirmPass || oldPassword != currentaccount.password) {
       toast({
         variant: "destructive",
         title: "Error!",
-        description: "Either your old password is incorrect or new password and confirmed password do not match",
+        description:
+          "Either your old password is incorrect or new password and confirmed password do not match",
       });
       setIsLoading(false);
-    }
-    else {
-      currentaccount.password = password
+    } else {
+      currentaccount.password = password;
       await fetch(
         API_BASE_URL + "/api/accounts/" + localStorage.getItem("Id"),
         putBaseMutateRequest(JSON.stringify(currentaccount)),
@@ -143,7 +148,11 @@ function EditAccount() {
             placeholder={phonePlaceholder}
             onChange={(e) => setPhone(e.currentTarget.value)}
           />
-          <Button className="w-fit" onClick={handleSubmitPhone} disabled={isLoading}>
+          <Button
+            className="w-fit"
+            onClick={handleSubmitPhone}
+            disabled={isLoading}
+          >
             {isLoading ? (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             ) : null}
@@ -153,33 +162,37 @@ function EditAccount() {
         <div className="grid gap-2">
           <h2>Change Password</h2>
           <Input
-              id="old password"
-              ref={passwordRef}
-              name="old password"
-              placeholder="Old password"
-              type="password"
-              // ●●●●●●●● als je circels wilt
-              onChange={(e) => setOldPassword(e.currentTarget.value)}
-            />
+            id="old password"
+            ref={passwordRef}
+            name="old password"
+            placeholder="Old password"
+            type="password"
+            // ●●●●●●●● als je circels wilt
+            onChange={(e) => setOldPassword(e.currentTarget.value)}
+          />
           <Input
-              id="new password"
-              ref={passwordRef}
-              name="password"
-              placeholder="New password"
-              type="password"
-              // ●●●●●●●● als je circels wilt
-              onChange={(e) => setPassword(e.currentTarget.value)}
-            />
+            id="new password"
+            ref={passwordRef}
+            name="password"
+            placeholder="New password"
+            type="password"
+            // ●●●●●●●● als je circels wilt
+            onChange={(e) => setPassword(e.currentTarget.value)}
+          />
           <Input
-              id="confirmed password"
-              ref={passwordRef}
-              name="password"
-              placeholder="Confirm new password"
-              type="password"
-              // ●●●●●●●● als je circels wilt
-              onChange={(e) => setConfirmPass(e.currentTarget.value)}
-            />
-          <Button className="w-fit" onClick={handleSubmitPass} disabled={isLoading}>
+            id="confirmed password"
+            ref={passwordRef}
+            name="password"
+            placeholder="Confirm new password"
+            type="password"
+            // ●●●●●●●● als je circels wilt
+            onChange={(e) => setConfirmPass(e.currentTarget.value)}
+          />
+          <Button
+            className="w-fit"
+            onClick={handleSubmitPass}
+            disabled={isLoading}
+          >
             {isLoading ? (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             ) : null}

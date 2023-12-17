@@ -163,24 +163,24 @@ function AddAccount() {
         placeholder="Enter Username"
         onChange={(e) => setUsername(e.currentTarget.value)}
       />
-          <Input
-              id="new password"
-              ref={passwordRef}
-              name="password"
-              placeholder="Enter password"
-              type="password"
-              // ●●●●●●●● als je circels wilt
-              onChange={(e) => setPassword(e.currentTarget.value)}
-            />
-          <Input
-              id="confirmed password"
-              ref={passwordRef}
-              name="password"
-              placeholder="Confirm password"
-              type="password"
-              // ●●●●●●●● als je circels wilt
-              onChange={(e) => setconfirmPassword(e.currentTarget.value)}
-            />
+      <Input
+        id="new password"
+        ref={passwordRef}
+        name="password"
+        placeholder="Enter password"
+        type="password"
+        // ●●●●●●●● als je circels wilt
+        onChange={(e) => setPassword(e.currentTarget.value)}
+      />
+      <Input
+        id="confirmed password"
+        ref={passwordRef}
+        name="password"
+        placeholder="Confirm password"
+        type="password"
+        // ●●●●●●●● als je circels wilt
+        onChange={(e) => setconfirmPassword(e.currentTarget.value)}
+      />
       <Select value={userType} onValueChange={(value) => setUserType(value)}>
         <SelectTrigger>
           <SelectValue placeholder="Select a User Type" />

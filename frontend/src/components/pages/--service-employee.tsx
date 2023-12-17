@@ -16,10 +16,7 @@ import AddMachineSolution from "../foundations/add-machine-solution";
 import AddSolution from "../foundations/add-ticket-solution";
 import AddMachine from "../foundations/add-machine";
 import { Separator } from "../ui/separator";
-import {
-  API_BASE_URL,
-  getBaseQueryRequest,
-} from "@/lib/api";
+import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
 import { Machine } from "@/types/Machine";
 import { machineColumns, ticketColumns } from "@/services/Columns";
 
