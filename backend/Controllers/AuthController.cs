@@ -47,6 +47,10 @@ namespace Backend.Controllers
             }
             return NotFound("Invalid credentials");
         }
+        [HttpPost("auth")] public async Task<ActionResult<IEnumerable<Account>>> CheckAuth(string token)
+        {
+            return BadRequest();
+        }
 
         private string CreateToken(Account account)
         {
