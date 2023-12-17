@@ -64,7 +64,6 @@ function CreateTickets() {
     const updatedPreview = [...preview];
     updatedPreview.splice(indexToRemove, 1);
     setPreview(updatedPreview);
-    console.log(preview);
   };
 
   if (machines.length == 0) {
@@ -108,7 +107,6 @@ function CreateTickets() {
               });
             }
             setPreview(allPreviews);
-            console.log(preview);
           }
         };
         reader.readAsDataURL(file);
@@ -178,34 +176,16 @@ function CreateTickets() {
           phoneNumber: phonenumber,
         };
 
-        await fetch(
-          API_BASE_URL + "/api/tickets/",
-          putBaseMutateRequest(JSON.stringify(currentticket)),
-        )
-          .then((res) => {
-            console.log("Message successfully updated", res);
-          })
-          .catch((err) => {
-            console.log("Message could not be updated", err);
-          });
 
         await fetch(
           API_BASE_URL + "/api/tickets/",
-          postBaseMutateRequest(JSON.stringify(currentticket)),
-        )
-          .then((res) => {
-            console.log("Message successfully updated", res);
-          })
-          .catch((err) => {
-            console.log("Message could not be updated", err);
-          });
-
+          postBaseMutateRequest(JSON.stringify(currentticket))
+        );
         toast({
           variant: "default",
           title: "Succes!",
           description: t("ticket.submitalert"),
         });
-        console.log(currentticket);
         setIsLoading(false);
         navigate("/client");
 
@@ -283,21 +263,6 @@ function CreateTickets() {
                   </Command>
                 </PopoverContent>
               </Popover>
-              {/* <Select
-              value={selectMachine}
-              onValueChange={(value) => setSelectMachine(value)}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder={t("ticket.selectmachine")} />
-              </SelectTrigger>
-              <SelectContent>
-                {machinenames.map((type) => (
-                  <SelectItem key={type} value={type.toString()}>
-                    {type}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select> */}
             </div>
           </div>
 
