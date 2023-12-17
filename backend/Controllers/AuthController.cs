@@ -75,7 +75,7 @@ namespace Backend.Controllers
             {
                 return Ok(true);
             }
-            return NotFound();
+            return Ok(false);
         }
 
         private string CreateToken(Account account)
