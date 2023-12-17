@@ -9,6 +9,7 @@ import {
   API_BASE_URL,
   getBaseQueryRequest,
   postBaseMutateRequest,
+  useQuery,
 } from "@/lib/api";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import {
@@ -27,26 +28,20 @@ import { DialogClose, DialogFooter } from "../ui/dialog";
 function AddMachine() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [departments, setDepartments] = useState<Department[]>([]);
   const [department, setDepartment] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [DataLoaded, setDataLoaded] = useState<boolean>(false);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
-  if (DataLoaded == false) {
-    GetDepartments();
-    setDataLoaded(true);
-  }
-
-  async function GetDepartments() {
-    setDepartments(
-      await fetch(
-        API_BASE_URL + "/api/departments/",
-        getBaseQueryRequest(),
-      ).then((data) => data.json()),
-    );
-  }
+  const { data } = useQuery<Department[]>("/api/departments", {
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Whomp whomp:(",
+        description: "U get no data",
+      });
+    },
+  });
 
   async function handleSubmit() {
     setIsLoading(true);
@@ -137,11 +132,13 @@ function AddMachine() {
             aria-expanded={open}
             className="w-[200px] justify-between"
           >
-            {department
-              ? departments.find(
-                  (dep: Department) => dep.name.toLowerCase() == department,
-                )?.name
-              : "Select department..."}
+            {data
+              ? department
+                ? data.find(
+                    (dep: Department) => dep.name.toLowerCase() == department,
+                  )?.name
+                : "Select department..."
+              : null}
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -150,26 +147,28 @@ function AddMachine() {
             <CommandInput placeholder="Search department..." />
             <CommandEmpty>No departments found.</CommandEmpty>
             <CommandGroup>
-              {departments.map((dep) => (
-                <CommandItem
-                  key={dep.name}
-                  value={dep.name}
-                  onSelect={(currentValue) => {
-                    setDepartment(
-                      currentValue === department ? "" : currentValue,
-                    );
-                    setOpen(false);
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      department === dep.name ? "opacity-100" : "opacity-0",
-                    )}
-                  />
-                  {dep.name}
-                </CommandItem>
-              ))}
+              {data
+                ? data.map((dep) => (
+                    <CommandItem
+                      key={dep.name}
+                      value={dep.name}
+                      onSelect={(currentValue) => {
+                        setDepartment(
+                          currentValue === department ? "" : currentValue,
+                        );
+                        setOpen(false);
+                      }}
+                    >
+                      <Check
+                        className={cn(
+                          "mr-2 h-4 w-4",
+                          department === dep.name ? "opacity-100" : "opacity-0",
+                        )}
+                      />
+                      {dep.name}
+                    </CommandItem>
+                  ))
+                : null}
             </CommandGroup>
           </Command>
         </PopoverContent>
