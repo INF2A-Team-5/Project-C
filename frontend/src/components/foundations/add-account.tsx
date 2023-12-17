@@ -192,16 +192,6 @@ function AddAccount() {
         </SelectContent>
       </Select>
       {userType == "ServiceEmployee" ? (
-        // <Select value={department} onValueChange={(value) => setDepartment(value)}>
-        //   <SelectTrigger>
-        //     <SelectValue placeholder="Select a Department" />
-        //   </SelectTrigger>
-        //   <SelectContent>
-        //     {deparmentList.map((dep) => (
-        //       <SelectItem key={dep} value={dep}>{dep}</SelectItem>
-        //     ))}
-        //   </SelectContent>
-        // </Select>
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
