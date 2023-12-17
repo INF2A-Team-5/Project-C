@@ -8,7 +8,9 @@ export async function useAuthenticated() {
   const location = useLocation();
   useEffect(() => {
     if (localStorage.getItem("Token") == null) {
-      navigate("/auth/login");
+      setTimeout(() => {
+        navigate("/auth/login");
+      }, 1000);
     }
   });
 
@@ -29,9 +31,15 @@ export async function useAuthenticated() {
       (localStorage.getItem("Class") == "ServiceEmployee" ||
         localStorage.getItem("Class") == "Client")
     ) {
+      setTimeout(() => {
+        navigate("/auth/login");
+      }, 1000);
       navigate("/tickets");
     }
   } else {
+    setTimeout(() => {
+      navigate("/auth/login");
+    }, 1000);
     navigate("/auth/login");
     toast({
       variant: "destructive",
