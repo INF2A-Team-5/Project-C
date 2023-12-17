@@ -1,5 +1,4 @@
 import Table from "../foundations/table";
-import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { useQuery } from "@/lib/api";
 import { departmentColumns } from "@/services/Columns";
 import {
@@ -13,10 +12,10 @@ import {
 import { Button } from "../ui/button";
 import { Department } from "@/types/Department";
 import { toast } from "../ui/use-toast";
-import { Icons } from "../foundations/icons";
 import { TextareaHint } from "../ui/textarea";
 import Layout from "../layout";
 import AddDepartment from "../foundations/add-department";
+import TableSkeleton from "../foundations/table-skeleton";
 
 function Departments() {
   const { data, isFetching } = useQuery<Department[]>("/api/departments", {
@@ -55,9 +54,7 @@ function Departments() {
           {data ? (
             <Table data={data} columns={departmentColumns} />
           ) : (
-            <div className="flex h-[20rem] w-full items-center justify-center">
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            </div>
+            <TableSkeleton />
           )}
           <div className="h-44"></div>
         </div>

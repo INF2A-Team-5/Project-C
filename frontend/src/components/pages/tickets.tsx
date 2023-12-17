@@ -1,4 +1,3 @@
-import { Icons } from "../foundations/icons";
 import { Ticket } from "../../types/Ticket";
 import Table from "../foundations/table";
 import { useQuery } from "@/lib/api";
@@ -17,8 +16,7 @@ import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import Layout from "../layout";
 import { toast } from "../ui/use-toast";
-import { Skeleton } from "../ui/skeleton";
-import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
+import TableSkeleton from "../foundations/table-skeleton";
 
 function Tickets() {
   const { data, isFetching } = useQuery<Ticket[]>("/api/tickets", {
@@ -68,14 +66,10 @@ function Tickets() {
           </Dialog>
         </div>
         <div className="grid gap-12">
-          {/* <Skeleton className="h-4"/> */}
           {data ? (
             <Table data={data} columns={ticketColumns} />
           ) : (
-            <div className="flex h-[20rem] w-full items-center justify-center">
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            </div>
-            // null
+            <TableSkeleton />
           )}
           <div className="h-44"></div>
         </div>

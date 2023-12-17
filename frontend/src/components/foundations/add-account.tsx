@@ -96,9 +96,7 @@ function AddAccount() {
         description: "Password and confirmed password need to match.",
       });
       setIsLoading(false);
-    }
-    else if (userType == "")
-    {
+    } else if (userType == "") {
       toast({
         variant: "destructive",
         title: "Error!",
@@ -135,7 +133,7 @@ function AddAccount() {
         .then((data) => data.json())
         .then((accounts) =>
           accounts.find((acc: Account) => acc.name == username),
-        );  
+        );
       if (acc.class != "Client") {
         let dep: any = await fetch(
           API_BASE_URL + "/api/departments",

@@ -4,20 +4,15 @@ import {
   ReactElement,
   ReactNode,
   ReactPortal,
-  SetStateAction,
   useEffect,
   useState,
 } from "react";
-import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
-import { Link, useNavigate } from "react-router-dom";
-import Settings from "../foundations/settings";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import { Textarea, TextareaHint } from "../ui/textarea";
 import { Input } from "../ui/input";
-import Header from "../foundations/header";
 import { Label } from "../ui/label";
-import { Separator } from "../ui/separator";
 import {
   API_BASE_URL,
   getBaseQueryRequest,
@@ -34,7 +29,6 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Toaster } from "../ui/toaster";
-import { use } from "i18next";
 import { toast } from "../ui/use-toast";
 import { Ticket } from "@/types/Ticket";
 import {
@@ -45,17 +39,9 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import {
-  BoxIcon,
-  CardStackIcon,
-  CardStackMinusIcon,
-} from "@radix-ui/react-icons";
-import { BookIcon, CalendarDays, CatIcon } from "lucide-react";
-import { Icon } from "@radix-ui/react-select";
 import Layout from "../layout";
 
 function ViewTicket() {
-  useAuthenticated();
   const { t, i18n } = useTranslation();
   useEffect(() => {
     i18n.changeLanguage(navigator.language);
@@ -81,6 +67,14 @@ function ViewTicket() {
   useEffect(() => {
     GetTicket();
   }, []);
+  async function GetTicket() {
+    let tick = await fetch(
+      API_BASE_URL + "/api/tickets/" + ticketid,
+      getBaseQueryRequest(),
+    ).then((data) => data.json());
+    setcurrenticket(tick);
+    // return currentticket;
+  }
 
   useEffect(() => {
     ShowTicket();
@@ -92,7 +86,6 @@ function ViewTicket() {
 
   const CheckAccount = () => {
     const accountclass = localStorage.getItem("Class");
-    console.log(accountclass);
     setIsClient(accountclass == "Client");
   };
 
@@ -100,7 +93,6 @@ function ViewTicket() {
     const updatedPreview = [...preview];
     updatedPreview.splice(indexToRemove, 1);
     setPreview(updatedPreview);
-    console.log(preview);
   };
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -144,21 +136,8 @@ function ViewTicket() {
             }. Error message: ${JSON.stringify(errorResponse)}`,
           );
         }
-        console.log("Ticket sended to database");
-      } catch (error) {
-        console.error("Error during PUT request:", error);
-      }
+      } catch (error) {}
     }
-  }
-
-  async function GetTicket() {
-    let tick = await fetch(
-      API_BASE_URL + "/api/tickets/" + ticketid,
-      getBaseQueryRequest(),
-    ).then((data) => data.json());
-    setcurrenticket(tick);
-    console.log(currentticket);
-    // return currentticket;
   }
 
   async function ShowTicket() {
@@ -205,7 +184,6 @@ function ViewTicket() {
       if (solution.length != 0) {
         currentticket.status = "Closed";
         currentticket.solution = solution;
-        console.log(currentticket);
         SendTicket(currentticket);
       } else {
         toast({
@@ -219,37 +197,13 @@ function ViewTicket() {
   }
 
   async function HandleSubmit() {
-    // const currentticket = await GetTicket();
     if (currentticket) {
-      // currentticket.notes = currentticket.notes ? [...currentticket.notes, notes] : [notes];
-      // currentticket.files = currentticket.files ? [...currentticket.files, ...preview] : [preview];
       currentticket.notes = currentticket.notes
         ? [...currentticket.notes, notes]
         : [notes];
       currentticket.files = currentticket.files
         ? [...currentticket.files, ...preview]
         : [...preview];
-      // const ticket = {
-      //   TicketId: currentticket.ticketId,
-      //   Machine_Id: currentticket.machine_Id,
-      //   Customer_Id: currentticket.customer_Id,
-      //   Assigned_Id: currentticket.employee_Id,
-      //   Title: currentticket.title,
-      //   Priority: currentticket.priority,
-      //   Status: currentticket.status,
-
-      //   Problem: currentticket.problem,
-      //   HaveTried: currentticket.haveTried,
-      //   MustBeDoing: currentticket.mustBeDoing,
-      //   Date_Created: currentticket.date_Created,
-
-      //   Solution: currentticket.solution,
-      //   PhoneNumber: currentticket.phoneNumber,
-      //   Notes: currentticket.notes ? [...currentticket.notes, notes] : [notes],
-      //   files: currentticket.files
-      //     ? [...currentticket.files, ...preview]
-      //     : [...preview],
-      // }
       SendTicket(currentticket);
       alert("Ticket updated");
       navigate(-1);
@@ -321,7 +275,6 @@ function ViewTicket() {
           currentticket?.status === "In Process" ? (
             <>
               <div className="grid gap-2">
-                {/* <h2 className='text-lg font-medium'>{t('editticket.notes')}</h2> */}
                 {!isClient && showTicketInfo ? (
                   <>
                     <h1>
@@ -352,9 +305,6 @@ function ViewTicket() {
                     </DialogHeader>
                     <DialogDescription>
                       <h2 className="text-lg font-medium">Add solution</h2>
-
-                      {/* <Textarea placeholder={t('editticket.notes2')} onChange={(e: any) => setNotes(e.currentTarget.value)}></Textarea> */}
-                      {/* <p className='text-md text-grey-900 '>{t('editticket.description')}</p> */}
                       <Textarea
                         placeholder="Fixed this and this"
                         onChange={(e: any) =>
@@ -383,9 +333,6 @@ function ViewTicket() {
                 </Dialog>
                 <Toaster />
                 <h2 className="text-lg font-medium">Add notes</h2>
-
-                {/* <Textarea placeholder={t('editticket.notes2')} onChange={(e: any) => setNotes(e.currentTarget.value)}></Textarea> */}
-                {/* <p className='text-md text-grey-900 '>{t('editticket.description')}</p> */}
                 <Textarea
                   placeholder="Still does not work because..."
                   onChange={(e: any) => setNotes(e.currentTarget.value)}
@@ -458,9 +405,6 @@ function ViewTicket() {
                     <h2 className="text-lg font-medium">
                       Why do you want to reopen the ticket?
                     </h2>
-
-                    {/* <Textarea placeholder={t('editticket.notes2')} onChange={(e: any) => setNotes(e.currentTarget.value)}></Textarea> */}
-                    {/* <p className='text-md text-grey-900 '>{t('editticket.description')}</p> */}
                     <Textarea
                       placeholder="The error is not solved because..."
                       onChange={(e: any) => setReopen(e.currentTarget.value)}
@@ -491,9 +435,6 @@ function ViewTicket() {
               </Button>
             </div>
           )}
-
-          {/* <Button variant='destructive'  onClick={HandleSubmit}>{t('editticket.submit')}</Button>
-        <Button variant='destructive'  onClick={HandleCancel}>{t('editticket.cancel')}</Button> */}
         </div>
       </div>
     </Layout>

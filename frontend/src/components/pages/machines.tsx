@@ -14,9 +14,9 @@ import { Button } from "../ui/button";
 import { machineColumns } from "@/services/Columns";
 import { TextareaHint } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
-import { Icons } from "../foundations/icons";
 import Layout from "../layout";
 import AddMachine from "../foundations/add-machine";
+import TableSkeleton from "../foundations/table-skeleton";
 
 function Machines() {
   const isClient = localStorage.getItem("Class") == "Client";
@@ -62,9 +62,7 @@ function Machines() {
           {data ? (
             <Table data={data} columns={machineColumns} />
           ) : (
-            <div className="flex h-[20rem] w-full items-center justify-center">
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            </div>
+            <TableSkeleton />
           )}
           <div className="h-44"></div>
         </div>

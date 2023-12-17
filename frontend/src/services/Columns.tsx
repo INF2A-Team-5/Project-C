@@ -277,13 +277,13 @@ export const machineColumns: ColumnDef<Machine>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              // onClick={() => {
-              //   localStorage.setItem(
-              //     "currentticketID",
-              //     machine.machineId.toString(),
-              //   );
-              //   navigate(`/view-ticket`);
-              // }}
+            // onClick={() => {
+            //   localStorage.setItem(
+            //     "currentticketID",
+            //     machine.machineId.toString(),
+            //   );
+            //   navigate(`/view-ticket`);
+            // }}
             >
               View machine
             </DropdownMenuItem>
@@ -388,7 +388,7 @@ export const accountColumns: ColumnDef<Account>[] = [
             //     );
             //     navigate(`/view-ticket`);
             //   }}
-             >
+            >
               View account
             </DropdownMenuItem>
             {/* {localStorage.getItem("Class") == "ServiceEmployee" ||
@@ -465,13 +465,13 @@ export const departmentColumns: ColumnDef<Department>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              // onClick={() => {
-              //   localStorage.setItem(
-              //     "currentticketID",
-              //     department.departmentId.toString(),
-              //   );
-              //   navigate(`/view-ticket`);
-              // }}
+            // onClick={() => {
+            //   localStorage.setItem(
+            //     "currentticketID",
+            //     department.departmentId.toString(),
+            //   );
+            //   navigate(`/view-ticket`);
+            // }}
             >
               View department
             </DropdownMenuItem>

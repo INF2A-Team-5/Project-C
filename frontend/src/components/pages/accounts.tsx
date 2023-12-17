@@ -1,7 +1,5 @@
 import Table from "../foundations/table";
-import {
-  useQuery,
-} from "@/lib/api";
+import { useQuery } from "@/lib/api";
 import { accountColumns } from "@/services/Columns";
 import {
   Dialog,
@@ -13,12 +11,11 @@ import {
 } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
-import { Icons } from "../foundations/icons";
 import { Account } from "@/types/Account";
-
 import { TextareaHint } from "../ui/textarea";
 import Layout from "../layout";
 import AddAccount from "../foundations/add-account";
+import TableSkeleton from "../foundations/table-skeleton";
 
 function Accounts() {
   const { data, isFetching } = useQuery<Account[]>("/api/accounts", {
@@ -48,7 +45,7 @@ function Accounts() {
                 <TextareaHint>Create accounts for new clients</TextareaHint>
               </DialogHeader>
               <DialogDescription className="grid gap-2">
-              <AddAccount/>
+                <AddAccount />
               </DialogDescription>
             </DialogContent>
           </Dialog>
@@ -57,9 +54,7 @@ function Accounts() {
           {data ? (
             <Table data={data} columns={accountColumns} />
           ) : (
-            <div className="flex h-[20rem] w-full items-center justify-center">
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            </div>
+            <TableSkeleton />
           )}
           <div className="h-44"></div>
         </div>
