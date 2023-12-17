@@ -139,8 +139,8 @@ function EditAccount() {
           <Separator className="my-4" />
           <h2>Change Phone Number</h2>
           <Input
-            name="username"
-            placeholder="Enter Phone Number"
+            name="phone number"
+            placeholder={phonePlaceholder}
             onChange={(e) => setPhone(e.currentTarget.value)}
           />
           <Button className="w-fit" onClick={handleSubmitPhone} disabled={isLoading}>
