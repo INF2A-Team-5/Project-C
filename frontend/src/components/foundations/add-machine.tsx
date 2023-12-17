@@ -4,23 +4,23 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
-import { Icons } from "./icons";
+import { Icons } from "../foundations/icons";
 import {
   API_BASE_URL,
   getBaseQueryRequest,
   postBaseMutateRequest,
 } from "@/lib/api";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Department } from "@/types/Department";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/components/ui/command";
+} from "@/components/ui/command"
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Department } from "@/types/Department";
 import { Machine } from "@/types/Machine";
 
 function AddMachine() {
@@ -31,20 +31,19 @@ function AddMachine() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [DataLoaded, setDataLoaded] = useState<boolean>(false);
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
-  if (DataLoaded == false) {
+  if (DataLoaded == false)
+  {
     GetDepartments();
     setDataLoaded(true);
   }
 
-  async function GetDepartments() {
+  async function GetDepartments()
+  {
     setDepartments(
-      await fetch(
-        API_BASE_URL + "/api/departments/",
-        getBaseQueryRequest(),
-      ).then((data) => data.json()),
-    );
+      await fetch(API_BASE_URL + "/api/departments/", getBaseQueryRequest())
+        .then((data) => data.json()));
   }
 
   async function handleSubmit() {
@@ -56,14 +55,10 @@ function AddMachine() {
       .then((data) => data.json())
       .then((machines) => machines.find((mach: any) => mach.name == name));
 
-    const dep: Department = await fetch(
-      API_BASE_URL + "/api/departments",
-      getBaseQueryRequest(),
-    )
-      .then((data) => data.json())
-      .then((deps) =>
-        deps.find((dep: Department) => dep.name.toLowerCase() == department),
-      );
+      const dep: Department = await fetch(API_BASE_URL + "/api/departments", getBaseQueryRequest(),
+      )
+        .then((data) => data.json())
+        .then((deps) => deps.find((dep: Department) => dep.name.toLowerCase() == department));
 
     if (machine !== undefined) {
       toast({
@@ -86,15 +81,14 @@ function AddMachine() {
         description: "Choose a department.", //choose a department
       });
       setIsLoading(false);
-    }
-    // else if (department == undefined) {
-    //   toast({
-    //     variant: "destructive",
-    //     title: "Error!",
-    //     description: "Department does not exist.", //choose a department
-    //   });
-    //   setIsLoading(false);}
-    else if (description == "") {
+    } else if (department == undefined) {
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Department does not exist.", //choose a department
+      });
+      setIsLoading(false);
+    } else if (description == "") {
       toast({
         variant: "destructive",
         title: "Error!",
@@ -112,6 +106,7 @@ function AddMachine() {
           }),
         ),
       ).then((response) => response.json());
+
       toast({
         variant: "default",
         title: "Succes!",
@@ -135,51 +130,47 @@ function AddMachine() {
         placeholder="Enter Machine Name"
         onChange={(e) => setName(e.currentTarget.value)}
       />
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            variant="outline"
-            role="combobox"
-            aria-expanded={open}
-            className="w-[200px] justify-between"
-          >
-            {department
-              ? departments.find(
-                  (dep: Department) => dep.name.toLowerCase() == department,
-                )?.name
-              : "Select department..."}
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0">
-          <Command>
-            <CommandInput placeholder="Search department..." />
-            <CommandEmpty>No departments found.</CommandEmpty>
-            <CommandGroup>
-              {departments.map((dep) => (
-                <CommandItem
-                  key={dep.name}
-                  value={dep.name}
-                  onSelect={(currentValue) => {
-                    setDepartment(
-                      currentValue === department ? "" : currentValue,
-                    );
-                    setOpen(false);
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      department === dep.name ? "opacity-100" : "opacity-0",
-                    )}
-                  />
-                  {dep.name}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </Command>
-        </PopoverContent>
-      </Popover>
+        <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-[200px] justify-between"
+        >
+          {department
+            ? departments.find((dep: Department) => dep.name.toLowerCase() == department)?.name
+            : "Select department..."}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[200px] p-0">
+        <Command>
+          <CommandInput placeholder="Search department..." />
+          <CommandEmpty>No departments found.</CommandEmpty>
+          <CommandGroup>
+            {departments.map((dep) => (
+              <CommandItem
+                key={dep.name}
+                value={dep.name}  
+                onSelect={(currentValue) => {
+                  setDepartment(currentValue === department ? "" : currentValue)
+                  setOpen(false)
+                }}
+              >
+                <Check
+                  className={cn(
+                    "mr-2 h-4 w-4",
+                    department === dep.name ? "opacity-100" : "opacity-0"
+                  )}
+                />
+                {dep.name}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </Command>
+      </PopoverContent>
+    </Popover>
       <Textarea
         placeholder="Enter Description"
         onChange={(e) => setDescription(e.currentTarget.value)}
