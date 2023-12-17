@@ -1,21 +1,39 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../api";
+import { toast } from "@/components/ui/use-toast";
 
-export function useAuthenticated() {
+export async function useAuthenticated() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
-  const isLoggedIn = localStorage.getItem("Token") !== null;
-  const location = useLocation();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+    let data;
+    try {
+      data = await fetch(API_BASE_URL + "/api/Auth/auth?token=" + localStorage.getItem("Token"), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((data) => data.json());
+      setIsLoggedIn(data);
+    } catch {
+      toast({
+        variant: "destructive",
+        title: "Error! Something went wrong.",
+        description: "Unauthorized",
+      });
+  }
 
   useEffect(() => {
-    // als users ingelogd is, set authenticated true
+    const location = useLocation();
     if (isLoggedIn) {
       setIsAuthenticated(true);
       if (
-        ((location.pathname == "/accounts" ||
+        (location.pathname == "/accounts" ||
           location.pathname == "/departments") &&
-          localStorage.getItem("Class") == "ServiceEmployee") ||
-        localStorage.getItem("Class") == "Client"
+        (localStorage.getItem("Class") == "ServiceEmployee" ||
+          localStorage.getItem("Class") == "Client")
       ) {
         navigate("/tickets");
       }
