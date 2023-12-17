@@ -84,7 +84,7 @@ function Departments() {
           <h1 className="text-3xl font-medium">Departments</h1>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="default" disabled={isFetching}>
+              <Button variant="default" size="sm" disabled={isFetching}>
                 Add department
               </Button>
             </DialogTrigger>

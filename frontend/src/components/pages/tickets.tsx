@@ -73,12 +73,10 @@ function Tickets() {
           {data ? (
             <Table data={data} columns={ticketColumns} />
           ) : (
-
             <div className="flex h-[20rem] w-full items-center justify-center">
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             </div>
             // null
-
           )}
           <div className="h-44"></div>
         </div>

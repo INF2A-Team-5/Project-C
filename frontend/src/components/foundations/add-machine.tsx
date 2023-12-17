@@ -86,14 +86,14 @@ function AddMachine() {
         description: "Choose a department.", //choose a department
       });
       setIsLoading(false);
-    } 
+    }
     // else if (department == undefined) {
     //   toast({
     //     variant: "destructive",
     //     title: "Error!",
     //     description: "Department does not exist.", //choose a department
     //   });
-    //   setIsLoading(false);} 
+    //   setIsLoading(false);}
     else if (description == "") {
       toast({
         variant: "destructive",
