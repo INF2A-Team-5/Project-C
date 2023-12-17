@@ -33,7 +33,11 @@ function Machines() {
   const [department, setDepartment] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
-  const { data, isFetching } = useQuery<Machine[]>("/api/machines", {
+  const isClient = localStorage.getItem("Class") == "Client";
+  const apiUrl = isClient
+    ? "/GetMachinesPerAccount?accountId=" + localStorage.getItem("Id")
+    : "/api/machines";
+  const { data, isFetching } = useQuery<Machine[]>(apiUrl, {
     onError: () => {
       toast({
         variant: "destructive",
