@@ -9,6 +9,7 @@ import {
   postBaseMutateRequest,
 } from "@/lib/api";
 import { toast } from "../ui/use-toast";
+import { DialogClose, DialogFooter } from "../ui/dialog";
 
 function AddDepartment() {
   const [name, setName] = useState("");
@@ -57,17 +58,22 @@ function AddDepartment() {
         placeholder="Enter Department Name"
         onChange={(e) => setName(e.currentTarget.value)}
       />
-      <Button
-        className="w-fit"
-        variant="default"
-        onClick={handleSubmit}
-        disabled={isLoading}
-      >
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : null}
-        Add Department
-      </Button>
+      <DialogFooter>
+        <DialogClose>
+          <Button variant="outline">Close</Button>
+        </DialogClose>
+        <Button
+          className="w-fit"
+          variant="default"
+          onClick={handleSubmit}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          ) : null}
+          Add Department
+        </Button>
+      </DialogFooter>
     </div>
   );
 }
