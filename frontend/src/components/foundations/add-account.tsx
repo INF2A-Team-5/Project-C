@@ -15,6 +15,7 @@ import {
   API_BASE_URL,
   getBaseQueryRequest,
   postBaseMutateRequest,
+  useQuery,
 } from "@/lib/api";
 import { Department } from "@/types/Department";
 import { Account } from "@/types/Account";
@@ -42,23 +43,19 @@ function AddAccount() {
   const [userType, setUserType] = useState("Client");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [department, setDepartment] = useState("");
-  const [deparmentList, setDepartmentList] = useState<Department[]>([]);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const passwordRef = React.useRef<HTMLInputElement>(null);
 
-  if (deparmentList.length == 0) {
-    getDepartments();
-  }
-
-  async function getDepartments() {
-    let deps = await fetch(
-      API_BASE_URL + "/api/departments/",
-      getBaseQueryRequest(),
-    ).then((data) => data.json());
-
-    setDepartmentList(deps);
-  }
+  const { data } = useQuery<Department[]>("/api/departments", {
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Whomp whomp:(",
+        description: "U get no data",
+      });
+    },
+  });
 
   async function handleSubmit() {
     setIsLoading(true);
@@ -217,7 +214,7 @@ function AddAccount() {
               className="w-[200px] justify-between"
             >
               {department
-                ? deparmentList.find(
+                ? data!.find(
                     (dep: Department) => dep.name.toLowerCase() == department,
                   )?.name
                 : "Select department..."}
@@ -229,7 +226,7 @@ function AddAccount() {
               <CommandInput placeholder="Search department..." />
               <CommandEmpty>No departments found.</CommandEmpty>
               <CommandGroup>
-                {deparmentList.map((dep) => (
+                {data!.map((dep) => (
                   <CommandItem
                     key={dep.name}
                     value={dep.name}
