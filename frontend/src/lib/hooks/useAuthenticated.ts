@@ -7,7 +7,10 @@ export async function useAuthenticated() {
   const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
-    if (localStorage.getItem("Token") == null) {
+    if (
+      localStorage.getItem("Token") == null ||
+      localStorage.getItem("Token") == undefined
+    ) {
       setTimeout(() => {
         navigate("/auth/login");
       }, 1000);

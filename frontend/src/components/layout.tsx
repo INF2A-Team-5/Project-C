@@ -6,7 +6,7 @@ import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 interface LayoutProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 function Layout({ children, className, ...props }: LayoutProps) {
-  setTimeout(() => {}, 1000);
+  setTimeout(() => {}, 2000);
   useAuthenticated();
 
   return (

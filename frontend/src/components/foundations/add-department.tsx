@@ -1,7 +1,6 @@
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Icons } from "./icons";
 import {
   API_BASE_URL,
@@ -14,7 +13,6 @@ import { DialogClose, DialogFooter } from "../ui/dialog";
 function AddDepartment() {
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const navigate = useNavigate();
 
   async function handleSubmit() {
     setIsLoading(true);

@@ -1,4 +1,3 @@
-import Header from "../foundations/header";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +12,6 @@ import { Toaster } from "@/components/ui/toaster";
 import { Icons } from "../foundations/icons";
 import {
   API_BASE_URL,
-  putBaseMutateRequest,
   getBaseQueryRequest,
   postBaseMutateRequest,
 } from "@/lib/api";
@@ -176,10 +174,9 @@ function CreateTickets() {
           phoneNumber: phonenumber,
         };
 
-
         await fetch(
           API_BASE_URL + "/api/tickets/",
-          postBaseMutateRequest(JSON.stringify(currentticket))
+          postBaseMutateRequest(JSON.stringify(currentticket)),
         );
         toast({
           variant: "default",
@@ -187,7 +184,7 @@ function CreateTickets() {
           description: t("ticket.submitalert"),
         });
         setIsLoading(false);
-        navigate("/client");
+        navigate(-1);
 
         // reader.readAsDataURL(file);
       }
