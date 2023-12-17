@@ -127,47 +127,49 @@ function Machines() {
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-medium">Machines</h1>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="default" size="sm" disabled={isFetching}>
-                Add machine
-              </Button>
-            </DialogTrigger>
-
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Add machine</DialogTitle>
-                <TextareaHint>Create new machines</TextareaHint>
-              </DialogHeader>
-              <DialogDescription>
-                <div className="grid gap-2">
-                  <Input
-                    placeholder="Enter Machine Name"
-                    onChange={(e) => setName(e.currentTarget.value)}
-                  />
-                  <Input
-                    placeholder="Enter Department Name"
-                    onChange={(e) => setDepartment(e.currentTarget.value)}
-                  />
-                  <Textarea
-                    placeholder="Enter Description"
-                    onChange={(e) => setDescription(e.currentTarget.value)}
-                  ></Textarea>
-                </div>
-              </DialogDescription>
-              <DialogFooter>
-                <DialogClose>
-                  <Button variant="outline">Close</Button>
-                </DialogClose>
-                <Button onClick={handleSubmit} disabled={isLoading}>
-                  {isLoading ? (
-                    <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                  ) : null}
+          {localStorage.getItem("Class") == "Admin" ? (
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="default" size="sm" disabled={isFetching}>
                   Add machine
                 </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+              </DialogTrigger>
+
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Add machine</DialogTitle>
+                  <TextareaHint>Create new machines</TextareaHint>
+                </DialogHeader>
+                <DialogDescription>
+                  <div className="grid gap-2">
+                    <Input
+                      placeholder="Enter Machine Name"
+                      onChange={(e) => setName(e.currentTarget.value)}
+                    />
+                    <Input
+                      placeholder="Enter Department Name"
+                      onChange={(e) => setDepartment(e.currentTarget.value)}
+                    />
+                    <Textarea
+                      placeholder="Enter Description"
+                      onChange={(e) => setDescription(e.currentTarget.value)}
+                    ></Textarea>
+                  </div>
+                </DialogDescription>
+                <DialogFooter>
+                  <DialogClose>
+                    <Button variant="outline">Close</Button>
+                  </DialogClose>
+                  <Button onClick={handleSubmit} disabled={isLoading}>
+                    {isLoading ? (
+                      <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                    ) : null}
+                    Add machine
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          ) : null}
         </div>
         <div className="grid gap-12">
           {data ? (
