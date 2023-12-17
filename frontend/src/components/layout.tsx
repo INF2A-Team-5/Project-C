@@ -6,7 +6,7 @@ import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 interface LayoutProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 function Layout({ children, className, ...props }: LayoutProps) {
-  // useAuthenticated();
+  useAuthenticated();
 
   return (
     <div className="flex h-full min-h-screen w-full flex-col">

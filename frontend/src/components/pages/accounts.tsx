@@ -31,8 +31,10 @@ import {
 } from "../ui/select";
 import { TextareaHint } from "../ui/textarea";
 import Layout from "../layout";
+import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 
 function Accounts() {
+  useAuthenticated();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setconfirmPassword] = useState("");

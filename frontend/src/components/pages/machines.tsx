@@ -26,8 +26,10 @@ import { toast } from "../ui/use-toast";
 import { Input } from "../ui/input";
 import { Icons } from "../foundations/icons";
 import Layout from "../layout";
+import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 
 function Machines() {
+  useAuthenticated();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [department, setDepartment] = useState("");

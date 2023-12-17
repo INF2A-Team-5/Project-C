@@ -18,8 +18,10 @@ import { Link } from "react-router-dom";
 import Layout from "../layout";
 import { toast } from "../ui/use-toast";
 import { Skeleton } from "../ui/skeleton";
+import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 
 function Tickets() {
+  useAuthenticated();
   const { data, isFetching } = useQuery<Ticket[]>("/api/tickets", {
     onError: () => {
       toast({
