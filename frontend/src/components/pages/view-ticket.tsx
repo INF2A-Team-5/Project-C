@@ -51,42 +51,42 @@ function ViewTicket() {
   const [notes, setNotes] = useState("");
   const [preview, setPreview] = useState<string[]>([]);
   const [ticketInfo, setTicketInfo] = useState<any>(null);
-  const ticketid = localStorage.getItem("currentticketID");
+  const ticketId = localStorage.getItem("currentticketID");
   const [showTicketInfo, setShowTicketInfo] = useState(false);
   const [isClient, setIsClient] = useState<boolean>(false);
   const [solution, setSolution] = useState("");
-  const [currentticket, setcurrenticket] = useState<Ticket | undefined>(
+  const [reopen, setReopen] = useState("");
+  const [currentTicket, setCurrentTicket] = useState<Ticket | undefined>(
     undefined,
   );
-  const [reopen, setReopen] = useState("");
 
   useEffect(() => {
-    CheckAccount();
+    checkAccount();
   }, []);
 
   useEffect(() => {
-    GetTicket();
+    getTicket();
   }, []);
-  async function GetTicket() {
+  async function getTicket() {
     let tick = await fetch(
-      API_BASE_URL + "/api/tickets/" + ticketid,
+      API_BASE_URL + "/api/tickets/" + ticketId,
       getBaseQueryRequest(),
     ).then((data) => data.json());
-    setcurrenticket(tick);
-    // return currentticket;
+    setCurrentTicket(tick);
+    // return currentTicket;
   }
 
   useEffect(() => {
-    ShowTicket();
+    showTicket();
   });
 
-  async function HandleCancel() {
+  async function handleCancel() {
     navigate(-1);
   }
 
-  const CheckAccount = () => {
-    const accountclass = localStorage.getItem("Class");
-    setIsClient(accountclass == "Client");
+  const checkAccount = () => {
+    const accountClass = localStorage.getItem("Class");
+    setIsClient(accountClass == "Client");
   };
 
   const handleRemove = (indexToRemove: number) => {
@@ -120,7 +120,7 @@ function ViewTicket() {
     }
   }
 
-  async function SendTicket(ticket: Ticket) {
+  async function sendTicket(ticket: Ticket) {
     if (ticket) {
       try {
         const response = await fetch(
@@ -140,34 +140,34 @@ function ViewTicket() {
     }
   }
 
-  async function ShowTicket() {
-    if (currentticket) {
+  async function showTicket() {
+    if (currentTicket) {
       setShowTicketInfo(true);
-      setTicketInfo(currentticket);
+      setTicketInfo(currentTicket);
     }
   }
 
   async function changePriority() {
-    if (currentticket) {
-      if (currentticket.priority == "Critical") {
-        currentticket.priority = "Non critical";
+    if (currentTicket) {
+      if (currentTicket.priority == "Critical") {
+        currentTicket.priority = "Non critical";
       } else {
-        currentticket.priority = "Critical";
+        currentTicket.priority = "Critical";
       }
-      SendTicket(currentticket);
+      sendTicket(currentTicket);
       alert("Changed priority");
       navigate("/view-ticket");
     }
   }
 
   async function reopenTicket() {
-    if (currentticket) {
+    if (currentTicket) {
       if (reopen.length != 0) {
-        currentticket.notes = currentticket.notes
-          ? [...currentticket.notes, reopen]
+        currentTicket.notes = currentTicket.notes
+          ? [...currentTicket.notes, reopen]
           : [reopen];
-        currentticket.status = "Open";
-        SendTicket(currentticket);
+        currentTicket.status = "Open";
+        sendTicket(currentTicket);
       } else {
         toast({
           variant: "destructive",
@@ -179,12 +179,12 @@ function ViewTicket() {
     }
   }
 
-  async function CloseTicket() {
-    if (currentticket) {
+  async function closeTicket() {
+    if (currentTicket) {
       if (solution.length != 0) {
-        currentticket.status = "Closed";
-        currentticket.solution = solution;
-        SendTicket(currentticket);
+        currentTicket.status = "Closed";
+        currentTicket.solution = solution;
+        sendTicket(currentTicket);
       } else {
         toast({
           variant: "destructive",
@@ -196,15 +196,15 @@ function ViewTicket() {
     }
   }
 
-  async function HandleSubmit() {
-    if (currentticket) {
-      currentticket.notes = currentticket.notes
-        ? [...currentticket.notes, notes]
+  async function handleSubmit() {
+    if (currentTicket) {
+      currentTicket.notes = currentTicket.notes
+        ? [...currentTicket.notes, notes]
         : [notes];
-      currentticket.files = currentticket.files
-        ? [...currentticket.files, ...preview]
+      currentTicket.files = currentTicket.files
+        ? [...currentTicket.files, ...preview]
         : [...preview];
-      SendTicket(currentticket);
+      sendTicket(currentTicket);
       alert("Ticket updated");
       navigate(-1);
       // If needed, you can handle the response data here
@@ -271,8 +271,8 @@ function ViewTicket() {
             </div>
           )}
           {/* Hij checkt hieronder eerst of de ticket open is, anders kan je namelijk niks meer toevoegen, dan krijg je wel de optie om hem te heropenen */}
-          {currentticket?.status === "Open" ||
-          currentticket?.status === "In Process" ? (
+          {currentTicket?.status === "Open" ||
+          currentTicket?.status === "In Process" ? (
             <>
               <div className="grid gap-2">
                 {!isClient && showTicketInfo ? (
@@ -324,7 +324,7 @@ function ViewTicket() {
                         >
                           Cancel
                         </Button>
-                        <Button variant="secondary" onClick={CloseTicket}>
+                        <Button variant="secondary" onClick={closeTicket}>
                           Submit
                         </Button>
                       </DialogClose>
@@ -376,10 +376,10 @@ function ViewTicket() {
                 </div>
               </div>
               <div>
-                <Button variant="default" onClick={HandleSubmit}>
+                <Button variant="default" onClick={handleSubmit}>
                   Submit
                 </Button>
-                <Button variant="destructive" onClick={HandleCancel}>
+                <Button variant="destructive" onClick={handleCancel}>
                   Go back
                 </Button>
               </div>
@@ -430,7 +430,7 @@ function ViewTicket() {
                 </DialogContent>
               </Dialog>
               <Toaster />
-              <Button variant="destructive" onClick={HandleCancel}>
+              <Button variant="destructive" onClick={handleCancel}>
                 Go back
               </Button>
             </div>
