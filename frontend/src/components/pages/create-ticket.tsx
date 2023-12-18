@@ -37,17 +37,17 @@ function CreateTickets() {
   useAuthenticated();
   const [title, setTitle] = useState("");
   const [problem, setProblem] = useState("");
-  const [mustbedoing, setMustBeDoing] = useState("");
-  const [havetried, setHaveTried] = useState("");
-  const [phonenumber, setPhonenumber] = useState("");
-  const navigate = useNavigate();
-  const [machines, SetMachines] = useState<Machine[]>([]);
-  const [account, SetAccount] = useState("");
+  const [mustBeDoing, setMustBeDoing] = useState("");
+  const [haveTried, setHaveTried] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [machines, setMachines] = useState<Machine[]>([]);
+  const [account, setAccount] = useState("");
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
   const [isChecked, setChecked] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
+  const navigate = useNavigate();
 
   const handleCheckbox = () => {
     setChecked(!isChecked);
@@ -76,8 +76,8 @@ function CreateTickets() {
       getBaseQueryRequest(),
     ).then((data) => data.json());
 
-    SetAccount(localStorage.getItem("Id")!);
-    SetMachines(machinelist);
+    setAccount(localStorage.getItem("Id")!);
+    setMachines(machinelist);
   }
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -116,8 +116,8 @@ function CreateTickets() {
     setIsLoading(true);
     if (
       problem.length != 0 &&
-      mustbedoing.length != 0 &&
-      havetried.length != 0 &&
+      mustBeDoing.length != 0 &&
+      haveTried.length != 0 &&
       title.length != 0
     ) {
       let machine = machines.find(
@@ -132,7 +132,7 @@ function CreateTickets() {
         setIsLoading(false);
       } else if (
         problem.split(" ").length < 20 ||
-        mustbedoing.split(" ").length < 20
+        mustBeDoing.split(" ").length < 20
       ) {
         toast({
           variant: "destructive",
@@ -140,7 +140,7 @@ function CreateTickets() {
           description: t("ticket.wordsalert"),
         });
         setIsLoading(false);
-      } else if (phonenumber == "" || phonenumber == null) {
+      } else if (phoneNumber == "" || phoneNumber == null) {
         toast({
           variant: "destructive",
           title: t("ticket.error"),
@@ -148,7 +148,7 @@ function CreateTickets() {
         });
         setIsLoading(false);
       } else {
-        var currentticket = {
+        var currentTicket = {
           Machine_Id: machine?.machineId,
           Customer_Id: account,
           Title: title,
@@ -167,16 +167,16 @@ function CreateTickets() {
             .replace("/", "-")
             .replace("/", "-"),
           Problem: problem,
-          MustBeDoing: mustbedoing,
-          HaveTried: havetried,
+          MustBeDoing: mustBeDoing,
+          HaveTried: haveTried,
 
           files: preview,
-          phoneNumber: phonenumber,
+          phoneNumber: phoneNumber,
         };
 
         await fetch(
           API_BASE_URL + "/api/tickets/",
-          postBaseMutateRequest(JSON.stringify(currentticket)),
+          postBaseMutateRequest(JSON.stringify(currentTicket)),
         );
         toast({
           variant: "default",
@@ -184,7 +184,7 @@ function CreateTickets() {
           description: t("ticket.submitalert"),
         });
         setIsLoading(false);
-        navigate(-1);
+        navigate("/client");
 
         // reader.readAsDataURL(file);
       }
@@ -198,7 +198,7 @@ function CreateTickets() {
     }
   }
 
-  async function HandleCancel() {
+  async function handleCancel() {
     navigate(-1);
   }
 
@@ -322,7 +322,7 @@ function CreateTickets() {
                 <div className="pt-2">
                   <Input
                     placeholder={t("ticket.place4")}
-                    onChange={(e) => setPhonenumber(e.currentTarget.value)}
+                    onChange={(e) => setPhoneNumber(e.currentTarget.value)}
                   />
                 </div>
               </>
@@ -376,7 +376,7 @@ function CreateTickets() {
             <Button
               className="w-1/6"
               variant={"destructive"}
-              onClick={HandleCancel}
+              onClick={handleCancel}
             >
               {t("ticket.cancel")}
             </Button>
