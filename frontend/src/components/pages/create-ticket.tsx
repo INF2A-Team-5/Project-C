@@ -184,7 +184,7 @@ function CreateTickets() {
           description: t("ticket.submitalert"),
         });
         setIsLoading(false);
-        navigate("/client");
+        navigate("/tickets");
 
         // reader.readAsDataURL(file);
       }

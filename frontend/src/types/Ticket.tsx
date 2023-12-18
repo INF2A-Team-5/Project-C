@@ -1,15 +1,15 @@
 export type Ticket = {
   ticketId: number;
-  machine_Id: number;
-  customer_Id: number;
-  employee_Id: number;
+  machineId: number;
+  customerId: number;
+  employeeId: number;
   title: string;
   priority: string;
   status: string;
   problem: string;
   haveTried: string;
   mustBeDoing: string;
-  date_Created: string;
+  dateCreated: string;
   solution: string;
   phoneNumber: string;
   notes: string[];
