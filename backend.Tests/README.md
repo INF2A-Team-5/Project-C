@@ -27,3 +27,5 @@ Populate the datatbase:
 ```
 
 4. Execute your desired tests from their file in the "backend.Tests" folder.
+
+Repeat these steps if you want to run the test again.
