@@ -49,6 +49,25 @@ namespace backend.Migrations
                     b.ToTable("Accounts");
                 });
 
+            modelBuilder.Entity("Backend.Entities.Customer", b =>
+                {
+                    b.Property<int>("CustomerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CustomerId"));
+
+                    b.Property<int>("AccountId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("CustomerId");
+
+                    b.HasIndex("AccountId")
+                        .IsUnique();
+
+                    b.ToTable("Customers");
+                });
+
             modelBuilder.Entity("Backend.Entities.Department", b =>
                 {
                     b.Property<int>("DepartmentId")
@@ -82,8 +101,7 @@ namespace backend.Migrations
 
                     b.HasKey("EmployeeId");
 
-                    b.HasIndex("AccountId")
-                        .IsUnique();
+                    b.HasIndex("AccountId");
 
                     b.HasIndex("DepartmentId");
 
@@ -98,7 +116,7 @@ namespace backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("MachineId"));
 
-                    b.Property<int?>("AccountId")
+                    b.Property<int?>("Customer_Id")
                         .HasColumnType("integer");
 
                     b.Property<int>("DepartmentId")
@@ -116,6 +134,10 @@ namespace backend.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("MachineId");
+
+                    b.HasIndex("Customer_Id");
+
+                    b.HasIndex("DepartmentId");
 
                     b.ToTable("Machines");
                 });
@@ -151,6 +173,9 @@ namespace backend.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TicketId"));
+
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Customer_Id")
                         .HasColumnType("integer");
@@ -203,6 +228,8 @@ namespace backend.Migrations
 
                     b.HasKey("TicketId");
 
+                    b.HasIndex("CustomerId");
+
                     b.HasIndex("Employee_Id");
 
                     b.ToTable("Tickets");
@@ -233,11 +260,22 @@ namespace backend.Migrations
                     b.ToTable("Files");
                 });
 
-            modelBuilder.Entity("Backend.Entities.Employee", b =>
+            modelBuilder.Entity("Backend.Entities.Customer", b =>
                 {
                     b.HasOne("Backend.Entities.Account", "Account")
                         .WithOne()
-                        .HasForeignKey("Backend.Entities.Employee", "AccountId")
+                        .HasForeignKey("Backend.Entities.Customer", "AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
+            modelBuilder.Entity("Backend.Entities.Employee", b =>
+                {
+                    b.HasOne("Backend.Entities.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -252,11 +290,39 @@ namespace backend.Migrations
                     b.Navigation("Department");
                 });
 
+            modelBuilder.Entity("Backend.Entities.Machine", b =>
+                {
+                    b.HasOne("Backend.Entities.Customer", "Customer")
+                        .WithMany("Machines")
+                        .HasForeignKey("Customer_Id");
+
+                    b.HasOne("Backend.Entities.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Department");
+                });
+
             modelBuilder.Entity("Backend.Entities.Ticket", b =>
                 {
+                    b.HasOne("Backend.Entities.Customer", null)
+                        .WithMany("Tickets")
+                        .HasForeignKey("CustomerId");
+
                     b.HasOne("Backend.Entities.Employee", null)
                         .WithMany("Tickets")
                         .HasForeignKey("Employee_Id");
+                });
+
+            modelBuilder.Entity("Backend.Entities.Customer", b =>
+                {
+                    b.Navigation("Machines");
+
+                    b.Navigation("Tickets");
                 });
 
             modelBuilder.Entity("Backend.Entities.Department", b =>
