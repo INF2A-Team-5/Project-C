@@ -7,15 +7,36 @@ import { Machine } from "./Machine";
 import { Account } from "./Account";
 import { Department } from "./Department";
 import { ArrowDownIcon, ArrowUpIcon, CaretSortIcon } from "@radix-ui/react-icons";
-import { API_BASE_URL, putBaseMutateRequest } from "@/lib/api";
+import { API_BASE_URL, getBaseQueryRequest, putBaseMutateRequest } from "@/lib/api";
+import { toast } from "@/components/ui/use-toast";
+import { useNavigate } from "react-router-dom";
+
+
 
 async function AssignTicket(ticket: any) {
-  ticket.employee_Id = 1 // moet nog ff uitgezocht worden en pagina moet nu gereload worden iedere keer
+  console.log(localStorage.getItem("Id"))
+  try 
+  {
+  let employee = await fetch("http://localhost:5119/GetEmployeeById?id=" + localStorage.getItem("Id"), getBaseQueryRequest()).then((data) => data.json());  
+  ticket.employee_Id = employee.employeeId;
   await fetch(API_BASE_URL + "/api/tickets/" + ticket.ticketId, putBaseMutateRequest(JSON.stringify(ticket))
   );
-  console.log(ticket);
-  console.log("Assigned employee to ticket")
+    toast({
+      variant: "default",
+      title: "Succes!",
+      description: "Assigned employee to ticket.",
+    });
+  }
+  catch (error)
+  {
+    toast({
+      variant: "destructive",
+      title: "Error!",
+      description: "Error! unknown user identified"
+    })
+  }
 }
+
 
 export const ticketColumns: ColumnDef<Ticket>[] = [
   {
@@ -120,8 +141,10 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
   },
   {
     id: "actions",
+    header: "Options",
     cell: ({ row }) => {
       const ticket = row.original
+      const navigate = useNavigate();
 
       return (
         <DropdownMenu>
@@ -137,12 +160,18 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
               Show seven
             </DropdownMenuItem>
             <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => {
+              localStorage.setItem("currentticketID", ticket.ticketId.toString());
+              navigate(`/view-ticket`);
+            }}>
+              View ticket
+            </DropdownMenuItem>
             <DropdownMenuItem>View customer</DropdownMenuItem>
             {localStorage.getItem("Class") == "ServiceEmployee" || localStorage.getItem("Class") == "Admin" ?
               <DropdownMenuItem onClick={() => AssignTicket(ticket)}>Assign Ticket</DropdownMenuItem> : null
             }
             {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+
           </DropdownMenuContent>
         </DropdownMenu>
       );

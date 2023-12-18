@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class latestMigration : Migration
+    public partial class m1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -132,7 +132,7 @@ namespace backend.Migrations
                     Date_Created = table.Column<string>(type: "text", nullable: false),
                     Solution = table.Column<string>(type: "text", nullable: true),
                     PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    Notes = table.Column<string>(type: "text", nullable: true),
+                    Notes = table.Column<string[]>(type: "text[]", nullable: true),
                     Files = table.Column<string[]>(type: "text[]", nullable: true)
                 },
                 constraints: table =>

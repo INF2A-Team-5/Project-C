@@ -3,6 +3,7 @@ using System;
 using Backend.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231214154917_reijosajdf")]
+    partial class reijosajdf
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,6 +50,28 @@ namespace backend.Migrations
                     b.HasKey("AccountId");
 
                     b.ToTable("Accounts");
+                });
+
+            modelBuilder.Entity("Backend.Entities.Customer", b =>
+                {
+                    b.Property<int>("CustomerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CustomerId"));
+
+                    b.Property<int>("AccountId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.HasKey("CustomerId");
+
+                    b.HasIndex("AccountId")
+                        .IsUnique();
+
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("Backend.Entities.Department", b =>
@@ -98,7 +123,7 @@ namespace backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("MachineId"));
 
-                    b.Property<int?>("AccountId")
+                    b.Property<int?>("Customer_Id")
                         .HasColumnType("integer");
 
                     b.Property<int>("DepartmentId")
@@ -116,6 +141,8 @@ namespace backend.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("MachineId");
+
+                    b.HasIndex("Customer_Id");
 
                     b.ToTable("Machines");
                 });
@@ -151,6 +178,9 @@ namespace backend.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TicketId"));
+
+                    b.Property<int?>("CustomerId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Customer_Id")
                         .HasColumnType("integer");
@@ -203,6 +233,8 @@ namespace backend.Migrations
 
                     b.HasKey("TicketId");
 
+                    b.HasIndex("CustomerId");
+
                     b.HasIndex("Employee_Id");
 
                     b.ToTable("Tickets");
@@ -233,6 +265,17 @@ namespace backend.Migrations
                     b.ToTable("Files");
                 });
 
+            modelBuilder.Entity("Backend.Entities.Customer", b =>
+                {
+                    b.HasOne("Backend.Entities.Account", "Account")
+                        .WithOne()
+                        .HasForeignKey("Backend.Entities.Customer", "AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Account");
+                });
+
             modelBuilder.Entity("Backend.Entities.Employee", b =>
                 {
                     b.HasOne("Backend.Entities.Account", "Account")
@@ -252,11 +295,29 @@ namespace backend.Migrations
                     b.Navigation("Department");
                 });
 
+            modelBuilder.Entity("Backend.Entities.Machine", b =>
+                {
+                    b.HasOne("Backend.Entities.Customer", null)
+                        .WithMany("Machines")
+                        .HasForeignKey("Customer_Id");
+                });
+
             modelBuilder.Entity("Backend.Entities.Ticket", b =>
                 {
+                    b.HasOne("Backend.Entities.Customer", null)
+                        .WithMany("Tickets")
+                        .HasForeignKey("CustomerId");
+
                     b.HasOne("Backend.Entities.Employee", null)
                         .WithMany("Tickets")
                         .HasForeignKey("Employee_Id");
+                });
+
+            modelBuilder.Entity("Backend.Entities.Customer", b =>
+                {
+                    b.Navigation("Machines");
+
+                    b.Navigation("Tickets");
                 });
 
             modelBuilder.Entity("Backend.Entities.Department", b =>

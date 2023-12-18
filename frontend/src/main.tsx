@@ -1,22 +1,22 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-
-// import "./styles/index.css";
 import "./styles/globals.css";
-
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
-import Tickets from "./components/pages/CreateTicket";
 import Client from "./components/pages/client";
 import ServiceEmployee from "./components/pages/serviceEmployee";
 import Admin from "./components/pages/admin";
 import EditAccount from "./components/pages/EditAccount";
 import "./translations/i18n";
-import EditTicket from "./components/pages/EditTicket";
+import ViewTicket from "./components/pages/viewTicket";
 
 import LogIn from "./components/pages/auth/log-in";
-// import Register from "./components/pages/auth/register";
 import ForgotPassword from "./components/pages/auth/forgot-password";
+import CreateTickets from "./components/pages/CreateTicket";
+import Tickets from "./components/pages/tickets";
+import Machines from "./components/pages/machines";
+import Departments from "./components/pages/departments";
+import Accounts from "./components/pages/accounts";
 
 const router = createBrowserRouter([
   {
@@ -29,10 +29,6 @@ const router = createBrowserRouter([
     path: "/auth/login",
     element: <LogIn />,
   },
-  // {
-  //   path: "/auth/register",
-  //   element: <Register />,
-  // },
   {
     path: "/auth/forgot-password",
     element: <ForgotPassword />,
@@ -40,8 +36,8 @@ const router = createBrowserRouter([
 
   /** OTHER */
   {
-    path: "tickets",
-    element: <Tickets />,
+    path: "create-ticket",
+    element: <CreateTickets />,
   },
   {
     path: "client",
@@ -60,13 +56,29 @@ const router = createBrowserRouter([
     element: <EditAccount />,
   },
   {
-    path: "edit-ticket",
-    element: <EditTicket />
-  }
+    path: "view-ticket",
+    element: <ViewTicket />
+  },
+  {
+    path: "tickets",
+    element: <Tickets />,
+  },
+  {
+    path: "machines",
+    element: <Machines />,
+  },
+  {
+    path: "departments",
+    element: <Departments />,
+  },
+  {
+    path: "accounts",
+    element: <Accounts />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>
+  </React.StrictMode>,
 );

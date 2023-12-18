@@ -40,7 +40,7 @@ function serviceEmployee() {
   if (Account == undefined) {
     GetAccount();
   }
-  
+
   async function GetAccount() {
     SetAccount(
       await fetch(
@@ -57,20 +57,17 @@ function serviceEmployee() {
         "/GetTicketByDepartment?AccountId=" +
         localStorage.getItem("Id"),
         getBaseQueryRequest(),
-      ).then((data) => data.json()),
-    );
-      SetAssignedTickets(
+      ).then((data) => data.json()).then((data) => data.sort((a: Ticket, b: Ticket) => a.ticketId - b.ticketId)));
+    SetAssignedTickets(
       await fetch(
         API_BASE_URL +
         "/GetAssignedTickets?AccountId=" +
         localStorage.getItem("Id"),
         getBaseQueryRequest(),
-      ).then((data) => data.json()),
-    );
-      SetAllMachines(
+      ).then((data) => data.json()).then((data) => data.sort((a: Ticket, b: Ticket) => a.ticketId - b.ticketId)));
+    SetAllMachines(
       await fetch(API_BASE_URL + "/api/Machines", getBaseQueryRequest())
-        .then((data) => data.json())
-    );
+        .then((data) => data.json()).then((data) => data.sort((a: Machine, b: Machine) => a.machineId - b.machineId)));
   }
 
   return (
@@ -81,7 +78,7 @@ function serviceEmployee() {
       </div>
       <div className="grid gap-12">
         <div>
-          <h1 className="text-4xl font-medium">Serivce Employee</h1>
+          <h1 className="text-4xl font-medium">Service Employee</h1>
           <Separator className="my-4" />
           <Tabs defaultValue="all tickets">
             <TabsList>

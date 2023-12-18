@@ -15,13 +15,6 @@ import { Label } from "../ui/label";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { toast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "../ui/select";
 import { Icons } from "../foundations/icons";
 import {
   API_BASE_URL,
@@ -30,17 +23,24 @@ import {
   postBaseMutateRequest,
 } from "@/lib/api";
 import { useTranslation } from "react-i18next";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Check, ChevronsUpDown } from "lucide-react"
+import { cn } from "@/lib/utils";
+import { Machine } from "@/services/Machine";
 
-// import axios from 'axios';
-// export interface Machine {
-//   MachineId: number; Name: string; Description: string; AccountId: number
-// }
 
-// export interface Account {
-//   AccountId: number; Name: string; Password: string; Class: number
-// }
-
-function Tickets() {
+function CreateTickets() {
   useAuthenticated();
   const [title, setTitle] = useState("");
   const [problem, setProblem] = useState("");
@@ -48,12 +48,13 @@ function Tickets() {
   const [havetried, setHaveTried] = useState("");
   const [phonenumber, setPhonenumber] = useState("");
   const navigate = useNavigate();
-  const [machinenames, SetMachineNames] = useState<string[]>([]);
+  const [machines, SetMachines] = useState<Machine[]>([]);
   const [account, SetAccount] = useState("");
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
   const [isChecked, setChecked] = useState<boolean>(false);
-  const [selectMachine, setSelectMachine] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [open, setOpen] = useState(false)
+  const [value, setValue] = useState("");
 
   const handleCheckbox = () => {
     setChecked(!isChecked);
@@ -71,33 +72,20 @@ function Tickets() {
     console.log(preview);
   };
 
-  class Machine {
-    name: string;
-    machineId: number;
-    constructor(name: string, machineId: number) {
-      this.name = name;
-      this.machineId = machineId;
-    }
-  }
-
-  if (machinenames.length == 0) {
+  if (machines.length == 0) {
     getData();
   }
 
   async function getData() {
     let machinelist = await fetch(
       API_BASE_URL +
-        "/GetMachinesPerAccount?accountId=" +
-        localStorage.getItem("Id"),
+      "/GetMachinesPerAccount?accountId=" +
+      localStorage.getItem("Id"),
       getBaseQueryRequest(),
     ).then((data) => data.json());
 
     SetAccount(localStorage.getItem("Id")!);
-    SetMachineNames(
-      machinelist.map(
-        (machine: Machine) => machine.name + ", Id: " + machine.machineId,
-      ),
-    );
+    SetMachines(machinelist);
   }
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -142,7 +130,8 @@ function Tickets() {
       havetried.length != 0 &&
       title.length != 0
     ) {
-      if (selectMachine == "") {
+      let machine = machines.find((machine: Machine) => machine.name.toLowerCase() == value);
+      if (machine == undefined) {
         toast({
           variant: "destructive",
           title: t("ticket.error"),
@@ -171,10 +160,10 @@ function Tickets() {
         setIsLoading(false);
       } else {
         var currentticket = {
-          Machine_Id: selectMachine.split("Id: ")[1],
+          Machine_Id: machine?.machineId,
           Customer_Id: account,
           Title: title,
-          Priority: "unknown",
+          Priority: "Not Set",
           Status: "Open",
           Date_Created: new Date()
             .toLocaleString("en-GB", {
@@ -223,6 +212,7 @@ function Tickets() {
           title: "Succes!",
           description: t("ticket.submitalert"),
         });
+        console.log(currentticket); 
         setIsLoading(false);
         navigate("/client");
 
@@ -256,7 +246,48 @@ function Tickets() {
         <div className="grid gap-2">
           <Label>{t("ticket.selectmachinedes")}</Label>
           <div className="w-1/6">
-            <Select
+          <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          role="combobox"
+          aria-expanded={open}
+          className="w-[200px] justify-between"
+        >
+          {value
+            ? machines.find((machine: any) => machine.name.toLowerCase() == value)?.name
+            : "Select machine..."}
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[200px] p-0">
+        <Command>
+          <CommandInput placeholder="Search machine..." />
+          <CommandEmpty>No machine found.</CommandEmpty>
+          <CommandGroup>
+            {machines.map((machine) => (
+              <CommandItem
+                key={machine.name}
+                value={machine.name}  
+                onSelect={(currentValue) => {
+                  setValue(currentValue === value ? "" : currentValue)
+                  setOpen(false)
+                }}
+              >
+                <Check
+                  className={cn(
+                    "mr-2 h-4 w-4",
+                    value === machine.name ? "opacity-100" : "opacity-0"
+                  )}
+                />
+                {machine.name}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        </Command>
+      </PopoverContent>
+    </Popover>
+            {/* <Select
               value={selectMachine}
               onValueChange={(value) => setSelectMachine(value)}
             >
@@ -270,7 +301,7 @@ function Tickets() {
                   </SelectItem>
                 ))}
               </SelectContent>
-            </Select>
+            </Select> */}
           </div>
         </div>
 
@@ -395,4 +426,4 @@ function Tickets() {
   );
 }
 
-export default Tickets;
+export default CreateTickets;
