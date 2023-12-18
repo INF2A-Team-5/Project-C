@@ -3,7 +3,7 @@ import { useAuthenticated } from "./lib/hooks/useAuthenticated";
 
 function App() {
   useAuthenticated();
-
+  localStorage.clear();
   return (
     <div>
       <LogIn />

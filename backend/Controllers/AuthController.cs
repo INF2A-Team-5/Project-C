@@ -47,6 +47,40 @@ namespace Backend.Controllers
             }
             return NotFound("Invalid credentials");
         }
+        [HttpPost("auth")] public async Task<ActionResult<bool>> CheckAuth(string? token)
+        {
+            if (token == null)
+            {
+                return Ok(false);
+            }
+            var tokenHandler = new JwtSecurityTokenHandler(); 
+            var DecodedToken = tokenHandler.ReadJwtToken(token);
+            string name = DecodedToken.Claims.First(claim => claim.Type == "unique_name").Value;
+            string role = DecodedToken.Claims.First(claim => claim.Type == "role").Value;
+            AccountType Class = new();
+            switch (role)
+            {
+                case "Admin":
+                Class = AccountType.Admin;
+                break;
+                case "Client":
+                Class = AccountType.Client;
+                break;
+                case "ServiceEmployee":
+                Class = AccountType.ServiceEmployee;
+                break;
+            }
+            if (_dataContext.Accounts == null)
+            {
+                return Ok(false);
+            }
+            var account = (from accs in _dataContext.Accounts where accs.Name == name && accs.Class == Class select accs).FirstOrDefaultAsync();
+            if (account != null)
+            {
+                return Ok(true);
+            }
+            return Ok(false);
+        }
 
         private string CreateToken(Account account)
         {

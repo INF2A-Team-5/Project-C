@@ -17,7 +17,6 @@ import {
 import {
   getFilteredRowModel,
   ColumnFiltersState,
-
   ColumnDef,
   flexRender,
   getCoreRowModel,
@@ -27,7 +26,8 @@ import {
   getSortedRowModel,
 } from "@tanstack/react-table";
 import { Separator } from "../ui/separator";
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "../ui/skeleton";
 
 interface TableProps<TData, TValue> {
   // data: { [key: string]: any }[];
@@ -43,7 +43,7 @@ function DataTable<TData, TValue>({
 }: TableProps<TData, TValue>) {
   const [currentPage, setCurrentPage] = useState(1);
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const totalPages = Math.ceil(data.length / 10);
 
@@ -52,14 +52,13 @@ function DataTable<TData, TValue>({
   };
 
   async function viewticket(id: number) {
-    alert(id)
+    alert(id);
   }
-
 
   const table = useReactTable({
     data,
     columns,
-    
+
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
@@ -116,106 +115,104 @@ function DataTable<TData, TValue>({
 
   let column = "";
   let columnplaceholder = "";
-  if (table.getAllColumns().find((el) => el.id == "title") != undefined)
-  {
+  if (table.getAllColumns().find((el) => el.id == "title") != undefined) {
     column = "title";
     columnplaceholder = "Title";
-  }
-  else if (table.getAllColumns().find((el) => el.id == "name") != undefined)
-  {
+  } else if (table.getAllColumns().find((el) => el.id == "name") != undefined) {
     column = "name";
-    columnplaceholder = "Name"
+    columnplaceholder = "Name";
   }
   return (
-    <Card>
-      <div>
-     {  
-     <div className="flex items-center py-4">
+    <div className="grid gap-4">
+      <div className="flex items-center">
         <Input
-          placeholder={'Search for ' + column + "..."}
+          placeholder={"Search for " + column + "..."}
           value={(table.getColumn(column)?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn(column)?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
-      </div> }
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow data-state={row.getIsSelected() && "selected"}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell className="max-w-sm">
-                      <div className="ml-4">
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </div>
-                    </TableCell>
-                  ))}
+      </div>
+      <Card>
+        <div>
+          <Table>
+            <TableHeader>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <TableRow>
+                  {headerGroup.headers.map((header) => {
+                    return (
+                      <TableHead>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
+                      </TableHead>
+                    );
+                  })}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-            <Separator />
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4 pr-8">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={function () {
-            table.previousPage();
-            setCurrentPage(currentPage - 1);
-          }}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <span>{`Page ${currentPage} of ${totalPages}`}</span>
-        <Button
-          className="m-4"
-          variant="outline"
-          size="sm"
-          onClick={function () {
-            table.nextPage();
-            setCurrentPage(currentPage + 1);
-          }}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
-      </div>
-    </Card>
+              ))}
+            </TableHeader>
+            <TableBody>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow data-state={row.getIsSelected() && "selected"}>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell className="max-w-sm">
+                        <div className="ml-4">
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </div>
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  {/* <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center"
+                    >
+                    No results.
+                  </TableCell> */}
+                  <Skeleton className="my-6 ml-4 h-4" />
+                </TableRow>
+              )}
+              <Separator />
+            </TableBody>
+          </Table>
+        </div>
+        <footer className="flex items-center justify-between gap-4 p-4 ">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={function () {
+              table.previousPage();
+              setCurrentPage(currentPage - 1);
+            }}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <span>{`Page ${currentPage} of ${totalPages}`}</span>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={function () {
+              table.nextPage();
+              setCurrentPage(currentPage + 1);
+            }}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </footer>
+      </Card>
+    </div>
   );
 }
 

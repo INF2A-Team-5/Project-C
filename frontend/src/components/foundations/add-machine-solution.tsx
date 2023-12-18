@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { Machine } from "@/services/Machine";
+import { Machine } from "@/types/Machine";
 import { useNavigate } from "react-router-dom";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { toast } from "@/components/ui/use-toast";
 import { Textarea } from "../ui/textarea";
-import { Icons } from "../foundations/icons";
+import { Icons } from "./icons";
 import {
   API_BASE_URL,
   getBaseQueryRequest,
@@ -16,21 +16,21 @@ import {
 function AddMachineSolution() {
   useAuthenticated();
 
-  const [Name, SetName] = useState("");
-  const [Solution, SetSolution] = useState("");
+  const [name, setName] = useState("");
+  const [solution, setSolution] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  async function HandleSubmit() {
+  async function handleSubmit() {
     setIsLoading(true);
-    if (Name == "") {
+    if (name == "") {
       toast({
         variant: "destructive",
         title: "Error!",
         description: "Please fill in a machine name",
       });
       setIsLoading(false);
-    } else if (Solution == "") {
+    } else if (solution == "") {
       toast({
         variant: "destructive",
         title: "Error!",
@@ -44,13 +44,13 @@ function AddMachineSolution() {
       )
         .then((data) => data.json())
         .then((machines) =>
-          machines.filter((machine: Machine) => machine.name == Name),
+          machines.filter((machine: Machine) => machine.name == name),
         );
 
       if (machines.length >= 1) {
         machines.map(
           (machine: Machine) => (
-            (machine.solution = Solution),
+            (machine.solution = solution),
             fetch(
               API_BASE_URL + "/api/Machines/" + machine.machineId,
               putBaseMutateRequest(JSON.stringify(machine)),
@@ -96,13 +96,13 @@ function AddMachineSolution() {
     <div className="grid gap-2">
       <Input
         placeholder="Enter Machine Name"
-        onChange={(e) => SetName(e.currentTarget.value)}
+        onChange={(e) => setName(e.currentTarget.value)}
       />
       <Textarea
         placeholder="Describe solution"
-        onChange={(e) => SetSolution(e.currentTarget.value)}
+        onChange={(e) => setSolution(e.currentTarget.value)}
       />
-      <Button className="w-fit" onClick={HandleSubmit} disabled={isLoading}>
+      <Button className="w-fit" onClick={handleSubmit} disabled={isLoading}>
         {isLoading ? (
           <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : null}
