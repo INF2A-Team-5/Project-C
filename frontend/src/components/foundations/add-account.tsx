@@ -39,7 +39,7 @@ import { DialogClose, DialogFooter } from "../ui/dialog";
 function AddAccount() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmpassword, setconfirmPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [userType, setUserType] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [department, setDepartment] = useState("");
@@ -89,7 +89,7 @@ function AddAccount() {
         description: "Enter a password.",
       });
       setIsLoading(false);
-    } else if (password != confirmpassword) {
+    } else if (password != confirmPassword) {
       toast({
         variant: "destructive",
         title: "Error!",
@@ -198,7 +198,7 @@ function AddAccount() {
         placeholder="Confirm password"
         type="password"
         // ●●●●●●●● als je circels wilt
-        onChange={(e) => setconfirmPassword(e.currentTarget.value)}
+        onChange={(e) => setConfirmPassword(e.currentTarget.value)}
       />
       <Select onValueChange={(value) => setUserType(value)}>
         <SelectTrigger>
