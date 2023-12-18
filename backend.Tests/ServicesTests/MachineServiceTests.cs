@@ -4,6 +4,7 @@ using FakeItEasy;
 using Backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Data;
+using Backend.Dto;
 
 namespace backend.Tests.ServicesTests
 {
@@ -63,14 +64,14 @@ namespace backend.Tests.ServicesTests
         }
 
         [Theory]
-        [InlineData(1, "machinename", "machinedescription", 1)]
-        [InlineData(2, "machinename", "machinedescription", 2)]
-        [InlineData(3, "machinename", "machinedescription", 3)]
-        public async void MachineService_UpdateMachine_ReturnsNoContent(int id, string name, string description, int accountId)
+        [InlineData(4, "machinename", "machinedescription", 1, 2)]
+        [InlineData(5, "machinename", "machinedescription", 2, 3)]
+        [InlineData(6, "machinename", "machinedescription", 3, 1)]
+        public async void MachineService_UpdateMachine_ReturnsNoContent(int id, string name, string description, int customerId, int departmentId)
         {
             // Arrange
             var service = new MachinesService(_db);
-            var updatedMachine = new Machine { MachineId = id, Name = name, Description = description, AccountId = accountId };
+            var updatedMachine = new Machine { MachineId = id, Name = name, Description = description, Customer_Id = customerId, DepartmentId = departmentId };
 
             // Act
             var result = await service.UpdateMachine(id, updatedMachine);
@@ -82,14 +83,14 @@ namespace backend.Tests.ServicesTests
         }
 
         [Theory]
-        [InlineData(30, "machinename", "machinedescription", 1)]
-        [InlineData(44, "machinename", "machinedescription", 2)]
-        [InlineData(35, "machinename", "machinedescription", 3)]
-        public async void MachineService_UpdateMachine_ReturnsBadRequest(int id, string name, string description, int accountId)
+        [InlineData(30, "machinename", "machinedescription", 1, 2)]
+        [InlineData(44, "machinename", "machinedescription", 2, 3)]
+        [InlineData(35, "machinename", "machinedescription", 3, 1)]
+        public async void MachineService_UpdateMachine_ReturnsBadRequest(int id, string name, string description, int customerId, int departmentId)
         {
             // Arrange
             var service = new MachinesService(_db);
-            var updatedMachine = new Machine { MachineId = id, Name = name, Description = description, AccountId = accountId };
+            var updatedMachine = new Machine { MachineId = id, Name = name, Description = description, Customer_Id = customerId, DepartmentId = departmentId };
 
             // Act
             var result = await service.UpdateMachine(id, updatedMachine);
@@ -100,14 +101,14 @@ namespace backend.Tests.ServicesTests
         }
 
         [Theory]
-        [InlineData("machinename", "machinedescription", 1)]
         [InlineData("machinename", "machinedescription", 2)]
         [InlineData("machinename", "machinedescription", 3)]
-        public async void MachineService_AddMachine_ReturnsCreatedAtActionResult(string name, string description, int accountId)
+        [InlineData("machinename", "machinedescription", 1)]
+        public async void MachineService_AddMachine_ReturnsCreatedAtActionResult(string name, string description, int departmentId)
         {
             // Arrange
             var service = new MachinesService(_db);
-            var newMachine = new Machine { Name = name, Description = description, AccountId = accountId };
+            var newMachine = new MachineDto { Name = name, Description = description, DepartmentId = departmentId };
 
             // Act
             var result = await service.AddMachine(newMachine);
