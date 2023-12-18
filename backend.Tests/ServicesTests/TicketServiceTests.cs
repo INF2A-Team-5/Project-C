@@ -62,11 +62,11 @@ namespace backend.Tests.ServicesTests
         }
 
         [Theory]
-        [InlineData(1, 1, 1, 1, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", "notes", new string[] { "file1", "file2", "file3" })]
-        [InlineData(2, 2, 2, 2, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", "notes", new string[] { "file1", "file2", "file3" })]
-        [InlineData(3, 3, 3, 3, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", "notes", new string[] { "file1", "file2", "file3" })]
+        [InlineData(1, 1, 1, 1, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
+        [InlineData(2, 2, 2, 2, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
+        [InlineData(3, 3, 3, 3, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
         public async void TicketService_UpdateTicket_ReturnsNoContent(int ticketId, int machineId, int customerId, int employee_Id, string title, string priority, string status, string problem,
-                                                                    string havetried, string mustbedoing, string date, string solution, string phonenumber, string notes, string[] files)
+                                                                    string havetried, string mustbedoing, string date, string solution, string phonenumber, string[] notes, string[] files)
         {
             // Arrange
             var service = new TicketService(_db);
@@ -98,11 +98,11 @@ namespace backend.Tests.ServicesTests
         }
 
         [Theory]
-        [InlineData(1, 1, 1, 1, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", "notes", new string[] { "file1", "file2", "file3" })]
-        [InlineData(2, 2, 2, 2, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", "notes", new string[] { "file1", "file2", "file3" })]
-        [InlineData(3, 3, 3, 3, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", "notes", new string[] { "file1", "file2", "file3" })]
+        [InlineData(1, 1, 1, 1, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
+        [InlineData(2, 2, 2, 2, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
+        [InlineData(3, 3, 3, 3, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
         public async void TicketService_UpdateTicket_ReturnsBadRequest(int ticketId, int machineId, int customerId, int employee_Id, string title, string priority, string status, string problem,
-                                                                    string havetried, string mustbedoing, string date, string solution, string phonenumber, string notes, string[] files)
+                                                                    string havetried, string mustbedoing, string date, string solution, string phonenumber, string[] notes, string[] files)
         {
             // Arrange
             var service = new TicketService(_db);
@@ -135,11 +135,11 @@ namespace backend.Tests.ServicesTests
         }
 
         [Theory]
-        [InlineData(1, 1, 1, "new ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", "notes", new string[] { "file1", "file2", "file3" })]
-        [InlineData(2, 2, 2, "new ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", "notes", new string[] { "file1", "file2", "file3" })]
-        [InlineData(3, 3, 3, "new ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", "notes", new string[] { "file1", "file2", "file3" })]
+        [InlineData(1, 1, 1, "new ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
+        [InlineData(2, 2, 2, "new ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
+        [InlineData(3, 3, 3, "new ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
         public async void TicketService_AddTicket_ReturnsTicket(int machineId, int customerId, int employee_Id, string title, string priority, string status, string problem,
-                                                                    string havetried, string mustbedoing, string date, string solution, string phonenumber, string notes, string[] files)
+                                                                    string havetried, string mustbedoing, string date, string solution, string phonenumber, string[] notes, string[] files)
         {
             // Arrange
             var service = new TicketService(_db);
