@@ -12,6 +12,7 @@ import Tickets from "./components/pages/tickets";
 import Machines from "./components/pages/machines";
 import Departments from "./components/pages/departments";
 import Accounts from "./components/pages/accounts";
+import ViewMachine from "./components/pages/view-machine";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
   {
     path: "view-ticket",
     element: <ViewTicket />,
+  },
+  {
+    path: "view-machine",
+    element: <ViewMachine />,
   },
   {
     path: "edit-account",

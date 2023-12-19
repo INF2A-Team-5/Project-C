@@ -277,13 +277,13 @@ export const machineColumns: ColumnDef<Machine>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-            // onClick={() => {
-            //   localStorage.setItem(
-            //     "currentticketID",
-            //     machine.machineId.toString(),
-            //   );
-            //   navigate(`/view-ticket`);
-            // }}
+            onClick={() => {
+              localStorage.setItem(
+                "currentmachineID",
+                machine.machineId.toString(),
+              );
+              navigate(`/view-machine`);
+            }}
             >
               View machine
             </DropdownMenuItem>
