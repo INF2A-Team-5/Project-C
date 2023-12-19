@@ -1,19 +1,55 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../api";
+import { toast } from "@/components/ui/use-toast";
 
-export function useAuthenticated() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+export async function useAuthenticated() {
   const navigate = useNavigate();
-  const isLoggedIn = localStorage.getItem("Token") !== null;
-  
+  const location = useLocation();
   useEffect(() => {
-    // als users ingelogd is, set authenticated true
-    if (isLoggedIn) {
-      setIsAuthenticated(true);
-    } else {
-      navigate("/auth/login");
+    if (
+      localStorage.getItem("Token") == null ||
+      localStorage.getItem("Token") == undefined
+    ) {
+      setTimeout(() => {
+        navigate("/auth/login");
+      }, 1000);
     }
-  }, []);
+  });
 
-  return { isAuthenticated };
+  const isLoggedIn = await fetch(
+    API_BASE_URL + "/api/Auth/auth?token=" + localStorage.getItem("Token"),
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  ).then((data) => data.json());
+
+  if (isLoggedIn) {
+    if (
+      (location.pathname == "/accounts" ||
+        location.pathname == "/departments") &&
+      (localStorage.getItem("Class") == "ServiceEmployee" ||
+        localStorage.getItem("Class") == "Client")
+    ) {
+      setTimeout(() => {
+        navigate("/auth/login");
+      }, 1000);
+      navigate("/tickets");
+    }
+  } else {
+    setTimeout(() => {
+      navigate("/auth/login");
+    }, 1000);
+    navigate("/auth/login");
+    toast({
+      variant: "destructive",
+      title: "Error! Something went wrong.",
+      description: "Unauthorized",
+    });
+  }
+
+  return { isLoggedIn };
 }

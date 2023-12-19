@@ -1,12 +1,7 @@
-import { useState } from "react";
-import Settings from "../foundations/settings";
-import { Ticket } from "../../services/Ticket";
+import { Ticket } from "../../types/Ticket";
 import Table from "../foundations/table";
-import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
-import { Toaster } from "../ui/toaster";
-import { API_BASE_URL, getBaseQueryRequest } from "@/lib/api";
+import { useQuery } from "@/lib/api";
 import { ticketColumns } from "@/services/Columns";
-import Navbar from "../foundations/navbar";
 import {
   Dialog,
   DialogClose,
@@ -19,35 +14,30 @@ import {
 } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
+import Layout from "../layout";
+import { toast } from "../ui/use-toast";
+import TableSkeleton from "../foundations/table-skeleton";
 
 function Tickets() {
-  useAuthenticated();
-  const [allTickets, setAllTickets] = useState<Ticket[]>([]);
-  const [loadData, setData] = useState<Boolean>(false);
-  if (loadData == false) {
-    getData();
-    setData(true);
-  }
-
-  async function getData() {
-    setAllTickets(
-      await fetch(API_BASE_URL + "/api/tickets", getBaseQueryRequest()).then(
-        (data) => data.json(),
-      ),
-    );
-  }
-
+  const { data, isFetching } = useQuery<Ticket[]>("/api/tickets", {
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Whomp whomp:(",
+        description: "U get no data",
+      });
+    },
+  });
   return (
-    <>
-      <Navbar />
-      <Settings></Settings>
-      <div className="grid gap-6 px-24 text-left">
-        <div className="h-16" />
+    <Layout>
+      <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-medium">Tickets</h1>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="default">Create ticket</Button>
+              <Button size="sm" disabled={isFetching} variant="default">
+                Create ticket
+              </Button>
             </DialogTrigger>
 
             <DialogContent>
@@ -76,12 +66,15 @@ function Tickets() {
           </Dialog>
         </div>
         <div className="grid gap-12">
-          <Table data={allTickets} columns={ticketColumns} />
+          {data ? (
+            <Table data={data} columns={ticketColumns} />
+          ) : (
+            <TableSkeleton />
+          )}
           <div className="h-44"></div>
         </div>
       </div>
-      <Toaster />
-    </>
+    </Layout>
   );
 }
 

@@ -1,8 +1,8 @@
 function Header() {
   return (
-    <div className="relative flex items-center justify-center h-24 p-0 m-0 w-52 -top-4">
+    <div className="relative -top-4 m-0 flex h-24 w-52 items-center justify-center p-0">
       <img
-        className="w-auto h-16 pr-5"
+        className="h-16 w-auto pr-5"
         src="/viscon_logo_transparant.png"
         alt="Viscon Logo"
       />

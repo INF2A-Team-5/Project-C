@@ -65,17 +65,7 @@ function LogIn() {
           localStorage.setItem("Class", account.class);
           document.cookie = `jwtToken=${account.token}`;
           // Cookies.set('token', token, { expires: 1, secure: true })
-          switch (account.class) {
-            case "Client":
-              navigate("/client");
-              break;
-            case "Admin":
-              navigate("/admin");
-              break;
-            case "ServiceEmployee":
-              navigate("/serviceEmployee");
-              break;
-          }
+          navigate("/tickets");
         }
       } catch {
         toast({
@@ -118,8 +108,11 @@ function LogIn() {
           </div>
         </div>
       </div>
-      <Settings></Settings>
+
       <div className="flex flex-col items-center justify-center text-center">
+        <div className="fixed right-5 top-5">
+          <Settings />
+        </div>
         <Header></Header>
         <div className="grid w-2/5 gap-4">
           <div>
