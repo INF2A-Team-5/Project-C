@@ -1,7 +1,6 @@
 import Table from "../foundations/table";
 import { Toaster } from "../ui/toaster";
 import { useQuery } from "@/lib/api";
-import { Machine } from "@/types/machine";
 import {
   Dialog,
   DialogContent,
@@ -11,19 +10,16 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { machineColumns } from "@/services/Columns";
+import { solutionColumns } from "@/services/Columns";
 import { TextareaHint } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
 import Layout from "../layout";
-import AddMachine from "../foundations/add-machine";
 import TableSkeleton from "../foundations/table-skeleton";
+import { Solution } from "@/types/solution";
+import AddTicketSolution from "../foundations/add-solution";
 
-function Machines() {
-  const isClient = localStorage.getItem("Class") == "Client";
-  const apiUrl = isClient
-    ? "/GetMachinesPerAccount?accountId=" + localStorage.getItem("Id")
-    : "/api/machines";
-  const { data, isFetching } = useQuery<Machine[]>(apiUrl, {
+function Solutions() {
+  const { data, isFetching } = useQuery<Solution[]>("/api/solutions", {
     onError: () => {
       toast({
         variant: "destructive",
@@ -37,22 +33,22 @@ function Machines() {
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-medium">Machines</h1>
+          <h1 className="text-3xl font-medium">Solutions</h1>
           {localStorage.getItem("Class") == "Admin" ? (
             <Dialog>
               <DialogTrigger asChild>
                 <Button variant="default" size="sm" disabled={isFetching}>
-                  Add machine
+                  Add solution
                 </Button>
               </DialogTrigger>
 
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Add machine</DialogTitle>
-                  <TextareaHint>Create new machines</TextareaHint>
+                  <DialogTitle>Add solution</DialogTitle>
+                  <TextareaHint>Create new solutions</TextareaHint>
                 </DialogHeader>
                 <DialogDescription>
-                  <AddMachine />
+                  <AddTicketSolution />
                 </DialogDescription>
               </DialogContent>
             </Dialog>
@@ -60,7 +56,7 @@ function Machines() {
         </div>
         <div className="grid gap-12">
           {data ? (
-            <Table data={data} columns={machineColumns} />
+            <Table data={data} columns={solutionColumns} />
           ) : (
             <TableSkeleton />
           )}
@@ -72,4 +68,4 @@ function Machines() {
   );
 }
 
-export default Machines;
+export default Solutions;

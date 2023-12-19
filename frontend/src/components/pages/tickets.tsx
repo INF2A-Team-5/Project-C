@@ -1,4 +1,4 @@
-import { Ticket } from "../../types/Ticket";
+import { Ticket } from "../../types/ticket";
 import Table from "../foundations/table";
 import { useQuery } from "@/lib/api";
 import { ticketColumns } from "@/services/Columns";

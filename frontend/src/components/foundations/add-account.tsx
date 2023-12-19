@@ -17,8 +17,8 @@ import {
   postBaseMutateRequest,
   useQuery,
 } from "@/lib/api";
-import { Department } from "@/types/Department";
-import { Account } from "@/types/Account";
+import { Department } from "@/types/department";
+import { Account } from "@/types/account";
 import {
   Command,
   CommandEmpty,

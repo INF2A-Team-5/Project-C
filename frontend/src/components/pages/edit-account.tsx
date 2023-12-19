@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import Settings from "./settings";
+import Settings from "../foundations/settings";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useNavigate } from "react-router-dom";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
-import Header from "./header";
+import Header from "../foundations/header";
 import { Separator } from "../ui/separator";
 import { Label } from "../ui/label";
-import { Icons } from "./icons";
+import { Icons } from "../foundations/icons";
 import {
   API_BASE_URL,
   getBaseQueryRequest,
@@ -16,9 +16,10 @@ import {
 import { toast } from "../ui/use-toast";
 import React from "react";
 import { Toaster } from "../ui/toaster";
+import Layout from "../layout";
 
 function EditAccount() {
-  useAuthenticated();
+  // useAuthenticated();
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
@@ -133,15 +134,13 @@ function EditAccount() {
   }
 
   return (
-    <div className="px-24 text-left">
-      <div className="flex justify-center pb-16 pt-10">
-        <Header></Header>
-      </div>
-      <div className="grid gap-12">
-        <div className="grid gap-2">
-          <h1 className="text-4xl font-medium">Edit Account</h1>
+    <Layout>
+      <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
+        <div>
+          <h1 className="text-3xl font-medium">Edit Account</h1>
           <Label>Make changes to your account.</Label>
-          <Separator className="my-4" />
+        </div>
+        <div className="grid gap-2">
           <h2>Change Phone Number</h2>
           <Input
             name="phone number"
@@ -208,7 +207,7 @@ function EditAccount() {
         </Button>
         <Toaster />
       </div>
-    </div>
+    </Layout>
   );
 }
 
