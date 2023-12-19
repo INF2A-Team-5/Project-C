@@ -48,7 +48,7 @@ public class DataContext : DbContext
         modelBuilder.Entity<Employee>()
             .HasMany(e => e.Tickets)
             .WithOne()
-            .HasForeignKey(t => t.Employee_Id)
+            .HasForeignKey(t => t.EmployeeId)
             .IsRequired(false);
 
         modelBuilder.Entity<Customer>()
@@ -58,7 +58,7 @@ public class DataContext : DbContext
         modelBuilder.Entity<Customer>()
             .HasMany(c => c.Machines)
             .WithOne(m => m.Customer)
-            .HasForeignKey(m => m.Customer_Id)
+            .HasForeignKey(m => m.CustomerId)
             .IsRequired(false);
     }
 }

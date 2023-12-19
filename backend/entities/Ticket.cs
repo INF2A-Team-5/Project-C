@@ -3,9 +3,9 @@ namespace Backend.Entities;
 public class Ticket
 {
     public int TicketId { get; set; }
-    public int Machine_Id { get; set; }
-    public int Customer_Id { get; set; }
-    public int? Employee_Id { get; set; }
+    public int MachineId { get; set; }
+    public int CustomerId { get; set; }
+    public int? EmployeeId { get; set; }
     public string Title { get; set; } = null!;
     public string Priority { get; set; } = null!;
     public string Status { get; set; } = null!;

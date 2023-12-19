@@ -71,7 +71,7 @@ namespace backend.Tests.ServicesTests
         {
             // Arrange
             var service = new MachinesService(_db);
-            var updatedMachine = new Machine { MachineId = id, Name = name, Description = description, Customer_Id = customerId, DepartmentId = departmentId };
+            var updatedMachine = new Machine { MachineId = id, Name = name, Description = description, CustomerId = customerId, DepartmentId = departmentId };
 
             // Act
             var result = await service.UpdateMachine(id, updatedMachine);
@@ -90,7 +90,7 @@ namespace backend.Tests.ServicesTests
         {
             // Arrange
             var service = new MachinesService(_db);
-            var updatedMachine = new Machine { MachineId = id, Name = name, Description = description, Customer_Id = customerId, DepartmentId = departmentId };
+            var updatedMachine = new Machine { MachineId = id, Name = name, Description = description, CustomerId = customerId, DepartmentId = departmentId };
 
             // Act
             var result = await service.UpdateMachine(id, updatedMachine);

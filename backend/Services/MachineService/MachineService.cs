@@ -36,14 +36,14 @@ namespace Backend.MachineService
             }
             return machine;
         }
-        
+
         public async Task<ActionResult<IEnumerable<Machine>>> GetMachinePerAccountId(int id)
         {
             if (_context.Machines == null)
             {
                 return NotFound("No machines in db");
             }
-            var machine = await _context.Machines.Where(machine => machine.Customer_Id == id).ToListAsync();
+            var machine = await _context.Machines.Where(machine => machine.CustomerId == id).ToListAsync();
 
             if (machine == null)
             {

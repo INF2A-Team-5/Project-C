@@ -73,9 +73,9 @@ namespace backend.Tests.ServicesTests
             Ticket updatedTicket = new()
             {
                 TicketId = ticketId,
-                Machine_Id = machineId,
-                Customer_Id = customerId,
-                Employee_Id = employee_Id,
+                MachineId = machineId,
+                CustomerId = customerId,
+                EmployeeId = employee_Id,
                 Title = title,
                 Priority = priority,
                 Status = status,
@@ -109,9 +109,9 @@ namespace backend.Tests.ServicesTests
             Ticket updatedTicket = new()
             {
                 TicketId = ticketId,
-                Machine_Id = machineId,
-                Customer_Id = customerId,
-                Employee_Id = employee_Id,
+                MachineId = machineId,
+                CustomerId = customerId,
+                EmployeeId = employee_Id,
                 Title = title,
                 Priority = priority,
                 Status = status,
@@ -145,9 +145,9 @@ namespace backend.Tests.ServicesTests
             var service = new TicketService(_db);
             Ticket newTicket = new()
             {
-                Machine_Id = machineId,
-                Customer_Id = customerId,
-                Employee_Id = employee_Id,
+                MachineId = machineId,
+                CustomerId = customerId,
+                EmployeeId = employee_Id,
                 Title = title,
                 Priority = priority,
                 Status = status,
