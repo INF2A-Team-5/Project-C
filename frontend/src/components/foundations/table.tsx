@@ -171,7 +171,7 @@ function DataTable<TData, TValue>({
                         </TableCell>
                       ) : (
                         <TableCell className="max-w-sm">
-                          <div className="ml-4 text-slate-300">
+                          <div className="ml-4 text-muted-foreground">
                             Unknown
                           </div>
                         </TableCell>
