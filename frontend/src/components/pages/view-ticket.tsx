@@ -30,7 +30,7 @@ import {
 } from "../ui/dialog";
 import { Toaster } from "../ui/toaster";
 import { toast } from "../ui/use-toast";
-import { Ticket } from "@/types/Ticket";
+import { Ticket } from "@/types/ticket";
 import {
   Card,
   CardContent,

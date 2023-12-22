@@ -7,13 +7,14 @@ import { Textarea } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
 import { Icons } from "./icons";
 import { API_BASE_URL, postBaseMutateRequest } from "@/lib/api";
+import { DialogClose, DialogFooter } from "../ui/dialog";
 
 function AddSolution() {
   useAuthenticated();
 
   const [problemDescription, setProblemDescription] = useState("");
   const [solutionDescription, setSolutionDescription] = useState("");
-  const [ticketId, setTicketId] = useState(0);
+  const [ticketId, setTicketId] = useState<number | string>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -33,7 +34,7 @@ function AddSolution() {
         description: "Enter a description of the solution.",
       });
       setIsLoading(false);
-    } else if (!ticketId || isNaN(ticketId)) {
+    } else if (!ticketId || ticketId === "") {
       toast({
         variant: "destructive",
         title: "Error!",
@@ -58,14 +59,10 @@ function AddSolution() {
         description: "Solution added successfully.",
       });
       setIsLoading(false);
-      switch (localStorage.getItem("Class")) {
-        case "Admin":
-          navigate("/admin");
-          break;
-        case "ServiceEmployee":
-          navigate("/serviceEmployee");
-          break;
-      }
+      navigate("/solutions");
+      setProblemDescription("");
+      setSolutionDescription("");
+      setTicketId("");
     }
   }
 
@@ -74,26 +71,29 @@ function AddSolution() {
       <Textarea
         placeholder="Enter Description of the Problem"
         onChange={(e) => setProblemDescription(e.currentTarget.value)}
+        value={problemDescription}
       ></Textarea>
       <Textarea
         placeholder="Enter a Description of the Solution"
         onChange={(e) => setSolutionDescription(e.currentTarget.value)}
+        value={solutionDescription}
       ></Textarea>
       <Input
         placeholder="Enter Ticket ID"
         onChange={(e) => setTicketId(parseInt(e.currentTarget.value))}
+        value={ticketId}
       />
-      <Button
-        className="w-fit"
-        variant="default"
-        onClick={handleSubmit}
-        disabled={isLoading}
-      >
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : null}
-        Upload ticket Solution
-      </Button>
+      <DialogFooter>
+        <DialogClose>
+          <Button variant="outline">Close</Button>
+        </DialogClose>
+        <Button className="w-fit" onClick={handleSubmit} disabled={isLoading}>
+          {isLoading ? (
+            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          ) : null}
+          Add Solution
+        </Button>
+      </DialogFooter>
     </div>
   );
 }

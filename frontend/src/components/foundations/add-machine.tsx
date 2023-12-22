@@ -20,8 +20,8 @@ import {
 } from "@/components/ui/command";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Department } from "@/types/Department";
-import { Machine } from "@/types/Machine";
+import { Department } from "@/types/department";
+import { Machine } from "@/types/machine";
 import { DialogClose, DialogFooter } from "../ui/dialog";
 
 function AddMachine() {
