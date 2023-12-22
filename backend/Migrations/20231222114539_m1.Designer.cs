@@ -12,13 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-<<<<<<<< HEAD:backend/Migrations/20231219110855_m1.Designer.cs
-    [Migration("20231219110855_m1")]
+    [Migration("20231222114539_m1")]
     partial class m1
-========
-    [Migration("20231219101550_peer")]
-    partial class peer
->>>>>>>> main:backend/Migrations/20231219101550_peer.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
