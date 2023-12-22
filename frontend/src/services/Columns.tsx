@@ -6,13 +6,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Ticket } from "../types/Ticket";
+import { Ticket } from "../types/ticket";
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { Machine } from "../types/Machine";
-import { Account } from "../types/Account";
-import { Department } from "../types/Department";
+import { Machine } from "../types/machine";
+import { Account } from "../types/account";
+import { Department } from "../types/department";
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -25,6 +25,7 @@ import {
 } from "@/lib/api";
 import { toast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
+import { Solution } from "@/types/solution";
 
 async function Claimticket(ticket: any) {
   console.log(localStorage.getItem("Id"));
@@ -487,4 +488,108 @@ export const departmentColumns: ColumnDef<Department>[] = [
       );
     },
   },
+];
+
+export const solutionColumns: ColumnDef<Solution>[] = [
+  {
+    accessorKey: "solutionId",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          ID
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "problemDescription",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Problem Description
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "solutionDescription",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Solution Description
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
+        </Button>
+      );
+    },
+  },
+  // {
+  //   id: "ticketId",
+  //   header: "Options",
+  //   cell: ({ row }) => {
+  //     const solution = row.original;
+  //     const navigate = useNavigate();
+
+  //     return (
+  //       <DropdownMenu>
+  //         <DropdownMenuTrigger asChild>
+  //           <Button variant="ghost" className="h-8 w-8 p-0">
+  //             <span className="sr-only">Open menu</span>
+  //             <MoreHorizontal className="h-4 w-4" />
+  //           </Button>
+  //         </DropdownMenuTrigger>
+  //         <DropdownMenuContent align="end">
+  //           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+  //           <DropdownMenuSeparator />
+  //           <DropdownMenuItem
+  //           // onClick={() => {
+  //           //   localStorage.setItem(
+  //           //     "currentticketID",
+  //           //     machine.machineId.toString(),
+  //           //   );
+  //           //   navigate(`/view-ticket`);
+  //           // }}
+  //           >
+  //             View machine
+  //           </DropdownMenuItem>
+  //           {/* {localStorage.getItem("Class") == "ServiceEmployee" ||
+  //           localStorage.getItem("Class") == "Admin" ? (
+  //             <DropdownMenuItem onClick={() => AssignTicket(ticket)}>
+  //               Assign Ticket
+  //             </DropdownMenuItem>
+  //           ) : null} */}
+  //           {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
+  //         </DropdownMenuContent>
+  //       </DropdownMenu>
+  //     );
+  //   },
+  // },
 ];

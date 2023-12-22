@@ -15,6 +15,7 @@ function Navbar() {
     navItems.push(
       { label: "Departments", path: ["/departments"] },
       { label: "Accounts", path: ["/accounts"] },
+      { label: "Solutions", path: ["/solutions"] },
     );
   }
 

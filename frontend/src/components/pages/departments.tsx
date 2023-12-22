@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { Department } from "@/types/Department";
+import { Department } from "@/types/department";
 import { toast } from "../ui/use-toast";
 import { TextareaHint } from "../ui/textarea";
 import Layout from "../layout";
