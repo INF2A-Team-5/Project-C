@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231216203019_peer")]
-    partial class peer
+    [Migration("20231224164752_latestMigration")]
+    partial class latestMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,9 @@ namespace backend.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AccountId"));
+
+                    b.Property<bool>("Archived")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("Class")
                         .HasColumnType("integer");
@@ -79,6 +82,9 @@ namespace backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("DepartmentId"));
 
+                    b.Property<bool>("Archived")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -119,6 +125,9 @@ namespace backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("MachineId"));
 
+                    b.Property<bool>("Archived")
+                        .HasColumnType("boolean");
+
                     b.Property<int?>("Customer_Id")
                         .HasColumnType("integer");
 
@@ -153,6 +162,9 @@ namespace backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SolutionId"));
 
+                    b.Property<bool>("Archived")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("ProblemDescription")
                         .IsRequired()
                         .HasColumnType("text");
@@ -176,6 +188,9 @@ namespace backend.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TicketId"));
+
+                    b.Property<bool>("Archived")
+                        .HasColumnType("boolean");
 
                     b.Property<int?>("CustomerId")
                         .HasColumnType("integer");

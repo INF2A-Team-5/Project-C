@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     /// <inheritdoc />
-    public partial class peer : Migration
+    public partial class latestMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,7 +20,8 @@ namespace backend.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false),
                     PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    Class = table.Column<int>(type: "integer", nullable: false)
+                    Class = table.Column<int>(type: "integer", nullable: false),
+                    Archived = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -33,7 +34,8 @@ namespace backend.Migrations
                 {
                     DepartmentId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false)
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Archived = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,7 +66,8 @@ namespace backend.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ProblemDescription = table.Column<string>(type: "text", nullable: false),
                     SolutionDescription = table.Column<string>(type: "text", nullable: false),
-                    TicketId = table.Column<int>(type: "integer", nullable: false)
+                    TicketId = table.Column<int>(type: "integer", nullable: false),
+                    Archived = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -126,7 +129,8 @@ namespace backend.Migrations
                     Description = table.Column<string>(type: "text", nullable: false),
                     Customer_Id = table.Column<int>(type: "integer", nullable: true),
                     Solution = table.Column<string>(type: "text", nullable: true),
-                    DepartmentId = table.Column<int>(type: "integer", nullable: false)
+                    DepartmentId = table.Column<int>(type: "integer", nullable: false),
+                    Archived = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -164,6 +168,7 @@ namespace backend.Migrations
                     PhoneNumber = table.Column<string>(type: "text", nullable: true),
                     Notes = table.Column<string[]>(type: "text[]", nullable: true),
                     Files = table.Column<string[]>(type: "text[]", nullable: true),
+                    Archived = table.Column<bool>(type: "boolean", nullable: false),
                     CustomerId = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
