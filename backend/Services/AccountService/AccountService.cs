@@ -35,6 +35,21 @@ namespace Backend.AccountService
             }
             return account;
         }
+
+        public async Task<ActionResult<IEnumerable<Account>>> GetAccountsByArchived(bool archived)
+        {
+            if (_context.Accounts == null)
+            {
+                return NotFound();
+            }
+            var accounts = await _context.Accounts.Where(a => a.Archived == archived).ToListAsync();
+            if (accounts == null)
+            {
+                return NotFound();
+            }
+            return accounts;
+        }
+
         public async Task<IActionResult> UpdateAccount(int id, Account account)
         {
             if (id != account.AccountId)
@@ -66,10 +81,10 @@ namespace Backend.AccountService
 
         public async Task<ActionResult<Account>> AddAccount(Account account)
         {
-          if (_context.Accounts == null)
-          {
-              return Problem("Entity set 'DataContext.Accounts'  is null.");
-          }
+            if (_context.Accounts == null)
+            {
+                return Problem("Entity set 'DataContext.Accounts'  is null.");
+            }
             _context.Accounts.Add(account);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetAccountById), new { id = account.AccountId }, account);
