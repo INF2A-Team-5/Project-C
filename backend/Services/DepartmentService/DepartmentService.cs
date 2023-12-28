@@ -36,6 +36,20 @@ namespace Backend.DepartmentService
             return department;
         }
 
+        public async Task<ActionResult<IEnumerable<Department>>> GetDepartmentsByArchived(bool archived)
+        {
+            if (_context.Departments == null)
+            {
+                return NotFound();
+            }
+            var departments = await _context.Departments.Where(d => d.Archived == archived).ToListAsync();
+            if (departments == null)
+            {
+                return NotFound();
+            }
+            return departments;
+        }
+
         public async Task<IActionResult> UpdateDepartment(int id, Department department)
         {
             if (id != department.DepartmentId)
