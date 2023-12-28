@@ -14,4 +14,5 @@ export type Ticket = {
   phoneNumber: string;
   notes: string[];
   files: string[];
+  archived: boolean;
 };
