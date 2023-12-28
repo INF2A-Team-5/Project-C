@@ -36,7 +36,7 @@ namespace Backend.MachineService
             }
             return machine;
         }
-        
+
         public async Task<ActionResult<IEnumerable<Machine>>> GetMachinePerAccountId(int id)
         {
             if (_context.Machines == null)
@@ -50,6 +50,20 @@ namespace Backend.MachineService
                 return NotFound("No machines under this ID");
             }
             return machine;
+        }
+
+        public async Task<ActionResult<IEnumerable<Machine>>> GetMachinesByArchived(bool archived)
+        {
+            if (_context.Machines == null)
+            {
+                return NotFound();
+            }
+            var machines = await _context.Machines.Where(m => m.Archived == archived).ToListAsync();
+            if (machines == null)
+            {
+                return NotFound();
+            }
+            return machines;
         }
 
         public async Task<IActionResult> UpdateMachine(int id, Machine machine)
