@@ -11,8 +11,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Machine } from "../types/machine";
-import { Account } from "../types/account";
-import { Department } from "../types/department";
+
 import {
   ArrowDownIcon,
   ArrowUpIcon,
@@ -26,6 +25,8 @@ import {
 import { toast } from "@/components/ui/use-toast";
 import { useNavigate } from "react-router-dom";
 import { Solution } from "@/types/solution";
+import { Account } from "@/types/Account";
+import { Department } from "@/types/Department";
 
 async function Claimticket(ticket: any) {
   console.log(localStorage.getItem("Id"));

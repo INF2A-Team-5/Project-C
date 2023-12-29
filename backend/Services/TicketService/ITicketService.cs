@@ -12,5 +12,7 @@ namespace Backend.TicketService
         Task<IActionResult> DeleteTicket(int id);
         Task<ActionResult<IEnumerable<Ticket>>> GetTicketByDepartment(int Departmentname);
         Task<ActionResult<IEnumerable<Ticket>>> GetAssignedTickets(int AccountId);
+        Task<ActionResult<IEnumerable<Ticket>>> GetUnasignedTickets();
+        Task<ActionResult<IEnumerable<Ticket>>> GetClosedTickets();
     }
 }

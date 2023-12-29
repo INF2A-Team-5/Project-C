@@ -11,7 +11,7 @@ import {
 } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
-import { Account } from "@/types/account";
+import { Account } from "@/types/Account";
 import { TextareaHint } from "../ui/textarea";
 import Layout from "../layout";
 import AddAccount from "../foundations/add-account";

@@ -109,7 +109,7 @@ namespace Backend.TicketService
             {
                 return NotFound("No data found in db");
             }
-            Employee employee = await (from employees in _context.Employees where employees.AccountId == AccountId select employees).FirstOrDefaultAsync();
+            var employee = await (from employees in _context.Employees where employees.AccountId == AccountId select employees).FirstOrDefaultAsync();
             if (employee == null)
             {
                 return NotFound("Employee does not exist");
@@ -118,6 +118,32 @@ namespace Backend.TicketService
             if (tickets == null || tickets.Count == 0)
             {
                 return NotFound("No tickets assigned");
+            }
+            return tickets;
+        }
+        public async Task<ActionResult<IEnumerable<Ticket>>> GetUnasignedTickets()
+        {
+            if (_context.Tickets == null)
+            {
+                return NotFound("No data found in db");
+            }
+            var tickets = await (from ticket in _context.Tickets where ticket.Employee_Id == null select ticket).ToListAsync();
+            if (tickets == null || tickets.Count == 0)
+            {
+                return NotFound("No tickets assigned");
+            }
+            return tickets;
+        }
+        public async Task<ActionResult<IEnumerable<Ticket>>> GetClosedTickets()
+        {
+            if (_context.Tickets == null)
+            {
+                return NotFound("No data found in db");
+            }
+            var tickets = await (from ticket in _context.Tickets where ticket.Status == "Closed" select ticket).ToListAsync();
+            if (tickets == null || tickets.Count == 0)
+            {
+                return NotFound("No tickets closed");
             }
             return tickets;
         }
