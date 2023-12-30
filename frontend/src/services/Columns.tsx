@@ -59,6 +59,10 @@ async function ArchiveTicket(ticket: Ticket) {
       API_BASE_URL + "/api/tickets/" + ticket.ticketId,
       putBaseMutateRequest(JSON.stringify(ticket)),
     );
+    await fetch(
+      API_BASE_URL + "/api/solutions/ArchiveByTicket/" + ticket.ticketId,
+      putBaseMutateRequest(JSON.stringify(ticket)),
+    );
     toast({
       variant: "default",
       title: "Succes!",

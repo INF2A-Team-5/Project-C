@@ -75,6 +75,25 @@ namespace Backend.SolutionService
             return NoContent();
         }
 
+        public async Task<IActionResult> ArchiveSolutionByTicketId(int ticketId)
+        {
+            if (_context.Solutions == null)
+            {
+                return NotFound();
+            }
+            var solutions = await _context.Solutions.Where(s => s.TicketId == ticketId).ToListAsync();
+            if (solutions == null)
+            {
+                return NotFound();
+            }
+            foreach (var solution in solutions)
+            {
+                solution.Archived = true;
+            }
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
         public async Task<ActionResult<Solution>> AddSolution(Solution solution)
         {
             if (_context.Solutions == null)
