@@ -116,22 +116,31 @@ async function ArchiveDepartment(department: Department) {
 }
 
 async function ArchiveAccount(account: Account) {
-  try {
-    account.archived = true;
-    await fetch(
-      API_BASE_URL + "/api/accounts/" + account.accountId,
-      putBaseMutateRequest(JSON.stringify(account)),
-    );
-    toast({
-      variant: "default",
-      title: "Succes!",
-      description: "Archived account.",
-    });
-  } catch (error) {
+  const localStorageId = parseInt(localStorage.getItem("Id") || "");
+  if (account.accountId !== localStorageId) {
+    try {
+      account.archived = true;
+      await fetch(
+        API_BASE_URL + "/api/accounts/" + account.accountId,
+        putBaseMutateRequest(JSON.stringify(account)),
+      );
+      toast({
+        variant: "default",
+        title: "Succes!",
+        description: "Archived account.",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Error! Something went wrong.",
+      });
+    }
+  } else {
     toast({
       variant: "destructive",
       title: "Error!",
-      description: "Error! Something went wrong.",
+      description: "Error! You can't archive your own account.",
     });
   }
 }
