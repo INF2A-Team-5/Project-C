@@ -91,6 +91,25 @@ namespace Backend.MachineService
             return NoContent();
         }
 
+        public async Task<IActionResult> ArchiveMachineByDepartmentId(int id)
+        {
+            if (_context.Machines == null)
+            {
+                return NotFound();
+            }
+            var machines = await _context.Machines.Where(m => m.DepartmentId == id).ToListAsync();
+            if (machines == null)
+            {
+                return NotFound();
+            }
+            foreach (var machine in machines)
+            {
+                machine.Archived = true;
+            }
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
         public async Task<ActionResult<Machine>> AddMachine(MachineDto machine)
         {
             if (_context.Machines == null)

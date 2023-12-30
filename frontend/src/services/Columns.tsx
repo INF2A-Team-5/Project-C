@@ -105,6 +105,10 @@ async function ArchiveDepartment(department: Department) {
       API_BASE_URL + "/api/Accounts/ArchiveByDepartment/" + department.departmentId,
       putBaseMutateRequest(JSON.stringify(department)),
     );
+    await fetch(
+      API_BASE_URL + "/api/Machines/ArchiveByDepartment/" + department.departmentId,
+      putBaseMutateRequest(JSON.stringify(department)),
+    );
     toast({
       variant: "default",
       title: "Succes!",
