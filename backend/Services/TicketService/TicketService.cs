@@ -147,6 +147,24 @@ namespace Backend.TicketService
             }
             return tickets;
         }
+        public async Task<ActionResult<IEnumerable<Ticket>>> GetCustomerTickets(int AccountId)
+        {
+            if (_context.Tickets == null  || _context.Machines == null || _context.Employees == null || _context.Customers == null)
+            {
+                return NotFound("No data found in db");
+            }
+            var customer = await (from customers in _context.Customers where customers.AccountId == AccountId select customers).FirstOrDefaultAsync();
+            if (customer == null)
+            {
+                return NotFound("Customer does not exist");
+            }
+            var tickets = await (from ticket in _context.Tickets where ticket.Customer_Id == customer.AccountId select ticket).ToListAsync();
+            if (tickets == null || tickets.Count == 0)
+            {
+                return NotFound("No tickets found");
+            }
+            return tickets;
+        }
         private bool TicketExists(int id) => (_context.Tickets?.Any(e => e.TicketId == id)).GetValueOrDefault();
     }
 }
