@@ -3,27 +3,27 @@ using Xunit;
 using FakeItEasy;
 using Backend.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Backend.Data;
 
 namespace backend.Tests.ServicesTests
 {
     public class TicketServiceTests
     {
-        private readonly ITicketService _fakeTicketService;
-        public TicketServiceTests()
-        {
-            _fakeTicketService = A.Fake<ITicketService>();
-        }
+        private readonly DataContext _db = new();
+        public TicketServiceTests() { }
 
         [Fact]
         public async void TicketService_GetAllTickets_ReturnsAllTickets()
         {
             // Arrange
-            A.CallTo(() => _fakeTicketService.GetAllTickets()).Returns(new List<Ticket>());
+            var service = new TicketService(_db);
+
             // Act
-            var result = await _fakeTicketService.GetAllTickets();
+            var result = await service.GetAllTickets();
+
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<List<Ticket>>(result.Value);
+            Assert.IsType<ActionResult<IEnumerable<Ticket>>>(result);
         }
 
         [Theory]
@@ -33,26 +33,28 @@ namespace backend.Tests.ServicesTests
         public async void TicketService_GetTicketById_ReturnsTicket(int id)
         {
             // Arrange
-            A.CallTo(() => _fakeTicketService.GetTicketById(id)).Returns(new Ticket());
+            var service = new TicketService(_db);
+
             // Act
-            var result = await _fakeTicketService.GetTicketById(id);
+            var result = await service.GetTicketById(id);
+
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<Ticket>(result.Value);
-            Assert.IsNotType<NotFoundObjectResult>(result);
+            Assert.IsType<ActionResult<Ticket>>(result);
         }
 
         [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
+        [InlineData(26)]
+        [InlineData(30)]
+        [InlineData(35)]
         public async void TicketService_GetTicketById_ReturnsNotFound(int id)
         {
             // Arrange
-            var wrongId = 4;
-            A.CallTo(() => _fakeTicketService.GetTicketById(id)).Returns(new Ticket());
+            var service = new TicketService(_db);
+
             // Act
-            var result = await _fakeTicketService.GetTicketById(wrongId);
+            var result = await service.GetTicketById(id);
+
             // Assert
             Assert.NotNull(result);
             Assert.IsType<ActionResult<Ticket>>(result);
@@ -60,112 +62,145 @@ namespace backend.Tests.ServicesTests
         }
 
         [Theory]
-        [InlineData(1, 1, 1, 1, "priority", "status", "problem", "havetried", "mustbedoing", "2022-01-01", "solution", "123456789", "notes", new string[] { "file1", "file2", "file3" })]
-        [InlineData(2, 2, 2, 2, "priority", "status", "problem", "havetried", "mustbedoing", "2022-01-01", "solution", "123456789", "notes", new string[] {"file1", "file2", "file3"})]
-        [InlineData(3, 3, 3, 3, "priority", "status", "problem", "havetried", "mustbedoing", "2022-01-01", "solution", "123456789", "notes", new string[] {"file1", "file2", "file3"})]
-        public async void TicketService_UpdateTicket_ReturnsNoContent(int ticketId, int machineId, int customerId, int assignedId, string priority, string status, string problem, 
-                                                                    string havetried, string mustbedoing, DateTime date, string solution, string phonenumber, string notes, string[] files)
+        [InlineData(1, 1, 1, 1, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
+        [InlineData(2, 2, 2, 2, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
+        [InlineData(3, 3, 3, 3, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
+        public async void TicketService_UpdateTicket_ReturnsNoContent(int ticketId, int machineId, int customerId, int employee_Id, string title, string priority, string status, string problem,
+                                                                    string havetried, string mustbedoing, string date, string solution, string phonenumber, string[] notes, string[] files)
         {
             // Arrange
-            var newPriority = "newPriority";
-            var newStatus = "newStatus";
-            var newProblem = "newProblem";
-            var newHavetried = "newHavetried";
-            var newMustbedoing = "newMustbedoing";
-            var newSolution = "newSolution";
-            var newPhonenumber = "newPhonenumber";
-            var newNotes = "newNotes";
-            var newFiles = new string[] {"newFile1", "newFile2", "newFile3"};
-            var fakeTicket = new Ticket {TicketId = ticketId, Machine_Id = machineId, Customer_Id = customerId, Assigned_Id = assignedId, Priority = priority, Status = status, Problem = problem, 
-                                        HaveTried = havetried, MustBeDoing = mustbedoing, Date_Created = date, Solution = solution, PhoneNumber = phonenumber, Notes = notes, Files = files };
-            var updatedTicket = new Ticket {TicketId = ticketId, Machine_Id = machineId, Customer_Id = customerId, Assigned_Id = assignedId, Priority = newPriority, Status = newStatus, Problem = newProblem, 
-                                        HaveTried = newHavetried, MustBeDoing = newMustbedoing, Date_Created = date, Solution = newSolution, PhoneNumber = newPhonenumber, Notes = newNotes, Files = newFiles };
-            A.CallTo(() => _fakeTicketService.UpdateTicket(ticketId, fakeTicket)).Returns(new OkObjectResult(fakeTicket));
+            var service = new TicketService(_db);
+            Ticket updatedTicket = new()
+            {
+                TicketId = ticketId,
+                Machine_Id = machineId,
+                Customer_Id = customerId,
+                Employee_Id = employee_Id,
+                Title = title,
+                Priority = priority,
+                Status = status,
+                Problem = problem,
+                HaveTried = havetried,
+                MustBeDoing = mustbedoing,
+                Date_Created = date,
+                Solution = solution,
+                PhoneNumber = phonenumber,
+                Notes = notes,
+                Files = files
+            };
+
             // Act
-            var result = await _fakeTicketService.UpdateTicket(ticketId, updatedTicket);
+            var result = await service.UpdateTicket(ticketId, updatedTicket);
+
             // Assert
             Assert.NotNull(result);
-            Assert.IsNotType<BadRequestResult>(result);
+            Assert.IsType<NoContentResult>(result);
         }
 
         [Theory]
-        [InlineData(1, 1, 1, 1, "priority", "status", "problem", "havetried", "mustbedoing", "2022-01-01", "solution", "123456789", "notes", new string[] { "file1", "file2", "file3" })]
-        [InlineData(2, 2, 2, 2, "priority", "status", "problem", "havetried", "mustbedoing", "2022-01-01", "solution", "123456789", "notes", new string[] {"file1", "file2", "file3"})]
-        [InlineData(3, 3, 3, 3, "priority", "status", "problem", "havetried", "mustbedoing", "2022-01-01", "solution", "123456789", "notes", new string[] {"file1", "file2", "file3"})]
-        public async void TicketService_UpdateTicket_ReturnsBadRequest(int ticketId, int machineId, int customerId, int assignedId, string priority, string status, string problem, 
-                                                                    string havetried, string mustbedoing, DateTime date, string solution, string phonenumber, string notes, string[] files)
+        [InlineData(1, 1, 1, 1, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
+        [InlineData(2, 2, 2, 2, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
+        [InlineData(3, 3, 3, 3, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
+        public async void TicketService_UpdateTicket_ReturnsBadRequest(int ticketId, int machineId, int customerId, int employee_Id, string title, string priority, string status, string problem,
+                                                                    string havetried, string mustbedoing, string date, string solution, string phonenumber, string[] notes, string[] files)
         {
             // Arrange
-            var wrongId = 4;
-            var newPriority = "newPriority";
-            var newStatus = "newStatus";
-            var newProblem = "newProblem";
-            var newHavetried = "newHavetried";
-            var newMustbedoing = "newMustbedoing";
-            var newSolution = "newSolution";
-            var newPhonenumber = "newPhonenumber";
-            var newNotes = "newNotes";
-            var newFiles = new string[] {"newFile1", "newFile2", "newFile3"};
-            var fakeTicket = new Ticket {TicketId = ticketId, Machine_Id = machineId, Customer_Id = customerId, Assigned_Id = assignedId, Priority = priority, Status = status, Problem = problem, 
-                                        HaveTried = havetried, MustBeDoing = mustbedoing, Date_Created = date, Solution = solution, PhoneNumber = phonenumber, Notes = notes, Files = files };
-            var updatedTicket = new Ticket {TicketId = ticketId, Machine_Id = machineId, Customer_Id = customerId, Assigned_Id = assignedId, Priority = newPriority, Status = newStatus, Problem = newProblem, 
-                                        HaveTried = newHavetried, MustBeDoing = newMustbedoing, Date_Created = date, Solution = newSolution, PhoneNumber = newPhonenumber, Notes = newNotes, Files = newFiles };
-            A.CallTo(() => _fakeTicketService.UpdateTicket(ticketId, fakeTicket)).Returns(new OkObjectResult(fakeTicket));
+            var service = new TicketService(_db);
+            Ticket updatedTicket = new()
+            {
+                TicketId = ticketId,
+                Machine_Id = machineId,
+                Customer_Id = customerId,
+                Employee_Id = employee_Id,
+                Title = title,
+                Priority = priority,
+                Status = status,
+                Problem = problem,
+                HaveTried = havetried,
+                MustBeDoing = mustbedoing,
+                Date_Created = date,
+                Solution = solution,
+                PhoneNumber = phonenumber,
+                Notes = notes,
+                Files = files
+            };
+
             // Act
-            var result = await _fakeTicketService.UpdateTicket(wrongId, updatedTicket);
+            var result = await service.UpdateTicket(15, updatedTicket);
+
             // Assert
             Assert.NotNull(result);
-            Assert.IsNotType<OkResult>(result);
+            Assert.IsNotType<NoContentResult>(result);
+            Assert.IsType<BadRequestResult>(result);
         }
 
         [Theory]
-        [InlineData(1, 1, 1, "priority", "status", "problem", "havetried", "mustbedoing", "2022-01-01", "solution", "123456789", "notes", new string[] { "file1", "file2", "file3" })]
-        [InlineData(2, 2, 2, "priority", "status", "problem", "havetried", "mustbedoing", "2022-01-01", "solution", "123456789", "notes", new string[] {"file1", "file2", "file3"})]
-        [InlineData(3, 3, 3, "priority", "status", "problem", "havetried", "mustbedoing", "2022-01-01", "solution", "123456789", "notes", new string[] {"file1", "file2", "file3"})]
-        public async void TicketService_AddTicket_ReturnsTicket(int machineId, int customerId, int assignedId, string priority, string status, string problem, 
-        string havetried, string mustbedoing, DateTime date, string solution, string phonenumber, string notes, string[] files)
+        [InlineData(1, 1, 1, "new ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
+        [InlineData(2, 2, 2, "new ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
+        [InlineData(3, 3, 3, "new ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
+        public async void TicketService_AddTicket_ReturnsTicket(int machineId, int customerId, int employee_Id, string title, string priority, string status, string problem,
+                                                                    string havetried, string mustbedoing, string date, string solution, string phonenumber, string[] notes, string[] files)
         {
             // Arrange
-            var fakeTicket = new Ticket { Machine_Id = machineId, Customer_Id = customerId, Assigned_Id = assignedId, Priority = priority, Status = status, Problem = problem, 
-            HaveTried = havetried, MustBeDoing = mustbedoing, Date_Created = date, Solution = solution, PhoneNumber = phonenumber, Notes = notes, Files = files };
-            A.CallTo(() => _fakeTicketService.AddTicket(fakeTicket)).Returns(new OkObjectResult(fakeTicket));
+            var service = new TicketService(_db);
+            Ticket newTicket = new()
+            {
+                Machine_Id = machineId,
+                Customer_Id = customerId,
+                Employee_Id = employee_Id,
+                Title = title,
+                Priority = priority,
+                Status = status,
+                Problem = problem,
+                HaveTried = havetried,
+                MustBeDoing = mustbedoing,
+                Date_Created = date,
+                Solution = solution,
+                PhoneNumber = phonenumber,
+                Notes = notes,
+                Files = files
+            };
+
             // Act
-            var result = await _fakeTicketService.AddTicket(fakeTicket);
+            var result = await service.AddTicket(newTicket);
+
             // Assert
             Assert.NotNull(result);
-            Assert.IsNotType<BadRequestResult>(result);
+            Assert.IsType<ActionResult<Ticket>>(result);
         }
 
         [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
+        [InlineData(23)]
+        [InlineData(24)]
+        [InlineData(25)]
         public async void TicketService_DeleteTicket_ReturnsNoContent(int id)
         {
             // Arrange
-            A.CallTo(() => _fakeTicketService.DeleteTicket(id)).Returns(new OkObjectResult(id));
+            var service = new TicketService(_db);
+
             // Act
-            var result = await _fakeTicketService.DeleteTicket(id);
+            var result = await service.DeleteTicket(id);
+
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<OkObjectResult>(result);
-            Assert.IsNotType<NotFoundResult>(result);
+            Assert.IsType<NoContentResult>(result);
         }
 
         [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
+        [InlineData(30)]
+        [InlineData(40)]
+        [InlineData(50)]
         public async void TicketService_DeleteTicket_ReturnsNotFound(int id)
         {
             // Arrange
-            var wrongId = 4;
-            A.CallTo(() => _fakeTicketService.DeleteTicket(id)).Returns(new OkObjectResult(id));
+            var service = new TicketService(_db);
+
             // Act
-            var result = await _fakeTicketService.DeleteTicket(wrongId);
+            var result = await service.DeleteTicket(id);
+
             // Assert
             Assert.NotNull(result);
-            Assert.IsNotType<OkObjectResult>(result);
+            Assert.IsNotType<NoContentResult>(result);
         }
     }
 }

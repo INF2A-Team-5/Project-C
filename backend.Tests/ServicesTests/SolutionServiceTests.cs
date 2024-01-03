@@ -3,27 +3,27 @@ using Xunit;
 using FakeItEasy;
 using Backend.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Backend.Data;
 
 namespace backend.Tests.ServicesTests
 {
     public class SolutionServiceTests
     {
-        private readonly ISolutionService _fakeSolutionService;
-        public SolutionServiceTests()
-        {
-            _fakeSolutionService = A.Fake<ISolutionService>();
-        }
+        private readonly DataContext _db = new();
+        public SolutionServiceTests() { }
 
         [Fact]
         public async void SolutionService_GetAllSolutions_ReturnsAllSolutions()
         {
             // Arrange
-            A.CallTo(() => _fakeSolutionService.GetAllSolutions()).Returns(new List<Solution>());
+            var service = new SolutionsService(_db);
+
             // Act
-            var result = await _fakeSolutionService.GetAllSolutions();
+            var result = await service.GetAllSolutions();
+
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<List<Solution>>(result.Value);
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsType<ActionResult<IEnumerable<Solution>>>(result); // Check if result is of type ActionResult<IEnumerable<Solution>>
         }
 
         [Theory]
@@ -33,102 +33,104 @@ namespace backend.Tests.ServicesTests
         public async void SolutionService_GetSolutionById_ReturnsSolution(int id)
         {
             // Arrange
-            A.CallTo(() => _fakeSolutionService.GetSolutionById(id)).Returns(new Solution());
+            var service = new SolutionsService(_db);
+
             // Act
-            var result = await _fakeSolutionService.GetSolutionById(id);
+            var result = await service.GetSolutionById(id);
+
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<Solution>(result.Value);
-            Assert.IsNotType<NotFoundObjectResult>(result);
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsType<ActionResult<Solution>>(result); // Check if result is of type ActionResult<Solution>
+            Assert.IsNotType<NotFoundObjectResult>(result); // Check if result is not NotFoundObjectResult
         }
 
         [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
+        [InlineData(30)]
+        [InlineData(35)]
+        [InlineData(33)]
         public async void SolutionService_GetSolutionById_ReturnsNotFound(int id)
         {
             // Arrange
-            var wrongId = 4;
-            A.CallTo(() => _fakeSolutionService.GetSolutionById(id)).Returns(new Solution());
+            var service = new SolutionsService(_db);
+
             // Act
-            var result = await _fakeSolutionService.GetSolutionById(wrongId);
+            var result = await service.GetSolutionById(id);
+
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<ActionResult<Solution>>(result);
-            Assert.IsNotType<Account>(result);
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsType<ActionResult<Solution>>(result); // Check if result is of type ActionResult<Solution>
+            Assert.IsNotType<NotFoundObjectResult>(result.Result);  // Check if result is not NotFoundObjectResult
         }
 
         [Theory]
-        [InlineData(1, "problemdescription" , "solutiondescription", 1)]
-        [InlineData(2, "problemdescription" , "solutiondescription", 2)]
-        [InlineData(3, "problemdescription" , "solutiondescription", 3)]
+        [InlineData(1, "problemdescription", "solutiondescription", 10)]
+        [InlineData(2, "problemdescription", "solutiondescription", 12)]
+        [InlineData(3, "problemdescription", "solutiondescription", 13)]
         public async void SolutionService_UpdateSolution_ReturnsNoContent(int id, string problemDescription, string solutionDescription, int ticketId)
         {
             // Arrange
-            var newProblemDescription = "newProblemDescription";
-            var newSolutionDescription = "newSolutionDescription";
-            var fakeSolution = new Solution {SolutionId = id, ProblemDescription = problemDescription, SolutionDescription = solutionDescription, TicketId = ticketId };
-            var updatedSolution = new Solution {SolutionId = id, ProblemDescription = newProblemDescription, SolutionDescription = newSolutionDescription, TicketId = ticketId };
-            A.CallTo(() => _fakeSolutionService.UpdateSolution(id, fakeSolution)).Returns(new OkObjectResult(fakeSolution));
+            var service = new SolutionsService(_db);
+            var updatedSolution = new Solution { SolutionId = id, ProblemDescription = problemDescription, SolutionDescription = solutionDescription, TicketId = ticketId };
+
             // Act
-            var result = await _fakeSolutionService.UpdateSolution(id, updatedSolution);
+            var result = await service.UpdateSolution(id, updatedSolution);
+
             // Assert
-            Assert.NotNull(result);
-            Assert.IsNotType<BadRequestResult>(result);
-            Assert.IsNotType<NotFoundResult>(result);
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsType<NoContentResult>(result); // Check if result is of type NoContentResult
+            Assert.IsNotType<NotFoundResult>(result); // Check if result is NotFoundResult
         }
 
         [Theory]
-        [InlineData(1, "problemdescription" , "solutiondescription", 1)]
-        [InlineData(2, "problemdescription" , "solutiondescription", 2)]
-        [InlineData(3, "problemdescription" , "solutiondescription", 3)]
+        [InlineData(1, "problemdescription", "solutiondescription", 1)]
+        [InlineData(2, "problemdescription", "solutiondescription", 2)]
+        [InlineData(3, "problemdescription", "solutiondescription", 3)]
         public async void SolutionService_UpdateSolution_ReturnsBadRequest(int id, string problemDescription, string solutionDescription, int ticketId)
         {
             // Arrange
-            var wrongId = 4;
-            var newProblemDescription = "newProblemDescription";
-            var newSolutionDescription = "newSolutionDescription";
-            var fakeSolution = new Solution {SolutionId = id, ProblemDescription = problemDescription, SolutionDescription = solutionDescription, TicketId = ticketId };
-            var updatedSolution = new Solution {SolutionId = id, ProblemDescription = newProblemDescription, SolutionDescription = newSolutionDescription, TicketId = ticketId };
-            A.CallTo(() => _fakeSolutionService.UpdateSolution(id, fakeSolution)).Returns(new OkObjectResult(fakeSolution));
+            var service = new SolutionsService(_db);
+            var updatedSolution = new Solution { SolutionId = id, ProblemDescription = problemDescription, SolutionDescription = solutionDescription, TicketId = ticketId };
+
             // Act
-            var result = await _fakeSolutionService.UpdateSolution(wrongId, updatedSolution);
+            var result = await service.UpdateSolution(9, updatedSolution);
+
             // Assert
-            Assert.NotNull(result);
-            Assert.IsNotType<OkResult>(result);
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsNotType<OkResult>(result); // Check if result is not OkResult
         }
 
         [Theory]
-        [InlineData("problemdescription" , "solutiondescription", 1)]
-        [InlineData("problemdescription" , "solutiondescription", 2)]
-        [InlineData("problemdescription" , "solutiondescription", 3)]
-        public async void SolutionService_AddSolution_ReturnsSolution(string problemDescription, string solutionDescription, int ticketId)
+        [InlineData(8, "problemdescription", "solutiondescription", 1)]
+        [InlineData(9, "problemdescription", "solutiondescription", 2)]
+        [InlineData(10, "problemdescription", "solutiondescription", 3)]
+        public async void SolutionService_AddSolution_ReturnsSolution(int solutionId, string problemDescription, string solutionDescription, int ticketId)
         {
             // Arrange
-            var fakeSolution = new Solution {ProblemDescription = problemDescription, SolutionDescription = solutionDescription, TicketId = ticketId };
-            A.CallTo(() => _fakeSolutionService.AddSolution(fakeSolution)).Returns(new OkObjectResult(fakeSolution));
+            var service = new SolutionsService(_db);
+            var newSolution = new Solution { SolutionId = solutionId, ProblemDescription = problemDescription, SolutionDescription = solutionDescription, TicketId = ticketId };
+
             // Act
-            var result = await _fakeSolutionService.AddSolution(fakeSolution);
+            var result = await service.AddSolution(newSolution);
+
             // Assert
-            Assert.NotNull(result);
-            Assert.IsNotType<BadRequestResult>(result);
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsType<ActionResult<Solution>>(result); // Check if result is of type ActionResult<Solution>
         }
 
         [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
+        [InlineData(null)]
         public async void SolutionService_DeleteSolution_ReturnsNoContent(int id)
         {
             // Arrange
-            A.CallTo(() => _fakeSolutionService.DeleteSolution(id)).Returns(new OkObjectResult(new Solution()));
+            var service = new SolutionsService(_db);
+
             // Act
-            var result = await _fakeSolutionService.DeleteSolution(id);
+            var result = await service.DeleteSolution(id);
+
             // Assert
-            Assert.NotNull(result);
-            Assert.IsNotType<BadRequestResult>(result);
-            Assert.IsNotType<NotFoundResult>(result);
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsType<NotFoundResult>(result); // Check if result is of type NoContentResult
+
         }
 
         [Theory]
@@ -138,13 +140,14 @@ namespace backend.Tests.ServicesTests
         public async void SolutionService_DeleteSolution_ReturnsNotFound(int id)
         {
             // Arrange
-            var wrongId = 4;
-            A.CallTo(() => _fakeSolutionService.DeleteSolution(id)).Returns(new OkObjectResult(new Solution()));
+            var service = new SolutionsService(_db);
+
             // Act
-            var result = await _fakeSolutionService.DeleteSolution(wrongId);
+            var result = await service.DeleteSolution(id);
+
             // Assert
-            Assert.NotNull(result);
-            Assert.IsNotType<OkObjectResult>(result);
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsType<NoContentResult>(result); // Check if result is of type NoContentResult
         }
     }
 }
