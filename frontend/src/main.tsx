@@ -13,6 +13,9 @@ import Machines from "./components/pages/machines";
 import Departments from "./components/pages/departments";
 import Accounts from "./components/pages/accounts";
 import Solutions from "./components/pages/solutions";
+import AssignedTickets from "./components/pages/assigned-tickets";
+import UnassignedTickets from "./components/pages/unassigned-tickets";
+import ClosedTickets from "./components/pages/closed-tickets";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +33,18 @@ const router = createBrowserRouter([
   {
     path: "tickets",
     element: <Tickets />,
+  },
+  {
+    path: "assigned-tickets",
+    element: <AssignedTickets/>,
+  },
+  {
+    path: "unassigned-tickets",
+    element: <UnassignedTickets/>,
+  },
+  {
+    path: "closed-tickets",
+    element: <ClosedTickets/>,
   },
   {
     path: "machines",
