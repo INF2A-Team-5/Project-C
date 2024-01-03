@@ -27,20 +27,38 @@ public class DataContext : DbContext
         modelBuilder.Entity<Account>().HasKey(x => x.AccountId);
 
         modelBuilder.Entity<Machine>().HasKey(x => x.MachineId);
-        modelBuilder.Entity<Machine>().HasOne(x => x.Department).WithMany().HasForeignKey(x => x.DepartmentId).IsRequired();
+        modelBuilder.Entity<Machine>()
+            .HasOne(x => x.Department)
+            .WithMany()
+            .HasForeignKey(x => x.DepartmentId)
+            .IsRequired();
 
         modelBuilder.Entity<Ticket>().HasKey(x => x.TicketId);
 
-        modelBuilder.Entity<Department>().HasMany(d => d.Employees).WithOne(e => e.Department).HasForeignKey(e => e.DepartmentId).IsRequired();
+        modelBuilder.Entity<Department>()
+            .HasMany(d => d.Employees)
+            .WithOne(e => e.Department)
+            .HasForeignKey(e => e.DepartmentId)
+            .IsRequired();
 
         modelBuilder.Entity<Solution>().HasKey(x => x.SolutionId);
 
         modelBuilder.Entity<TicketFile>().HasKey(x => x.FileId);
 
+        modelBuilder.Entity<Employee>()
+            .HasMany(e => e.Tickets)
+            .WithOne()
+            .HasForeignKey(t => t.Employee_Id)
+            .IsRequired(false);
 
-        modelBuilder.Entity<Employee>().HasMany(e => e.Tickets).WithOne().HasForeignKey(t => t.Employee_Id).IsRequired(false);
-
-        modelBuilder.Entity<Customer>().HasOne(e => e.Account).WithOne().IsRequired();
-        modelBuilder.Entity<Customer>().HasMany(c => c.Machines).WithOne(m => m.Customer).HasForeignKey(m => m.Customer_Id).IsRequired(false);
+        modelBuilder.Entity<Customer>()
+            .HasOne(e => e.Account)
+            .WithOne()
+            .IsRequired();
+        modelBuilder.Entity<Customer>()
+            .HasMany(c => c.Machines)
+            .WithOne(m => m.Customer)
+            .HasForeignKey(m => m.Customer_Id)
+            .IsRequired(false);
     }
 }
