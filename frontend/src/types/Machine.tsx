@@ -5,4 +5,5 @@ export type Machine = {
   accountId: number;
   departmentId: number;
   solution: string;
+  archived: boolean;
 };

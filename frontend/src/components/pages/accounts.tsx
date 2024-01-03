@@ -18,7 +18,7 @@ import AddAccount from "../foundations/add-account";
 import TableSkeleton from "../foundations/table-skeleton";
 
 function Accounts() {
-  const { data, isFetching } = useQuery<Account[]>("/api/accounts", {
+  const { data, isFetching } = useQuery<Account[]>(`/api/accounts/archived/${false}`, {
     onError: () => {
       toast({
         variant: "destructive",

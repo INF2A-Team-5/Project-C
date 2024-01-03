@@ -17,5 +17,5 @@ public class Ticket
     public string? PhoneNumber { get; set; }
     public string[]? Notes { get; set; }
     public string[]? Files { get; set; }
-
+    public bool Archived { get; set; } = false;
 }

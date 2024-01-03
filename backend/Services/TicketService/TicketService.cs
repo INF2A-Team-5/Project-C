@@ -36,6 +36,20 @@ namespace Backend.TicketService
             return ticket;
         }
 
+        public async Task<ActionResult<IEnumerable<Ticket>>> GetTicketsByArchived(bool archived)
+        {
+            if (_context.Tickets == null)
+            {
+                return NotFound();
+            }
+            var tickets = await _context.Tickets.Where(t => t.Archived == archived).ToListAsync();
+            if (tickets == null)
+            {
+                return NotFound();
+            }
+            return tickets;
+        }
+
         public async Task<IActionResult> UpdateTicket(int id, Ticket ticket)
         {
             if (id != ticket.TicketId)
