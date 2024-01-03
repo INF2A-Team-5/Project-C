@@ -15,11 +15,11 @@ public class DataContext : DbContext
     public DbSet<Solution> Solutions { get; set; } = null!;
     public DbSet<TicketFile> Files { get; set; } = null!;
     public DbSet<Employee> Employees { get; set; } = null!;
-    public DbSet<Customer> Customers {get; set; } =null!;
+    public DbSet<Customer> Customers { get; set; } = null!;
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
     {
-        // builder.UseNpgsql(@"Host=localhost:5432;Username=postgres;Password=123;Database=ProjectC_Database;Maximum Pool Size=200");
-        builder.UseNpgsql(@"Host=localhost:5432;Username=postgres;Password=1234;Database=ProjectC_Database;Maximum Pool Size=200;Include Error Detail=true");
+        builder.UseNpgsql(@"Host=localhost:5432;Username=postgres;Password=1234;Database=ProjectC_Database;Maximum Pool Size=200");
+        // builder.UseNpgsql(@"Host=localhost:5432;Username=postgres;Password=1234;Database=ProjectC_Database;Maximum Pool Size=200;Include Error Detail=true");
         builder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Debug);
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -30,7 +30,7 @@ public class DataContext : DbContext
         modelBuilder.Entity<Machine>().HasOne(x => x.Department).WithMany().HasForeignKey(x => x.DepartmentId).IsRequired();
 
         modelBuilder.Entity<Ticket>().HasKey(x => x.TicketId);
-        
+
         modelBuilder.Entity<Department>().HasMany(d => d.Employees).WithOne(e => e.Department).HasForeignKey(e => e.DepartmentId).IsRequired();
 
         modelBuilder.Entity<Solution>().HasKey(x => x.SolutionId);

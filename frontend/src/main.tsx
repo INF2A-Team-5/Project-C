@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./styles/globals.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
-import EditAccount from "./components/foundations/edit-account";
+import EditAccount from "./components/pages/edit-account";
 import "./translations/i18n";
 import ViewTicket from "./components/pages/view-ticket";
 import LogIn from "./components/pages/auth/log-in";
@@ -13,6 +13,7 @@ import Machines from "./components/pages/machines";
 import Departments from "./components/pages/departments";
 import Accounts from "./components/pages/accounts";
 import ViewMachine from "./components/pages/view-machine";
+import Solutions from "./components/pages/solutions";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: "accounts",
     element: <Accounts />,
+  },
+  {
+    path: "solutions",
+    element: <Solutions />,
   },
   {
     path: "create-ticket",

@@ -47,14 +47,6 @@ function DataTable<TData, TValue>({
 
   const totalPages = Math.ceil(data.length / 10);
 
-  const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage);
-  };
-
-  async function viewticket(id: number) {
-    alert(id);
-  }
-
   const table = useReactTable({
     data,
     columns,
@@ -71,48 +63,6 @@ function DataTable<TData, TValue>({
     },
   });
 
-  async function handleButtonClick(ticket: any) {
-    const user = await fetch(
-      API_BASE_URL + "/api/Accounts/" + localStorage.getItem("Id"),
-      getBaseQueryRequest(),
-    ).then((data) => data.json());
-
-    if (user.class == "Admin" || user.class == "ServiceEmployee") {
-      if (ticket.employee_Id == null || ticket.employee_Id == 0) {
-        const temp = {
-          TicketId: ticket.ticketId,
-          Machine_Id: ticket.machine_Id,
-          Customer_Id: ticket.customer_Id,
-          employee_Id: localStorage.getItem("Id"),
-          Priority: ticket.priority,
-          Status: ticket.status,
-
-          Problem: ticket.problem,
-          HaveTried: ticket.haveTried,
-          MustBeDoing: ticket.mustBeDoing,
-          Date_Created: ticket.date_Created,
-
-          Solution: ticket.solution,
-          PhoneNumber: ticket.phoneNumber,
-          Notes: ticket.notes,
-          files: ticket.files,
-        };
-
-        await fetch(
-          API_BASE_URL + "/api/Tickets/" + temp.TicketId,
-          putBaseMutateRequest(JSON.stringify(temp)),
-        );
-
-        localStorage.setItem("currentticket", ticket.ticketId.toString());
-        window.location.href = "edit-ticket";
-      } else {
-        alert("Tickets is allready assigned");
-      }
-
-      // Navigate to page were you can see ticket info
-    }
-  }
-
   let column = "";
   let columnplaceholder = "";
   if (table.getAllColumns().find((el) => el.id == "title") != undefined) {
@@ -121,12 +71,18 @@ function DataTable<TData, TValue>({
   } else if (table.getAllColumns().find((el) => el.id == "name") != undefined) {
     column = "name";
     columnplaceholder = "Name";
+  } else if (
+    table.getAllColumns().find((el) => el.id == "problemDescription") !=
+    undefined
+  ) {
+    column = "problemDescription";
+    columnplaceholder = "Problem Description";
   }
   return (
     <div className="grid gap-4">
       <div className="flex items-center">
         <Input
-          placeholder={"Search for " + column + "..."}
+          placeholder={"Search for " + columnplaceholder + "..."}
           value={(table.getColumn(column)?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn(column)?.setFilterValue(event.target.value)

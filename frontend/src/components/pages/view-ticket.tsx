@@ -30,7 +30,7 @@ import {
 } from "../ui/dialog";
 import { Toaster } from "../ui/toaster";
 import { toast } from "../ui/use-toast";
-import { Ticket } from "@/types/Ticket";
+import { Ticket } from "@/types/ticket";
 import {
   Card,
   CardContent,
@@ -62,11 +62,9 @@ function ViewTicket() {
 
   useEffect(() => {
     checkAccount();
-  }, []);
-
-  useEffect(() => {
     getTicket();
   }, []);
+
   async function getTicket() {
     let tick = await fetch(
       API_BASE_URL + "/api/tickets/" + ticketId,
@@ -131,12 +129,11 @@ function ViewTicket() {
         if (!response.ok) {
           const errorResponse = await response.text(); // Capture response content
           throw new Error(
-            `HTTP error! Status: ${
-              response.status
+            `HTTP error! Status: ${response.status
             }. Error message: ${JSON.stringify(errorResponse)}`,
           );
         }
-      } catch (error) {}
+      } catch (error) { }
     }
   }
 
@@ -244,9 +241,9 @@ function ViewTicket() {
                           | number
                           | boolean
                           | ReactElement<
-                              any,
-                              string | JSXElementConstructor<any>
-                            >
+                            any,
+                            string | JSXElementConstructor<any>
+                          >
                           | Iterable<ReactNode>
                           | ReactPortal
                           | Iterable<ReactNode>
@@ -272,7 +269,7 @@ function ViewTicket() {
           )}
           {/* Hij checkt hieronder eerst of de ticket open is, anders kan je namelijk niks meer toevoegen, dan krijg je wel de optie om hem te heropenen */}
           {currentTicket?.status === "Open" ||
-          currentTicket?.status === "In Process" ? (
+            currentTicket?.status === "In Process" ? (
             <>
               <div className="grid gap-2">
                 {!isClient && showTicketInfo ? (
