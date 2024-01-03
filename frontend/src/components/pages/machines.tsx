@@ -1,7 +1,7 @@
 import Table from "../foundations/table";
 import { Toaster } from "../ui/toaster";
 import { useQuery } from "@/lib/api";
-import { Machine } from "@/types/machine";
+import { Machine } from "@/types/Machine";
 import {
   Dialog,
   DialogContent,

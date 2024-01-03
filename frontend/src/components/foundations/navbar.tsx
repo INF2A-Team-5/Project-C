@@ -14,6 +14,7 @@ function Navbar() {
     navItems.push(
       { label: "Assigned tickets", path: ["/assigned-tickets"] },
       { label: "Unassigned tickets", path: ["/unassigned-tickets"] },
+      { label: "Closed tickets", path: ["/closed-tickets"] },
     );
   }
   navItems.push({ label: "Machines", path: ["/machines"] });
