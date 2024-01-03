@@ -66,13 +66,13 @@ public static class DBSeeding
         customer.Machines.Add(Machine10);
         customer.Machines.Add(Machine15);
         customer.Machines.Add(Machine20);
-        
+
         customer1.Machines.Add(Machine2);
         customer1.Machines.Add(Machine3);
         customer1.Machines.Add(Machine4);
         customer1.Machines.Add(Machine5);
         customer1.Machines.Add(Machine6);
-        
+
         customer2.Machines.Add(Machine8);
         customer2.Machines.Add(Machine9);
         customer2.Machines.Add(Machine11);
@@ -90,7 +90,7 @@ public static class DBSeeding
         List<Employee> employees = new() { emp1, emp2, emp3, emp4, emp5, emp6, admin };
         List<Account> accounts = new() { Client, employee1, employee2, employee3, employee4, employee5, employee6, Admin };
         List<Department> deps = new() { dep1, dep2, dep3 };
-        List<Customer> customers = new() {customer, customer1, customer2 };
+        List<Customer> customers = new() { customer, customer1, customer2 };
 
         Ticket ticket1 = new() { Machine_Id = 1, Customer_Id = 1, Title = "test", Priority = "Critical", Status = "In Process", Date_Created = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"), Problem = "test", HaveTried = "Test", MustBeDoing = "test", Solution = "Test", PhoneNumber = "0612345678" };
         Ticket ticket2 = new() { Machine_Id = 2, Customer_Id = 1, Title = "test", Priority = "Non critical", Status = "In Process", Date_Created = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"), Problem = "test", HaveTried = "Test", MustBeDoing = "test", Solution = "Test", PhoneNumber = "0612345678" };
@@ -134,6 +134,15 @@ public static class DBSeeding
         admin.Tickets.Add(ticket9);
         admin.Tickets.Add(ticket10);
 
+        Solution solution1 = new() { SolutionId = 1, ProblemDescription = "It's broken", SolutionDescription = "We fixed it", TicketId = 10 };
+        Solution solution2 = new() { SolutionId = 2, ProblemDescription = "It's broken", SolutionDescription = "We fixed it", TicketId = 12 };
+        Solution solution3 = new() { SolutionId = 3, ProblemDescription = "It's broken", SolutionDescription = "We fixed it", TicketId = 13 };
+        Solution solution4 = new() { SolutionId = 4, ProblemDescription = "It's broken", SolutionDescription = "We fixed it", TicketId = 14 };
+        Solution solution5 = new() { SolutionId = 5, ProblemDescription = "It's broken", SolutionDescription = "We fixed it", TicketId = 15 };
+        Solution solution6 = new() { SolutionId = 6, ProblemDescription = "It's broken", SolutionDescription = "We fixed it", TicketId = 16 };
+
+        List<Solution> solutions = new() { solution1, solution2, solution3, solution4, solution5, solution6 };
+
         var db = new DataContext();
         foreach (Machine machine in machines)
         {
@@ -158,6 +167,10 @@ public static class DBSeeding
         foreach (Customer cust in customers)
         {
             db.Add(cust);
+        }
+        foreach (Solution solution in solutions)
+        {
+            db.Add(solution);
         }
         db.SaveChanges();
     }

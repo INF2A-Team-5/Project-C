@@ -136,6 +136,26 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
     },
   },
   {
+    accessorKey: "employee_Id",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Employee
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
+        </Button>
+      );
+    }
+  },
+  {
     accessorKey: "status",
     header: ({ column }) => {
       return (
@@ -186,7 +206,7 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
             </DropdownMenuItem>
             {/* <DropdownMenuItem>View customer</DropdownMenuItem> */}
             {localStorage.getItem("Class") == "ServiceEmployee" ||
-            localStorage.getItem("Class") == "Admin" ? (
+              localStorage.getItem("Class") == "Admin" ? (
               <DropdownMenuItem onClick={() => Claimticket(ticket)}>
                 Claim ticket
               </DropdownMenuItem>

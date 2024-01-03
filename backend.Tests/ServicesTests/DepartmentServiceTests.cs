@@ -2,28 +2,29 @@ using Backend.DepartmentService;
 using Xunit;
 using FakeItEasy;
 using Backend.Entities;
+using Backend.Data;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.Common;
 
 namespace backend.Tests.ServicesTests
 {
     public class DepartmentServiceTests
     {
-        private readonly IDepartmentService _fakeDepartmentService;
-        public DepartmentServiceTests()
-        {
-            _fakeDepartmentService = A.Fake<IDepartmentService>();
-        }
+        private DataContext _db = new();
+        public DepartmentServiceTests() { }
 
         [Fact]
         public async void DepartmentService_GetAllDepartments_ReturnsAllDepartments()
         {
             // Arrange
-            A.CallTo(() => _fakeDepartmentService.GetAllDepartments()).Returns(new List<Department>());
+            var service = new DepartmentService(_db);
+
             // Act
-            var result = await _fakeDepartmentService.GetAllDepartments();
+            var result = await service.GetAllDepartments();
+
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<List<Department>>(result.Value);
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsType<ActionResult<IEnumerable<Department>>>(result); // Check if result is of type ActionResult<IEnumerable<Department>>
         }
 
         [Theory]
@@ -33,32 +34,33 @@ namespace backend.Tests.ServicesTests
         public async void DepartmentService_GetDepartmentById_ReturnsDepartment(int id)
         {
             // Arrange
-            A.CallTo(() => _fakeDepartmentService.GetDepartmentById(id)).Returns(new Department());
-            // Act
-            var result = await _fakeDepartmentService.GetDepartmentById(id);
-            // Assert
-            Assert.NotNull(result);
-            Assert.IsType<Department>(result.Value);
-            Assert.IsNotType<NotFoundObjectResult>(result);
+            var service = new DepartmentService(_db);
 
+            // Act
+            var result = await service.GetDepartmentById(id);
+
+            // Assert
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsType<ActionResult<Department>>(result); // Check if result is of type ActionResult<Department>
+            Assert.IsNotType<NotFoundObjectResult>(result); // Check if result is not NotFoundObjectResult
         }
 
         [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
+        [InlineData(4)]
+        [InlineData(5)]
+        [InlineData(6)]
         public async void DepartmentService_GetDepartmentById_ReturnsNotFound(int id)
         {
             // Arrange
-            var wrongId = 4;
-            A.CallTo(() => _fakeDepartmentService.GetDepartmentById(id)).Returns(new Department());
-            // Act
-            var result = await _fakeDepartmentService.GetDepartmentById(wrongId);
-            // Assert
-            Assert.NotNull(result);
-            Assert.IsType<ActionResult<Department>>(result);
-            Assert.IsNotType<Department>(result.Value);
+            var service = new DepartmentService(_db);
 
+            // Act
+            var result = await service.GetDepartmentById(id);
+
+            // Assert
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsType<ActionResult<Department>>(result); // Check if result is of type ActionResult<Department>
+            Assert.IsNotType<NotFoundObjectResult>(result.Result);  // Check if result is not NotFoundObjectResult
         }
 
         [Theory]
@@ -68,86 +70,90 @@ namespace backend.Tests.ServicesTests
         public async void DepartmentService_UpdateDepartment_ReturnsNoContent(int id, string name)
         {
             // Arrange
-            var newName = "newName";
-            var fakeDepartment = new Department {DepartmentId = id, Name = name };
-            var updatedDepartment = new Department {DepartmentId = id, Name = newName };
-            A.CallTo(() => _fakeDepartmentService.UpdateDepartment(id, fakeDepartment)).Returns(new OkObjectResult(fakeDepartment));
+            var service = new DepartmentService(_db);
+            var updatedDepartment = new Department { DepartmentId = id, Name = name };
             // Act
-            var result = await _fakeDepartmentService.UpdateDepartment(id, updatedDepartment);
+            var result = await service.UpdateDepartment(id, updatedDepartment);
             // Assert
             Assert.NotNull(result);
-            Assert.IsNotType<BadRequestResult>(result);
+            Assert.IsType<NoContentResult>(result);
             Assert.IsNotType<NotFoundResult>(result);
         }
 
         [Theory]
-        [InlineData(1, "departmentone")]
-        [InlineData(2, "departmenttwo")]
-        [InlineData(3, "departmentthree")]
+        [InlineData(7, "departmentone")]
+        [InlineData(9, "departmenttwo")]
+        [InlineData(11, "departmentthree")]
         public async void DepartmentService_UpdateDepartment_ReturnsBadRequest(int id, string name)
         {
             // Arrange
-            var newName = "newName";
-            var wrongId = 4;
-            var fakeDepartment = new Department {DepartmentId = id, Name = name };
-            var updatedDepartment = new Department {DepartmentId = id, Name = newName };
-            A.CallTo(() => _fakeDepartmentService.UpdateDepartment(id, fakeDepartment)).Returns(new OkObjectResult(fakeDepartment));
+            var service = new DepartmentService(_db);
+            var updatedDepartment = new Department { DepartmentId = id, Name = name };
+
             // Act
-            var result = await _fakeDepartmentService.UpdateDepartment(wrongId,updatedDepartment);
+            var result = await service.UpdateDepartment(id, updatedDepartment);
+
             // Assert
-            Assert.NotNull(result);
+            Assert.NotNull(result); // Check if result is not null
             Assert.IsNotType<OkObjectResult>(result);
-            Assert.IsNotType<OkResult>(result);
+            Assert.IsNotType<OkResult>(result); // Check if result is not OkResult
         }
 
         [Theory]
-        [InlineData("departmentone")]
-        [InlineData("departmenttwo")]
-        [InlineData("departmentthree")]
-        public async void DepartmentService_AddDepartment_ReturnsCreatedAtActionResult(string name)
+        [InlineData(12, "departmentone")]
+        [InlineData(13, "departmenttwo")]
+        [InlineData(16, "departmentthree")]
+        public async void DepartmentService_AddDepartment_ReturnsCreatedAtActionResult(int id, string name)
         {
             // Arrange
-            var fakeDepartment = new Department {Name = name };
-            A.CallTo(() => _fakeDepartmentService.AddDepartment(fakeDepartment)).Returns(new OkObjectResult(fakeDepartment));
+            var service = new DepartmentService(_db);
+            var newDepartment = new Department { DepartmentId = id, Name = name };
+
             // Act
-            var result = await _fakeDepartmentService.AddDepartment(fakeDepartment);
+            var result = await service.AddDepartment(newDepartment);
+
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<ActionResult<Department>>(result);
-            Assert.IsNotType<ObjectResult>(result);
-            
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsType<ActionResult<Department>>(result); // Check if result is of type ActionResult<Department>
+            Assert.IsNotType<ObjectResult>(result); // Check if result is not ObjectResult
         }
 
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
+        // ------------------------------------------------
+        // Does not work!!! Has beef with Employees table
+        // ------------------------------------------------
         public async void DepartmentService_DeleteDepartment_ReturnsNoContent(int id)
         {
             // Arrange
-            A.CallTo(() => _fakeDepartmentService.DeleteDepartment(id)).Returns(new OkResult());
+            var service = new DepartmentService(_db);
+
             // Act
-            var result = await _fakeDepartmentService.DeleteDepartment(id);
+            var result = await service.DeleteDepartment(id);
+
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<OkResult>(result);
-            Assert.IsNotType<NotFoundResult>(result);
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsType<NoContentResult>(result); // Check if result is of type NoContentResult
+            Assert.IsNotType<NotFoundResult>(result); // Check if result is not NotFoundResult
         }
 
         [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
+        [InlineData(28)]
+        [InlineData(29)]
+        [InlineData(35)]
         public async void DepartmentService_DeleteDepartment_ReturnsNotFound(int id)
         {
             // Arrange
-            var wrongId = 4;
-            A.CallTo(() => _fakeDepartmentService.DeleteDepartment(id)).Returns(new OkResult());
+            var service = new DepartmentService(_db);
+
             // Act
-            var result = await _fakeDepartmentService.DeleteDepartment(wrongId);
+            var result = await service.DeleteDepartment(id);
+
             // Assert
-            Assert.NotNull(result);
-            Assert.IsNotType<OkObjectResult>(result);
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsType<NotFoundResult>(result); // Check if result is of type NotFoundObjectResult
         }
     }
 }

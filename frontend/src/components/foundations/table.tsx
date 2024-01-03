@@ -102,9 +102,9 @@ function DataTable<TData, TValue>({
                         {header.isPlaceholder
                           ? null
                           : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext(),
-                            )}
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
                       </TableHead>
                     );
                   })}
@@ -116,14 +116,22 @@ function DataTable<TData, TValue>({
                 table.getRowModel().rows.map((row) => (
                   <TableRow data-state={row.getIsSelected() && "selected"}>
                     {row.getVisibleCells().map((cell) => (
-                      <TableCell className="max-w-sm">
-                        <div className="ml-4">
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext(),
-                          )}
-                        </div>
-                      </TableCell>
+                      cell.column.columnDef.id == "actions" || cell.renderValue() !== null ? (
+                        <TableCell className="max-w-sm">
+                          <div className="ml-4">
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext(),
+                            )}
+                          </div>
+                        </TableCell>
+                      ) : (
+                        <TableCell className="max-w-sm">
+                          <div className="ml-4 text-muted-foreground">
+                            Unknown
+                          </div>
+                        </TableCell>
+                      )
                     ))}
                   </TableRow>
                 ))

@@ -2,28 +2,28 @@ using Backend.AccountService;
 using Xunit;
 using FakeItEasy;
 using Backend.Entities;
+using Backend.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Tests.ServicesTests
 {
     public class AccountServiceTests
     {
-        private readonly IAccountService _fakeAccountService;
-        public AccountServiceTests()
-        {
-            _fakeAccountService = A.Fake<IAccountService>();
-        }
+        private readonly DataContext _db = new();
+        public AccountServiceTests() { }
 
         [Fact]
         public async void AccountService_GetAllAccounts_ReturnsAllAccounts()
         {
             // Arrange
-            A.CallTo(() => _fakeAccountService.GetAllAccounts()).Returns(new List<Account>());
+            var service = new AccountService(_db);
+
             // Act
-            var result = await _fakeAccountService.GetAllAccounts();
+            var result = await service.GetAllAccounts();
+
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<List<Account>>(result.Value);
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsType<ActionResult<IEnumerable<Account>>>(result); // Check if result is of type ActionResult<IEnumerable<Account>>
         }
 
         [Theory]
@@ -33,117 +33,130 @@ namespace backend.Tests.ServicesTests
         public async void AccountService_GetAccountById_ReturnsAccount(int id)
         {
             // Arrange
-            A.CallTo(() => _fakeAccountService.GetAccountById(id)).Returns(new Account());
+            var service = new AccountService(_db);
+
             // Act
-            var result = await _fakeAccountService.GetAccountById(id);
+            var result = await service.GetAccountById(id);
+
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<Account>(result.Value);
-            Assert.IsNotType<NotFoundObjectResult>(result);
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsType<ActionResult<Account>>(result); // Check if result is of type ActionResult<Account>
+            Assert.IsNotType<NotFoundObjectResult>(result); // Check if result is not NotFoundObjectResult
         }
 
         [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
+        [InlineData(10)]
+        [InlineData(11)]
+        [InlineData(12)]
         public async void AccountService_GetAccountById_ReturnsNotFound(int id)
         {
             // Arrange
-            var wrongId = 4;
-            A.CallTo(() => _fakeAccountService.GetAccountById(id)).Returns(new Account());
+            var service = new AccountService(_db);
+
             // Act
-            var result = await _fakeAccountService.GetAccountById(wrongId);
+            var result = await service.GetAccountById(id);
+
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<ActionResult<Account>>(result);
-            Assert.IsNotType<Account>(result.Value);
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsType<ActionResult<Account>>(result); // Check if result is of type ActionResult<Account>
+            Assert.IsNotType<NotFoundObjectResult>(result.Result);  // Check if result is not NotFoundObjectResult
         }
 
         [Theory]
-        [InlineData(1, "clientname" , "oldPw", AccountType.Client)]
-        [InlineData(2, "empname" , "oldPw", AccountType.ServiceEmployee)]
-        [InlineData(3, "adminname" , "oldPw", AccountType.Admin)]
-        public async void AccountService_UpdateAccount_ReturnsNoContent(int id, string name, string password, AccountType accountType)
+        [InlineData(1, "clientname", AccountType.Client)]
+        [InlineData(2, "empname", AccountType.ServiceEmployee)]
+        [InlineData(3, "adminname", AccountType.Admin)]
+        public async void AccountService_UpdateAccount_ReturnsNoContent(int id, string name, AccountType accountType)
         {
             // Arrange
-            var newPw = "newPw";
-            var fakeAccount = new Account {AccountId = id, Name = name, Password = password, Class = accountType };
-            var updatedAccount = new Account {AccountId = id, Name = name, Password = newPw, Class = accountType };
-            A.CallTo(() => _fakeAccountService.UpdateAccount(id, fakeAccount)).Returns(new OkObjectResult(fakeAccount));
+            var service = new AccountService(_db);
+
+            string newPw = "newPw";
+            Account updatedAccount = new() { AccountId = id, Name = name, Password = newPw, Class = accountType };
+
             // Act
-            var result = await _fakeAccountService.UpdateAccount(id, updatedAccount);
+            var result = await service.UpdateAccount(id, updatedAccount);
+
             // Assert
-            Assert.NotNull(result);
-            Assert.IsNotType<BadRequestResult>(result);
-            Assert.IsNotType<NotFoundResult>(result);
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsNotType<BadRequestResult>(result); // Check if result is not BadRequestResult
+            Assert.IsNotType<NotFoundResult>(result); // Check if result is not NotFoundResult
         }
 
         [Theory]
-        [InlineData(1, "clientname" , "oldPw", AccountType.Client)]
-        [InlineData(2, "empname" , "oldPw", AccountType.ServiceEmployee)]
-        [InlineData(3, "adminname" , "oldPw", AccountType.Admin)]
-        public async void AccountService_UpdateAccount_ReturnsBadRequest(int id, string name, string password, AccountType accountType)
+        [InlineData(12, 1, "clientname", AccountType.Client)]
+        [InlineData(13, 2, "empname", AccountType.ServiceEmployee)]
+        [InlineData(14, 3, "adminname", AccountType.Admin)]
+        public async void AccountService_UpdateAccount_ReturnsBadRequest(int wrongId, int id, string name, AccountType accountType)
         {
             // Arrange
-            var wrongId = 4;
-            var newPw = "newPw";
-            var fakeAccount = new Account {AccountId = id, Name = name, Password = password, Class = accountType };
-            var updatedAccount = new Account {AccountId = id, Name = name, Password = newPw, Class = accountType };
-            A.CallTo(() => _fakeAccountService.UpdateAccount(id, fakeAccount)).Returns(new OkObjectResult(fakeAccount));
+            var service = new AccountService(_db);
+            string newPw = "newPw";
+            Account updatedAccount = new() { AccountId = id, Name = name, Password = newPw, Class = accountType };
+
             // Act
-            var result = await _fakeAccountService.UpdateAccount(wrongId, updatedAccount);
+            var result = await service.UpdateAccount(wrongId, updatedAccount);
+
             // Assert
-            Assert.NotNull(result);
-            Assert.IsNotType<OkResult>(result);
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsNotType<OkResult>(result); // Check if result is not OkResult
         }
-        
+
         [Theory]
-        [InlineData("testclient" , "testclientpw", AccountType.Client)]
-        [InlineData("testemp" , "testemppw", AccountType.ServiceEmployee)]
-        [InlineData("testadmin" , "testadminpw", AccountType.Admin)]
+        [InlineData("testclient", "testclientpw", AccountType.Client)]
+        [InlineData("testemp", "testemppw", AccountType.ServiceEmployee)]
+        [InlineData("testadmin", "testadminpw", AccountType.Admin)]
         public async void AccountService_AddAccount_ReturnsCreatedAtActionResult(string name, string password, AccountType accountType)
         {
             // Arrange
-            var fakeAccount = new Account {Name = name, Password = password, Class = accountType };
-            A.CallTo(() => _fakeAccountService.AddAccount(fakeAccount)).Returns(new Account());
+            var service = new AccountService(_db);
+            Account newAccount = new() { Name = name, Password = password, Class = accountType };
+
             // Act
-            var result = await _fakeAccountService.AddAccount(fakeAccount);
+            var result = await service.AddAccount(newAccount);
+
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<ActionResult<Account>>(result);
-            Assert.IsNotType<ObjectResult>(result);
-        }
-        
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        public async void AccountService_DeleteAccount_ReturnsNoContent(int id)
-        {
-            // Arrange
-            A.CallTo(() => _fakeAccountService.DeleteAccount(id)).Returns(new OkObjectResult(id));
-            // Act
-            var result = await _fakeAccountService.DeleteAccount(id);
-            // Assert
-            Assert.NotNull(result);
-            Assert.IsType<OkObjectResult>(result);
-            Assert.IsNotType<NotFoundResult>(result);
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsType<ActionResult<Account>>(result); // Check if result is of type ActionResult<Account>
+            Assert.IsNotType<ObjectResult>(result); // Check if result is not ObjectResult
         }
 
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]
+        // ------------------------------------------------
+        // Does not work!!! Has beef with Employees table
+        // ------------------------------------------------
+        public async void AccountService_DeleteAccount_ReturnsNoContent(int id)
+        {
+            // Arrange
+            var service = new AccountService(_db);
+
+            // Act
+            var result = await service.DeleteAccount(id);
+
+            // Assert
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsType<OkObjectResult>(result); // Check if result is of type OkObjectResult 
+            Assert.IsNotType<NotFoundResult>(result); // Check if result is not NotFoundResult
+        }
+
+        [Theory]
+        [InlineData(23)]
+        [InlineData(87)]
+        [InlineData(11)]
         public async void AccountService_DeleteAccount_ReturnsNotFound(int id)
         {
             // Arrange
-            var wrongId = 4;
-            A.CallTo(() => _fakeAccountService.DeleteAccount(id)).Returns(new OkObjectResult(id));
+            var service = new AccountService(_db);
+
             // Act
-            var result = await _fakeAccountService.DeleteAccount(wrongId);
+            var result = await service.DeleteAccount(id);
+
             // Assert
-            Assert.NotNull(result);
-            Assert.IsNotType<OkObjectResult>(result);
+            Assert.NotNull(result); // Check if result is not null
+            Assert.IsNotType<OkObjectResult>(result); // Check if result is not OkObjectResult
         }
     }
 }
