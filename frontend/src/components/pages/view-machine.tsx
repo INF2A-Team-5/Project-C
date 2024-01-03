@@ -83,7 +83,7 @@ function ViewMachine() {
 
   return (
     <Layout>
-      <div className="mt-16 flex w-full max-w-screen flex-col">
+      {/* <div className="mt-16 flex w-full max-w-screen flex-col">
         <div className="grid gap-8">
           <div>
             <h1 className="text-3xl font-medium">The machine</h1>
@@ -121,7 +121,40 @@ function ViewMachine() {
             <div className="h-44"></div>
           </div>
         </div>
-      </div>
+      </div> */}
+      {showMachineInfo && (
+        <div>
+          <div className="px-4 sm:px-0">
+            <h3 className="text-base font-semibold leading-7 text-foreground">{machineInfo.name}</h3>
+            <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Machine information</p>
+          </div>
+          <div className="mt-6 border-t border-gray-100">
+            <dl className="divide-y divide-gray-100">
+              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt className="text-sm font-medium leading-6 text-gray-900">Description</dt>
+                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{machineInfo.description}</dd>
+              </div>
+              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt className="text-sm font-medium leading-6 text-gray-900">Customer</dt>
+                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{machineInfo.customer_Id}</dd>
+              </div>
+              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt className="text-sm font-medium leading-6 text-gray-900">Email address</dt>
+                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">margotfoster@example.com</dd>
+              </div>
+              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt className="text-sm font-medium leading-6 text-gray-900">Salary expectation</dt>
+                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">$120,000</dd>
+              </div>
+              <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                <dt className="text-sm font-medium leading-6 text-gray-900">Tickets</dt>
+                <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      )}
+
     </Layout>
   );
 

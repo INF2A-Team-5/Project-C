@@ -49,7 +49,9 @@ function ViewTicket() {
 
   const navigate = useNavigate();
   const [notes, setNotes] = useState("");
-  const [preview, setPreview] = useState<string[]>([]);
+  const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
+  const [showPicturesinfo, setShowPictures] = useState<boolean>(false);
+  const [pictures, setPictures] = useState<string[]>([]);
   const [ticketInfo, setTicketInfo] = useState<any>(null);
   const ticketId = localStorage.getItem("currentticketID");
   const [showTicketInfo, setShowTicketInfo] = useState(false);
@@ -71,6 +73,9 @@ function ViewTicket() {
       getBaseQueryRequest(),
     ).then((data) => data.json());
     setCurrentTicket(tick);
+    // setPictures(tick.files)
+    // console.log(pictures)
+
     // return currentTicket;
   }
 
@@ -94,25 +99,32 @@ function ViewTicket() {
   };
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    // const target = e.target as HTMLInputElement & {
+    //   files: FileList;
+    // }
     const fileList = e.target.files;
 
     if (fileList) {
-      const allPreviews: string[] = [];
+      const allPreviews: (string | ArrayBuffer)[] = [];
 
       for (let i = 0; i < fileList.length; i++) {
         const file = fileList[i];
 
         const reader = new FileReader();
-
-        reader.onload = (event) => {
-          const result = event.target?.result;
-
-          if (result && typeof result === "string") {
-            allPreviews.push(result); // Add strings (URLs or Base64-encoded) to previews
-            setPreview([...allPreviews]); // Set the state after adding all previews
+        reader.onload = () => {
+          const result = reader.result;
+          if (result) {
+            allPreviews.push(result);
+            // console.log(allPreviews);
+            // You may want to set a state or perform other actions with 'result' here
+            if (preview.length != null) {
+              preview.forEach(function (item) {
+                allPreviews.push(item);
+              });
+            }
+            setPreview(allPreviews);
           }
         };
-
         reader.readAsDataURL(file);
       }
     }
@@ -141,6 +153,19 @@ function ViewTicket() {
     if (currentTicket) {
       setShowTicketInfo(true);
       setTicketInfo(currentTicket);
+    }
+  }
+
+  async function showPictures() {
+    if (currentTicket) {
+      if (showPicturesinfo == true) {
+        setShowPictures(false);
+      }
+      else {
+        setShowPictures(true)
+        setPictures(currentTicket.files)
+      }
+
     }
   }
 
@@ -195,12 +220,15 @@ function ViewTicket() {
 
   async function handleSubmit() {
     if (currentTicket) {
+      const filteredPreview: string[] = preview
+        .filter((item) => typeof item === 'string')
+        .map((item) => item as string);
       currentTicket.notes = currentTicket.notes
         ? [...currentTicket.notes, notes]
         : [notes];
       currentTicket.files = currentTicket.files
-        ? [...currentTicket.files, ...preview]
-        : [...preview];
+        ? [...currentTicket.files, ...filteredPreview]
+        : [...filteredPreview];
       sendTicket(currentTicket);
       alert("Ticket updated");
       navigate(-1);
@@ -219,59 +247,79 @@ function ViewTicket() {
 
           {showTicketInfo && (
             <div>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Title: {ticketInfo.title}</CardTitle>
-                  {"ID: " + ticketInfo.ticketId}
-                </CardHeader>
-
-                <CardContent>
-                  <h1>What is the problem?</h1>
-                  <p className="XL">{ticketInfo.problem}</p>
-                  <h1>What have you tried?</h1>
-                  <p className="XL">{ticketInfo.haveTried}</p>
-                  <h1>What should it be doing?</h1>
-                  <p className="XL">{ticketInfo.mustBeDoing}</p>
-                  <h1>Notes:</h1>
-                  {ticketInfo.notes &&
-                    ticketInfo.notes.map(
-                      (
-                        note:
-                          | string
-                          | number
-                          | boolean
-                          | ReactElement<
-                            any,
-                            string | JSXElementConstructor<any>
-                          >
-                          | Iterable<ReactNode>
-                          | ReactPortal
-                          | Iterable<ReactNode>
-                          | null
-                          | undefined,
-                        index: Key | null | undefined,
-                      ) => (
-                        <p key={index} className="XL">
-                          {note}
-                        </p>
-                      ),
+              <div className="px-4 sm:px-0">
+                <p className="text-xl text-base font-semibold leading-7 text-foreground">{ticketInfo.title}</p>
+                <p className="mt-1 max-w-2xl text-md leading-6 text-foreground">ID: {ticketInfo.ticketId}</p>
+              </div>
+              <div className="mt-6 border-t border-gray-100">
+                <dl className="divide-y divide-gray-100">
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-2 sm:gap-2 sm:px-0">
+                    <dt className="text-lg font-medium leading-6 text-foreground">What is the problem?</dt>
+                    <dd className="mt-1 text-md leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.problem}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-2 sm:gap-2 sm:px-0">
+                    <dt className="text-lg font-medium leading-6 text-foreground">What have you tried?</dt>
+                    <dd className="mt-1 text-md leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.haveTried}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-2 sm:gap-2 sm:px-0">
+                    <dt className="text-lg font-medium leading-6 text-foreground">What should it be doing?</dt>
+                    <dd className="mt-1 text-md leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.mustBeDoing}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-2 sm:gap-2 sm:px-0">
+                    <dt className="text-lg font-medium leading-6 text-foreground">Contact</dt>
+                    <dd className="mt-1 text-md leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.phoneNumber}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-2 sm:gap-2 sm:px-0">
+                    <dt className="text-lg font-medium leading-6 text-foreground">Notes</dt>
+                    <dd className="mt-1 text-md leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.notes &&
+                      ticketInfo.notes.map(
+                        (
+                          note:
+                            | string
+                            | number
+                            | boolean
+                            | ReactElement<
+                              any,
+                              string | JSXElementConstructor<any>
+                            >
+                            | Iterable<ReactNode>
+                            | ReactPortal
+                            | Iterable<ReactNode>
+                            | null
+                            | undefined,
+                          index: Key | null | undefined,
+                        ) => (
+                          <p key={index} className="XL">
+                            {note}
+                          </p>
+                        ),
+                      )}</dd>
+                  </div>
+                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <Button onClick={showPictures}>Show pictures</Button>
+                    {showPicturesinfo && (
+                      <div className="">
+                        {pictures.map((previewItem, index) => (
+                          <div key={index} className="m-4 flex items-center">
+                            <img
+                              src={previewItem as string}
+                              alt={`Preview ${index}`}
+                              style={{ maxWidth: "500px", maxHeight: "400px" }}
+                            />
+                          </div>
+                        ))}
+                      </div>
                     )}
-                </CardContent>
-                <CardFooter>
-                  <h1>
-                    <b>Contact: </b>
-                  </h1>
-                  <p>{ticketInfo.phoneNumber}</p>
-                </CardFooter>
-              </Card>
-              <CardDescription>Ticketinformation</CardDescription>
+                  </div>
+                </dl>
+              </div>
             </div>
           )}
           {/* Hij checkt hieronder eerst of de ticket open is, anders kan je namelijk niks meer toevoegen, dan krijg je wel de optie om hem te heropenen */}
           {currentTicket?.status === "Open" ||
             currentTicket?.status === "In Process" ? (
             <>
-              <div className="grid gap-2">
+              <div className="grid gap-2 flex-grid.">
                 {!isClient && showTicketInfo ? (
                   <>
                     <h1>
@@ -434,7 +482,7 @@ function ViewTicket() {
           )}
         </div>
       </div>
-    </Layout>
+    </Layout >
   );
 }
 
