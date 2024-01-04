@@ -163,9 +163,10 @@ function ViewTicket() {
       }
       else {
         setShowPictures(true)
-        setPictures(currentTicket.files)
+        if (currentTicket.files.length != 0) {
+          setPictures(currentTicket.files)
+        }
       }
-
     }
   }
 
@@ -240,38 +241,34 @@ function ViewTicket() {
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col">
         <div className="grid gap-8">
-          <div>
-            <h1 className="text-3xl font-medium">Your ticket</h1>
-            <Label>View and edit ticket</Label>
-          </div>
 
           {showTicketInfo && (
             <div>
               <div className="px-4 sm:px-0">
-                <p className="text-xl text-base font-semibold leading-7 text-foreground">{ticketInfo.title}</p>
-                <p className="mt-1 max-w-2xl text-md leading-6 text-foreground">ID: {ticketInfo.ticketId}</p>
+                <p className="text-3xl font-medium">{ticketInfo.title}</p>
+                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">ID: {ticketInfo.ticketId}</p>
               </div>
               <div className="mt-6 border-t border-gray-100">
                 <dl className="divide-y divide-gray-100">
                   <div className="px-4 py-6 sm:grid sm:grid-cols-2 sm:gap-2 sm:px-0">
-                    <dt className="text-lg font-medium leading-6 text-foreground">What is the problem?</dt>
-                    <dd className="mt-1 text-md leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.problem}</dd>
+                    <p className="text-xl font-medium leading-6 text-foreground">What is the problem?</p>
+                    <p className="mt-1 text-lg leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.problem}</p>
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-2 sm:gap-2 sm:px-0">
-                    <dt className="text-lg font-medium leading-6 text-foreground">What have you tried?</dt>
-                    <dd className="mt-1 text-md leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.haveTried}</dd>
+                    <p className="text-xl font-medium leading-6 text-foreground">What have you tried?</p>
+                    <p className="mt-1 text-lg leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.haveTried}</p>
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-2 sm:gap-2 sm:px-0">
-                    <dt className="text-lg font-medium leading-6 text-foreground">What should it be doing?</dt>
-                    <dd className="mt-1 text-md leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.mustBeDoing}</dd>
+                    <p className="text-xl font-medium leading-6 text-foreground">What should it be doing?</p>
+                    <p className="mt-1 text-lg leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.mustBeDoing}</p>
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-2 sm:gap-2 sm:px-0">
-                    <dt className="text-lg font-medium leading-6 text-foreground">Contact</dt>
-                    <dd className="mt-1 text-md leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.phoneNumber}</dd>
+                    <p className="text-xl font-medium leading-6 text-foreground">Contact</p>
+                    <p className="mt-1 text-lg leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.phoneNumber}</p>
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-2 sm:gap-2 sm:px-0">
-                    <dt className="text-lg font-medium leading-6 text-foreground">Notes</dt>
-                    <dd className="mt-1 text-md leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.notes &&
+                    <p className="text-xl font-medium leading-6 text-foreground">Notes</p>
+                    <p className="mt-1 text-lg leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.notes &&
                       ticketInfo.notes.map(
                         (
                           note:
@@ -293,23 +290,30 @@ function ViewTicket() {
                             {note}
                           </p>
                         ),
-                      )}</dd>
+                      )}</p>
                   </div>
                   <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <Button onClick={showPictures}>Show pictures</Button>
-                    {showPicturesinfo && (
-                      <div className="">
-                        {pictures.map((previewItem, index) => (
-                          <div key={index} className="m-4 flex items-center">
-                            <img
-                              src={previewItem as string}
-                              alt={`Preview ${index}`}
-                              style={{ maxWidth: "500px", maxHeight: "400px" }}
-                            />
+                    {showPicturesinfo ? (
+                      <div className="sm:col-span-3">
+                        {pictures.length > 0 ? (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            {pictures.map((previewItem, index) => (
+                              <div key={index} className="m-4 flex items-center">
+                                <img
+                                  src={previewItem as string}
+                                  alt={`Preview ${index}`}
+                                  style={{ maxWidth: "500px", maxHeight: "400px" }}
+                                />
+                              </div>
+                            ))}
                           </div>
-                        ))}
+                        ) : (
+                          <p className="mt-1 text-lg leading-6 text-foreground sm:col-span-2 sm:mt-0">There are no pictures added to this ticket</p>
+                          // <p>There are no pictures added to this ticket</p>
+                        )}
                       </div>
-                    )}
+                    ) : null}
                   </div>
                 </dl>
               </div>
@@ -319,13 +323,13 @@ function ViewTicket() {
           {currentTicket?.status === "Open" ||
             currentTicket?.status === "In Process" ? (
             <>
-              <div className="grid gap-2 flex-grid.">
+              <div className="">
                 {!isClient && showTicketInfo ? (
                   <>
-                    <h1>
-                      <b>Priority at the moment:</b>
-                    </h1>
-                    {ticketInfo.priority}
+
+                    <p className="mt-1 text-lg leading-6 text-bold sm:col-span-2 sm:mt-0 font-bold">Priority at the moment</p>
+                    <p className="mt-1 text-md leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.priority}</p>
+
                     <Button
                       className="w-fit"
                       variant="default"
@@ -377,6 +381,8 @@ function ViewTicket() {
                   </DialogContent>
                 </Dialog>
                 <Toaster />
+              </div>
+              <div>
                 <h2 className="text-lg font-medium">Add notes</h2>
                 <Textarea
                   placeholder="Still does not work because..."
@@ -387,9 +393,10 @@ function ViewTicket() {
                   ticket with
                 </TextareaHint>
               </div>
+
               <div className="grid gap-2">
                 <div className="">
-                  <Label>{t("ticket.files")}</Label>
+                  <h2 className="text-lg font-medium">{t("ticket.files")}</h2>
                   <Input
                     className="w-2/6"
                     name="image"
