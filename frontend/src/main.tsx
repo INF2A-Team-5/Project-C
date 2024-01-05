@@ -14,6 +14,7 @@ import Departments from "./components/pages/departments";
 import Accounts from "./components/pages/accounts";
 import ViewMachine from "./components/pages/view-machine";
 import Solutions from "./components/pages/solutions";
+import ViewAccount from "./components/pages/view-account";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
   {
     path: "view-machine",
     element: <ViewMachine />,
+  },
+  {
+    path: "view-account",
+    element: <ViewAccount />,
   },
   {
     path: "edit-account",

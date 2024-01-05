@@ -298,13 +298,13 @@ export const machineColumns: ColumnDef<Machine>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-            onClick={() => {
-              localStorage.setItem(
-                "currentmachineID",
-                machine.machineId.toString(),
-              );
-              navigate(`/view-machine`);
-            }}
+              onClick={() => {
+                localStorage.setItem(
+                  "currentmachineID",
+                  machine.machineId.toString(),
+                );
+                navigate(`/view-machine`);
+              }}
             >
               View machine
             </DropdownMenuItem>
@@ -402,13 +402,13 @@ export const accountColumns: ColumnDef<Account>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-            //   onClick={() => {
-            //     localStorage.setItem(
-            //       "currentticketID",
-            //       account.accountId.toString(),
-            //     );
-            //     navigate(`/view-ticket`);
-            //   }}
+              onClick={() => {
+                localStorage.setItem(
+                  "currentaccountID",
+                  account.accountId.toString(),
+                );
+                navigate(`/view-account`);
+              }}
             >
               View account
             </DropdownMenuItem>

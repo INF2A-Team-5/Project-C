@@ -19,16 +19,6 @@ import {
   putBaseMutateRequest,
   useQuery,
 } from "@/lib/api";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
 import { Toaster } from "../ui/toaster";
 import { toast } from "../ui/use-toast";
 import Layout from "../layout";
@@ -97,10 +87,6 @@ function ViewMachine() {
                   <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
                     <p className="text-xl font-medium leading-6 text-foreground">Customer</p>
                     <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{currentMachine.customer_Id}</p>
-                  </div>
-                  <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
-                    <p className="text-xl font-medium leading-6 text-foreground">Email address</p>
-                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">margotfoster@example.com</p>
                   </div>
                   <div className="px-4 py-6  grid-cols-2 gap-2 px-0">
                     <p className="text-xl font-medium leading-6 text-foreground">Solutions of this machines</p>
