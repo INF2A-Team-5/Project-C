@@ -64,6 +64,7 @@ namespace backend.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ProblemDescription = table.Column<string>(type: "text", nullable: false),
                     SolutionDescription = table.Column<string>(type: "text", nullable: false),
+                    MachineId = table.Column<int>(type: "integer", nullable: false),
                     TicketId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>

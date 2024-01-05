@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace backend.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240103205241_m1")]
+    [Migration("20240105135452_m1")]
     partial class m1
     {
         /// <inheritdoc />
@@ -152,6 +152,9 @@ namespace backend.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SolutionId"));
+
+                    b.Property<int>("MachineId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("ProblemDescription")
                         .IsRequired()

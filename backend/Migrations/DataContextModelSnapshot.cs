@@ -150,6 +150,9 @@ namespace backend.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SolutionId"));
 
+                    b.Property<int>("MachineId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("ProblemDescription")
                         .IsRequired()
                         .HasColumnType("text");

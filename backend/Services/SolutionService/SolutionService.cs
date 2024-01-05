@@ -36,6 +36,19 @@ namespace Backend.SolutionService
             return solution;
         }
 
+        public async Task<ActionResult<IEnumerable<Solution>>> GetSolutionsBymachineId(int id)
+        {
+            if (_context.Solutions == null)
+            {
+                return NotFound();
+            }
+            var solution = await _context.Solutions.Where(solution => solution.MachineId == id).ToListAsync();
+            if (solution == null)
+            {
+                return NotFound();
+            }
+            return solution;
+        }
         public async Task<IActionResult> UpdateSolution(int id, Solution solution)
         {
             if (id != solution.SolutionId)

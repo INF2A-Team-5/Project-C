@@ -16,6 +16,7 @@ import { Label } from "../ui/label";
 import {
   API_BASE_URL,
   getBaseQueryRequest,
+  postBaseMutateRequest,
   putBaseMutateRequest,
 } from "@/lib/api";
 import {
@@ -30,15 +31,8 @@ import {
 } from "../ui/dialog";
 import { Toaster } from "../ui/toaster";
 import { toast } from "../ui/use-toast";
-import { Ticket } from "@/types/ticket";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
+import { Ticket } from "@/types/Ticket";
+import { Solution } from "@/types/solution";
 import Layout from "../layout";
 
 function ViewTicket() {
@@ -58,9 +52,7 @@ function ViewTicket() {
   const [isClient, setIsClient] = useState<boolean>(false);
   const [solution, setSolution] = useState("");
   const [reopen, setReopen] = useState("");
-  const [currentTicket, setCurrentTicket] = useState<Ticket | undefined>(
-    undefined,
-  );
+  const [currentTicket, setCurrentTicket] = useState<any>();
 
   useEffect(() => {
     checkAccount();
@@ -68,15 +60,11 @@ function ViewTicket() {
   }, []);
 
   async function getTicket() {
-    let tick = await fetch(
+    let tick: Ticket = await fetch(
       API_BASE_URL + "/api/tickets/" + ticketId,
       getBaseQueryRequest(),
     ).then((data) => data.json());
     setCurrentTicket(tick);
-    // setPictures(tick.files)
-    // console.log(pictures)
-
-    // return currentTicket;
   }
 
   useEffect(() => {
@@ -207,6 +195,24 @@ function ViewTicket() {
       if (solution.length != 0) {
         currentTicket.status = "Closed";
         currentTicket.solution = solution;
+        console.log(currentTicket)
+        var newSolution = {
+          problemDescription: currentTicket.problem,
+          solutionDescription: solution,
+          machineId: currentTicket.machine_Id,
+          ticketId: currentTicket.ticketId
+        }
+        console.log(newSolution)
+        await fetch(
+          API_BASE_URL + "/api/Solutions",
+          postBaseMutateRequest(JSON.stringify(newSolution)),
+        );
+        toast({
+          variant: "default",
+          title: "Succes!",
+          description: t("ticket.submitalert"),
+        });
+
         sendTicket(currentTicket);
       } else {
         toast({
@@ -244,31 +250,32 @@ function ViewTicket() {
 
           {showTicketInfo && (
             <div>
-              <div className="px-4 sm:px-0">
+              <div className="px-4 px-0">
                 <p className="text-3xl font-medium">{ticketInfo.title}</p>
                 <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">ID: {ticketInfo.ticketId}</p>
+                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">Machine ID: {ticketInfo.machine_Id}</p>
               </div>
               <div className="mt-6 border-t border-gray-100">
                 <dl className="divide-y divide-gray-100">
-                  <div className="px-4 py-6 sm:grid sm:grid-cols-2 sm:gap-2 sm:px-0">
+                  <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
                     <p className="text-xl font-medium leading-6 text-foreground">What is the problem?</p>
-                    <p className="mt-1 text-lg leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.problem}</p>
+                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{ticketInfo.problem}</p>
                   </div>
-                  <div className="px-4 py-6 sm:grid sm:grid-cols-2 sm:gap-2 sm:px-0">
+                  <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
                     <p className="text-xl font-medium leading-6 text-foreground">What have you tried?</p>
                     <p className="mt-1 text-lg leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.haveTried}</p>
                   </div>
-                  <div className="px-4 py-6 sm:grid sm:grid-cols-2 sm:gap-2 sm:px-0">
+                  <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
                     <p className="text-xl font-medium leading-6 text-foreground">What should it be doing?</p>
-                    <p className="mt-1 text-lg leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.mustBeDoing}</p>
+                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{ticketInfo.mustBeDoing}</p>
                   </div>
-                  <div className="px-4 py-6 sm:grid sm:grid-cols-2 sm:gap-2 sm:px-0">
+                  <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
                     <p className="text-xl font-medium leading-6 text-foreground">Contact</p>
-                    <p className="mt-1 text-lg leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.phoneNumber}</p>
+                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{ticketInfo.phoneNumber}</p>
                   </div>
-                  <div className="px-4 py-6 sm:grid sm:grid-cols-2 sm:gap-2 sm:px-0">
+                  <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
                     <p className="text-xl font-medium leading-6 text-foreground">Notes</p>
-                    <p className="mt-1 text-lg leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.notes &&
+                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{ticketInfo.notes &&
                       ticketInfo.notes.map(
                         (
                           note:
@@ -292,12 +299,12 @@ function ViewTicket() {
                         ),
                       )}</p>
                   </div>
-                  <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                  <div className="px-4 py-6 grid grid-cols-3 gap-4 px-0">
                     <Button onClick={showPictures}>Show pictures</Button>
                     {showPicturesinfo ? (
                       <div className="sm:col-span-3">
                         {pictures.length > 0 ? (
-                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                          <div className="grid grid-cols-1 grid-cols-2 grid-cols-3 gap-4">
                             {pictures.map((previewItem, index) => (
                               <div key={index} className="m-4 flex items-center">
                                 <img
