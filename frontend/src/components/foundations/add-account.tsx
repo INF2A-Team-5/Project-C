@@ -17,8 +17,8 @@ import {
   postBaseMutateRequest,
   useQuery,
 } from "@/lib/api";
-import { Department } from "@/types/department";
-import { Account } from "@/types/account";
+import { Department } from "@/types/Department";
+import { Account } from "@/types/Account";
 import {
   Command,
   CommandEmpty,
@@ -31,7 +31,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { CaretDownIcon, CheckIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
 import React from "react";
 import { DialogClose, DialogFooter } from "../ui/dialog";
@@ -224,7 +224,7 @@ function AddAccount() {
                     (dep: Department) => dep.name.toLowerCase() == department,
                   )?.name
                 : "Select department..."}
-              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              <CaretDownIcon className="ml-2 h-5 w-5 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-[200px] p-0">
@@ -243,7 +243,7 @@ function AddAccount() {
                       setOpen(false);
                     }}
                   >
-                    <Check
+                    <CheckIcon
                       className={cn(
                         "mr-2 h-4 w-4",
                         department === dep.name ? "opacity-100" : "opacity-0",

@@ -95,7 +95,7 @@ namespace Backend.TicketService
                 return NotFound("No data found in db");
             }
             int departmentId = await (from employees in _context.Employees where employees.AccountId == AccountId select employees.DepartmentId).FirstOrDefaultAsync();
-            var tickets = await (from ticket in _context.Tickets from machine in _context.Machines where ticket.Machine_Id == machine.MachineId && machine.DepartmentId == departmentId select ticket).ToListAsync();
+            var tickets = await (from ticket in _context.Tickets from machinemodel in _context.Models where ticket.Machine_Id == machinemodel.ModelId && machinemodel.DepartmentId == departmentId select ticket).ToListAsync();
 
             if (tickets == null || tickets.Count == 0)
             {

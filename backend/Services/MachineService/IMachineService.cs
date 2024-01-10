@@ -8,9 +8,8 @@ namespace Backend.MachineService
     {
         Task<ActionResult<IEnumerable<Machine>>> GetAllMachines();
         Task<ActionResult<Machine>> GetMachineById(int id);
-        Task<ActionResult<IEnumerable<Machine>>> GetMachinePerAccountId(int id);
-        Task<IActionResult> UpdateMachine(int id, Machine machine);
-        Task<ActionResult<Machine>> AddMachine(MachineDto machine);
+        Task<ActionResult<IEnumerable<MachineInfoDto>>> GetMachinePerAccountId(int id);
+        Task<ActionResult<Machine>> AddMachine(MachineModelToCustomerDto machine);
         Task<IActionResult> DeleteMachine(int id);
     }
 }

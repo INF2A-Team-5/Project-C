@@ -36,58 +36,39 @@ namespace Backend.MachineService
             }
             return machine;
         }
-        
-        public async Task<ActionResult<IEnumerable<Machine>>> GetMachinePerAccountId(int id)
-        {
-            if (_context.Machines == null)
-            {
-                return NotFound("No machines in db");
-            }
-            var machine = await _context.Machines.Where(machine => machine.Customer_Id == id).ToListAsync();
 
-            if (machine == null)
+        public async Task<ActionResult<IEnumerable<MachineInfoDto>>> GetMachinePerAccountId(int id)
+        {
+            if (_context.Machines == null || _context.Models == null || _context.Accounts == null || _context.Customers == null)
+            {
+                return NotFound("Insufficient data in db");
+            }
+            List<MachineInfoDto> details = new();
+            var machines = await _context.Machines.Where(machine => machine.Customer_Id == id).ToListAsync();
+            foreach (var machine in machines)
+            {
+                var model = _context.Models.Where(x => x.ModelId == machine.ModelId).FirstOrDefault();
+                if (model == null)
+                {
+                    return NotFound("No model found");
+                }
+                details.Add(new MachineInfoDto() { Customer_Id = id, DepartmentId = model.DepartmentId, Description = model.Description, MachineId = machine.MachineId, ModelId = machine.ModelId, Name = model.Name });
+            }
+            if (machines == null)
             {
                 return NotFound("No machines under this ID");
             }
-            return machine;
+            return details;
         }
 
-        public async Task<IActionResult> UpdateMachine(int id, Machine machine)
+        public async Task<ActionResult<Machine>> AddMachine(MachineModelToCustomerDto machine)
         {
-            if (id != machine.MachineId)
-            {
-                return BadRequest();
-            }
-            _context.Entry(machine).State = EntityState.Modified;
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!MachineExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return NoContent();
-        }
-
-        public async Task<ActionResult<Machine>> AddMachine(MachineDto machine)
-        {
-            if (_context.Machines == null)
+            if (_context.Models == null)
             {
                 return Problem("Entity set 'DataContext.Machines'  is null.");
             }
-            var department = await (from departments in _context.Departments where departments.DepartmentId == machine.DepartmentId select departments).FirstOrDefaultAsync();
-            Machine newMachine = new() { Department = department, Description = machine.Description, Name = machine.Name };
-            _context.Machines.Add(newMachine);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetMachineById), new { id = newMachine.MachineId }, newMachine);
+
+            return Ok();
         }
 
         public async Task<IActionResult> DeleteMachine(int id)

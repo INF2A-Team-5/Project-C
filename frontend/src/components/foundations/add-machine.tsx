@@ -18,11 +18,12 @@ import {
   CommandInput,
   CommandItem,
 } from "@/components/ui/command";
-import { Check, ChevronsUpDown } from "lucide-react";
+
 import { cn } from "@/lib/utils";
-import { Department } from "@/types/department";
-import { Machine } from "@/types/machine";
+import { Department } from "@/types/Department";
+import { Machine } from "@/types/Machine";
 import { DialogClose, DialogFooter } from "../ui/dialog";
+import { CaretDownIcon, CheckIcon } from "@radix-ui/react-icons";
 
 function AddMachine() {
   const [name, setName] = useState("");
@@ -139,7 +140,7 @@ function AddMachine() {
                   )?.name
                 : "Select department..."
               : null}
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <CaretDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
@@ -159,7 +160,7 @@ function AddMachine() {
                         setOpen(false);
                       }}
                     >
-                      <Check
+                      <CheckIcon
                         className={cn(
                           "mr-2 h-4 w-4",
                           department === dep.name ? "opacity-100" : "opacity-0",
