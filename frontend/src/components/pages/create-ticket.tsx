@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Machine } from "@/types/machine";
+import { Machine } from "@/types/Machine";
 import Layout from "../layout";
 
 function CreateTickets() {
@@ -48,6 +48,39 @@ function CreateTickets() {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const navigate = useNavigate();
+
+  const [userPhoneNumber, setUserPhoneNumber] = useState("");
+
+  useEffect(() => {
+    async function fetchPhoneStatus() {
+      const phoneStatus = await hasPhoneConnected();
+      setUserPhoneNumber(phoneStatus);
+      setPhoneNumber(phoneStatus);
+    }
+
+    fetchPhoneStatus();
+
+    return () => {
+      // cleanup
+    };
+  }, []);
+
+  async function hasPhoneConnected(): Promise<string> {
+    let currentaccount = await fetch(
+      API_BASE_URL + "/api/accounts/",
+      getBaseQueryRequest(),
+    )
+      .then((data) => data.json())
+      .then((accounts) =>
+        accounts.find(
+          (acc: any) => acc.accountId == localStorage.getItem("Id"),
+        ),
+      );
+
+    return currentaccount.phoneNumber;
+  }
+
+  //switch (userPhoneNum) {case null: userPhoneNum = ""; break; default: break;}
 
   const handleCheckbox = () => {
     setChecked(!isChecked);
@@ -308,15 +341,34 @@ function CreateTickets() {
           </div>
 
           <div>
-            <div className="mx-auto flex items-center space-x-2">
-              <Checkbox id="" onClick={handleCheckbox} />
-              <label
-                htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                {t("ticket.phonenum")}
-              </label>
+
+            {Boolean(userPhoneNumber) ? (
+              <div className="mx-auto flex flex-col items-start space-y-2">
+              <Label>{t("ticket.currentphonenum")}</Label>
+              <Label>{userPhoneNumber}</Label>
+              <div className="w-full">
+                <Checkbox id="" onClick={handleCheckbox} />
+                <label
+                  htmlFor="terms"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  {t("ticket.phonenum")}
+                </label>
+              </div>
             </div>
+            ) : 
+              <>
+                <div>
+                  <Label>{t("ticket.phonenumwithstar")}</Label>
+                </div>
+                <div className="pt-2">
+                  <Input
+                    placeholder={t("ticket.place4")}
+                    onChange={(e) => setPhoneNumber(e.currentTarget.value)}
+                  />
+                </div>
+              </>
+            }
             {isChecked ? (
               <>
                 <div className="pt-2">
