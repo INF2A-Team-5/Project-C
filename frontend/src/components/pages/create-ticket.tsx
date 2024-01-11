@@ -43,21 +43,22 @@ function CreateTickets() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [machines, setMachines] = useState<Machine[]>([]);
   const [customers, setCustomers] = useState<Account[]>([]);
-  const [account, setAccount] = useState("");
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
   const [isChecked, setChecked] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
-  const [value1, setValue1] = useState("");
+  const [CustomerID, setCustomerID] = useState("");
   const [value2, setValue2] = useState("");
   const [isClient, setIsClient] = useState<boolean>(false);
-  const [customerID, setCustomerID] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     checkAccount();
+    getCustomers();
+    getMachines();
   }, []);
+
 
   const handleCheckbox = () => {
     setChecked(!isChecked);
@@ -66,6 +67,9 @@ function CreateTickets() {
   const checkAccount = () => {
     const accountClass = localStorage.getItem("Class");
     setIsClient(accountClass == "Client");
+    if (isClient) {
+      setCustomerID(localStorage.getItem("Id")!);
+    }
   };
 
   const { t, i18n } = useTranslation();
@@ -79,28 +83,34 @@ function CreateTickets() {
     setPreview(updatedPreview);
   };
 
-  if (machines.length == 0) {
-    getData();
-  }
+  // if (machines.length == 0 && CustomerID != null) {
+  //   getMachines();
+  // }
 
-  async function getData() {
-    let machinelist = await fetch(
-      API_BASE_URL +
-      "/GetMachinesPerAccount?accountId=" +
-      localStorage.getItem("Id"),
-      getBaseQueryRequest(),
-    ).then((data) => data.json());
 
+  async function getCustomers() {
     let customerlist = await fetch(
       API_BASE_URL +
-      "/GetAccountsByClass?accountType=Client",
+      "/api/Accounts/GetAccountsByClass?classname=Client",
       getBaseQueryRequest(),
     ).then((data) => data.json());
 
     console.log(customerlist);
-    setAccount(localStorage.getItem("Id")!);
-    setMachines(machinelist);
     setCustomers(customerlist);
+  }
+
+  async function getMachines() {
+    if (CustomerID) {
+      let machinelist = await fetch(
+        API_BASE_URL +
+        "/GetMachinesPerAccount?accountId=" +
+        CustomerID,
+        getBaseQueryRequest(),
+      ).then((data) => data.json());
+      console.log(machinelist);
+      setMachines(machinelist);
+    }
+
   }
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -173,7 +183,7 @@ function CreateTickets() {
       } else {
         var currentTicket = {
           Machine_Id: machine?.machineId,
-          Customer_Id: account,
+          Customer_Id: CustomerID,
           Title: title,
           Priority: "Not Set",
           Status: "Open",
@@ -246,10 +256,10 @@ function CreateTickets() {
                         aria-expanded={open1}
                         className="w-[200px] justify-between"
                       >
-                        {value1
+                        {CustomerID
                           ? customers.find(
-                            (account: any) => account.accountId == value1,
-                          )?.name
+                            (account: any) => account.accountId == CustomerID,
+                          )?.accountId
                           : "Select customer..."}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
@@ -262,10 +272,10 @@ function CreateTickets() {
                           {customers.map((customer) => (
                             <CommandItem
                               key={customer.accountId}
-                              value={customer.name}
+                              value={customer.accountId.toString()}
                               onSelect={(currentValue) => {
-                                setValue1(
-                                  currentValue === value1 ? "" : currentValue
+                                setCustomerID(
+                                  currentValue === CustomerID ? "" : currentValue
                                 );
                                 setOpen1(false);
                               }}
@@ -273,7 +283,7 @@ function CreateTickets() {
                               <Check
                                 className={cn(
                                   "mr-2 h-4 w-4",
-                                  value1 === customer.name
+                                  CustomerID === customer.accountId.toString()
                                     ? "opacity-100"
                                     : "opacity-0"
                                 )} />
@@ -284,60 +294,110 @@ function CreateTickets() {
                       </Command>
                     </PopoverContent>
                   </Popover>
-                </div></>
-            ) : null}
-            {/* <Label>{t("ticket.selectmachinedes")}</Label>
-            <div className="w-1/6">
-              <Popover open={open2} onOpenChange={setOpen2}>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    aria-expanded={open2}
-                    className="w-[200px] justify-between"
-                  >
-                    {value2
-                      ? machines.find(
-                        (machine: any) => machine.name.toLowerCase() == value2,
-                      )?.name
-                      : "Select machine..."}
-                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0">
-                  <Command>
-                    <CommandInput placeholder="Search machine..." />
-                    <CommandEmpty>No machine found.</CommandEmpty>
-                    <CommandGroup>
-                      {machines.map((machine) => (
-                        <CommandItem
-                          key={machine.name}
-                          value={machine.name}
-                          onSelect={(currentValue) => {
-                            setValue2(
-                              currentValue === value2 ? "" : currentValue,
-                            );
-                            setOpen2(false);
-                          }}
+                </div>
+                {CustomerID && machines ? (
+                  <><Label>{t("ticket.selectmachinedes")}</Label><div className="w-1/6">
+                    <Popover open={open2} onOpenChange={setOpen2}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          aria-expanded={open2}
+                          className="w-[200px] justify-between"
+                          onClick={getMachines}
                         >
-                          <Check
-                            className={cn(
-                              "mr-2 h-4 w-4",
-                              value2 === machine.name
-                                ? "opacity-100"
-                                : "opacity-0",
-                            )}
-                          />
-                          {machine.name}
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-            </div> */}
-          </div>
+                          {value2
+                            ? machines.find(
+                              (machine: any) => machine.name.toLowerCase() == value2
+                            )?.name
+                            : "Select machine..."}
+                          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-[200px] p-0">
+                        <Command>
+                          <CommandInput placeholder="Search machine..." />
+                          <CommandEmpty>No machine found.</CommandEmpty>
+                          <CommandGroup>
+                            {machines.map((machine) => (
+                              <CommandItem
+                                key={machine.name}
+                                value={machine.name}
+                                onSelect={(currentValue) => {
+                                  setValue2(
+                                    currentValue === value2 ? "" : currentValue
+                                  );
+                                  setOpen2(false);
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    value2 === machine.name
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )} />
+                                {machine.name}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                  </div></>
 
+                ) : null}</>
+            ) :
+              <><Label>{t("ticket.selectmachinedes")}</Label><div className="w-1/6">
+                <Popover open={open2} onOpenChange={setOpen2}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={open2}
+                      className="w-[200px] justify-between"
+                    >
+                      {value2
+                        ? machines.find(
+                          (machine: any) => machine.name.toLowerCase() == value2
+                        )?.name
+                        : "Select machine..."}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[200px] p-0">
+                    <Command>
+                      <CommandInput placeholder="Search machine..." />
+                      <CommandEmpty>No machine found.</CommandEmpty>
+                      <CommandGroup>
+                        {machines.map((machine) => (
+                          <CommandItem
+                            key={machine.name}
+                            value={machine.name}
+                            onSelect={(currentValue) => {
+                              setValue2(
+                                currentValue === value2 ? "" : currentValue
+                              );
+                              setOpen2(false);
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                value2 === machine.name
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )} />
+                            {machine.name}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+              </div></>
+            }
+          </div>
           <div className="grid gap-2">
             <Label>{t("ticket.title")}</Label>
             <Textarea

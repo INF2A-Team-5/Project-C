@@ -22,7 +22,7 @@ import {
 import { Toaster } from "../ui/toaster";
 import { toast } from "../ui/use-toast";
 import Layout from "../layout";
-import { Machine } from "@/types/machine";
+import { Machine } from "@/types/Machine";
 import { solutionColumns } from "@/services/Columns";
 import Table from "../foundations/table";
 import TableSkeleton from "../foundations/table-skeleton";

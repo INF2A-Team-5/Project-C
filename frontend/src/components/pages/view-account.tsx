@@ -1,33 +1,18 @@
 import {
-    JSXElementConstructor,
-    Key,
-    ReactElement,
-    ReactNode,
-    ReactPortal,
+
     useEffect,
     useState,
 } from "react";
-import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { Button } from "../ui/button";
-import { Textarea, TextareaHint } from "../ui/textarea";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
+
 import {
     API_BASE_URL,
     getBaseQueryRequest,
-    putBaseMutateRequest,
-    useQuery,
+
 } from "@/lib/api";
-import { Toaster } from "../ui/toaster";
-import { toast } from "../ui/use-toast";
+
 import Layout from "../layout";
-import { Machine } from "@/types/machine";
-import { solutionColumns } from "@/services/Columns";
-import Table from "../foundations/table";
-import TableSkeleton from "../foundations/table-skeleton";
-import { Solution } from "@/types/solution";
-import { Account } from "@/types/account";
+
+import { Account } from "@/types/Account";
 
 function ViewAccount() {
     const accountID = localStorage.getItem("currentaccountID");
