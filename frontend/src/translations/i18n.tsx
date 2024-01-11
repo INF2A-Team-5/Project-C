@@ -137,9 +137,9 @@ i18n.use(initReactI18next).init({
         },
         ticket: {
           error: "Error! Er ging iets fout.",
-          phonealert: "Vul AUB je telefoonnummer in",
+          phonealert: "Vul uw telefoonnummer in",
           wordsalert: "De eerste 2 antwoorden moeten 20 woorden bevatten",
-          machinealert: "Kies AUB een machine",
+          machinealert: "Kies een machine",
           submitalert: "Ticket ingediend",
           submit: "Dien in",
           emptyalert: "Je hebt nog niet alle verplichte velden ingevuld",
@@ -170,6 +170,9 @@ i18n.use(initReactI18next).init({
           files: "Upload bestanden",
           cancel: "Annuleer",
           remove: "Verwijder",
+        },
+        editaccount:{
+
         },
       },
     },
