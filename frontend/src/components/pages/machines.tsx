@@ -17,16 +17,14 @@ import { toast } from "../ui/use-toast";
 import Layout from "../layout";
 import AddMachine from "../foundations/add-machine";
 import TableSkeleton from "../foundations/table-skeleton";
-import { useState } from "react";
-import { Ticket } from "@/types/Ticket";
+
 
 function Machines() {
   const isClient = localStorage.getItem("Class") == "Client";
-  const [x, isx] = useState<Ticket>()
   const apiUrl = isClient
     ? "/GetMachinesPerAccount?accountId=" + localStorage.getItem("Id")
-    : "/api/machines";
-  const { data, isFetching } = useQuery<Machine[]>(apiUrl, {
+    : "/api/MachineModels";
+  const { data, isFetching } = useQuery<any[]>(apiUrl, {
     onError: () => {
       toast({
         variant: "destructive",

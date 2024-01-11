@@ -24,6 +24,7 @@ namespace Backend.Controllers
         [HttpDelete("{id}")] public async Task<IActionResult> DeleteTicket(int id) => await _ticketService.DeleteTicket(id);
         [HttpGet("/GetUnassignedTickets")] public async Task<ActionResult<IEnumerable<Ticket>>> GetUnasignedTickets() => await _ticketService.GetUnasignedTickets();
         [HttpGet("/GetClosedTickets")] public async Task<ActionResult<IEnumerable<Ticket>>> GetClosedTickets() => await _ticketService.GetClosedTickets();
+        [HttpGet("/GetClosedTicketsPerCustomer")] public async Task<ActionResult<IEnumerable<Ticket>>> GetClosedTicketsPerCustomer(int AccountId) => await _ticketService.GetClosedTicketsPerCustomer(AccountId);
         [HttpGet("/GetCustomerTickets")] public async Task<ActionResult<IEnumerable<Ticket>>> GetCustomerTickets(int AccountId) => await _ticketService.GetCustomerTickets(AccountId);
     }
 }

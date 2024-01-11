@@ -61,7 +61,7 @@ namespace Backend.MachineService
             return details;
         }
 
-        public async Task<ActionResult<Machine>> AddMachine(MachineModelToCustomerDto machine)
+        public async Task<ActionResult<Machine>> AddMachine(MachineDto machine)
         {
             if (_context.Models == null)
             {

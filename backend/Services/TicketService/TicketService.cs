@@ -147,6 +147,19 @@ namespace Backend.TicketService
             }
             return tickets;
         }
+        public async Task<ActionResult<IEnumerable<Ticket>>> GetClosedTicketsPerCustomer(int AccountId)
+        {
+            if (_context.Tickets == null || _context.Accounts == null)
+            {
+                return NotFound("No data found in db");
+            }
+            var tickets = await (from ticket in _context.Tickets where ticket.Status == "Closed" && ticket.Customer_Id == AccountId select ticket).ToListAsync();
+            if (tickets == null || tickets.Count == 0)
+            {
+                return NotFound("No tickets closed");
+            }
+            return tickets;
+        }
         public async Task<ActionResult<IEnumerable<Ticket>>> GetCustomerTickets(int AccountId)
         {
             if (_context.Tickets == null  || _context.Machines == null || _context.Employees == null || _context.Customers == null)

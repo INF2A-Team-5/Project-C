@@ -19,7 +19,7 @@ namespace Backend.Controllers
         [HttpGet] public async Task<ActionResult<IEnumerable<Machine>>> GetAllMachines() => await _machineService.GetAllMachines();
         [HttpGet("{id}")] public async Task<ActionResult<Machine>> GetMachineById(int id) => await _machineService.GetMachineById(id);
         [HttpGet("/GetMachinesPerAccount")] public async Task<ActionResult<IEnumerable<MachineInfoDto>>> GetMachinePerAccountId(int accountId) => await _machineService.GetMachinePerAccountId(accountId);
-        [HttpPost] public async Task<ActionResult<Machine>> AddMachine(MachineModelToCustomerDto newMachine) => await _machineService.AddMachine(newMachine);
+        [HttpPost] public async Task<ActionResult<Machine>> AddMachine(MachineDto newMachine) => await _machineService.AddMachine(newMachine);
         [HttpDelete("{id}")] public async Task<IActionResult> DeleteMachine(int id) => await _machineService.DeleteMachine(id);
     }
 }

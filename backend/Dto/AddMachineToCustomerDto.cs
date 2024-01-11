@@ -6,7 +6,7 @@ using Backend.Entities;
 
 namespace Backend.Dto
 {
-    public class MachineModelToCustomerDto
+    public class MachineDto
     {
         public int MachineId { get; set; }
         public int ModelId {get; set; }

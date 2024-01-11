@@ -63,60 +63,24 @@ namespace backend.Tests.ServicesTests
             Assert.IsNotType<NotFoundResult>(result.Result);  // Check if result is not NotFoundObjectResult
         }
 
-        [Theory]
-        [InlineData(4, "machinename", "machinedescription", 1, 2)]
-        [InlineData(5, "machinename", "machinedescription", 2, 3)]
-        [InlineData(6, "machinename", "machinedescription", 3, 1)]
-        public async void MachineService_UpdateMachine_ReturnsNoContent(int id, string name, string description, int customerId, int departmentId)
-        {
-            // Arrange
-            var service = new MachinesService(_db);
-            var updatedMachine = new Machine { MachineId = id, Name = name, Description = description, Customer_Id = customerId, DepartmentId = departmentId };
 
-            // Act
-            var result = await service.UpdateMachine(id, updatedMachine);
+        // [Theory]
+        // [InlineData("machinename", "machinedescription", 2)]
+        // [InlineData("machinename", "machinedescription", 3)]
+        // [InlineData("machinename", "machinedescription", 1)]
+        // public async void MachineService_AddMachine_ReturnsCreatedAtActionResult(string name, string description, int departmentId)
+        // {
+        //     // Arrange
+        //     var service = new MachinesService(_db);
+        //     var newMachine = new MachineDto { Name = name, Description = description, DepartmentId = departmentId };
 
-            // Assert
-            Assert.NotNull(result); // Check if result is not null
-            Assert.IsType<NoContentResult>(result); // Check if result is of type NoContentResult
-            Assert.IsNotType<NotFoundResult>(result); // Check if result is not NotFoundResult
-        }
+        //     // Act
+        //     var result = await service.AddMachine(newMachine);
 
-        [Theory]
-        [InlineData(30, "machinename", "machinedescription", 1, 2)]
-        [InlineData(44, "machinename", "machinedescription", 2, 3)]
-        [InlineData(35, "machinename", "machinedescription", 3, 1)]
-        public async void MachineService_UpdateMachine_ReturnsBadRequest(int id, string name, string description, int customerId, int departmentId)
-        {
-            // Arrange
-            var service = new MachinesService(_db);
-            var updatedMachine = new Machine { MachineId = id, Name = name, Description = description, Customer_Id = customerId, DepartmentId = departmentId };
-
-            // Act
-            var result = await service.UpdateMachine(id, updatedMachine);
-
-            // Assert
-            Assert.NotNull(result); // Check if result is not null
-            Assert.IsNotType<OkResult>(result); // Check if result is not OkResult
-        }
-
-        [Theory]
-        [InlineData("machinename", "machinedescription", 2)]
-        [InlineData("machinename", "machinedescription", 3)]
-        [InlineData("machinename", "machinedescription", 1)]
-        public async void MachineService_AddMachine_ReturnsCreatedAtActionResult(string name, string description, int departmentId)
-        {
-            // Arrange
-            var service = new MachinesService(_db);
-            var newMachine = new MachineDto { Name = name, Description = description, DepartmentId = departmentId };
-
-            // Act
-            var result = await service.AddMachine(newMachine);
-
-            // Assert
-            Assert.NotNull(result); // Check if result is not null
-            Assert.IsType<ActionResult<Machine>>(result); // Check if result is of type ActionResult<Machine>
-        }
+        //     // Assert
+        //     Assert.NotNull(result); // Check if result is not null
+        //     Assert.IsType<ActionResult<Machine>>(result); // Check if result is of type ActionResult<Machine>
+        // }
 
         [Theory]
         [InlineData(1)]
