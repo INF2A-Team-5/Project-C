@@ -49,6 +49,7 @@ function CreateTickets() {
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
   const [CustomerID, setCustomerID] = useState("");
+  const [accountID, setAccountID] = useState("");
   const [value2, setValue2] = useState("");
   const [isClient, setIsClient] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -57,6 +58,7 @@ function CreateTickets() {
     checkAccount();
     getCustomers();
     getMachines();
+    GetCustomer();
   }, []);
 
 
@@ -83,10 +85,17 @@ function CreateTickets() {
     setPreview(updatedPreview);
   };
 
-  // if (machines.length == 0 && CustomerID != null) {
-  //   getMachines();
-  // }
-
+  async function GetCustomer() {
+    console.log("test")
+    if (accountID) {
+      let Customer = await fetch(
+        API_BASE_URL + "/api/Customers/getCustomer?AccountId=" + accountID,
+        getBaseQueryRequest(),
+      ).then((data) => data.json());
+      console.log(Customer)
+      setCustomerID(Customer.customerId);
+    }
+  }
 
   async function getCustomers() {
     let customerlist = await fetch(
@@ -100,6 +109,7 @@ function CreateTickets() {
   }
 
   async function getMachines() {
+    console.log("Getting machines")
     if (CustomerID) {
       let machinelist = await fetch(
         API_BASE_URL +
@@ -110,7 +120,6 @@ function CreateTickets() {
       console.log(machinelist);
       setMachines(machinelist);
     }
-
   }
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -255,10 +264,11 @@ function CreateTickets() {
                         role="combobox"
                         aria-expanded={open1}
                         className="w-[200px] justify-between"
+                        onClick={GetCustomer}
                       >
-                        {CustomerID
+                        {accountID
                           ? customers.find(
-                            (account: any) => account.accountId == CustomerID,
+                            (account: any) => account.accountId == accountID,
                           )?.accountId
                           : "Select customer..."}
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -274,8 +284,8 @@ function CreateTickets() {
                               key={customer.accountId}
                               value={customer.accountId.toString()}
                               onSelect={(currentValue) => {
-                                setCustomerID(
-                                  currentValue === CustomerID ? "" : currentValue
+                                setAccountID(
+                                  currentValue === accountID ? "" : currentValue
                                 );
                                 setOpen1(false);
                               }}
@@ -283,7 +293,7 @@ function CreateTickets() {
                               <Check
                                 className={cn(
                                   "mr-2 h-4 w-4",
-                                  CustomerID === customer.accountId.toString()
+                                  accountID === customer.accountId.toString()
                                     ? "opacity-100"
                                     : "opacity-0"
                                 )} />
@@ -370,6 +380,7 @@ function CreateTickets() {
                       <CommandInput placeholder="Search machine..." />
                       <CommandEmpty>No machine found.</CommandEmpty>
                       <CommandGroup>
+
                         {machines.map((machine) => (
                           <CommandItem
                             key={machine.name}

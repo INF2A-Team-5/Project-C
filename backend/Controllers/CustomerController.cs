@@ -15,6 +15,6 @@ namespace Backend.Controllers
         {
             _customerService = customerService;
         }
-        [HttpGet("{id}")] public async Task<ActionResult<Customer>> GetCustomerByAccountId(int AccountId) => await _customerService.GetCustomerByAccountId(AccountId);
+        [HttpGet("getCustomer")] public async Task<ActionResult<Customer>> GetCustomerByAccountId(int AccountId) => await _customerService.GetCustomerByAccountId(AccountId);
     }
 }
