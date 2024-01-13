@@ -17,6 +17,7 @@ namespace Backend.Controllers
         }
         [HttpGet] public async Task<ActionResult<IEnumerable<Solution>>> GetAllSolutions() => await _solutionService.GetAllSolutions();
         [HttpGet("{id}")] public async Task<ActionResult<Solution>> GetSolutionById(int id) => await _solutionService.GetSolutionById(id);
+        [HttpGet("/GetsolutionsPerMachine")] public async Task<ActionResult<IEnumerable<Solution>>> GetSolutionsPerMachineId(int id) => await _solutionService.GetSolutionsBymachineId(id);
         [HttpGet("Archived/{archived}")] public async Task<ActionResult<IEnumerable<Solution>>> GetSolutionsByArchived(bool archived) => await _solutionService.GetSolutionsByArchived(archived);
         [HttpPut("{id}")] public async Task<IActionResult> UpdateSolution(int id, Solution solution) => await _solutionService.UpdateSolution(id, solution);
         [HttpPut("ArchiveByTicket/{id}")] public async Task<IActionResult> ArchiveSolutionByTicketId(int id) => await _solutionService.ArchiveSolutionByTicketId(id);

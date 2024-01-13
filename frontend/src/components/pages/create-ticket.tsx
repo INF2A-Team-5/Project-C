@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
@@ -31,7 +31,9 @@ import {
 import { CaretDownIcon, CheckIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
+import { Machine } from "@/types/Machine";
 import Layout from "../layout";
+import { Account } from "@/types/Account";
 import { MachineInfoDto } from "@/types/MachineInfo";
 
 function CreateTickets() {
@@ -41,17 +43,50 @@ function CreateTickets() {
   const [mustBeDoing, setMustBeDoing] = useState("");
   const [haveTried, setHaveTried] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [machines, setMachines] = useState<MachineInfoDto[]>([]);
-  const [account, setAccount] = useState("");
+
+//  const [machines, setMachines] = useState<Machine[]>([]);
+//  const [customers, setCustomers] = useState<Account[]>([]);
+//  const [machines, setMachines] = useState<MachineInfoDto[]>([]);
+//  const [account, setAccount] = useState("");
+
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
   const [isChecked, setChecked] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState("");
+  const [open1, setOpen1] = useState(false);
+  const [open2, setOpen2] = useState(false);
+  const [CustomerID, setCustomerID] = useState("");
+  const [accountID, setAccountID] = useState("");
+  const [value2, setValue2] = useState("");
+  const [isClient, setIsClient] = useState<boolean>(false);
+  const customerSelectedRef = useRef(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    checkAccount();
+    getCustomers();
+    getMachines();
+    GetCustomer();
+  }, []);
+
+  useEffect(() => {
+    console.log(accountID);
+    GetCustomer();
+    if (!customerSelectedRef.current) {
+      customerSelectedRef.current = true;
+    }
+  }, [accountID]);
+
 
   const handleCheckbox = () => {
     setChecked(!isChecked);
+  };
+
+  const checkAccount = () => {
+    const accountClass = localStorage.getItem("Class");
+    setIsClient(accountClass == "Client");
+    if (isClient) {
+      setCustomerID(localStorage.getItem("Id")!);
+    }
   };
 
   const { t, i18n } = useTranslation();
@@ -65,26 +100,44 @@ function CreateTickets() {
     setPreview(updatedPreview);
   };
 
-  if (machines.length == 0) {
-    getData();
+  async function GetCustomer() {
+    console.log("getting customer")
+    if (accountID) {
+      let Customer = await fetch(
+        API_BASE_URL + "/api/Customers/getCustomer?AccountId=" + accountID,
+        getBaseQueryRequest(),
+      ).then((data) => data.json());
+      console.log(Customer)
+      setCustomerID(Customer.customerId);
+    }
   }
 
-  async function getData() {
-    let machinelist = await fetch(
+  async function getCustomers() {
+    let customerlist = await fetch(
       API_BASE_URL +
-        "/GetMachinesPerAccount?accountId=" +
-        localStorage.getItem("Id"),
+      "/api/Accounts/GetAccountsByClass?classname=Client",
       getBaseQueryRequest(),
     ).then((data) => data.json());
 
-    setAccount(localStorage.getItem("Id")!);
-    setMachines(machinelist);
+    console.log(customerlist);
+    setCustomers(customerlist);
+  }
+
+  async function getMachines() {
+    console.log("Getting machines")
+    if (CustomerID) {
+      let machinelist = await fetch(
+        API_BASE_URL +
+        "/GetMachinesPerAccount?accountId=" +
+        CustomerID,
+        getBaseQueryRequest(),
+      ).then((data) => data.json());
+      console.log(machinelist);
+      setMachines(machinelist);
+    }
   }
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    // const target = e.target as HTMLInputElement & {
-    //   files: FileList;
-    // }
     const fileList = e.target.files;
 
     if (fileList) {
@@ -98,8 +151,6 @@ function CreateTickets() {
           const result = reader.result;
           if (result) {
             allPreviews.push(result);
-            // console.log(allPreviews);
-            // You may want to set a state or perform other actions with 'result' here
             if (preview.length != null) {
               preview.forEach(function (item) {
                 allPreviews.push(item);
@@ -122,7 +173,11 @@ function CreateTickets() {
       title.length != 0
     ) {
       let machine = machines.find(
-        (machine: MachineInfoDto) => machine.name.toLowerCase() == value,
+
+//        (machine: Machine) => machine.name.toLowerCase() == value2,
+
+//        (machine: MachineInfoDto) => machine.name.toLowerCase() == value,
+
       );
       if (machine == undefined) {
         toast({
@@ -151,7 +206,7 @@ function CreateTickets() {
       } else {
         var currentTicket = {
           Machine_Id: machine?.machineId,
-          Customer_Id: account,
+          Customer_Id: CustomerID,
           Title: title,
           Priority: "Not Set",
           Status: "Open",
@@ -187,7 +242,6 @@ function CreateTickets() {
         setIsLoading(false);
         navigate("/tickets");
 
-        // reader.readAsDataURL(file);
       }
     } else {
       toast({
@@ -212,58 +266,158 @@ function CreateTickets() {
             <Label>{t("ticket.details")}</Label>
           </div>
           <div className="grid gap-2">
-            <Label>{t("ticket.selectmachinedes")}</Label>
-            <div className="w-1/6">
-              <Popover open={open} onOpenChange={setOpen}>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    aria-expanded={open}
-                    className="w-[200px] justify-between"
-                  >
-                    {value
-                      ? machines.find(
-                          (machine: any) => machine.name.toLowerCase() == value,
-                        )?.name
-                      : "Select machine..."}
-                    <CaretDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0">
-                  <Command>
-                    <CommandInput placeholder="Search machine..." />
-                    <CommandEmpty>No machine found.</CommandEmpty>
-                    <CommandGroup>
-                      {machines.map((machine) => (
-                        <CommandItem
-                          key={machine.name}
-                          value={machine.name}
-                          onSelect={(currentValue) => {
-                            setValue(
-                              currentValue === value ? "" : currentValue,
-                            );
-                            setOpen(false);
-                          }}
+            {!isClient ? (
+              <>
+                <Label>Select CustomerID</Label>
+                <div className="w-1/6">
+                  <Popover open={open1} onOpenChange={setOpen1}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={open1}
+                        className="w-[200px] justify-between"
+                      >
+                        {accountID
+                          ? customers.find(
+                            (account: any) => account.accountId == accountID,
+                          )?.accountId
+                          : "Select customer..."}
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[200px] p-0">
+                      <Command>
+                        <CommandInput placeholder="Search customer..." />
+                        <CommandEmpty>No customer found.</CommandEmpty>
+                        <CommandGroup>
+                          {customers.map((customer) => (
+                            <CommandItem
+                              key={customer.accountId.toString()}
+                              value={customer.accountId.toString()}
+                              onSelect={(currentValue) => {
+                                setAccountID(currentValue);
+                                setOpen1(false);
+                              }}
+                            >
+                              <Check
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  accountID === customer.accountId.toString()
+                                    ? "opacity-100"
+                                    : "opacity-0"
+                                )} />
+                              {customer.name}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+                {CustomerID && machines ? (
+                  <><Label>{t("ticket.selectmachinedes")}</Label><div className="w-1/6">
+                    <Popover open={open2} onOpenChange={setOpen2}>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          aria-expanded={open2}
+                          className="w-[200px] justify-between"
+                          onClick={getMachines}
                         >
-                          <CheckIcon
-                            className={cn(
-                              "mr-2 h-4 w-4",
-                              value === machine.name
-                                ? "opacity-100"
-                                : "opacity-0",
-                            )}
-                          />
-                          {machine.name}
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-            </div>
-          </div>
+                          {value2
+                            ? machines.find(
+                              (machine: any) => machine.name.toLowerCase() == value2
+                            )?.name
+                            : "Select machine..."}
+                          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-[200px] p-0">
+                        <Command>
+                          <CommandInput placeholder="Search machine..." />
+                          <CommandEmpty>No machine found.</CommandEmpty>
+                          <CommandGroup>
+                            {machines.map((machine) => (
+                              <CommandItem
+                                key={machine.name}
+                                value={machine.name}
+                                onSelect={(currentValue) => {
+                                  setValue2(
+                                    currentValue === value2 ? "" : currentValue
+                                  );
+                                  setOpen2(false);
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    value2 === machine.name
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )} />
+                                {machine.name}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                  </div></>
 
+                ) : null}</>
+            ) :
+              <><Label>{t("ticket.selectmachinedes")}</Label><div className="w-1/6">
+                <Popover open={open2} onOpenChange={setOpen2}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={open2}
+                      className="w-[200px] justify-between"
+                    >
+                      {value2
+                        ? machines.find(
+                          (machine: any) => machine.name.toLowerCase() == value2
+                        )?.name
+                        : "Select machine..."}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[200px] p-0">
+                    <Command>
+                      <CommandInput placeholder="Search machine..." />
+                      <CommandEmpty>No machine found.</CommandEmpty>
+                      <CommandGroup>
+                        {machines.map((machine) => (
+                          <CommandItem
+                            key={machine.name}
+                            value={machine.name}
+                            onSelect={(currentValue) => {
+                              setValue2(
+                                currentValue === value2 ? "" : currentValue
+                              );
+                              setOpen2(false);
+                            }}
+                          >
+                            <Check
+                              className={cn(
+                                "mr-2 h-4 w-4",
+                                value2 === machine.name
+                                  ? "opacity-100"
+                                  : "opacity-0"
+                              )} />
+                            {machine.name}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+              </div></>
+            }
+          </div>
           <div className="grid gap-2">
             <Label>{t("ticket.title")}</Label>
             <Textarea
