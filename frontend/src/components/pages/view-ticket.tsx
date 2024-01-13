@@ -12,7 +12,6 @@ import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import { Textarea, TextareaHint } from "../ui/textarea";
 import { Input } from "../ui/input";
-import { Label } from "../ui/label";
 import {
   API_BASE_URL,
   getBaseQueryRequest,
@@ -32,7 +31,6 @@ import {
 import { Toaster } from "../ui/toaster";
 import { toast } from "../ui/use-toast";
 import { Ticket } from "@/types/Ticket";
-import { Solution } from "@/types/solution";
 import Layout from "../layout";
 
 function ViewTicket() {
@@ -87,9 +85,6 @@ function ViewTicket() {
   };
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    // const target = e.target as HTMLInputElement & {
-    //   files: FileList;
-    // }
     const fileList = e.target.files;
 
     if (fileList) {
@@ -103,8 +98,6 @@ function ViewTicket() {
           const result = reader.result;
           if (result) {
             allPreviews.push(result);
-            // console.log(allPreviews);
-            // You may want to set a state or perform other actions with 'result' here
             if (preview.length != null) {
               preview.forEach(function (item) {
                 allPreviews.push(item);
@@ -194,35 +187,39 @@ function ViewTicket() {
   async function closeTicket() {
     if (currentTicket) {
       if (solution.length != 0) {
-        currentTicket.status = "Closed";
-        currentTicket.solution = solution;
-        console.log(currentTicket)
-        var newSolution = {
-          problemDescription: currentTicket.problem,
-          solutionDescription: solution,
-          machineId: currentTicket.machine_Id,
-          ticketId: currentTicket.ticketId
+        try {
+          currentTicket.status = "Closed";
+          currentTicket.solution = solution;
+          console.log(currentTicket)
+          var newSolution = {
+            problemDescription: currentTicket.problem,
+            solutionDescription: solution,
+            machineId: currentTicket.machine_Id,
+            ticketId: currentTicket.ticketId
+          }
+          console.log(newSolution)
+          await fetch(
+            API_BASE_URL + "/api/Solutions",
+            postBaseMutateRequest(JSON.stringify(newSolution)),
+          );
+          toast({
+            variant: "default",
+            title: "Succes!",
+            description: t("ticket.submitalert"),
+          });
+          sendTicket(currentTicket);
+          navigate(0);
         }
-        console.log(newSolution)
-        await fetch(
-          API_BASE_URL + "/api/Solutions",
-          postBaseMutateRequest(JSON.stringify(newSolution)),
-        );
-        toast({
-          variant: "default",
-          title: "Succes!",
-          description: t("ticket.submitalert"),
-        });
-      
-        sendTicket(currentTicket);
-        navigate(0);
+        catch {
+          toast({
+            variant: "destructive",
+            title: "Error! Something went wrong.",
+            description:
+              "You need to enter a solution if you want to close the ticket",
+          });
+        }
       } else {
-        toast({
-          variant: "destructive",
-          title: "Error! Something went wrong.",
-          description:
-            "You need to enter a solution if you want to close the ticket",
-        });
+
       }
     }
   }
@@ -241,7 +238,6 @@ function ViewTicket() {
       sendTicket(currentTicket);
       alert("Ticket updated");
       navigate(0);
-      // If needed, you can handle the response data here
     }
   }
 
@@ -320,7 +316,6 @@ function ViewTicket() {
                           </div>
                         ) : (
                           <p className="mt-1 text-lg leading-6 text-foreground sm:col-span-2 sm:mt-0">There are no pictures added to this ticket</p>
-                          // <p>There are no pictures added to this ticket</p>
                         )}
                       </div>
                     ) : null}

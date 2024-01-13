@@ -132,9 +132,6 @@ function CreateTickets() {
   }
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
-    // const target = e.target as HTMLInputElement & {
-    //   files: FileList;
-    // }
     const fileList = e.target.files;
 
     if (fileList) {
@@ -148,8 +145,6 @@ function CreateTickets() {
           const result = reader.result;
           if (result) {
             allPreviews.push(result);
-            // console.log(allPreviews);
-            // You may want to set a state or perform other actions with 'result' here
             if (preview.length != null) {
               preview.forEach(function (item) {
                 allPreviews.push(item);
@@ -237,7 +232,6 @@ function CreateTickets() {
         setIsLoading(false);
         navigate("/tickets");
 
-        // reader.readAsDataURL(file);
       }
     } else {
       toast({

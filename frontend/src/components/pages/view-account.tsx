@@ -31,7 +31,6 @@ function ViewAccount() {
         ).then((data) => data.json());
         console.log(account)
         setCurrentAccount(account);
-        // return currentTicket;
     }
 
     return (

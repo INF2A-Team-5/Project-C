@@ -34,8 +34,6 @@ function ViewMachine() {
     undefined,
   );
 
-  // let { data } = null;
-  // if (currentMachine) {
   const { data } = useQuery<Solution[]>("/GetsolutionsPerMachine?id=" + machineID, {
     onError: () => {
       toast({
@@ -45,16 +43,13 @@ function ViewMachine() {
       });
     },
   });
-  // }
+
 
   useEffect(() => {
     getMachine();
 
   }, []);
 
-  // useEffect(() => {
-  //   showMachine();
-  // }, []);
 
   async function getMachine() {
     let machine = await fetch(
@@ -63,7 +58,6 @@ function ViewMachine() {
     ).then((data) => data.json());
     console.log(machine)
     setCurrentMachine(machine);
-    // return currentTicket;
   }
 
   return (
@@ -86,7 +80,12 @@ function ViewMachine() {
                   </div>
                   <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
                     <p className="text-xl font-medium leading-6 text-foreground">Customer</p>
-                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{currentMachine.customerId}</p>
+                    {currentMachine.customerId ? (
+                      <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{currentMachine.customerId}</p>
+                    ) : (
+                      <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">No customer assigned</p>
+                    )}
+
                   </div>
                   <div className="px-4 py-6  grid-cols-2 gap-2 px-0">
                     <p className="text-xl font-medium leading-6 text-foreground">Solutions of this machines</p>
