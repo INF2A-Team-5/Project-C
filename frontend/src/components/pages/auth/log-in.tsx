@@ -152,7 +152,7 @@ function LogIn() {
               <label
               htmlFor="showpassword"
               className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                Show password
+                {t("login.showpass")}
               </label>
             </div>
           </div>

@@ -30,6 +30,7 @@ i18n.use(initReactI18next).init({
           txt_rotation3: "poultry",
           txt_rotation4: "insect farming",
           txt_rotation5: "intralogistics",
+          showpass: "Show password",
         },
         setting: {
           account: "Edit Account",
@@ -104,6 +105,7 @@ i18n.use(initReactI18next).init({
           newpass: "New password",
           newpassconf: "Confirm new password",
           back: "Back",
+          showpass: "Show password",
 
         },
       },
@@ -127,6 +129,7 @@ i18n.use(initReactI18next).init({
           txt_rotation3: "gevogelte",
           txt_rotation4: "insecten kweken",
           txt_rotation5: "intralogistiek",
+          showpass: "Wachtwoord weergeven",
         },
         setting: {
           account: "Account Aanpassen",
@@ -201,6 +204,7 @@ i18n.use(initReactI18next).init({
           newpass: "Nieuw wachtwoord",
           newpassconf: "Bevestig nieuw wachtwoord",
           back: "Terug",
+          showpass: "Wachtwoord weergeven",
         },
       },
     },

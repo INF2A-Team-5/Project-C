@@ -18,6 +18,8 @@ import React from "react";
 import { Toaster } from "../ui/toaster";
 import Layout from "../layout";
 import { useTranslation } from "react-i18next";
+import { PasswordInput } from "../ui/passwordinput";
+import { Checkbox } from "../ui/checkbox";
 
 function EditAccount() {
   // useAuthenticated();
@@ -26,6 +28,9 @@ function EditAccount() {
   const [confirmPass, setConfirmPass] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [oldPassword, setOldPassword] = useState("");
+  const [visibleNewPass, setVisibleNewPass] = useState<boolean>(false);
+  const [visibleOldPass, setVisibleOldPass] = useState<boolean>(false);
+  const [visibleConfPass, setVisibleConfPass] = useState<boolean>(false);
 
   const passwordRef = React.useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
@@ -166,33 +171,66 @@ function EditAccount() {
         </div>
         <div className="grid gap-2">
           <h2>{t("editaccount.changepassword")}</h2>
+          <div className="grid gap-2">
           <Input
-            id="old password"
-            ref={passwordRef}
-            name="old password"
-            placeholder={t("editaccount.oldpass")}
-            type="password"
-            // ●●●●●●●● als je circels wilt
-            onChange={(e) => setOldPassword(e.currentTarget.value)}
-          />
-          <Input
-            id="new password"
+            id="password"
             ref={passwordRef}
             name="password"
-            placeholder={t("editaccount.newpass")}
-            type="password"
-            // ●●●●●●●● als je circels wilt
+            placeholder={t("editaccount.oldpass")}
+            type={visibleNewPass ? "text" : "password"}
             onChange={(e) => setPassword(e.currentTarget.value)}
           />
+          <div className="flex items-center justify-start space-x-1">
+            <Checkbox
+                onClick={() => setVisibleOldPass(!visibleOldPass)}
+                />
+            <label
+            htmlFor="showpassword"
+            className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              {t("editaccount.showpass")}
+            </label>
+          </div>
+        </div>
+          <div className="grid gap-2">
+            <Input
+              id="password"
+              ref={passwordRef}
+              name="password"
+              placeholder={t("editaccount.newpass")}
+              type={visibleNewPass ? "text" : "password"}
+              onChange={(e) => setPassword(e.currentTarget.value)}
+            />
+            <div className="flex items-center justify-start space-x-1">
+              <Checkbox
+                  onClick={() => setVisibleNewPass(!visibleNewPass)}
+                  />
+              <label
+              htmlFor="showpassword"
+              className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                {t("editaccount.showpass")}
+              </label>
+            </div>
+          </div>
+          <div className="grid gap-2">
           <Input
-            id="confirmed password"
+            id="password"
             ref={passwordRef}
             name="password"
             placeholder={t("editaccount.newpassconf")}
-            type="password"
-            // ●●●●●●●● als je circels wilt
-            onChange={(e) => setConfirmPass(e.currentTarget.value)}
+            type={visibleNewPass ? "text" : "password"}
+            onChange={(e) => setPassword(e.currentTarget.value)}
           />
+          <div className="flex items-center justify-start space-x-1">
+            <Checkbox
+                onClick={() => setVisibleConfPass(!visibleConfPass)}
+                />
+            <label
+            htmlFor="showpassword"
+            className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              {t("editaccount.showpass")}
+            </label>
+          </div>
+        </div>
           <Button
             className="w-fit"
             onClick={handleSubmitPass}
