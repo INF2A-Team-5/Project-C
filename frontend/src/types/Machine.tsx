@@ -1,10 +1,6 @@
 export type Machine = {
-  customerId: string;
-  machineId: number;
-  name: string;
-  description: string;
-  accountId: number;
-  departmentId: number;
-  solution: string;
+  modelId: number;
+  machineId: number
+  customer_Id: number
   archived: boolean;
 };

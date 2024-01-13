@@ -18,18 +18,19 @@ import {
   CommandInput,
   CommandItem,
 } from "@/components/ui/command";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { Department } from "@/types/department";
-import { Machine } from "@/types/machine";
-import { DialogClose, DialogFooter } from "../ui/dialog";
 
-function AddMachine() {
+import { cn } from "@/lib/utils";
+import { Department } from "@/types/Department";
+import { Machine } from "@/types/Machine";
+import { DialogClose, DialogFooter } from "../ui/dialog";
+import { CaretDownIcon, CheckIcon } from "@radix-ui/react-icons";
+
+function AddMachine({ setOpen }: { setOpen: (_: boolean) => void }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [department, setDepartment] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [open, setOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const { data } = useQuery<Department[]>("/api/departments", {
     onError: () => {
@@ -44,7 +45,7 @@ function AddMachine() {
   async function handleSubmit() {
     setIsLoading(true);
     const machine: Machine = await fetch(
-      API_BASE_URL + "/api/machines",
+      API_BASE_URL + "/api/MachineModels?AccountId=" + localStorage.getItem("Id"),
       getBaseQueryRequest(),
     )
       .then((data) => data.json())
@@ -96,7 +97,7 @@ function AddMachine() {
       setIsLoading(false);
     } else {
       fetch(
-        API_BASE_URL + "/api/machines",
+        API_BASE_URL + "/api/MachineModels",
         postBaseMutateRequest(
           JSON.stringify({
             name: name,
@@ -112,6 +113,7 @@ function AddMachine() {
         description: "Machine added successfully.",
       });
       setIsLoading(false);
+      setOpen(false);
       setName("");
       setDescription("");
     }
@@ -124,12 +126,12 @@ function AddMachine() {
         onChange={(e) => setName(e.currentTarget.value)}
         value={name}
       />
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover open={menuOpen} onOpenChange={setMenuOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
             role="combobox"
-            aria-expanded={open}
+            aria-expanded={menuOpen}
             className="w-[200px] justify-between"
           >
             {data
@@ -139,7 +141,7 @@ function AddMachine() {
                   )?.name
                 : "Select department..."
               : null}
-            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+            <CaretDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
@@ -156,10 +158,10 @@ function AddMachine() {
                         setDepartment(
                           currentValue === department ? "" : currentValue,
                         );
-                        setOpen(false);
+                        setMenuOpen(false);
                       }}
                     >
-                      <Check
+                      <CheckIcon
                         className={cn(
                           "mr-2 h-4 w-4",
                           department === dep.name ? "opacity-100" : "opacity-0",

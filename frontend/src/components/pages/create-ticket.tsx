@@ -28,11 +28,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { CaretDownIcon, CheckIcon } from "@radix-ui/react-icons";
+
 import { cn } from "@/lib/utils";
 import { Machine } from "@/types/Machine";
 import Layout from "../layout";
 import { Account } from "@/types/Account";
+import { MachineInfoDto } from "@/types/MachineInfo";
 
 function CreateTickets() {
   useAuthenticated();
@@ -41,8 +43,12 @@ function CreateTickets() {
   const [mustBeDoing, setMustBeDoing] = useState("");
   const [haveTried, setHaveTried] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [machines, setMachines] = useState<Machine[]>([]);
-  const [customers, setCustomers] = useState<Account[]>([]);
+
+//  const [machines, setMachines] = useState<Machine[]>([]);
+//  const [customers, setCustomers] = useState<Account[]>([]);
+//  const [machines, setMachines] = useState<MachineInfoDto[]>([]);
+//  const [account, setAccount] = useState("");
+
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
   const [isChecked, setChecked] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -167,7 +173,11 @@ function CreateTickets() {
       title.length != 0
     ) {
       let machine = machines.find(
-        (machine: Machine) => machine.name.toLowerCase() == value2,
+
+//        (machine: Machine) => machine.name.toLowerCase() == value2,
+
+//        (machine: MachineInfoDto) => machine.name.toLowerCase() == value,
+
       );
       if (machine == undefined) {
         toast({
@@ -380,7 +390,6 @@ function CreateTickets() {
                       <CommandInput placeholder="Search machine..." />
                       <CommandEmpty>No machine found.</CommandEmpty>
                       <CommandGroup>
-
                         {machines.map((machine) => (
                           <CommandItem
                             key={machine.name}

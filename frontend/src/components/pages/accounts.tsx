@@ -11,13 +11,16 @@ import {
 } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { toast } from "../ui/use-toast";
-import { Account } from "@/types/account";
+import { Account } from "@/types/Account";
 import { TextareaHint } from "../ui/textarea";
 import Layout from "../layout";
 import AddAccount from "../foundations/add-account";
 import TableSkeleton from "../foundations/table-skeleton";
+import { useState } from "react";
 
 function Accounts() {
+  const [open, setOpen] = useState(false);
+
   const { data, isFetching } = useQuery<Account[]>(`/api/accounts/archived/${false}`, {
     onError: () => {
       toast({
@@ -33,7 +36,7 @@ function Accounts() {
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-medium">Accounts</h1>
-          <Dialog>
+          <Dialog open={open} onOpenChange={(open) => setOpen(open)}>
             <DialogTrigger asChild>
               <Button variant="default" size="sm" disabled={isFetching}>
                 Add account
@@ -45,7 +48,7 @@ function Accounts() {
                 <TextareaHint>Create accounts for new clients</TextareaHint>
               </DialogHeader>
               <DialogDescription className="grid gap-2">
-                <AddAccount />
+                <AddAccount setOpen={setOpen}/>
               </DialogDescription>
             </DialogContent>
           </Dialog>

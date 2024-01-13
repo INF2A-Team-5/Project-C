@@ -16,6 +16,8 @@ using Backend.TicketService;
 using Backend.DepartmentService;
 using Backend.EmployeeService;
 using Backend.CustomerService;
+using Backend.MachineModelService;
+
 
 // var builder = WebApplication.CreateBuilder(args);
 var builder = WebApplication.CreateBuilder(args);
@@ -93,6 +95,7 @@ builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
+builder.Services.AddScoped<IMachineModelService, MachineModelService>();
 
 
 

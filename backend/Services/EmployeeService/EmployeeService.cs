@@ -32,6 +32,10 @@ namespace Backend.EmployeeService
                 return NotFound();
             }
             var employee = await (from employees in _context.Employees where employees.AccountId == account.AccountId select employees).FirstOrDefaultAsync();
+            if (employee == null)
+            {
+                return NotFound();
+            }
             return employee;
         }
         public async Task<ActionResult<Employee>> AddEmployee(AddEmployeeDto newEmployee)
