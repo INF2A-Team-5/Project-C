@@ -61,18 +61,28 @@ namespace Backend.MachineService
             return details;
         }
         
-        public async Task<ActionResult<IEnumerable<Machine>>> GetMachinesByArchived(bool archived)
+        public async Task<ActionResult<IEnumerable<MachineInfoDto>>> GetMachinesByArchived(bool archived, int AccountId)
         {
-            if (_context.Machines == null)
+            if (_context.Machines == null || _context.Models == null || _context.Accounts == null || _context.Customers == null)
             {
-                return NotFound();
+                return NotFound("Insufficient data in db");
             }
-            var machines = await _context.Machines.Where(m => m.Archived == archived).ToListAsync();
+            List<MachineInfoDto> details = new();
+            var machines = await _context.Machines.Where(machine => machine.Customer_Id == AccountId && machine.Archived == archived).ToListAsync();
+            foreach (var machine in machines)
+            {
+                var model = _context.Models.Where(x => x.ModelId == machine.ModelId).FirstOrDefault();
+                if (model == null)
+                {
+                    return NotFound("No model found");
+                }
+                details.Add(new MachineInfoDto() { Customer_Id = AccountId, DepartmentId = model.DepartmentId, Description = model.Description, MachineId = machine.MachineId, ModelId = machine.ModelId, Name = model.Name });
+            }
             if (machines == null)
             {
-                return NotFound();
+                return NotFound("No machines under this ID");
             }
-            return machines;
+            return details;
         }
 
         public async Task<IActionResult> ArchiveMachineByDepartmentId(int id)
@@ -81,7 +91,7 @@ namespace Backend.MachineService
             {
                 return NotFound();
             }
-            var machines = await _context.Machines.Where(m => m.DepartmentId == id).ToListAsync();
+            var machines = await _context.Models.Where(m => m.DepartmentId == id).ToListAsync();
             if (machines == null)
             {
                 return NotFound();

@@ -9,8 +9,7 @@ namespace Backend.MachineService
         Task<ActionResult<IEnumerable<Machine>>> GetAllMachines();
         Task<ActionResult<Machine>> GetMachineById(int id);
         Task<ActionResult<IEnumerable<MachineInfoDto>>> GetMachinePerAccountId(int id);
-        Task<ActionResult<IEnumerable<Machine>>> GetMachinesByArchived(bool archived);
-        Task<IActionResult> UpdateMachine(int id, Machine machine);
+        Task<ActionResult<IEnumerable<MachineInfoDto>>> GetMachinesByArchived(bool archived, int AccountId);
         Task<IActionResult> ArchiveMachineByDepartmentId(int departmentId);
         Task<ActionResult<Machine>> AddMachine(MachineDto machine);
         Task<IActionResult> DeleteMachine(int id);

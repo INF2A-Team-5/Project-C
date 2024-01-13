@@ -15,7 +15,7 @@ namespace Backend.Controllers
         {
             _ticketService = ticketService;
         }
-        [HttpGet] public async Task<ActionResult<IEnumerable<Ticket>>> GetAllTickets(int AccountId) => await _ticketService.GetAllTickets(AccountId);
+        [HttpGet] public async Task<ActionResult<IEnumerable<Ticket>>> GetAllTickets(int AccountId, bool archived) => await _ticketService.GetAllTickets(AccountId, archived);
         [HttpGet("{id}")] public async Task<ActionResult<Ticket>> GetTicketById(int id) => await _ticketService.GetTicketById(id);
         // [HttpGet("/GetTicketByDepartment")] public async Task<ActionResult<IEnumerable<Ticket>>> GetTicketByDepartment(int AccountId) => await _ticketService.GetTicketByDepartment(AccountId);
         [HttpGet("/GetAssignedTickets")] public async Task<ActionResult<IEnumerable<Ticket>>> GetAssignedTickets(int AccountId) => await _ticketService.GetAssignedTickets(AccountId);

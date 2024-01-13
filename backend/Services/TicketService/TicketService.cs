@@ -13,7 +13,7 @@ namespace Backend.TicketService
             _context = context;
         }
 
-        public async Task<ActionResult<IEnumerable<Ticket>>> GetAllTickets(int AccountId)
+        public async Task<ActionResult<IEnumerable<Ticket>>> GetAllTickets(int AccountId, bool archived)
         {
             if (_context.Accounts == null || _context.Tickets == null || _context.Customers == null | _context.Employees == null || _context.Departments == null)
             {
@@ -33,7 +33,7 @@ namespace Backend.TicketService
                     {
                         return NotFound();
                     }
-                    var empTickets = await (from ticket in _context.Tickets from machinemodel in _context.Models where ticket.Machine_Id == machinemodel.ModelId && machinemodel.DepartmentId == departmentId select ticket).ToListAsync();
+                    var empTickets = await (from ticket in _context.Tickets from machinemodel in _context.Models where ticket.Machine_Id == machinemodel.ModelId && machinemodel.DepartmentId == departmentId && ticket.Archived == archived select ticket).ToListAsync();
                     if (empTickets == null || empTickets.Count == 0)
                     {
                         return NotFound("No tickets under this department");
@@ -45,14 +45,15 @@ namespace Backend.TicketService
                     {
                         return NotFound("Customer does not exist");
                     }
-                    var cusTickets = await (from ticket in _context.Tickets where ticket.Customer_Id == customer.AccountId select ticket).ToListAsync();
+                    var cusTickets = await (from ticket in _context.Tickets where ticket.Customer_Id == customer.AccountId && ticket.Archived == archived select ticket).ToListAsync();
                     if (cusTickets == null || cusTickets.Count == 0)
                     {
                         return NotFound("No tickets found");
                     }
                     return cusTickets;
                 case AccountType.Admin:
-                    return await _context.Tickets.ToListAsync();
+                    var adminTickets = await (from ticket in _context.Tickets where ticket.Archived == archived select ticket).ToListAsync();
+                    return adminTickets;
             }
             return NotFound();
         }

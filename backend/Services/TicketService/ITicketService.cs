@@ -5,7 +5,7 @@ namespace Backend.TicketService
 {
     public interface ITicketService
     {
-        Task<ActionResult<IEnumerable<Ticket>>> GetAllTickets(int AccountId);
+        Task<ActionResult<IEnumerable<Ticket>>> GetAllTickets(int AccountId, bool archived);
         Task<ActionResult<Ticket>> GetTicketById(int id);
         Task<ActionResult<IEnumerable<Ticket>>> GetTicketsByArchived(bool archived);
         Task<IActionResult> UpdateTicket(int id, Ticket ticket);

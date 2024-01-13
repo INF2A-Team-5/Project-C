@@ -19,8 +19,7 @@ import { toast } from "../ui/use-toast";
 import TableSkeleton from "../foundations/table-skeleton";
 
 function Tickets() {
-  const { data, isFetching } = useQuery<Ticket[]>("/api/tickets?AccountId=" + localStorage.getItem("Id"), {
- //onst { data, isFetching } = useQuery<Ticket[]>(`/api/tickets/archived/${false}`, {
+  const { data, isFetching } = useQuery<Ticket[]>("/api/tickets?AccountId=" + localStorage.getItem("Id") + "&archived=" + false, {
     onError: () => {
       toast({
         variant: "destructive",

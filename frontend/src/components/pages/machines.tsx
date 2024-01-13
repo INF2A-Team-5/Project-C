@@ -22,13 +22,9 @@ function Machines() {
   const [open, setOpen] = useState(false);
   const isClient = localStorage.getItem("Class") == "Client";
   const apiUrl = isClient
-    ? "/GetMachinesPerAccount?AccountId=" + localStorage.getItem("Id")
-    : "/api/MachineModels?accountId=" + localStorage.getItem("Id");
+ ? "/GetMachinesPerAccount?accountId=" + localStorage.getItem("Id")
+ : `/GetMachinesByArchived?archived=${false}&AccountId=${localStorage.getItem("Id")}`;
   const { data, isFetching } = useQuery<any[]>(apiUrl, {
- // ? "/GetMachinesPerAccount?accountId=" + localStorage.getItem("Id")
- // : `/api/machines/archived/${false}`;
-//const { data, isFetching } = useQuery<Machine[]>(apiUrl, {
-
     onError: () => {
       toast({
         variant: "destructive",
