@@ -18,7 +18,7 @@ import AddDepartment from "../foundations/add-department";
 import TableSkeleton from "../foundations/table-skeleton";
 
 function Departments() {
-  const { data, isFetching } = useQuery<Department[]>("/api/departments", {
+  const { data, isFetching } = useQuery<Department[]>(`/api/departments/archived/${false}`, {
     onError: () => {
       toast({
         variant: "destructive",
