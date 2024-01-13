@@ -15,7 +15,9 @@ using Backend.SolutionService;
 using Backend.TicketService;
 using Backend.DepartmentService;
 using Backend.EmployeeService;
+using Backend.CustomerService;
 using Backend.MachineModelService;
+
 
 // var builder = WebApplication.CreateBuilder(args);
 var builder = WebApplication.CreateBuilder(args);
@@ -30,7 +32,7 @@ builder.Services.AddAuthentication(options =>
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(o =>
 {
-    o.RequireHttpsMetadata = false;              
+    o.RequireHttpsMetadata = false;
     var key = Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:Token"]);
     o.SaveToken = true;
     o.TokenValidationParameters = new TokenValidationParameters
@@ -38,8 +40,8 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuer = false,
         ValidateAudience = false,
         ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,            
-        ClockSkew = TimeSpan.Zero,           
+        ValidateIssuerSigningKey = true,
+        ClockSkew = TimeSpan.Zero,
         IssuerSigningKey = new SymmetricSecurityKey(key)
     };
 });
@@ -92,7 +94,9 @@ builder.Services.AddScoped<ISolutionService, SolutionsService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<IDepartmentService, DepartmentService>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IMachineModelService, MachineModelService>();
+
 
 
 var app = builder.Build();

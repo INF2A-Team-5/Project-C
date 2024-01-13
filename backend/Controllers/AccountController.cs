@@ -5,7 +5,7 @@ using Backend.AccountService;
 
 namespace Backend.Controllers
 {
-    [Authorize]
+    // [Authorize]
     [Route("api/Accounts")]
     [ApiController]
     public class AccountController
@@ -17,6 +17,7 @@ namespace Backend.Controllers
         }
         [HttpGet] public async Task<ActionResult<IEnumerable<Account>>> GetAllAccounts() => await _accountService.GetAllAccounts();
         [HttpGet("{id}")] public async Task<ActionResult<Account>> GetAccountById(int id) => await _accountService.GetAccountById(id);
+        [HttpGet("GetAccountsByClass")] public async Task<ActionResult<IEnumerable<Account>>> GetAccountsByClass(AccountType classname) => await _accountService.GetAccountsByClass(classname);
         [HttpGet("Archived/{archived}")] public async Task<ActionResult<IEnumerable<Account>>> GetAccountsByArchived(bool archived) => await _accountService.GetAccountsByArchived(archived);
         [HttpPut("{id}")] public async Task<IActionResult> UpdateAccount(int id, Account account) => await _accountService.UpdateAccount(id, account);
         [HttpPut("ArchiveByDepartment/{id}")] public async Task<IActionResult> ArchiveAccountByDepartmentId(int id) => await _accountService.ArchiveAccountByDepartmentId(id);

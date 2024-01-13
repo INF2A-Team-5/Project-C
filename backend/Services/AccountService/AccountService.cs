@@ -36,12 +36,16 @@ namespace Backend.AccountService
             return account;
         }
 
-        public async Task<ActionResult<IEnumerable<Account>>> GetAccountsByArchived(bool archived)
+        public async Task<ActionResult<IEnumerable<Account>>> GetAccountsByClass(AccountType classname)
         {
             if (_context.Accounts == null)
             {
                 return NotFound();
             }
+            return await _context.Accounts.Where(x => x.Class == classname).ToListAsync();
+        }
+        public async Task<ActionResult<IEnumerable<Account>>> GetAccountsByArchived(bool archived)
+        {
             var accounts = await _context.Accounts.Where(a => a.Archived == archived).ToListAsync();
             if (accounts == null)
             {
@@ -133,5 +137,10 @@ namespace Backend.AccountService
         }
 
         private bool AccountExists(int id) => (_context.Accounts?.Any(e => e.AccountId == id)).GetValueOrDefault();
+
+        public Task<ActionResult<Account>> GetAccountsByClass(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

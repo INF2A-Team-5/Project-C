@@ -36,12 +36,21 @@ namespace Backend.SolutionService
             return solution;
         }
 
-        public async Task<ActionResult<IEnumerable<Solution>>> GetSolutionsByArchived(bool archived)
+        public async Task<ActionResult<IEnumerable<Solution>>> GetSolutionsBymachineId(int id)
         {
             if (_context.Solutions == null)
             {
                 return NotFound();
             }
+            var solution = await _context.Solutions.Where(solution => solution.MachineId == id).ToListAsync();
+            if (solution == null)
+            {
+                return NotFound();
+            }
+            return solution;
+        }
+        public async Task<ActionResult<IEnumerable<Solution>>> GetSolutionsByArchived(bool archived)
+        {
             var solutions = await _context.Solutions.Where(s => s.Archived == archived).ToListAsync();
             if (solutions == null)
             {
