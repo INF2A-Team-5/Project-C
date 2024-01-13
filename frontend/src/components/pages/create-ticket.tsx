@@ -84,6 +84,7 @@ function CreateTickets() {
 
   const handleCheckbox = () => {
     setChecked(!isChecked);
+    
   };
 
   const { t, i18n } = useTranslation();
@@ -344,13 +345,16 @@ function CreateTickets() {
 
             {Boolean(userPhoneNumber) ? (
               <div className="mx-auto flex flex-col items-start space-y-2">
+
+              <div className="w-full flex items-center">
               <Label>{t("ticket.currentphonenum")}</Label>
-              <Label>{userPhoneNumber}</Label>
-              <div className="w-full">
-                <Checkbox id="" onClick={handleCheckbox} />
+              <Label className="m-1">{userPhoneNumber}</Label>
+              </div>
+              <div className="w-full flex items-center">
+                <Checkbox id="" onClick={handleCheckbox} className=""/>
                 <label
                   htmlFor="terms"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  className="p-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 >
                   {t("ticket.phonenum")}
                 </label>

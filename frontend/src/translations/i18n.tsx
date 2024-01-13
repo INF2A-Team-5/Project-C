@@ -84,8 +84,8 @@ i18n.use(initReactI18next).init({
           havetried: "What have you tried?*",
           havetrieddes:
             "Describe all things you have done to try fixing the machine",
-          phonenum: "Use other phone Number",
-          currentphonenum: "Current phone number:",
+          phonenum: "Use a different phone number",
+          currentphonenum: "Current phone number: ",
           phonenumwithstar: "Phone number*",
           files: "Upload files",
           cancel: "Cancel",
