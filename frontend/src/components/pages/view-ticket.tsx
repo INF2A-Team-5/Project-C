@@ -179,6 +179,7 @@ function ViewTicket() {
           : [reopen];
         currentTicket.status = "Open";
         sendTicket(currentTicket);
+        navigate(0);
       } else {
         toast({
           variant: "destructive",
@@ -212,8 +213,9 @@ function ViewTicket() {
           title: "Succes!",
           description: t("ticket.submitalert"),
         });
-
+      
         sendTicket(currentTicket);
+        navigate(0);
       } else {
         toast({
           variant: "destructive",
@@ -238,7 +240,7 @@ function ViewTicket() {
         : [...filteredPreview];
       sendTicket(currentTicket);
       alert("Ticket updated");
-      navigate(-1);
+      navigate(0);
       // If needed, you can handle the response data here
     }
   }
@@ -254,6 +256,7 @@ function ViewTicket() {
                 <p className="text-3xl font-medium">{ticketInfo.title}</p>
                 <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">ID: {ticketInfo.ticketId}</p>
                 <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">Machine ID: {ticketInfo.machine_Id}</p>
+                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">Customer ID: {ticketInfo.customerId}</p>
               </div>
               <div className="mt-6 border-t border-gray-100">
                 <dl className="divide-y divide-gray-100">

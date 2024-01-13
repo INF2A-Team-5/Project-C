@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
@@ -52,6 +52,7 @@ function CreateTickets() {
   const [accountID, setAccountID] = useState("");
   const [value2, setValue2] = useState("");
   const [isClient, setIsClient] = useState<boolean>(false);
+  const customerSelectedRef = useRef(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -60,6 +61,14 @@ function CreateTickets() {
     getMachines();
     GetCustomer();
   }, []);
+
+  useEffect(() => {
+    console.log(accountID);
+    GetCustomer();
+    if (!customerSelectedRef.current) {
+      customerSelectedRef.current = true;
+    }
+  }, [accountID]);
 
 
   const handleCheckbox = () => {
@@ -86,7 +95,7 @@ function CreateTickets() {
   };
 
   async function GetCustomer() {
-    console.log("test")
+    console.log("getting customer")
     if (accountID) {
       let Customer = await fetch(
         API_BASE_URL + "/api/Customers/getCustomer?AccountId=" + accountID,
@@ -264,7 +273,6 @@ function CreateTickets() {
                         role="combobox"
                         aria-expanded={open1}
                         className="w-[200px] justify-between"
-                        onClick={GetCustomer}
                       >
                         {accountID
                           ? customers.find(
@@ -281,12 +289,10 @@ function CreateTickets() {
                         <CommandGroup>
                           {customers.map((customer) => (
                             <CommandItem
-                              key={customer.accountId}
+                              key={customer.accountId.toString()}
                               value={customer.accountId.toString()}
                               onSelect={(currentValue) => {
-                                setAccountID(
-                                  currentValue === accountID ? "" : currentValue
-                                );
+                                setAccountID(currentValue);
                                 setOpen1(false);
                               }}
                             >

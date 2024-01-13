@@ -86,7 +86,7 @@ function ViewMachine() {
                   </div>
                   <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
                     <p className="text-xl font-medium leading-6 text-foreground">Customer</p>
-                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{currentMachine.customer_Id}</p>
+                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{currentMachine.customerId}</p>
                   </div>
                   <div className="px-4 py-6  grid-cols-2 gap-2 px-0">
                     <p className="text-xl font-medium leading-6 text-foreground">Solutions of this machines</p>
