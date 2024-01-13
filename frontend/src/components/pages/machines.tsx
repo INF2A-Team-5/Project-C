@@ -16,8 +16,10 @@ import { toast } from "../ui/use-toast";
 import Layout from "../layout";
 import AddMachine from "../foundations/add-machine";
 import TableSkeleton from "../foundations/table-skeleton";
+import { useState } from "react";
 
 function Machines() {
+  const [open, setOpen] = useState(false);
   const isClient = localStorage.getItem("Class") == "Client";
   const apiUrl = isClient
     ? "/GetMachinesPerAccount?AccountId=" + localStorage.getItem("Id")
@@ -38,7 +40,7 @@ function Machines() {
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-medium">Machines</h1>
           {localStorage.getItem("Class") == "Admin" ? (
-            <Dialog>
+            <Dialog open={open} onOpenChange={(open) => setOpen(open)}>
               <DialogTrigger asChild>
                 <Button variant="default" size="sm" disabled={isFetching}>
                   Add machine
@@ -51,7 +53,7 @@ function Machines() {
                   <TextareaHint>Create new machines</TextareaHint>
                 </DialogHeader>
                 <DialogDescription>
-                  <AddMachine />
+                  <AddMachine setOpen={setOpen}/>
                 </DialogDescription>
               </DialogContent>
             </Dialog>

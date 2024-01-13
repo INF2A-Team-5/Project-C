@@ -25,12 +25,12 @@ import { Machine } from "@/types/Machine";
 import { DialogClose, DialogFooter } from "../ui/dialog";
 import { CaretDownIcon, CheckIcon } from "@radix-ui/react-icons";
 
-function AddMachine() {
+function AddMachine({ setOpen }: { setOpen: (_: boolean) => void }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [department, setDepartment] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [open, setOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const { data } = useQuery<Department[]>("/api/departments", {
     onError: () => {
@@ -113,6 +113,7 @@ function AddMachine() {
         description: "Machine added successfully.",
       });
       setIsLoading(false);
+      setOpen(false);
       setName("");
       setDescription("");
     }
@@ -125,12 +126,12 @@ function AddMachine() {
         onChange={(e) => setName(e.currentTarget.value)}
         value={name}
       />
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover open={menuOpen} onOpenChange={setMenuOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
             role="combobox"
-            aria-expanded={open}
+            aria-expanded={menuOpen}
             className="w-[200px] justify-between"
           >
             {data
@@ -157,7 +158,7 @@ function AddMachine() {
                         setDepartment(
                           currentValue === department ? "" : currentValue,
                         );
-                        setOpen(false);
+                        setMenuOpen(false);
                       }}
                     >
                       <CheckIcon

@@ -36,7 +36,7 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import { DialogClose, DialogFooter } from "../ui/dialog";
 
-function AddAccount() {
+function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -44,7 +44,7 @@ function AddAccount() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [department, setDepartment] = useState("");
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const passwordRef = React.useRef<HTMLInputElement>(null);
 
   const { data } = useQuery<Department[]>("/api/departments", {
@@ -162,6 +162,7 @@ function AddAccount() {
             description: "Account added successfully.",
           });
           setIsLoading(false);
+          setOpen(false);
         } catch (error) {
           console.log(error);
           toast({
@@ -211,12 +212,12 @@ function AddAccount() {
         </SelectContent>
       </Select>
       {userType == "ServiceEmployee" ? (
-        <Popover open={open} onOpenChange={setOpen}>
+        <Popover open={menuOpen} onOpenChange={setMenuOpen}>
           <PopoverTrigger asChild>
             <Button
               variant="outline"
               role="combobox"
-              aria-expanded={open}
+              aria-expanded={menuOpen}
               className="w-[200px] justify-between"
             >
               {department
@@ -240,7 +241,7 @@ function AddAccount() {
                       setDepartment(
                         currentValue === department ? "" : currentValue,
                       );
-                      setOpen(false);
+                      setMenuOpen(false);
                     }}
                   >
                     <CheckIcon

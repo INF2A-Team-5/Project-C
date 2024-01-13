@@ -9,7 +9,7 @@ import { Icons } from "./icons";
 import { API_BASE_URL, postBaseMutateRequest } from "@/lib/api";
 import { DialogClose, DialogFooter } from "../ui/dialog";
 
-function AddSolution() {
+function AddSolution({ setOpen }: { setOpen: (_: boolean) => void }) {
   useAuthenticated();
 
   const [problemDescription, setProblemDescription] = useState("");
@@ -59,6 +59,7 @@ function AddSolution() {
         description: "Solution added successfully.",
       });
       setIsLoading(false);
+      setOpen(false);
       navigate("/solutions");
       setProblemDescription("");
       setSolutionDescription("");
