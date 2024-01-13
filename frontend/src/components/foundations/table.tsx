@@ -23,11 +23,15 @@ import {
 import { Separator } from "../ui/separator";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "../ui/skeleton";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { Command, CommandGroup, CommandInput, CommandItem } from "../ui/command";
+import { CommandEmpty } from "cmdk";
+import { cn } from "@/lib/utils";
+import { useLocation } from "react-router-dom";
+import { Cross2Icon } from "@radix-ui/react-icons";
 
 interface TableProps<TData, TValue> {
-  // data: { [key: string]: any }[];
-  // displayColumns: string[];
-  // dataColumns: string[];
   data: TData[];
   columns: ColumnDef<TData, TValue>[];
 }
@@ -39,13 +43,16 @@ function DataTable<TData, TValue>({
   const [currentPage, setCurrentPage] = useState(1);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [openStatus, setOpenStatus] = useState(false);
+  const [isFiltered, setIsFiltered] = useState(false);
+
+  const location = useLocation();
 
   const totalPages = Math.ceil(data.length / 10);
 
   const table = useReactTable({
     data,
     columns,
-
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
@@ -73,6 +80,22 @@ function DataTable<TData, TValue>({
     column = "problemDescription";
     columnplaceholder = "Problem Description";
   }
+
+  const statuses = [
+    {
+      value: "open",
+      label: "Open",
+    },
+    {
+      value: "in process",
+      label: "In Process",
+    },
+    {
+      value: "closed",
+      label: "Closed",
+    },
+  ];
+
   return (
     <div className="grid gap-4">
       <div className="flex items-center">
@@ -84,6 +107,75 @@ function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
+
+        {location.pathname === "/tickets" ? (
+          <Input
+            type="number"
+            placeholder="Search for employee..."
+            value={(table.getColumn("employee_Id")?.getFilterValue() as number) ?? ""}
+            onChange={(event) => {
+              console.log(table.getAllColumns());
+              table.getColumn("employee_Id")?.setFilterValue(event.target.value);
+            }}
+            className="w-110 ml-4"
+          />
+        ) : null}
+
+        {location.pathname === "/tickets" ?
+          (<Popover open={openStatus} onOpenChange={setOpenStatus}>
+            <div className="pl-5">
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  role="combobox"
+                  aria-expanded={openStatus}
+                  className="w-[100px] justify-between "
+                >
+                  <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
+                  Status
+                </Button>
+              </PopoverTrigger>
+            </div>
+            <PopoverContent className="w-[100px] p-0">
+              <Command>
+                <CommandGroup>
+                  {statuses.map((status) => (
+                    <CommandItem
+                      key={status.label}
+                      value={status.value}
+                      onSelect={(currentValue) => {
+                        table
+                          .getColumn("status")
+                          ?.setFilterValue(currentValue);
+                        setOpenStatus(false);
+                        setIsFiltered(true);
+                      }}
+                    >
+                      {status.label}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </Command>
+            </PopoverContent>
+          </Popover>
+          ) : null}
+
+
+        {isFiltered ? (
+          <div className="pl-3">
+            <Button
+              variant="ghost"
+              onClick={() => {
+                table.resetColumnFilters();
+                setIsFiltered(false);
+              }}
+              className=""
+            >
+              Reset
+              <Cross2Icon className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+        ) : null}
       </div>
       <Card>
         <div>

@@ -25,6 +25,10 @@ function Machines() {
     ? "/GetMachinesPerAccount?AccountId=" + localStorage.getItem("Id")
     : "/api/MachineModels?accountId=" + localStorage.getItem("Id");
   const { data, isFetching } = useQuery<any[]>(apiUrl, {
+ // ? "/GetMachinesPerAccount?accountId=" + localStorage.getItem("Id")
+ // : `/api/machines/archived/${false}`;
+//const { data, isFetching } = useQuery<Machine[]>(apiUrl, {
+
     onError: () => {
       toast({
         variant: "destructive",

@@ -20,7 +20,8 @@ import { useState } from "react";
 
 function Accounts() {
   const [open, setOpen] = useState(false);
-  const { data, isFetching } = useQuery<Account[]>("/api/accounts", {
+
+  const { data, isFetching } = useQuery<Account[]>(`/api/accounts/archived/${false}`, {
     onError: () => {
       toast({
         variant: "destructive",

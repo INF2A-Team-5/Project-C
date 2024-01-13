@@ -4,4 +4,5 @@ export type Account = {
   password: string;
   phoneNumber: string;
   class: string;
+  archived: boolean;
 };

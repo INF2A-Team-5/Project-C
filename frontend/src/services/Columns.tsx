@@ -55,6 +55,111 @@ async function Claimticket(ticket: any) {
   }
 }
 
+async function ArchiveTicket(ticket: Ticket) {
+  try {
+    ticket.archived = true;
+    await fetch(
+      API_BASE_URL + "/api/tickets/" + ticket.ticketId,
+      putBaseMutateRequest(JSON.stringify(ticket)),
+    );
+    await fetch(
+      API_BASE_URL + "/api/solutions/ArchiveByTicket/" + ticket.ticketId,
+      putBaseMutateRequest(JSON.stringify(ticket)),
+    );
+    toast({
+      variant: "default",
+      title: "Succes!",
+      description: "Archived ticket.",
+    });
+  } catch (error) {
+    toast({
+      variant: "destructive",
+      title: "Error!",
+      description: "Error! Something went wrong.",
+    });
+  }
+}
+
+async function ArchiveMachine(machine: Machine) {
+  try {
+    machine.archived = true;
+    await fetch(
+      API_BASE_URL + "/api/machines/" + machine.machineId,
+      putBaseMutateRequest(JSON.stringify(machine)),
+    );
+    toast({
+      variant: "default",
+      title: "Succes!",
+      description: "Archived machine.",
+    });
+  } catch (error) {
+    toast({
+      variant: "destructive",
+      title: "Error!",
+      description: "Error! Something went wrong.",
+    });
+  }
+}
+
+async function ArchiveDepartment(department: Department) {
+  try {
+    department.archived = true;
+    await fetch(
+      API_BASE_URL + "/api/departments/" + department.departmentId,
+      putBaseMutateRequest(JSON.stringify(department)),
+    );
+    await fetch(
+      API_BASE_URL + "/api/Accounts/ArchiveByDepartment/" + department.departmentId,
+      putBaseMutateRequest(JSON.stringify(department)),
+    );
+    await fetch(
+      API_BASE_URL + "/api/Machines/ArchiveByDepartment/" + department.departmentId,
+      putBaseMutateRequest(JSON.stringify(department)),
+    );
+    toast({
+      variant: "default",
+      title: "Succes!",
+      description: "Archived department.",
+    });
+  } catch (error) {
+    toast({
+      variant: "destructive",
+      title: "Error!",
+      description: "Error! Something went wrong.",
+    });
+  }
+}
+
+async function ArchiveAccount(account: Account) {
+  const localStorageId = parseInt(localStorage.getItem("Id") || "");
+  if (account.accountId !== localStorageId) {
+    try {
+      account.archived = true;
+      await fetch(
+        API_BASE_URL + "/api/accounts/" + account.accountId,
+        putBaseMutateRequest(JSON.stringify(account)),
+      );
+      toast({
+        variant: "default",
+        title: "Succes!",
+        description: "Archived account.",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error!",
+        description: "Error! Something went wrong.",
+      });
+    }
+  } else {
+    toast({
+      variant: "destructive",
+      title: "Error!",
+      description: "Error! You can't archive your own account.",
+    });
+  }
+}
+
 export const ticketColumns: ColumnDef<Ticket>[] = [
   {
     accessorKey: "ticketId",
@@ -213,6 +318,11 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
               </DropdownMenuItem>
             ) : null}
             {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
+            {localStorage.getItem("Class") == "Admin" ? (
+              <DropdownMenuItem onClick={() => ArchiveTicket(ticket)}>
+                Archive ticket
+              </DropdownMenuItem>
+            ) : null}
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -440,6 +550,11 @@ export const modelColums: ColumnDef<MachineModel>[] = [
               </DropdownMenuItem>
             ) : null} */}
             {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
+            {localStorage.getItem("Class") == "Admin" ? (
+              <DropdownMenuItem onClick={() => ArchiveMachine(machine)}>
+                Archive machine
+              </DropdownMenuItem>
+            ) : null}
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -544,6 +659,11 @@ export const accountColumns: ColumnDef<Account>[] = [
               </DropdownMenuItem>
             ) : null} */}
             {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
+            {localStorage.getItem("Class") == "Admin" ? (
+              <DropdownMenuItem onClick={() => ArchiveAccount(account)}>
+                Archive account
+              </DropdownMenuItem>
+            ) : null}
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -628,6 +748,11 @@ export const departmentColumns: ColumnDef<Department>[] = [
               </DropdownMenuItem>
             ) : null} */}
             {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
+            {localStorage.getItem("Class") == "Admin" ? (
+              <DropdownMenuItem onClick={() => ArchiveDepartment(department)}>
+                Archive department
+              </DropdownMenuItem>
+            ) : null}
           </DropdownMenuContent>
         </DropdownMenu>
       );

@@ -7,4 +7,5 @@ namespace Backend.Entities;
         public MachineModel Model {get; set; } = null!;
         public Customer? Customer {get; set; }
         public int? Customer_Id {get; set;}
+        public bool Archived { get; set; } = false;
     }

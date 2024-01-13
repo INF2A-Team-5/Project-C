@@ -20,7 +20,9 @@ import { useState } from "react";
 
 function Departments() {
   const [open, setOpen] = useState(false);
-  const { data, isFetching } = useQuery<Department[]>("/api/departments", {
+
+  const { data, isFetching } = useQuery<Department[]>(`/api/departments/archived/${false}`, {
+
     onError: () => {
       toast({
         variant: "destructive",
