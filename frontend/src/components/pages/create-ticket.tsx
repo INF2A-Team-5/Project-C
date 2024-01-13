@@ -28,10 +28,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { CaretDownIcon, CheckIcon } from "@radix-ui/react-icons";
+
 import { cn } from "@/lib/utils";
-import { Machine } from "@/types/machine";
 import Layout from "../layout";
+import { MachineInfoDto } from "@/types/MachineInfo";
 
 function CreateTickets() {
   useAuthenticated();
@@ -40,7 +41,7 @@ function CreateTickets() {
   const [mustBeDoing, setMustBeDoing] = useState("");
   const [haveTried, setHaveTried] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [machines, setMachines] = useState<Machine[]>([]);
+  const [machines, setMachines] = useState<MachineInfoDto[]>([]);
   const [account, setAccount] = useState("");
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
   const [isChecked, setChecked] = useState<boolean>(false);
@@ -121,7 +122,7 @@ function CreateTickets() {
       title.length != 0
     ) {
       let machine = machines.find(
-        (machine: Machine) => machine.name.toLowerCase() == value,
+        (machine: MachineInfoDto) => machine.name.toLowerCase() == value,
       );
       if (machine == undefined) {
         toast({
@@ -226,7 +227,7 @@ function CreateTickets() {
                           (machine: any) => machine.name.toLowerCase() == value,
                         )?.name
                       : "Select machine..."}
-                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    <CaretDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-[200px] p-0">
@@ -245,7 +246,7 @@ function CreateTickets() {
                             setOpen(false);
                           }}
                         >
-                          <Check
+                          <CheckIcon
                             className={cn(
                               "mr-2 h-4 w-4",
                               value === machine.name

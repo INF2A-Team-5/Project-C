@@ -1,7 +1,6 @@
 import Table from "../foundations/table";
 import { Toaster } from "../ui/toaster";
 import { useQuery } from "@/lib/api";
-import { Machine } from "@/types/machine";
 import {
   Dialog,
   DialogContent,
@@ -11,19 +10,25 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { machineColumns } from "@/services/Columns";
+import { modelColums } from "@/services/Columns";
 import { TextareaHint } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
 import Layout from "../layout";
 import AddMachine from "../foundations/add-machine";
 import TableSkeleton from "../foundations/table-skeleton";
+import { useState } from "react";
 
 function Machines() {
+  const [open, setOpen] = useState(false);
   const isClient = localStorage.getItem("Class") == "Client";
   const apiUrl = isClient
-    ? "/GetMachinesPerAccount?accountId=" + localStorage.getItem("Id")
-    : `/api/machines/archived/${false}`;
-  const { data, isFetching } = useQuery<Machine[]>(apiUrl, {
+    ? "/GetMachinesPerAccount?AccountId=" + localStorage.getItem("Id")
+    : "/api/MachineModels?accountId=" + localStorage.getItem("Id");
+  const { data, isFetching } = useQuery<any[]>(apiUrl, {
+ // ? "/GetMachinesPerAccount?accountId=" + localStorage.getItem("Id")
+ // : `/api/machines/archived/${false}`;
+//const { data, isFetching } = useQuery<Machine[]>(apiUrl, {
+
     onError: () => {
       toast({
         variant: "destructive",
@@ -39,7 +44,7 @@ function Machines() {
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-medium">Machines</h1>
           {localStorage.getItem("Class") == "Admin" ? (
-            <Dialog>
+            <Dialog open={open} onOpenChange={(open) => setOpen(open)}>
               <DialogTrigger asChild>
                 <Button variant="default" size="sm" disabled={isFetching}>
                   Add machine
@@ -52,7 +57,7 @@ function Machines() {
                   <TextareaHint>Create new machines</TextareaHint>
                 </DialogHeader>
                 <DialogDescription>
-                  <AddMachine />
+                  <AddMachine setOpen={setOpen}/>
                 </DialogDescription>
               </DialogContent>
             </Dialog>
@@ -60,7 +65,7 @@ function Machines() {
         </div>
         <div className="grid gap-12">
           {data ? (
-            <Table data={data} columns={machineColumns} />
+            <Table data={data} columns={modelColums} />
           ) : (
             <TableSkeleton />
           )}

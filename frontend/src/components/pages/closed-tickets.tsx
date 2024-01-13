@@ -18,9 +18,8 @@ import Layout from "../layout";
 import { toast } from "../ui/use-toast";
 import TableSkeleton from "../foundations/table-skeleton";
 
-function Tickets() {
-  const { data, isFetching } = useQuery<Ticket[]>("/api/tickets?AccountId=" + localStorage.getItem("Id"), {
- //onst { data, isFetching } = useQuery<Ticket[]>(`/api/tickets/archived/${false}`, {
+function ClosedTickets() {
+  const { data, isFetching } = useQuery<Ticket[]>("/GetClosedTickets", {
     onError: () => {
       toast({
         variant: "destructive",
@@ -79,4 +78,4 @@ function Tickets() {
   );
 }
 
-export default Tickets;
+export default ClosedTickets;

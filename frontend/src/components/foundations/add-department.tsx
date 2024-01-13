@@ -10,7 +10,7 @@ import {
 import { toast } from "../ui/use-toast";
 import { DialogClose, DialogFooter } from "../ui/dialog";
 
-function AddDepartment() {
+function AddDepartment({ setOpen }: { setOpen: (_: boolean) => void }) {
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -49,6 +49,7 @@ function AddDepartment() {
           description: "Account added successfully.",
         });
         setIsLoading(false);
+        setOpen(false);
       } catch {
         toast({
           variant: "destructive",
