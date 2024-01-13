@@ -44,6 +44,16 @@ namespace Backend.AccountService
             }
             return await _context.Accounts.Where(x => x.Class == classname).ToListAsync();
         }
+        public async Task<ActionResult<IEnumerable<Account>>> GetAccountsByArchived(bool archived)
+        {
+            var accounts = await _context.Accounts.Where(a => a.Archived == archived).ToListAsync();
+            if (accounts == null)
+            {
+                return NotFound();
+            }
+            return accounts;
+        }
+
         public async Task<IActionResult> UpdateAccount(int id, Account account)
         {
             if (id != account.AccountId)
@@ -70,6 +80,32 @@ namespace Backend.AccountService
                     throw;
                 }
             }
+            return NoContent();
+        }
+
+        public async Task<IActionResult> ArchiveAccountByDepartmentId(int DepartmentId)
+        {
+            if (_context.Accounts == null)
+            {
+                return NotFound();
+            }
+            //var accounts = await _context.Accounts.Where(a => a.departmentId == DepartmentId).ToListAsync();
+
+            var accounts = from employee in _context.Employees
+                           where employee.DepartmentId == DepartmentId
+                           join account in _context.Accounts
+                           on employee.AccountId equals account.AccountId
+                           select account;
+
+            if (accounts == null)
+            {
+                return NotFound();
+            }
+            foreach (var account in accounts)
+            {
+                account.Archived = true;
+            }
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 

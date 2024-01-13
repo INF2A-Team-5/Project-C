@@ -22,7 +22,7 @@ function Machines() {
   const isClient = localStorage.getItem("Class") == "Client";
   const apiUrl = isClient
     ? "/GetMachinesPerAccount?accountId=" + localStorage.getItem("Id")
-    : "/api/machines";
+    : `/api/machines/archived/${false}`;
   const { data, isFetching } = useQuery<Machine[]>(apiUrl, {
     onError: () => {
       toast({

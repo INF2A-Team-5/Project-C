@@ -7,4 +7,5 @@ public class Account
     public string Password { get; set; } = null!;
     public string? PhoneNumber { get; set; } // moet weg straks (staat nu bij Customer)
     public AccountType Class { get; set; }
+    public bool Archived { get; set; } = false;
 }
