@@ -24,12 +24,9 @@ import { Separator } from "../ui/separator";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "../ui/skeleton";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { Command, CommandGroup, CommandInput, CommandItem } from "../ui/command";
-import { CommandEmpty } from "cmdk";
-import { cn } from "@/lib/utils";
+import { Command, CommandGroup,  CommandItem } from "../ui/command";
 import { useLocation } from "react-router-dom";
-import { Cross2Icon } from "@radix-ui/react-icons";
+import { CaretSortIcon, Cross2Icon } from "@radix-ui/react-icons";
 
 interface TableProps<TData, TValue> {
   data: TData[];
@@ -45,6 +42,8 @@ function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [openStatus, setOpenStatus] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
+  const [value, setValue] = useState("")
+
 
   const location = useLocation();
 
@@ -107,20 +106,6 @@ function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-
-        {location.pathname === "/tickets" ? (
-          <Input
-            type="number"
-            placeholder="Search for employee..."
-            value={(table.getColumn("employee_Id")?.getFilterValue() as number) ?? ""}
-            onChange={(event) => {
-              console.log(table.getAllColumns());
-              table.getColumn("employee_Id")?.setFilterValue(event.target.value);
-            }}
-            className="w-110 ml-4"
-          />
-        ) : null}
-
         {location.pathname === "/tickets" ?
           (<Popover open={openStatus} onOpenChange={setOpenStatus}>
             <div className="pl-5">
@@ -129,10 +114,10 @@ function DataTable<TData, TValue>({
                   variant="outline"
                   role="combobox"
                   aria-expanded={openStatus}
-                  className="w-[100px] justify-between "
-                >
-                  <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
-                  Status
+                  className="w-[120px] justify-between"
+                  >
+                  {value ? statuses.find((status) => status.value === value)?.label : "Status"}
+                  <CaretSortIcon className="h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
             </div>
@@ -147,6 +132,7 @@ function DataTable<TData, TValue>({
                         table
                           .getColumn("status")
                           ?.setFilterValue(currentValue);
+                        setValue(currentValue === value ? "" : currentValue)
                         setOpenStatus(false);
                         setIsFiltered(true);
                       }}

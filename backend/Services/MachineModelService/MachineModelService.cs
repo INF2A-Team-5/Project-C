@@ -15,7 +15,7 @@ namespace Backend.MachineModelService
             _context = context;
         }
 
-        public async Task<ActionResult<IEnumerable<MachineModel>>> GetAllMachineModels(int AccountId)
+        public async Task<ActionResult<IEnumerable<MachineModel>>> GetAllMachineModels(int AccountId, bool archived)
         {
             if (_context.Accounts == null || _context.Tickets == null || _context.Customers == null | _context.Employees == null || _context.Departments == null)
             {
@@ -35,7 +35,7 @@ namespace Backend.MachineModelService
                     {
                         return NotFound();
                     }
-                    var depMachines = await (from model in _context.Models where model.DepartmentId == departmentId select model).ToListAsync();
+                    var depMachines = await (from model in _context.Models where model.DepartmentId == departmentId && model.Archived == archived select model).ToListAsync();
                     if (depMachines == null || depMachines.Count == 0)
                     {
                         return NotFound("No tickets under this department");
@@ -46,7 +46,7 @@ namespace Backend.MachineModelService
                         return NotFound("Wrong account");
                     }
                 case AccountType.Admin:
-                    var models = await _context.Models.ToListAsync();
+                    var models = await (from model in _context.Models where model.Archived == archived select model).ToListAsync();
                     if (models == null)
                     {
                         return NotFound();
