@@ -49,42 +49,13 @@ function CreateTickets() {
   const [value, setValue] = useState("");
   const navigate = useNavigate();
 
-  const [userPhoneNumber, setUserPhoneNumber] = useState("");
-
   useEffect(() => {
-    async function fetchPhoneStatus() {
-      const phoneStatus = await hasPhoneConnected();
-      setUserPhoneNumber(phoneStatus);
-      setPhoneNumber(phoneStatus);
-    }
-
-    fetchPhoneStatus();
-
-    return () => {
-      // cleanup
-    };
-  }, []);
-
-  async function hasPhoneConnected(): Promise<string> {
-    let currentaccount = await fetch(
-      API_BASE_URL + "/api/accounts/",
-      getBaseQueryRequest(),
-    )
-      .then((data) => data.json())
-      .then((accounts) =>
-        accounts.find(
-          (acc: any) => acc.accountId == localStorage.getItem("Id"),
-        ),
-      );
-
-    return currentaccount.phoneNumber;
-  }
-
-  //switch (userPhoneNum) {case null: userPhoneNum = ""; break; default: break;}
+    getPhone();
+  }, [])
 
   const handleCheckbox = () => {
     setChecked(!isChecked);
-    
+    isChecked ? getPhone() : null;
   };
 
   const { t, i18n } = useTranslation();
@@ -112,6 +83,21 @@ function CreateTickets() {
 
     setAccount(localStorage.getItem("Id")!);
     setMachines(machinelist);
+  }
+
+  async function getPhone() {
+    let currentaccount = await fetch(
+      API_BASE_URL + "/api/accounts/",
+      getBaseQueryRequest(),
+    )
+      .then((data) => data.json())
+      .then((accounts) =>
+        accounts.find(
+          (acc: any) => acc.accountId == localStorage.getItem("Id"),
+        ),
+      );
+
+    setPhoneNumber(currentaccount.phoneNumber);
   }
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -343,12 +329,12 @@ function CreateTickets() {
 
           <div>
 
-            {Boolean(userPhoneNumber) ? (
+            {Boolean(phoneNumber) ? (
               <div className="mx-auto flex flex-col items-start space-y-2">
 
               <div className="w-full flex items-center">
               <Label>{t("ticket.currentphonenum")}</Label>
-              <Label className="m-1">{userPhoneNumber}</Label>
+              <Label className="m-1">{phoneNumber}</Label>
               </div>
               <div className="w-full flex items-center">
                 <Checkbox id="" onClick={handleCheckbox} className=""/>

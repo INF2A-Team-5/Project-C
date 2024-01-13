@@ -18,7 +18,6 @@ import React from "react";
 import { Toaster } from "../ui/toaster";
 import Layout from "../layout";
 import { useTranslation } from "react-i18next";
-import { PasswordInput } from "../ui/passwordinput";
 import { Checkbox } from "../ui/checkbox";
 
 function EditAccount() {
@@ -42,24 +41,11 @@ function EditAccount() {
     /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
   const [phonePlaceholder, setPhonePlaceholder] = useState("");
 
-  useEffect(() => {
-    async function fetchPhoneStatus() {
-      const phoneStatus = await hasPhoneConnected();
-      setPhonePlaceholder(phoneStatus);
-    }
-
-    fetchPhoneStatus();
-
-    return () => {
-      // cleanup
-    };
-  }, []);
-
   function validatePhone() {
     return phoneRegex.test(phone);
   }
 
-  async function hasPhoneConnected(): Promise<string> {
+  async function getPhone() {
     let currentaccount = await fetch(
       API_BASE_URL + "/api/accounts/",
       getBaseQueryRequest(),
@@ -70,17 +56,18 @@ function EditAccount() {
           (acc: any) => acc.accountId == localStorage.getItem("Id"),
         ),
       );
-
-    if (currentaccount.phoneNumber == null) {
-      return t("editaccount.changephonenumberdes");
-    } else {
-      return currentaccount.phoneNumber;
-    }
+      
+      if (currentaccount.phoneNumber == null) {
+        setPhonePlaceholder(t("editaccount.changephonenumberdes"));
+      } else {
+        setPhonePlaceholder(currentaccount.phoneNumber);
+      }
   }
 
   const { t, i18n } = useTranslation();
   useEffect(() => {
     i18n.changeLanguage(navigator.language);
+    getPhone();
   }, []);
 
   async function handleSubmitPhone() {
@@ -193,12 +180,12 @@ function EditAccount() {
         </div>
           <div className="grid gap-2">
             <Input
-              id="password"
+              id="oldpassword"
               ref={passwordRef}
               name="password"
               placeholder={t("editaccount.newpass")}
               type={visibleNewPass ? "text" : "password"}
-              onChange={(e) => setPassword(e.currentTarget.value)}
+              onChange={(e) => setOldPassword(e.currentTarget.value)}
             />
             <div className="flex items-center justify-start space-x-1">
               <Checkbox
@@ -213,12 +200,12 @@ function EditAccount() {
           </div>
           <div className="grid gap-2">
           <Input
-            id="password"
+            id="confirmpassword"
             ref={passwordRef}
             name="password"
             placeholder={t("editaccount.newpassconf")}
             type={visibleNewPass ? "text" : "password"}
-            onChange={(e) => setPassword(e.currentTarget.value)}
+            onChange={(e) => setConfirmPass(e.currentTarget.value)}
           />
           <div className="flex items-center justify-start space-x-1">
             <Checkbox
