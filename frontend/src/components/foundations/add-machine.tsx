@@ -45,7 +45,7 @@ function AddMachine() {
   async function handleSubmit() {
     setIsLoading(true);
     const machine: Machine = await fetch(
-      API_BASE_URL + "/api/machines",
+      API_BASE_URL + "/api/MachineModels?AccountId=" + localStorage.getItem("Id"),
       getBaseQueryRequest(),
     )
       .then((data) => data.json())
@@ -97,7 +97,7 @@ function AddMachine() {
       setIsLoading(false);
     } else {
       fetch(
-        API_BASE_URL + "/api/machines",
+        API_BASE_URL + "/api/MachineModels",
         postBaseMutateRequest(
           JSON.stringify({
             name: name,

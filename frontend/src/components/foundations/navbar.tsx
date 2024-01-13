@@ -3,10 +3,12 @@ import Settings from "./settings";
 
 function Navbar() {
   const location = useLocation();
-  // const role = localStorage.getItem("Role");
   let navItems = [
-    { label: "All tickets", path: ["/tickets", "/create-ticket", "/view-ticket"] },
-  ];
+    {
+      label: "All tickets",
+      path: ["/tickets", "/create-ticket", "/view-ticket"],
+    },
+  ];  
   if (
     localStorage.getItem("Class") == "ServiceEmployee" ||
     localStorage.getItem("Class") == "Admin"
@@ -17,7 +19,8 @@ function Navbar() {
       { label: "Closed tickets", path: ["/closed-tickets"] },
     );
   }
-  navItems.push({ label: "Machines", path: ["/machines"] });
+  navItems.push({ label: "Machines", path: ["/machines"] }
+  )
   if (localStorage.getItem("Class") == "Admin") {
     navItems.push(
       { label: "Departments", path: ["/departments"] },

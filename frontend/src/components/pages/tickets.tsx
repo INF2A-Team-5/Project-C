@@ -19,12 +19,8 @@ import { toast } from "../ui/use-toast";
 import TableSkeleton from "../foundations/table-skeleton";
 
 function Tickets() {
-  let url = "/api/tickets"
-  if (localStorage.getItem("Class") == "Client")
-  {
-    url = "/GetCustomerTickets?AccountId=" + localStorage.getItem("Id");
-  }
-  const { data, isFetching } = useQuery<Ticket[]>(url, {
+
+  const { data, isFetching } = useQuery<Ticket[]>("/api/tickets?AccountId=" + localStorage.getItem("Id"), {
     onError: () => {
       toast({
         variant: "destructive",
@@ -33,7 +29,6 @@ function Tickets() {
       });
     },
   });
-  console.log(url, data);
   return (
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">

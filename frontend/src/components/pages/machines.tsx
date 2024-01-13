@@ -1,7 +1,6 @@
 import Table from "../foundations/table";
 import { Toaster } from "../ui/toaster";
 import { useQuery } from "@/lib/api";
-import { Machine } from "@/types/Machine";
 import {
   Dialog,
   DialogContent,
@@ -11,19 +10,18 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { machineColumns } from "@/services/Columns";
+import { modelColums } from "@/services/Columns";
 import { TextareaHint } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
 import Layout from "../layout";
 import AddMachine from "../foundations/add-machine";
 import TableSkeleton from "../foundations/table-skeleton";
 
-
 function Machines() {
   const isClient = localStorage.getItem("Class") == "Client";
   const apiUrl = isClient
-    ? "/GetMachinesPerAccount?accountId=" + localStorage.getItem("Id")
-    : "/api/MachineModels";
+    ? "/GetMachinesPerAccount?AccountId=" + localStorage.getItem("Id")
+    : "/api/MachineModels?accountId=" + localStorage.getItem("Id");
   const { data, isFetching } = useQuery<any[]>(apiUrl, {
     onError: () => {
       toast({
@@ -61,7 +59,7 @@ function Machines() {
         </div>
         <div className="grid gap-12">
           {data ? (
-            <Table data={data} columns={machineColumns} />
+            <Table data={data} columns={modelColums} />
           ) : (
             <TableSkeleton />
           )}

@@ -10,11 +10,6 @@ import {
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import {
-  API_BASE_URL,
-  getBaseQueryRequest,
-  putBaseMutateRequest,
-} from "@/lib/api";
-import {
   getFilteredRowModel,
   ColumnFiltersState,
   ColumnDef,

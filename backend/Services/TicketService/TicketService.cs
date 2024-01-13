@@ -13,13 +13,48 @@ namespace Backend.TicketService
             _context = context;
         }
 
-        public async Task<ActionResult<IEnumerable<Ticket>>> GetAllTickets()
+        public async Task<ActionResult<IEnumerable<Ticket>>> GetAllTickets(int AccountId)
         {
-            if (_context.Accounts == null)
+            if (_context.Accounts == null || _context.Tickets == null || _context.Customers == null | _context.Employees == null || _context.Departments == null)
             {
                 return NotFound();
             }
-            return await _context.Tickets.ToListAsync();
+            var account = await (from accs in _context.Accounts where accs.AccountId == AccountId select accs).FirstOrDefaultAsync();
+            if (account == null)
+            {
+                return NotFound();
+            }
+            switch (account.Class)
+            {
+                case AccountType.ServiceEmployee:
+                    var employee = await (from accs in _context.Employees where accs.AccountId == account.AccountId select accs).FirstOrDefaultAsync();
+                    int departmentId = await (from employees in _context.Employees where employees.AccountId == AccountId select employees.DepartmentId).FirstOrDefaultAsync();
+                    if (employee == null)
+                    {
+                        return NotFound();
+                    }
+                    var empTickets = await (from ticket in _context.Tickets from machinemodel in _context.Models where ticket.Machine_Id == machinemodel.ModelId && machinemodel.DepartmentId == departmentId select ticket).ToListAsync();
+                    if (empTickets == null || empTickets.Count == 0)
+                    {
+                        return NotFound("No tickets under this department");
+                    }
+                    return empTickets;
+                case AccountType.Client:
+                    var customer = await (from customers in _context.Customers where customers.AccountId == AccountId select customers).FirstOrDefaultAsync();
+                    if (customer == null)
+                    {
+                        return NotFound("Customer does not exist");
+                    }
+                    var cusTickets = await (from ticket in _context.Tickets where ticket.Customer_Id == customer.AccountId select ticket).ToListAsync();
+                    if (cusTickets == null || cusTickets.Count == 0)
+                    {
+                        return NotFound("No tickets found");
+                    }
+                    return cusTickets;
+                case AccountType.Admin:
+                    return await _context.Tickets.ToListAsync();
+            }
+            return NotFound();
         }
 
         public async Task<ActionResult<Ticket>> GetTicketById(int id)
@@ -88,64 +123,80 @@ namespace Backend.TicketService
             await _context.SaveChangesAsync();
             return NoContent();
         }
-        public async Task<ActionResult<IEnumerable<Ticket>>> GetTicketByDepartment(int AccountId)
-        {
-            if (_context.Tickets == null || _context.Departments == null || _context.Machines == null)
-            {
-                return NotFound("No data found in db");
-            }
-            int departmentId = await (from employees in _context.Employees where employees.AccountId == AccountId select employees.DepartmentId).FirstOrDefaultAsync();
-            var tickets = await (from ticket in _context.Tickets from machinemodel in _context.Models where ticket.Machine_Id == machinemodel.ModelId && machinemodel.DepartmentId == departmentId select ticket).ToListAsync();
+        // public async Task<ActionResult<IEnumerable<Ticket>>> GetTicketByDepartment(int AccountId)
+        // {
+        //     if (_context.Tickets == null || _context.Departments == null || _context.Machines == null)
+        //     {
+        //         return NotFound("No data found in db");
+        //     }
+        //     int departmentId = await (from employees in _context.Employees where employees.AccountId == AccountId select employees.DepartmentId).FirstOrDefaultAsync();
+        //     var tickets = await (from ticket in _context.Tickets from machinemodel in _context.Models where ticket.Machine_Id == machinemodel.ModelId && machinemodel.DepartmentId == departmentId select ticket).ToListAsync();
 
-            if (tickets == null || tickets.Count == 0)
-            {
-                return NotFound("No tickets under this department");
-            }
-            return tickets;
-        }
+        //     if (tickets == null || tickets.Count == 0)
+        //     {
+        //         return NotFound("No tickets under this department");
+        //     }
+        //     return tickets;
+        // }
         public async Task<ActionResult<IEnumerable<Ticket>>> GetAssignedTickets(int AccountId)
         {
             if (_context.Tickets == null || _context.Departments == null || _context.Machines == null || _context.Employees == null)
             {
                 return NotFound("No data found in db");
             }
-            var employee = await (from employees in _context.Employees where employees.AccountId == AccountId select employees).FirstOrDefaultAsync();
+            var account = await (from accs in _context.Accounts where accs.AccountId == AccountId select accs).FirstOrDefaultAsync();
+            if (account == null)
+            {
+                return NotFound();
+            }
+            var employee = await (from accs in _context.Employees where accs.AccountId == account.AccountId select accs).FirstOrDefaultAsync();
+            int departmentId = await (from employees in _context.Employees where employees.AccountId == AccountId select employees.DepartmentId).FirstOrDefaultAsync();
             if (employee == null)
             {
-                return NotFound("Employee does not exist");
+                return NotFound();
             }
-            var tickets = await (from ticket in _context.Tickets where ticket.Employee_Id == employee.EmployeeId select ticket).ToListAsync();
-            if (tickets == null || tickets.Count == 0)
-            {
-                return NotFound("No tickets assigned");
-            }
-            return tickets;
+            var empTickets = await (from ticket in _context.Tickets from machinemodel in _context.Models where ticket.Machine_Id == machinemodel.ModelId && machinemodel.DepartmentId == departmentId && ticket.Employee_Id == employee.EmployeeId select ticket).ToListAsync();
+            return empTickets;
         }
-        public async Task<ActionResult<IEnumerable<Ticket>>> GetUnasignedTickets()
+        public async Task<ActionResult<IEnumerable<Ticket>>> GetUnasignedTickets(int AccountId)
         {
-            if (_context.Tickets == null)
+            if (_context.Tickets == null || _context.Departments == null || _context.Machines == null || _context.Employees == null)
             {
                 return NotFound("No data found in db");
             }
-            var tickets = await (from ticket in _context.Tickets where ticket.Employee_Id == null select ticket).ToListAsync();
-            if (tickets == null || tickets.Count == 0)
+            var account = await (from accs in _context.Accounts where accs.AccountId == AccountId select accs).FirstOrDefaultAsync();
+            if (account == null)
             {
-                return NotFound("No tickets assigned");
+                return NotFound();
             }
-            return tickets;
+            var employee = await (from accs in _context.Employees where accs.AccountId == account.AccountId select accs).FirstOrDefaultAsync();
+            int departmentId = await (from employees in _context.Employees where employees.AccountId == AccountId select employees.DepartmentId).FirstOrDefaultAsync();
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            var empTickets = await (from ticket in _context.Tickets from machinemodel in _context.Models where ticket.Machine_Id == machinemodel.ModelId && machinemodel.DepartmentId == departmentId && ticket.Employee_Id == null select ticket).ToListAsync();
+            return empTickets;
         }
-        public async Task<ActionResult<IEnumerable<Ticket>>> GetClosedTickets()
+        public async Task<ActionResult<IEnumerable<Ticket>>> GetClosedTickets(int AccountId)
         {
-            if (_context.Tickets == null)
+            if (_context.Tickets == null || _context.Departments == null || _context.Machines == null || _context.Employees == null)
             {
                 return NotFound("No data found in db");
             }
-            var tickets = await (from ticket in _context.Tickets where ticket.Status == "Closed" select ticket).ToListAsync();
-            if (tickets == null || tickets.Count == 0)
+            var account = await (from accs in _context.Accounts where accs.AccountId == AccountId select accs).FirstOrDefaultAsync();
+            if (account == null)
             {
-                return NotFound("No tickets closed");
+                return NotFound();
             }
-            return tickets;
+            var employee = await (from accs in _context.Employees where accs.AccountId == account.AccountId select accs).FirstOrDefaultAsync();
+            int departmentId = await (from employees in _context.Employees where employees.AccountId == AccountId select employees.DepartmentId).FirstOrDefaultAsync();
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            var empTickets = await (from ticket in _context.Tickets from machinemodel in _context.Models where ticket.Machine_Id == machinemodel.ModelId && machinemodel.DepartmentId == departmentId && ticket.Status == "Closed" select ticket).ToListAsync();
+            return empTickets;
         }
         public async Task<ActionResult<IEnumerable<Ticket>>> GetClosedTicketsPerCustomer(int AccountId)
         {
@@ -160,24 +211,24 @@ namespace Backend.TicketService
             }
             return tickets;
         }
-        public async Task<ActionResult<IEnumerable<Ticket>>> GetCustomerTickets(int AccountId)
-        {
-            if (_context.Tickets == null  || _context.Machines == null || _context.Employees == null || _context.Customers == null)
-            {
-                return NotFound("No data found in db");
-            }
-            var customer = await (from customers in _context.Customers where customers.AccountId == AccountId select customers).FirstOrDefaultAsync();
-            if (customer == null)
-            {
-                return NotFound("Customer does not exist");
-            }
-            var tickets = await (from ticket in _context.Tickets where ticket.Customer_Id == customer.AccountId select ticket).ToListAsync();
-            if (tickets == null || tickets.Count == 0)
-            {
-                return NotFound("No tickets found");
-            }
-            return tickets;
-        }
+        // public async Task<ActionResult<IEnumerable<Ticket>>> GetCustomerTickets(int AccountId)
+        // {
+        //     if (_context.Tickets == null || _context.Machines == null || _context.Employees == null || _context.Customers == null)
+        //     {
+        //         return NotFound("No data found in db");
+        //     }
+        //     var customer = await (from customers in _context.Customers where customers.AccountId == AccountId select customers).FirstOrDefaultAsync();
+        //     if (customer == null)
+        //     {
+        //         return NotFound("Customer does not exist");
+        //     }
+        //     var tickets = await (from ticket in _context.Tickets where ticket.Customer_Id == customer.AccountId select ticket).ToListAsync();
+        //     if (tickets == null || tickets.Count == 0)
+        //     {
+        //         return NotFound("No tickets found");
+        //     }
+        //     return tickets;
+        // }
         private bool TicketExists(int id) => (_context.Tickets?.Any(e => e.TicketId == id)).GetValueOrDefault();
     }
 }

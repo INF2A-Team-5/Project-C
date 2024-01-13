@@ -67,7 +67,6 @@ namespace Backend.MachineService
             {
                 return Problem("Entity set 'DataContext.Machines'  is null.");
             }
-
             return Ok();
         }
 

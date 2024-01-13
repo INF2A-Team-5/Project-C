@@ -31,8 +31,8 @@ import {
 import { CaretDownIcon, CheckIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
-import { Machine } from "@/types/Machine";
 import Layout from "../layout";
+import { MachineInfoDto } from "@/types/MachineInfo";
 
 function CreateTickets() {
   useAuthenticated();
@@ -41,7 +41,7 @@ function CreateTickets() {
   const [mustBeDoing, setMustBeDoing] = useState("");
   const [haveTried, setHaveTried] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [machines, setMachines] = useState<Machine[]>([]);
+  const [machines, setMachines] = useState<MachineInfoDto[]>([]);
   const [account, setAccount] = useState("");
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
   const [isChecked, setChecked] = useState<boolean>(false);
@@ -122,7 +122,7 @@ function CreateTickets() {
       title.length != 0
     ) {
       let machine = machines.find(
-        (machine: Machine) => machine.name.toLowerCase() == value,
+        (machine: MachineInfoDto) => machine.name.toLowerCase() == value,
       );
       if (machine == undefined) {
         toast({
