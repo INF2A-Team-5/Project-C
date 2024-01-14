@@ -3,14 +3,24 @@ import Settings from "./settings";
 
 function Navbar() {
   const location = useLocation();
-  // const role = localStorage.getItem("Role");
   let navItems = [
-    { label: "Tickets", path: ["/tickets", "/create-ticket", "/view-ticket"] },
-  ];
-  // if (localStorage.getItem("Class") == "ServiceEmployee")
-  // {
-  navItems.push({ label: "Machines", path: ["/machines"] });
-  // }
+    {
+      label: "All tickets",
+      path: ["/tickets", "/create-ticket", "/view-ticket"],
+    },
+  ];  
+  if (
+    localStorage.getItem("Class") == "ServiceEmployee" ||
+    localStorage.getItem("Class") == "Admin"
+  ) {
+    navItems.push(
+      { label: "Assigned tickets", path: ["/assigned-tickets"] },
+      { label: "Unassigned tickets", path: ["/unassigned-tickets"] },
+      { label: "Closed tickets", path: ["/closed-tickets"] },
+    );
+  }
+  navItems.push({ label: "Machines", path: ["/machines"] }
+  )
   if (localStorage.getItem("Class") == "Admin") {
     navItems.push(
       { label: "Departments", path: ["/departments"] },

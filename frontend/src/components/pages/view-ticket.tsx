@@ -12,10 +12,10 @@ import { useTranslation } from "react-i18next";
 import { Button } from "../ui/button";
 import { Textarea, TextareaHint } from "../ui/textarea";
 import { Input } from "../ui/input";
-import { Label } from "../ui/label";
 import {
   API_BASE_URL,
   getBaseQueryRequest,
+  postBaseMutateRequest,
   putBaseMutateRequest,
 } from "@/lib/api";
 import {
@@ -30,15 +30,7 @@ import {
 } from "../ui/dialog";
 import { Toaster } from "../ui/toaster";
 import { toast } from "../ui/use-toast";
-import { Ticket } from "@/types/ticket";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
+import { Ticket } from "@/types/Ticket";
 import Layout from "../layout";
 
 function ViewTicket() {
@@ -49,31 +41,28 @@ function ViewTicket() {
 
   const navigate = useNavigate();
   const [notes, setNotes] = useState("");
-  const [preview, setPreview] = useState<string[]>([]);
+  const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
+  const [showPicturesinfo, setShowPictures] = useState<boolean>(false);
+  const [pictures, setPictures] = useState<string[]>([]);
   const [ticketInfo, setTicketInfo] = useState<any>(null);
   const ticketId = localStorage.getItem("currentticketID");
   const [showTicketInfo, setShowTicketInfo] = useState(false);
   const [isClient, setIsClient] = useState<boolean>(false);
   const [solution, setSolution] = useState("");
   const [reopen, setReopen] = useState("");
-  const [currentTicket, setCurrentTicket] = useState<Ticket | undefined>(
-    undefined,
-  );
+  const [currentTicket, setCurrentTicket] = useState<any>();
 
   useEffect(() => {
     checkAccount();
-  }, []);
-
-  useEffect(() => {
     getTicket();
   }, []);
+
   async function getTicket() {
-    let tick = await fetch(
+    let tick: Ticket = await fetch(
       API_BASE_URL + "/api/tickets/" + ticketId,
       getBaseQueryRequest(),
     ).then((data) => data.json());
     setCurrentTicket(tick);
-    // return currentTicket;
   }
 
   useEffect(() => {
@@ -99,22 +88,24 @@ function ViewTicket() {
     const fileList = e.target.files;
 
     if (fileList) {
-      const allPreviews: string[] = [];
+      const allPreviews: (string | ArrayBuffer)[] = [];
 
       for (let i = 0; i < fileList.length; i++) {
         const file = fileList[i];
 
         const reader = new FileReader();
-
-        reader.onload = (event) => {
-          const result = event.target?.result;
-
-          if (result && typeof result === "string") {
-            allPreviews.push(result); // Add strings (URLs or Base64-encoded) to previews
-            setPreview([...allPreviews]); // Set the state after adding all previews
+        reader.onload = () => {
+          const result = reader.result;
+          if (result) {
+            allPreviews.push(result);
+            if (preview.length != null) {
+              preview.forEach(function (item) {
+                allPreviews.push(item);
+              });
+            }
+            setPreview(allPreviews);
           }
         };
-
         reader.readAsDataURL(file);
       }
     }
@@ -131,12 +122,11 @@ function ViewTicket() {
         if (!response.ok) {
           const errorResponse = await response.text(); // Capture response content
           throw new Error(
-            `HTTP error! Status: ${
-              response.status
+            `HTTP error! Status: ${response.status
             }. Error message: ${JSON.stringify(errorResponse)}`,
           );
         }
-      } catch (error) {}
+      } catch (error) { }
     }
   }
 
@@ -144,6 +134,20 @@ function ViewTicket() {
     if (currentTicket) {
       setShowTicketInfo(true);
       setTicketInfo(currentTicket);
+    }
+  }
+
+  async function showPictures() {
+    if (currentTicket) {
+      if (showPicturesinfo == true) {
+        setShowPictures(false);
+      }
+      else {
+        setShowPictures(true)
+        if (currentTicket.files.length != 0) {
+          setPictures(currentTicket.files)
+        }
+      }
     }
   }
 
@@ -168,6 +172,7 @@ function ViewTicket() {
           : [reopen];
         currentTicket.status = "Open";
         sendTicket(currentTicket);
+        navigate(0);
       } else {
         toast({
           variant: "destructive",
@@ -182,32 +187,57 @@ function ViewTicket() {
   async function closeTicket() {
     if (currentTicket) {
       if (solution.length != 0) {
-        currentTicket.status = "Closed";
-        currentTicket.solution = solution;
-        sendTicket(currentTicket);
+        try {
+          currentTicket.status = "Closed";
+          currentTicket.solution = solution;
+          console.log(currentTicket)
+          var newSolution = {
+            problemDescription: currentTicket.problem,
+            solutionDescription: solution,
+            machineId: currentTicket.machine_Id,
+            ticketId: currentTicket.ticketId
+          }
+          console.log(newSolution)
+          await fetch(
+            API_BASE_URL + "/api/Solutions",
+            postBaseMutateRequest(JSON.stringify(newSolution)),
+          );
+          toast({
+            variant: "default",
+            title: "Succes!",
+            description: t("ticket.submitalert"),
+          });
+          sendTicket(currentTicket);
+          navigate(0);
+        }
+        catch {
+          toast({
+            variant: "destructive",
+            title: "Error! Something went wrong.",
+            description:
+              "You need to enter a solution if you want to close the ticket",
+          });
+        }
       } else {
-        toast({
-          variant: "destructive",
-          title: "Error! Something went wrong.",
-          description:
-            "You need to enter a solution if you want to close the ticket",
-        });
+
       }
     }
   }
 
   async function handleSubmit() {
     if (currentTicket) {
+      const filteredPreview: string[] = preview
+        .filter((item) => typeof item === 'string')
+        .map((item) => item as string);
       currentTicket.notes = currentTicket.notes
         ? [...currentTicket.notes, notes]
         : [notes];
       currentTicket.files = currentTicket.files
-        ? [...currentTicket.files, ...preview]
-        : [...preview];
+        ? [...currentTicket.files, ...filteredPreview]
+        : [...filteredPreview];
       sendTicket(currentTicket);
       alert("Ticket updated");
-      navigate(-1);
-      // If needed, you can handle the response data here
+      navigate(0);
     }
   }
 
@@ -215,72 +245,96 @@ function ViewTicket() {
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col">
         <div className="grid gap-8">
-          <div>
-            <h1 className="text-3xl font-medium">Your ticket</h1>
-            <Label>View and edit ticket</Label>
-          </div>
 
           {showTicketInfo && (
             <div>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Title: {ticketInfo.title}</CardTitle>
-                  {"ID: " + ticketInfo.ticketId}
-                </CardHeader>
-
-                <CardContent>
-                  <h1>What is the problem?</h1>
-                  <p className="XL">{ticketInfo.problem}</p>
-                  <h1>What have you tried?</h1>
-                  <p className="XL">{ticketInfo.haveTried}</p>
-                  <h1>What should it be doing?</h1>
-                  <p className="XL">{ticketInfo.mustBeDoing}</p>
-                  <h1>Notes:</h1>
-                  {ticketInfo.notes &&
-                    ticketInfo.notes.map(
-                      (
-                        note:
-                          | string
-                          | number
-                          | boolean
-                          | ReactElement<
+              <div className="px-4 px-0">
+                <p className="text-3xl font-medium">{ticketInfo.title}</p>
+                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">ID: {ticketInfo.ticketId}</p>
+                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">Machine ID: {ticketInfo.machine_Id}</p>
+                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">Customer ID: {ticketInfo.customerId}</p>
+              </div>
+              <div className="mt-6 border-t border-gray-100">
+                <dl className="divide-y divide-gray-100">
+                  <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
+                    <p className="text-xl font-medium leading-6 text-foreground">What is the problem?</p>
+                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{ticketInfo.problem}</p>
+                  </div>
+                  <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
+                    <p className="text-xl font-medium leading-6 text-foreground">What have you tried?</p>
+                    <p className="mt-1 text-lg leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.haveTried}</p>
+                  </div>
+                  <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
+                    <p className="text-xl font-medium leading-6 text-foreground">What should it be doing?</p>
+                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{ticketInfo.mustBeDoing}</p>
+                  </div>
+                  <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
+                    <p className="text-xl font-medium leading-6 text-foreground">Contact</p>
+                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{ticketInfo.phoneNumber}</p>
+                  </div>
+                  <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
+                    <p className="text-xl font-medium leading-6 text-foreground">Notes</p>
+                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{ticketInfo.notes &&
+                      ticketInfo.notes.map(
+                        (
+                          note:
+                            | string
+                            | number
+                            | boolean
+                            | ReactElement<
                               any,
                               string | JSXElementConstructor<any>
                             >
-                          | Iterable<ReactNode>
-                          | ReactPortal
-                          | Iterable<ReactNode>
-                          | null
-                          | undefined,
-                        index: Key | null | undefined,
-                      ) => (
-                        <p key={index} className="XL">
-                          {note}
-                        </p>
-                      ),
-                    )}
-                </CardContent>
-                <CardFooter>
-                  <h1>
-                    <b>Contact: </b>
-                  </h1>
-                  <p>{ticketInfo.phoneNumber}</p>
-                </CardFooter>
-              </Card>
-              <CardDescription>Ticketinformation</CardDescription>
+                            | Iterable<ReactNode>
+                            | ReactPortal
+                            | Iterable<ReactNode>
+                            | null
+                            | undefined,
+                          index: Key | null | undefined,
+                        ) => (
+                          <p key={index} className="XL">
+                            {note}
+                          </p>
+                        ),
+                      )}</p>
+                  </div>
+                  <div className="px-4 py-6 grid grid-cols-3 gap-4 px-0">
+                    <Button onClick={showPictures}>Show pictures</Button>
+                    {showPicturesinfo ? (
+                      <div className="sm:col-span-3">
+                        {pictures.length > 0 ? (
+                          <div className="grid grid-cols-1 grid-cols-2 grid-cols-3 gap-4">
+                            {pictures.map((previewItem, index) => (
+                              <div key={index} className="m-4 flex items-center">
+                                <img
+                                  src={previewItem as string}
+                                  alt={`Preview ${index}`}
+                                  style={{ maxWidth: "500px", maxHeight: "400px" }}
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <p className="mt-1 text-lg leading-6 text-foreground sm:col-span-2 sm:mt-0">There are no pictures added to this ticket</p>
+                        )}
+                      </div>
+                    ) : null}
+                  </div>
+                </dl>
+              </div>
             </div>
           )}
           {/* Hij checkt hieronder eerst of de ticket open is, anders kan je namelijk niks meer toevoegen, dan krijg je wel de optie om hem te heropenen */}
           {currentTicket?.status === "Open" ||
-          currentTicket?.status === "In Process" ? (
+            currentTicket?.status === "In Process" ? (
             <>
-              <div className="grid gap-2">
+              <div className="">
                 {!isClient && showTicketInfo ? (
                   <>
-                    <h1>
-                      <b>Priority at the moment:</b>
-                    </h1>
-                    {ticketInfo.priority}
+
+                    <p className="mt-1 text-lg leading-6 text-bold sm:col-span-2 sm:mt-0 font-bold">Priority at the moment</p>
+                    <p className="mt-1 text-md leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.priority}</p>
+
                     <Button
                       className="w-fit"
                       variant="default"
@@ -332,6 +386,8 @@ function ViewTicket() {
                   </DialogContent>
                 </Dialog>
                 <Toaster />
+              </div>
+              <div>
                 <h2 className="text-lg font-medium">Add notes</h2>
                 <Textarea
                   placeholder="Still does not work because..."
@@ -342,9 +398,10 @@ function ViewTicket() {
                   ticket with
                 </TextareaHint>
               </div>
+
               <div className="grid gap-2">
                 <div className="">
-                  <Label>{t("ticket.files")}</Label>
+                  <h2 className="text-lg font-medium">{t("ticket.files")}</h2>
                   <Input
                     className="w-2/6"
                     name="image"
@@ -437,7 +494,7 @@ function ViewTicket() {
           )}
         </div>
       </div>
-    </Layout>
+    </Layout >
   );
 }
 

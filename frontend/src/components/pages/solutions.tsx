@@ -17,8 +17,10 @@ import Layout from "../layout";
 import TableSkeleton from "../foundations/table-skeleton";
 import { Solution } from "@/types/solution";
 import AddTicketSolution from "../foundations/add-solution";
+import { useState } from "react";
 
 function Solutions() {
+  const [open, setOpen] = useState(false);
   const { data, isFetching } = useQuery<Solution[]>("/api/solutions", {
     onError: () => {
       toast({
@@ -35,7 +37,7 @@ function Solutions() {
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-medium">Solutions</h1>
           {localStorage.getItem("Class") == "Admin" ? (
-            <Dialog>
+            <Dialog open={open} onOpenChange={(open) => setOpen(open)}>
               <DialogTrigger asChild>
                 <Button variant="default" size="sm" disabled={isFetching}>
                   Add solution
@@ -48,7 +50,7 @@ function Solutions() {
                   <TextareaHint>Create new solutions</TextareaHint>
                 </DialogHeader>
                 <DialogDescription>
-                  <AddTicketSolution />
+                  <AddTicketSolution setOpen={setOpen} />
                 </DialogDescription>
               </DialogContent>
             </Dialog>

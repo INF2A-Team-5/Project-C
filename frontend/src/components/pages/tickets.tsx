@@ -1,4 +1,4 @@
-import { Ticket } from "../../types/ticket";
+import { Ticket } from "../../types/Ticket";
 import Table from "../foundations/table";
 import { useQuery } from "@/lib/api";
 import { ticketColumns } from "@/services/Columns";
@@ -19,7 +19,8 @@ import { toast } from "../ui/use-toast";
 import TableSkeleton from "../foundations/table-skeleton";
 
 function Tickets() {
-  const { data, isFetching } = useQuery<Ticket[]>("/api/tickets", {
+  const { data, isFetching } = useQuery<Ticket[]>("/api/tickets?AccountId=" + localStorage.getItem("Id"), {
+ //onst { data, isFetching } = useQuery<Ticket[]>(`/api/tickets/archived/${false}`, {
     onError: () => {
       toast({
         variant: "destructive",

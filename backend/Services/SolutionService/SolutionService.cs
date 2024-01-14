@@ -36,6 +36,29 @@ namespace Backend.SolutionService
             return solution;
         }
 
+        public async Task<ActionResult<IEnumerable<Solution>>> GetSolutionsBymachineId(int id)
+        {
+            if (_context.Solutions == null)
+            {
+                return NotFound();
+            }
+            var solution = await _context.Solutions.Where(solution => solution.MachineId == id).ToListAsync();
+            if (solution == null)
+            {
+                return NotFound();
+            }
+            return solution;
+        }
+        public async Task<ActionResult<IEnumerable<Solution>>> GetSolutionsByArchived(bool archived)
+        {
+            var solutions = await _context.Solutions.Where(s => s.Archived == archived).ToListAsync();
+            if (solutions == null)
+            {
+                return NotFound();
+            }
+            return solutions;
+        }
+
         public async Task<IActionResult> UpdateSolution(int id, Solution solution)
         {
             if (id != solution.SolutionId)
@@ -58,6 +81,25 @@ namespace Backend.SolutionService
                     throw;
                 }
             }
+            return NoContent();
+        }
+
+        public async Task<IActionResult> ArchiveSolutionByTicketId(int ticketId)
+        {
+            if (_context.Solutions == null)
+            {
+                return NotFound();
+            }
+            var solutions = await _context.Solutions.Where(s => s.TicketId == ticketId).ToListAsync();
+            if (solutions == null)
+            {
+                return NotFound();
+            }
+            foreach (var solution in solutions)
+            {
+                solution.Archived = true;
+            }
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 
