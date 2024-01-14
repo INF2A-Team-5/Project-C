@@ -15,12 +15,12 @@ import { Account } from "@/types/Account";
 import { Employee } from "@/types/Employee";
 import { MachineInfoDto } from "@/types/MachineInfo";
 import { Separator } from "@/components/ui/separator";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Button } from "../ui/button";
 import { Department } from "@/types/Department";
 import { useNavigate } from "react-router-dom";
 import { TextareaHint } from "../ui/textarea";
 import AddMachineToCustomer from "../foundations/add-machine-to-customer";
+import { ScrollArea, ScrollBar } from "../ui/ScrollArea";
 
 function ViewAccount() {
   const [open, setOpen] = useState(false);
@@ -127,21 +127,14 @@ function ViewAccount() {
                           Machines
                         </p>
                         <h4 className="mb-4 text-sm font-medium leading-none"></h4>
-                        <ScrollArea className="h-70 w-25 rounded-md border">
+                        <ScrollArea className="h-72 w-25 rounded-md border">
                           <div className="p-4">
                             {customerMachines.length == 0
                               ? ""
                               : customerMachines.map((machine) => (
                                   <>
                                     <div
-                                      key={
-                                        "Model name: " +
-                                        machine.name +
-                                        ", MachineId: " +
-                                        machine.machineId
-                                      }
-                                      className="text-sm"
-                                    >
+                                      key={"Model name: " +    machine.name +  ", MachineId: " +   machine.machineId       }          className="text-sm">
                                       {"Model name: " +
                                         machine.name +
                                         ", MachineId: " +
@@ -175,6 +168,7 @@ function ViewAccount() {
                           </DialogContent>
                         </Dialog>
                       </div>
+                      
                     ) : null}
                     {employee ? (
                       <div className="grid grid-cols-2 gap-2 px-0 px-4 py-6">
