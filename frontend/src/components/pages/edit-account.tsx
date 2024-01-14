@@ -17,6 +17,8 @@ import { toast } from "../ui/use-toast";
 import React from "react";
 import { Toaster } from "../ui/toaster";
 import Layout from "../layout";
+import { useTranslation } from "react-i18next";
+import { Checkbox } from "../ui/checkbox";
 
 function EditAccount() {
   // useAuthenticated();
@@ -25,6 +27,9 @@ function EditAccount() {
   const [confirmPass, setConfirmPass] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [oldPassword, setOldPassword] = useState("");
+  const [visibleNewPass, setVisibleNewPass] = useState<boolean>(false);
+  const [visibleOldPass, setVisibleOldPass] = useState<boolean>(false);
+  const [visibleConfPass, setVisibleConfPass] = useState<boolean>(false);
 
   const passwordRef = React.useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
@@ -36,24 +41,11 @@ function EditAccount() {
     /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
   const [phonePlaceholder, setPhonePlaceholder] = useState("");
 
-  useEffect(() => {
-    async function fetchPhoneStatus() {
-      const phoneStatus = await hasPhoneConnected();
-      setPhonePlaceholder(phoneStatus);
-    }
-
-    fetchPhoneStatus();
-
-    return () => {
-      // cleanup
-    };
-  }, []);
-
   function validatePhone() {
     return phoneRegex.test(phone);
   }
 
-  async function hasPhoneConnected(): Promise<string> {
+  async function getPhone() {
     let currentaccount = await fetch(
       API_BASE_URL + "/api/accounts/",
       getBaseQueryRequest(),
@@ -64,13 +56,19 @@ function EditAccount() {
           (acc: any) => acc.accountId == localStorage.getItem("Id"),
         ),
       );
-
-    if (currentaccount.phoneNumber == null) {
-      return "Enter Phone Number";
-    } else {
-      return "Current Phone Number: " + currentaccount.phoneNumber;
-    }
+      
+      if (currentaccount.phoneNumber == null) {
+        setPhonePlaceholder(t("editaccount.changephonenumberdes"));
+      } else {
+        setPhonePlaceholder(currentaccount.phoneNumber);
+      }
   }
+
+  const { t, i18n } = useTranslation();
+  useEffect(() => {
+    i18n.changeLanguage(navigator.language);
+    getPhone();
+  }, []);
 
   async function handleSubmitPhone() {
     setIsLoading(true);
@@ -90,14 +88,14 @@ function EditAccount() {
       toast({
         variant: "default",
         title: "Succes!",
-        description: "Phone number changed succesfully.",
+        description: t("editaccount.changedsuccess"),
       });
       setIsLoading(false);
     } else {
       toast({
         variant: "destructive",
         title: "Error!",
-        description: "Phone number is not valid.",
+        description: t("editaccount.changedinvalid"),
       });
       setIsLoading(false);
     }
@@ -115,7 +113,7 @@ function EditAccount() {
         variant: "destructive",
         title: "Error!",
         description:
-          "Either your old password is incorrect or new password and confirmed password do not match",
+          t("editaccount.passincorrect"),
       });
       setIsLoading(false);
     } else {
@@ -127,7 +125,7 @@ function EditAccount() {
       toast({
         variant: "default",
         title: "Succes!",
-        description: "Password successfully editted",
+        description: t("editaccount.passsuccess"),
       });
       setIsLoading(false);
     }
@@ -137,11 +135,11 @@ function EditAccount() {
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
         <div>
-          <h1 className="text-3xl font-medium">Edit Account</h1>
-          <Label>Make changes to your account.</Label>
+          <h1 className="text-3xl font-medium">{t("editaccount.editaccount")}</h1>
+          <Label>{t("editaccount.editaccountdes")}</Label>
         </div>
         <div className="grid gap-2">
-          <h2>Change Phone Number</h2>
+          <h2>{t("editaccount.changephonenumber")}</h2>
           <Input
             name="phone number"
             placeholder={phonePlaceholder}
@@ -155,38 +153,71 @@ function EditAccount() {
             {isLoading ? (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             ) : null}
-            Change Phone Number
+            {t("editaccount.changephonenumber")}
           </Button>
         </div>
         <div className="grid gap-2">
-          <h2>Change Password</h2>
+          <h2>{t("editaccount.changepassword")}</h2>
+          <div className="grid gap-2">
           <Input
-            id="old password"
-            ref={passwordRef}
-            name="old password"
-            placeholder="Old password"
-            type="password"
-            // ●●●●●●●● als je circels wilt
-            onChange={(e) => setOldPassword(e.currentTarget.value)}
-          />
-          <Input
-            id="new password"
+            id="password"
             ref={passwordRef}
             name="password"
-            placeholder="New password"
-            type="password"
-            // ●●●●●●●● als je circels wilt
+            placeholder={t("editaccount.oldpass")}
+            type={visibleNewPass ? "text" : "password"}
             onChange={(e) => setPassword(e.currentTarget.value)}
           />
+          <div className="flex items-center justify-start space-x-1">
+            <Checkbox
+                onClick={() => setVisibleOldPass(!visibleOldPass)}
+                />
+            <label
+            htmlFor="showpassword"
+            className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              {t("editaccount.showpass")}
+            </label>
+          </div>
+        </div>
+          <div className="grid gap-2">
+            <Input
+              id="oldpassword"
+              ref={passwordRef}
+              name="password"
+              placeholder={t("editaccount.newpass")}
+              type={visibleNewPass ? "text" : "password"}
+              onChange={(e) => setOldPassword(e.currentTarget.value)}
+            />
+            <div className="flex items-center justify-start space-x-1">
+              <Checkbox
+                  onClick={() => setVisibleNewPass(!visibleNewPass)}
+                  />
+              <label
+              htmlFor="showpassword"
+              className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                {t("editaccount.showpass")}
+              </label>
+            </div>
+          </div>
+          <div className="grid gap-2">
           <Input
-            id="confirmed password"
+            id="confirmpassword"
             ref={passwordRef}
             name="password"
-            placeholder="Confirm new password"
-            type="password"
-            // ●●●●●●●● als je circels wilt
+            placeholder={t("editaccount.newpassconf")}
+            type={visibleNewPass ? "text" : "password"}
             onChange={(e) => setConfirmPass(e.currentTarget.value)}
           />
+          <div className="flex items-center justify-start space-x-1">
+            <Checkbox
+                onClick={() => setVisibleConfPass(!visibleConfPass)}
+                />
+            <label
+            htmlFor="showpassword"
+            className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+              {t("editaccount.showpass")}
+            </label>
+          </div>
+        </div>
           <Button
             className="w-fit"
             onClick={handleSubmitPass}
@@ -195,7 +226,7 @@ function EditAccount() {
             {isLoading ? (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             ) : null}
-            Change Password
+            {t("editaccount.changepassword")}
           </Button>
         </div>
         <Button
@@ -203,7 +234,7 @@ function EditAccount() {
           variant="destructive"
           onClick={goBack}
         >
-          Back
+          {t("editaccount.back")}
         </Button>
         <Toaster />
       </div>

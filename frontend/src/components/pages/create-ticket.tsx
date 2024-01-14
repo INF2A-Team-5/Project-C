@@ -43,12 +43,6 @@ function CreateTickets() {
   const [mustBeDoing, setMustBeDoing] = useState("");
   const [haveTried, setHaveTried] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-
-//  const [machines, setMachines] = useState<Machine[]>([]);
-//  const [customers, setCustomers] = useState<Account[]>([]);
-//  const [machines, setMachines] = useState<MachineInfoDto[]>([]);
-//  const [account, setAccount] = useState("");
-
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
   const [isChecked, setChecked] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -62,6 +56,7 @@ function CreateTickets() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    getPhone();
     checkAccount();
     getCustomers();
     getMachines();
@@ -79,6 +74,7 @@ function CreateTickets() {
 
   const handleCheckbox = () => {
     setChecked(!isChecked);
+    isChecked ? getPhone() : null;
   };
 
   const checkAccount = () => {
@@ -135,6 +131,21 @@ function CreateTickets() {
       console.log(machinelist);
       setMachines(machinelist);
     }
+  }
+
+  async function getPhone() {
+    let currentaccount = await fetch(
+      API_BASE_URL + "/api/accounts/",
+      getBaseQueryRequest(),
+    )
+      .then((data) => data.json())
+      .then((accounts) =>
+        accounts.find(
+          (acc: any) => acc.accountId == localStorage.getItem("Id"),
+        ),
+      );
+
+    setPhoneNumber(currentaccount.phoneNumber);
   }
 
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -463,15 +474,37 @@ function CreateTickets() {
           </div>
 
           <div>
-            <div className="mx-auto flex items-center space-x-2">
-              <Checkbox id="" onClick={handleCheckbox} />
-              <label
-                htmlFor="terms"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                {t("ticket.phonenum")}
-              </label>
+
+            {Boolean(phoneNumber) ? (
+              <div className="mx-auto flex flex-col items-start space-y-2">
+
+              <div className="w-full flex items-center">
+              <Label>{t("ticket.currentphonenum")}</Label>
+              <Label className="m-1">{phoneNumber}</Label>
+              </div>
+              <div className="w-full flex items-center">
+                <Checkbox id="" onClick={handleCheckbox} className=""/>
+                <label
+                  htmlFor="terms"
+                  className="p-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  {t("ticket.phonenum")}
+                </label>
+              </div>
             </div>
+            ) : 
+              <>
+                <div>
+                  <Label>{t("ticket.phonenumwithstar")}</Label>
+                </div>
+                <div className="pt-2">
+                  <Input
+                    placeholder={t("ticket.place4")}
+                    onChange={(e) => setPhoneNumber(e.currentTarget.value)}
+                  />
+                </div>
+              </>
+            }
             {isChecked ? (
               <>
                 <div className="pt-2">
