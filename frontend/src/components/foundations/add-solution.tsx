@@ -58,7 +58,7 @@ function AddSolution({ setOpen }: { setOpen: (_: boolean) => void }) {
       toast({
         variant: "default",
         title: "Succes!",
-        description: "Solution added successfully.",
+        description: "Solution for ticket: " + ticketId + " added successfully.",
       });
       setIsLoading(false);
       setOpen(false);

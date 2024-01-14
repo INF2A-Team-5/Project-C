@@ -51,7 +51,7 @@ function AddDepartment({ setOpen }: { setOpen: (_: boolean) => void }) {
         toast({
           variant: "default",
           title: "Succes!",
-          description: "Account added successfully.",
+          description: "Department: " + name + " added successfully.",
         });
         setIsLoading(false);
         setOpen(false);

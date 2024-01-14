@@ -164,7 +164,7 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
           toast({
             variant: "default",
             title: "Succes!",
-            description: "Account added successfully.",
+            description: "Account: "+ username + " added successfully.",
           });
           setIsLoading(false);
           setOpen(false);

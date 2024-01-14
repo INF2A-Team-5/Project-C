@@ -24,12 +24,11 @@ import { Separator } from "../ui/separator";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "../ui/skeleton";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
 import { Command, CommandGroup, CommandInput, CommandItem } from "../ui/command";
 import { CommandEmpty } from "cmdk";
 import { cn } from "@/lib/utils";
 import { useLocation } from "react-router-dom";
-import { Cross2Icon } from "@radix-ui/react-icons";
+import { CaretSortIcon, Cross2Icon } from "@radix-ui/react-icons";
 import { useTranslation } from "react-i18next";
 
 interface TableProps<TData, TValue> {
@@ -136,7 +135,7 @@ function DataTable<TData, TValue>({
                   aria-expanded={openStatus}
                   className="w-[100px] justify-between "
                 >
-                  <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
+                  <CaretSortIcon className="h-4 w-4 shrink-0 opacity-50" />
                   {t("table.status")}
                 </Button>
               </PopoverTrigger>

@@ -115,7 +115,7 @@ function AddMachine({ setOpen }: { setOpen: (_: boolean) => void }) {
       toast({
         variant: "default",
         title: "Succes!",
-        description: "Machine added successfully.",
+        description: "Machine: " + name + " added successfully.",
       });
       setIsLoading(false);
       setOpen(false);
