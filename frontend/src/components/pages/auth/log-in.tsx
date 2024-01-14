@@ -2,7 +2,6 @@ import Settings from "../../foundations/settings";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import Cookies from "js-cookie";
 import { Icons } from "@/components/foundations/icons";
 import Header from "@/components/foundations/header";
 import { Input } from "@/components/ui/input";

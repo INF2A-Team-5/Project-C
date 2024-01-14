@@ -121,7 +121,7 @@ function DataTable<TData, TValue>({
               console.log(table.getAllColumns());
               table.getColumn("employee_Id")?.setFilterValue(event.target.value);
             }}
-            className="w-110 ml-4"
+            className="w-min ml-4"
           />
         ) : null}
 
