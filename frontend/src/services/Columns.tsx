@@ -80,11 +80,11 @@ async function ArchiveTicket(ticket: Ticket) {
   }
 }
 
-async function ArchiveMachine(machine: Machine) {
+async function ArchiveMachine(machine: MachineModel) {
   try {
     machine.archived = true;
     await fetch(
-      API_BASE_URL + "/api/machines/" + machine.machineId,
+      API_BASE_URL + "/api/MachineModels/" + machine.modelId,
       putBaseMutateRequest(JSON.stringify(machine)),
     );
     toast({
@@ -536,7 +536,7 @@ export const modelColums: ColumnDef<MachineModel>[] = [
               onClick={() => {
                 localStorage.setItem(
                   "currentmachineID",
-                  machine.machineId.toString(),
+                  machine.modelId.toString(),
                 );
                 navigate(`/view-machine`);
               }}
@@ -769,7 +769,27 @@ export const solutionColumns: ColumnDef<Solution>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          ID
+          Solution ID
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "modelId",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Model ID
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (

@@ -58,8 +58,6 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
   });
 
   async function handleSubmit() {
-    console.log(userType);
-
     setIsLoading(true);
     const account = await fetch(
       API_BASE_URL + "/api/accounts",
@@ -104,7 +102,6 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
       });
       setIsLoading(false);
     }
-    // WAAR IS CLASS CHECKING?
     else {
       try {
         await fetch(

@@ -7,5 +7,6 @@ namespace Backend.CustomerService
     {
         // Task<ActionResult<IEnumerable<Customer>>> GetAllCustomers();
         Task<ActionResult<Customer>> GetCustomerByAccountId(int AccountId);
+        Task<ActionResult<IEnumerable<Customer>>> GetAllCustomers();
     }
 }

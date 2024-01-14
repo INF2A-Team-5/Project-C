@@ -15,6 +15,19 @@ namespace Backend.MachineModelService
             _context = context;
         }
 
+        public async Task<ActionResult<IEnumerable<MachineModel>>> GetAllModels()
+        {
+            if (_context.Models == null)
+            {
+                return NotFound();
+            }
+            var models = await _context.Models.Where(mach => mach.Archived == false).ToListAsync();
+            if (models == null)
+            {
+                return NotFound();
+            }
+            return models;
+        }
         public async Task<ActionResult<IEnumerable<MachineModel>>> GetAllMachineModels(int AccountId, bool archived)
         {
             if (_context.Accounts == null || _context.Tickets == null || _context.Customers == null | _context.Employees == null || _context.Departments == null)

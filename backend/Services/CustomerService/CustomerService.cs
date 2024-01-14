@@ -12,7 +12,14 @@ namespace Backend.CustomerService
         {
             _context = context;
         }
-
+            public async Task<ActionResult<IEnumerable<Customer>>> GetAllCustomers()
+            {
+                if (_context.Customers == null)
+                {
+                    return NotFound();
+                }
+                return await _context.Customers.ToListAsync();
+            }
         public async Task<ActionResult<Customer>> GetCustomerByAccountId(int AccountId)
         {
             if (_context.Customers == null)

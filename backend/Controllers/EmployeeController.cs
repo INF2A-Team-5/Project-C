@@ -17,7 +17,7 @@ namespace Backend.Controllers
             _employeeService = employeeService;
         }
         [HttpGet] public async Task<ActionResult<IEnumerable<Employee>>> GetAllEmployees() => await _employeeService.GetAllEmployees();
-        [HttpGet("/GetEmployeeById")] public async Task<ActionResult<Employee>> GetEmployeeById(int id) => await _employeeService.GetEmployeeById(id);
+        [HttpGet("/GetEmployeeById")] public async Task<ActionResult<Employee>> GetEmployeeByAccountId(int id) => await _employeeService.GetEmployeeByAccountId(id);
         [HttpPost] public async Task<ActionResult<Employee>> AddEmployee(AddEmployeeDto newEmployee) => await _employeeService.AddEmployee(newEmployee);   
     }
 }

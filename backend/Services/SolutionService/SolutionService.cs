@@ -42,7 +42,7 @@ namespace Backend.SolutionService
             {
                 return NotFound();
             }
-            var solution = await _context.Solutions.Where(solution => solution.MachineId == id).ToListAsync();
+            var solution = await _context.Solutions.Where(solution => solution.ModelId == id).ToListAsync();
             if (solution == null)
             {
                 return NotFound();

@@ -21,7 +21,7 @@ namespace Backend.Controllers
         [HttpGet("/GetMachinesPerAccount")] public async Task<ActionResult<IEnumerable<MachineInfoDto>>> GetMachinePerAccountId(int accountId) => await _machineService.GetMachinePerAccountId(accountId);
         [HttpGet("/GetMachinesByArchived")] public async Task<ActionResult<IEnumerable<MachineInfoDto>>> GetMachinesByArchived(bool archived, int AccountId) => await _machineService.GetMachinesByArchived(archived, AccountId);
         [HttpPut("/ArchiveByDepartment")] public async Task<IActionResult> ArchiveMachineByDepartmentId(int id) => await _machineService.ArchiveMachineByDepartmentId(id);
-        [HttpPost] public async Task<ActionResult<Machine>> AddMachine(MachineDto newMachine) => await _machineService.AddMachine(newMachine);
+        [HttpPost] public async Task<ActionResult<Machine>> AddMachine(MachineModelDto machine, int Customer_Id) => await _machineService.AddMachine(machine, Customer_Id);
         [HttpDelete("{id}")] public async Task<IActionResult> DeleteMachine(int id) => await _machineService.DeleteMachine(id);
     }
 }

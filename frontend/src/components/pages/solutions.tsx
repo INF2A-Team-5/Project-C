@@ -21,7 +21,7 @@ import { useState } from "react";
 
 function Solutions() {
   const [open, setOpen] = useState(false);
-  const { data, isFetching } = useQuery<Solution[]>("/api/solutions", {
+  const { data, isFetching } = useQuery<Solution[]>("/api/Solutions", {
     onError: () => {
       toast({
         variant: "destructive",

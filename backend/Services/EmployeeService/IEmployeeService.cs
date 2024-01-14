@@ -7,7 +7,7 @@ namespace Backend.EmployeeService
     public interface IEmployeeService
     {
         Task<ActionResult<IEnumerable<Employee>>> GetAllEmployees();
-        Task<ActionResult<Employee>> GetEmployeeById(int id);
+        Task<ActionResult<Employee>> GetEmployeeByAccountId(int id);
         Task<ActionResult<Employee>> AddEmployee(AddEmployeeDto newEmployee);
     }
 }

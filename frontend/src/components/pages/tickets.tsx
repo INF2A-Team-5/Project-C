@@ -19,15 +19,20 @@ import { toast } from "../ui/use-toast";
 import TableSkeleton from "../foundations/table-skeleton";
 
 function Tickets() {
-  const { data, isFetching } = useQuery<Ticket[]>("/api/tickets?AccountId=" + localStorage.getItem("Id") + "&archived=" + false, {
-    onError: () => {
-      toast({
-        variant: "destructive",
-        title: "Whomp whomp:(",
-        description: "U get no data",
-      });
+  const { data, isFetching } = useQuery<Ticket[]>(
+    "/api/tickets?AccountId=" +
+      window.localStorage.getItem("Id") +
+      "&archived=false",
+    {
+      onError: () => {
+        toast({
+          variant: "destructive",
+          title: "Whomp whomp:(",
+          description: "U get no data",
+        });
+      },
     },
-  });
+  );
   return (
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
@@ -39,7 +44,6 @@ function Tickets() {
                 Create ticket
               </Button>
             </DialogTrigger>
-
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>

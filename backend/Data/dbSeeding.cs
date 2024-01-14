@@ -35,13 +35,11 @@ public static class DBSeeding
         Machine Machine8 = new() { Model = MachineModel8 };
         Machine Machine9 = new() { Model = MachineModel9 };
         Machine Machine10 = new() { Model = MachineModel10 };
-        Machine Machine11 = new() { Model = MachineModel10 };
-        Machine Machine12 = new() { Model = MachineModel10 };
-        Machine Machine13 = new() { Model = MachineModel10 };
-        Machine Machine14 = new() { Model = MachineModel10 };
-        Machine Machine15 = new() { Model = MachineModel10 };
-        Machine Machine16 = new() { Model = MachineModel10 };
-        Machine Machine17 = new() { Model = MachineModel10 };
+        Machine Machine11 = new() { Model = MachineModel11 };
+        Machine Machine12 = new() { Model = MachineModel12 };
+        Machine Machine13 = new() { Model = MachineModel13 };
+        Machine Machine14 = new() { Model = MachineModel14 };
+        Machine Machine15 = new() { Model = MachineModel15 };
 
         List<MachineModel> machines = new() { MachineModel1, MachineModel2, MachineModel3, MachineModel4, MachineModel5, MachineModel6, MachineModel7, MachineModel8, MachineModel9, MachineModel10, MachineModel11, MachineModel12, MachineModel13, MachineModel14, MachineModel15 };
 
@@ -80,7 +78,6 @@ public static class DBSeeding
         customer1.Machines.Add(Machine7);
         customer1.Machines.Add(Machine8);
         customer1.Machines.Add(Machine9);
-        customer1.Machines.Add(Machine16);
 
         customer2.Machines.Add(Machine10);
         customer2.Machines.Add(Machine11);

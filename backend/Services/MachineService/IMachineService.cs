@@ -11,7 +11,7 @@ namespace Backend.MachineService
         Task<ActionResult<IEnumerable<MachineInfoDto>>> GetMachinePerAccountId(int id);
         Task<ActionResult<IEnumerable<MachineInfoDto>>> GetMachinesByArchived(bool archived, int AccountId);
         Task<IActionResult> ArchiveMachineByDepartmentId(int departmentId);
-        Task<ActionResult<Machine>> AddMachine(MachineDto machine);
+        Task<ActionResult<Machine>> AddMachine(MachineModelDto machine, int Customer_Id);
         Task<IActionResult> DeleteMachine(int id);
     }
 }
