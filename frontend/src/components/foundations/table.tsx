@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -30,6 +30,7 @@ import { CommandEmpty } from "cmdk";
 import { cn } from "@/lib/utils";
 import { useLocation } from "react-router-dom";
 import { Cross2Icon } from "@radix-ui/react-icons";
+import { useTranslation } from "react-i18next";
 
 interface TableProps<TData, TValue> {
   data: TData[];
@@ -40,6 +41,10 @@ function DataTable<TData, TValue>({
   data,
   columns,
 }: TableProps<TData, TValue>) {
+  const { t, i18n } = useTranslation();
+  useEffect(() => {
+    i18n.changeLanguage(navigator.language);
+  }, []);
   const [currentPage, setCurrentPage] = useState(1);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -69,30 +74,30 @@ function DataTable<TData, TValue>({
   let columnplaceholder = "";
   if (table.getAllColumns().find((el) => el.id == "title") != undefined) {
     column = "title";
-    columnplaceholder = "Title";
+    columnplaceholder = t("table.title");
   } else if (table.getAllColumns().find((el) => el.id == "name") != undefined) {
     column = "name";
-    columnplaceholder = "Name";
+    columnplaceholder = t("table.name");
   } else if (
     table.getAllColumns().find((el) => el.id == "problemDescription") !=
     undefined
   ) {
     column = "problemDescription";
-    columnplaceholder = "Problem Description";
+    columnplaceholder = t("table.problemdescription");
   }
 
   const statuses = [
     {
       value: "open",
-      label: "Open",
+      label: t("table.open"),
     },
     {
       value: "in process",
-      label: "In Process",
+      label: t("table.inprocess"),
     },
     {
       value: "closed",
-      label: "Closed",
+      label: t("table.closed"),
     },
   ];
 
@@ -100,7 +105,7 @@ function DataTable<TData, TValue>({
     <div className="grid gap-4">
       <div className="flex items-center">
         <Input
-          placeholder={"Search for " + columnplaceholder + "..."}
+          placeholder={t("table.searchfor") + columnplaceholder + "..."}
           value={(table.getColumn(column)?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn(column)?.setFilterValue(event.target.value)
@@ -111,7 +116,7 @@ function DataTable<TData, TValue>({
         {location.pathname === "/tickets" ? (
           <Input
             type="number"
-            placeholder="Search for employee..."
+            placeholder={t("table.searchforemployee")}
             value={(table.getColumn("employee_Id")?.getFilterValue() as number) ?? ""}
             onChange={(event) => {
               console.log(table.getAllColumns());
@@ -132,7 +137,7 @@ function DataTable<TData, TValue>({
                   className="w-[100px] justify-between "
                 >
                   <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
-                  Status
+                  {t("table.status")}
                 </Button>
               </PopoverTrigger>
             </div>
@@ -171,7 +176,7 @@ function DataTable<TData, TValue>({
               }}
               className=""
             >
-              Reset
+              {t("table.reset")}
               <Cross2Icon className="ml-2 h-4 w-4" />
             </Button>
           </div>
@@ -215,7 +220,7 @@ function DataTable<TData, TValue>({
                       ) : (
                         <TableCell className="max-w-sm">
                           <div className="ml-4 text-muted-foreground">
-                            Unknown
+                            {t("table.unknown")}
                           </div>
                         </TableCell>
                       )
@@ -247,9 +252,9 @@ function DataTable<TData, TValue>({
             }}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            {t("table.previous")}
           </Button>
-          <span>{`Page ${currentPage} of ${totalPages}`}</span>
+          <span>{`${t("table.page")} ${currentPage} ${t("table.of")} ${totalPages}`}</span>
           <Button
             variant="outline"
             size="sm"
@@ -259,7 +264,7 @@ function DataTable<TData, TValue>({
             }}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            {t("table.next")}
           </Button>
         </footer>
       </Card>
