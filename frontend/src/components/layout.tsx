@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "./foundations/navbar";
 import { Toaster } from "./ui/toaster";
 import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
+import { useTranslation } from "react-i18next";
 
 interface LayoutProps extends React.HTMLAttributes<HTMLDivElement> {}
 

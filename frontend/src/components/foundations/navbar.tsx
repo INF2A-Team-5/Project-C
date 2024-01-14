@@ -1,11 +1,17 @@
 import { Link, useLocation } from "react-router-dom";
 import Settings from "./settings";
+import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
 
 function Navbar() {
+  const { t, i18n } = useTranslation();
+  useEffect(() => {
+    i18n.changeLanguage(navigator.language);
+  }, []);
   const location = useLocation();
   let navItems = [
     {
-      label: "All tickets",
+      label: t("navbar.tickets"),
       path: ["/tickets", "/create-ticket", "/view-ticket"],
     },
   ];  
@@ -14,18 +20,18 @@ function Navbar() {
     localStorage.getItem("Class") == "Admin"
   ) {
     navItems.push(
-      { label: "Assigned tickets", path: ["/assigned-tickets"] },
-      { label: "Unassigned tickets", path: ["/unassigned-tickets"] },
-      { label: "Closed tickets", path: ["/closed-tickets"] },
+      { label: t("navbar.assigned"), path: ["/assigned-tickets"] },
+      { label: t("navbar.unassigned"), path: ["/unassigned-tickets"] },
+      { label: t("navbar.closed"), path: ["/closed-tickets"] },
     );
   }
   navItems.push({ label: "Machines", path: ["/machines"] }
   )
   if (localStorage.getItem("Class") == "Admin") {
     navItems.push(
-      { label: "Departments", path: ["/departments"] },
-      { label: "Accounts", path: ["/accounts"] },
-      { label: "Solutions", path: ["/solutions"] },
+      { label: t("navbar.departments"), path: ["/departments"] },
+      { label: t("navbar.accounts"), path: ["/accounts"] },
+      { label: t("navbar.solutions"), path: ["/solutions"] },
     );
   }
 

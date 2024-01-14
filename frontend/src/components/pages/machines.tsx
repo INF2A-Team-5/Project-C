@@ -16,9 +16,14 @@ import { toast } from "../ui/use-toast";
 import Layout from "../layout";
 import AddMachine from "../foundations/add-machine";
 import TableSkeleton from "../foundations/table-skeleton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 function Machines() {
+  const { t, i18n } = useTranslation();
+  useEffect(() => {
+    i18n.changeLanguage(navigator.language);
+  }, []);
   const [open, setOpen] = useState(false);
   const isClient = localStorage.getItem("Class") == "Client";
   const apiUrl = isClient
@@ -42,19 +47,19 @@ function Machines() {
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-medium">Machines</h1>
+          <h1 className="text-3xl font-medium">{t("machine.h1")}</h1>
           {localStorage.getItem("Class") == "Admin" ? (
             <Dialog open={open} onOpenChange={(open) => setOpen(open)}>
               <DialogTrigger asChild>
                 <Button variant="default" size="sm" disabled={isFetching}>
-                  Add machine
+                {t("machine.add")}
                 </Button>
               </DialogTrigger>
 
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Add machine</DialogTitle>
-                  <TextareaHint>Create new machines</TextareaHint>
+                  <DialogTitle>{t("machine.add")}</DialogTitle>
+                  <TextareaHint>{t("machine.create")}</TextareaHint>
                 </DialogHeader>
                 <DialogDescription>
                   <AddMachine setOpen={setOpen}/>

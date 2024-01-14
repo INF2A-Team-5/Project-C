@@ -1,6 +1,6 @@
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icons } from "./icons";
 import {
   API_BASE_URL,
@@ -9,8 +9,13 @@ import {
 } from "@/lib/api";
 import { toast } from "../ui/use-toast";
 import { DialogClose, DialogFooter } from "../ui/dialog";
+import { useTranslation } from "react-i18next";
 
 function AddDepartment({ setOpen }: { setOpen: (_: boolean) => void }) {
+  const { t, i18n } = useTranslation();
+  useEffect(() => {
+    i18n.changeLanguage(navigator.language);
+  }, []);
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -63,12 +68,12 @@ function AddDepartment({ setOpen }: { setOpen: (_: boolean) => void }) {
   return (
     <div className="grid gap-2">
       <Input
-        placeholder="Enter Department Name"
+        placeholder={t("department.inputname")}
         onChange={(e) => setName(e.currentTarget.value)}
       />
       <DialogFooter>
         <DialogClose>
-          <Button variant="outline">Close</Button>
+          <Button variant="outline">{t("department.close")}</Button>
         </DialogClose>
         <Button
           className="w-fit"
@@ -79,7 +84,7 @@ function AddDepartment({ setOpen }: { setOpen: (_: boolean) => void }) {
           {isLoading ? (
             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
           ) : null}
-          Add Department
+          {t("department.add")}
         </Button>
       </DialogFooter>
     </div>

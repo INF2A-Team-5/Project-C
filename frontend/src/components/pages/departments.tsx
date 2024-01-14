@@ -16,11 +16,15 @@ import { TextareaHint } from "../ui/textarea";
 import Layout from "../layout";
 import AddDepartment from "../foundations/add-department";
 import TableSkeleton from "../foundations/table-skeleton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 function Departments() {
+  const { t, i18n } = useTranslation();
+  useEffect(() => {
+    i18n.changeLanguage(navigator.language);
+  }, []);
   const [open, setOpen] = useState(false);
-
   const { data, isFetching } = useQuery<Department[]>(`/api/departments/archived/${false}`, {
 
     onError: () => {
@@ -36,17 +40,17 @@ function Departments() {
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-medium">Departments</h1>
+          <h1 className="text-3xl font-medium">{t("department.h1")}</h1>
           <Dialog open={open} onOpenChange={(open) => setOpen(open)}>
             <DialogTrigger asChild>
               <Button variant="default" size="sm" disabled={isFetching}>
-                Add department
+              {t("department.add")}
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Add department</DialogTitle>
-                <TextareaHint>Create Departments for new services</TextareaHint>
+                <DialogTitle>{t("department.add")}</DialogTitle>
+                <TextareaHint>{t("department.create")}</TextareaHint>
               </DialogHeader>
               <DialogDescription>
                 <AddDepartment  setOpen={setOpen}/>
