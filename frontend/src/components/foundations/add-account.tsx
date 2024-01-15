@@ -54,15 +54,13 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
     onError: () => {
       toast({
         variant: "destructive",
-        title: "Whomp whomp:(",
-        description: "U get no data",
+        title: t("toast.errortitle"),
+        description: t("no_data_error"),
       });
     },
   });
 
   async function handleSubmit() {
-    console.log(userType);
-
     setIsLoading(true);
     const account = await fetch(
       API_BASE_URL + "/api/accounts",
@@ -74,40 +72,39 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
     if (account !== undefined) {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Username already exists.",
+        title: t("toast.errortitle"),
+        description: t("toast.username_exists_error"),
       });
       setIsLoading(false);
     } else if (username == "") {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Enter a username.",
+        title: t("toast.errortitle"),
+        description: t("toast.choose_username_error"),
       });
       setIsLoading(false);
     } else if (password == "") {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Enter a password.",
+        title: t("toast.errortitle"),
+        description: t("toast.choose_password_error"),
       });
       setIsLoading(false);
     } else if (password != confirmPassword) {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Password and confirmed password need to match.",
+        title: t("toast.errortitle"),
+        description: t("toast.passwords_dont_match_errors"),
       });
       setIsLoading(false);
     } else if (userType == "") {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Please select a user type.",
+        title: t("toast.errortitle"),
+        description: t("toast.choose_type_error"),
       });
       setIsLoading(false);
     }
-    // WAAR IS CLASS CHECKING?
     else {
       try {
         await fetch(
@@ -124,8 +121,8 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
         console.log(error);
         toast({
           variant: "destructive",
-          title: "Error!",
-          description: "Something went wrong!",
+          title: t("toast.errortitle"),
+          description: t("toast.something_wrong_error"),
         });
         setIsLoading(false);
       }
@@ -161,8 +158,8 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
           );
           toast({
             variant: "default",
-            title: "Succes!",
-            description: "Account: "+ username + " added successfully.",
+            title: t("toast.successtitle"),
+            description: t("toast.account_added"),
           });
           setIsLoading(false);
           setOpen(false);
@@ -170,8 +167,8 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
           console.log(error);
           toast({
             variant: "destructive",
-            title: "Error!",
-            description: "Something went wrong!",
+            title: t("toast.errortitle"),
+            description: t("toast.something_wrong_error"),
           });
           setIsLoading(false);
         }

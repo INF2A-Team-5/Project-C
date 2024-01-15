@@ -2,34 +2,21 @@ import { Ticket } from "../../types/Ticket";
 import Table from "../foundations/table";
 import { useQuery } from "@/lib/api";
 import { ticketColumns } from "@/services/Columns";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
-import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
 import Layout from "../layout";
 import { toast } from "../ui/use-toast";
 import TableSkeleton from "../foundations/table-skeleton";
 import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
 import CreateTicketDialog from "../foundations/create-ticket-dialog";
 
 function AssignedTickets() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const { data, isFetching } = useQuery<Ticket[]>("/GetAssignedTickets?AccountId=" + localStorage.getItem("Id"), {
     onError: () => {
       toast({
         variant: "destructive",
-        title: "Whomp whomp:(",
-        description: "U get no data",
+        title: t("toast.errortitle"),
+        description: t("toast.no_data_error"),
       });
     },
   });

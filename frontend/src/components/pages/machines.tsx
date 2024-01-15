@@ -16,31 +16,27 @@ import { toast } from "../ui/use-toast";
 import Layout from "../layout";
 import AddMachine from "../foundations/add-machine";
 import TableSkeleton from "../foundations/table-skeleton";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 function Machines() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
   const isClient = localStorage.getItem("Class") == "Client";
   const apiUrl = isClient
-    ? "/GetMachinesPerAccount?AccountId=" + localStorage.getItem("Id")
-    : "/api/MachineModels?accountId=" + localStorage.getItem("Id");
+    ? `/GetMachinesByArchived?archived=false&AccountId=${localStorage.getItem("Id")}`
+    : `/api/MachineModels?accountId=${localStorage.getItem("Id")}&archived=false`;
   const { data, isFetching } = useQuery<any[]>(apiUrl, {
- // ? "/GetMachinesPerAccount?accountId=" + localStorage.getItem("Id")
- // : `/api/machines/archived/${false}`;
-//const { data, isFetching } = useQuery<Machine[]>(apiUrl, {
-
     onError: () => {
       toast({
         variant: "destructive",
-        title: "Whomp whomp:(",
-        description: "U get no data",
+        title: t("toast.errortitle"),
+        description: t("toast.no_data_error"),
       });
     },
   });
-
+  console.log(data);
   return (
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
@@ -60,7 +56,7 @@ function Machines() {
                   <TextareaHint>{t("machine.create")}</TextareaHint>
                 </DialogHeader>
                 <DialogDescription>
-                  <AddMachine setOpen={setOpen}/>
+                  <AddMachine setOpen={setOpen} />
                 </DialogDescription>
               </DialogContent>
             </Dialog>

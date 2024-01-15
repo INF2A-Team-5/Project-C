@@ -1,48 +1,55 @@
 import { Ticket } from "../../types/Ticket";
 import Table from "../foundations/table";
-import { useQuery } from "@/lib/api";
+import { API_BASE_URL, getBaseQueryRequest, } from "@/lib/api";
 import { ticketColumns } from "@/services/Columns";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
-import { Button } from "../ui/button";
-import { Link } from "react-router-dom";
+
 import Layout from "../layout";
 import { toast } from "../ui/use-toast";
 import TableSkeleton from "../foundations/table-skeleton";
-import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CreateTicketDialog from "../foundations/create-ticket-dialog";
+import { t } from "i18next";
 
 function Tickets() {
-  const { t, i18n } = useTranslation();
+  const [tickets, setTickets] = useState<Ticket[]>()
+  const Id = localStorage.getItem("Id");
 
-  const { data, isFetching } = useQuery<Ticket[]>("/api/tickets?AccountId=" + localStorage.getItem("Id"), {
-    onError: () => {
-      toast({
-        variant: "destructive",
-        title: "Whomp whomp:(",
-        description: "U get no data",
-      });
-    },
+  useEffect(() => {
+    if (tickets == undefined) {
+      getTickets();
+    }
   });
+  console.log(tickets);
+  async function getTickets() {
+    try{
+    setTickets(
+      await fetch(
+        API_BASE_URL + "/api/tickets?AccountId=" + Id +
+        "&archived=false",
+        getBaseQueryRequest(),
+      ).then((data) => data.json()),
+    );
+      }
+      catch
+      {
+        toast({
+          variant: "destructive",
+          title: t("toast.errortitle"),
+          description: t("toast.no_data_error"),
+        });
+      }
+  }
+
   return (
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-medium">{t("ticket.h1")}</h1>
-          <CreateTicketDialog isFetching={isFetching}/>
+          <CreateTicketDialog isFetching={false}/>
         </div>
         <div className="grid gap-12">
-          {data ? (
-            <Table data={data} columns={ticketColumns(t)} />
+          {tickets ? (
+            <Table data={tickets} columns={ticketColumns(t)} />
           ) : (
             <TableSkeleton />
           )}

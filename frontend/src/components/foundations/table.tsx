@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -24,9 +24,7 @@ import { Separator } from "../ui/separator";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "../ui/skeleton";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Command, CommandGroup, CommandInput, CommandItem } from "../ui/command";
-import { CommandEmpty } from "cmdk";
-import { cn } from "@/lib/utils";
+import { Command, CommandGroup,  CommandItem } from "../ui/command";
 import { useLocation } from "react-router-dom";
 import { CaretSortIcon, Cross2Icon } from "@radix-ui/react-icons";
 import { useTranslation } from "react-i18next";
@@ -40,18 +38,16 @@ function DataTable<TData, TValue>({
   data,
   columns,
 }: TableProps<TData, TValue>) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [openStatus, setOpenStatus] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
-
+  const [value, setValue] = useState("")
   const location = useLocation();
-
   const totalPages = Math.ceil(data.length / 10);
-
   const table = useReactTable({
     data,
     columns,
@@ -66,7 +62,6 @@ function DataTable<TData, TValue>({
       columnFilters,
     },
   });
-
   let column = "";
   let columnplaceholder = "";
   if (table.getAllColumns().find((el) => el.id == "title") != undefined) {
@@ -97,7 +92,6 @@ function DataTable<TData, TValue>({
       label: t("table.closed"),
     },
   ];
-
   return (
     <div className="grid gap-4">
       <div className="flex items-center">
@@ -110,20 +104,7 @@ function DataTable<TData, TValue>({
           className="max-w-sm"
         />
 
-        {location.pathname === "/tickets" ? (
-          <Input
-            type="number"
-            placeholder={t("table.searchforemployee")}
-            value={(table.getColumn("employee_Id")?.getFilterValue() as number) ?? ""}
-            onChange={(event) => {
-              console.log(table.getAllColumns());
-              table.getColumn("employee_Id")?.setFilterValue(event.target.value);
-            }}
-            className="w-min ml-4"
-          />
-        ) : null}
-
-        {location.pathname === "/tickets" ?
+        {location.pathname === "/tickets" || location.pathname === "/assigned-tickets" ?
           (<Popover open={openStatus} onOpenChange={setOpenStatus}>
             <div className="pl-5">
               <PopoverTrigger asChild>
@@ -131,10 +112,10 @@ function DataTable<TData, TValue>({
                   variant="outline"
                   role="combobox"
                   aria-expanded={openStatus}
-                  className="w-[100px] justify-between "
+                  className="w-min justify-between "
                 >
+                  {value ? statuses.find((status) => status.value === value)?.label : t("table.status")}
                   <CaretSortIcon className="h-4 w-4 shrink-0 opacity-50" />
-                  {t("table.status")}
                 </Button>
               </PopoverTrigger>
             </div>
@@ -149,6 +130,7 @@ function DataTable<TData, TValue>({
                         table
                           .getColumn("status")
                           ?.setFilterValue(currentValue);
+                        setValue(currentValue === value ? "" : currentValue)
                         setOpenStatus(false);
                         setIsFiltered(true);
                       }}
@@ -161,8 +143,6 @@ function DataTable<TData, TValue>({
             </PopoverContent>
           </Popover>
           ) : null}
-
-
         {isFiltered ? (
           <div className="pl-3">
             <Button
@@ -226,12 +206,6 @@ function DataTable<TData, TValue>({
                 ))
               ) : (
                 <TableRow>
-                  {/* <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                    >
-                    No results.
-                  </TableCell> */}
                   <Skeleton className="my-6 ml-4 h-4" />
                 </TableRow>
               )}

@@ -1,10 +1,15 @@
-import { useEffect } from "react";
 import LogIn from "./components/pages/auth/log-in";
 import { useAuthenticated } from "./lib/hooks/useAuthenticated";
-import i18next from "i18next";
 
 function App() {
   useAuthenticated();
+  localStorage.removeItem("Token");
+  localStorage.removeItem("username");
+  localStorage.removeItem("Id");
+  localStorage.removeItem("Class");
+  localStorage.removeItem("currentaccountID");
+  localStorage.removeItem("currentticketID");
+  localStorage.removeItem("currentmachineID");
 
   return (
     <div>

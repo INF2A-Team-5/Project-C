@@ -15,7 +15,20 @@ namespace Backend.MachineModelService
             _context = context;
         }
 
-        public async Task<ActionResult<IEnumerable<MachineModel>>> GetAllMachineModels(int AccountId)
+        public async Task<ActionResult<IEnumerable<MachineModel>>> GetAllModels()
+        {
+            if (_context.Models == null)
+            {
+                return NotFound();
+            }
+            var models = await _context.Models.Where(mach => mach.Archived == false).ToListAsync();
+            if (models == null)
+            {
+                return NotFound();
+            }
+            return models;
+        }
+        public async Task<ActionResult<IEnumerable<MachineModel>>> GetAllMachineModels(int AccountId, bool archived)
         {
             if (_context.Accounts == null || _context.Tickets == null || _context.Customers == null | _context.Employees == null || _context.Departments == null)
             {
@@ -35,7 +48,7 @@ namespace Backend.MachineModelService
                     {
                         return NotFound();
                     }
-                    var depMachines = await (from model in _context.Models where model.DepartmentId == departmentId select model).ToListAsync();
+                    var depMachines = await (from model in _context.Models where model.DepartmentId == departmentId && model.Archived == archived select model).ToListAsync();
                     if (depMachines == null || depMachines.Count == 0)
                     {
                         return NotFound("No tickets under this department");
@@ -46,7 +59,7 @@ namespace Backend.MachineModelService
                         return NotFound("Wrong account");
                     }
                 case AccountType.Admin:
-                    var models = await _context.Models.ToListAsync();
+                    var models = await (from model in _context.Models where model.Archived == archived select model).ToListAsync();
                     if (models == null)
                     {
                         return NotFound();
@@ -113,7 +126,7 @@ namespace Backend.MachineModelService
                 return CreatedAtAction(nameof(GetMachineModelById), new { id = newMachine.ModelId }, newMachine);
             }
 
-            public async Task<IActionResult> DeleteMachineModel(int id)
+            public async Task<IActionResult> ArchiveMachineModel(int id)
             {
                 if (_context.Models == null)
                 {

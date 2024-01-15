@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
@@ -10,7 +10,7 @@ import { DialogClose, DialogFooter } from "../ui/dialog";
 import { useTranslation } from "react-i18next";
 
 function AddSolution({ setOpen }: { setOpen: (_: boolean) => void }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const [problemDescription, setProblemDescription] = useState("");
   const [solutionDescription, setSolutionDescription] = useState("");
@@ -23,22 +23,22 @@ function AddSolution({ setOpen }: { setOpen: (_: boolean) => void }) {
     if (problemDescription == "") {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Enter description of the problem.",
+        title: t("toast.errortitle"),
+        description: t("toast.enter_problem_description"),
       });
       setIsLoading(false);
     } else if (solutionDescription == "") {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Enter a description of the solution.",
+        title: t("toast.errortitle"),
+        description: t("toast.enter_solution_description"),
       });
       setIsLoading(false);
     } else if (!ticketId || ticketId === "") {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Enter a valid ticket ID.",
+        title: t("toast.errortitle"),
+        description: t("toast.enter_valid_ticketId"),
       });
       setIsLoading(false);
     } else {
@@ -55,8 +55,8 @@ function AddSolution({ setOpen }: { setOpen: (_: boolean) => void }) {
 
       toast({
         variant: "default",
-        title: "Succes!",
-        description: "Solution for ticket: " + ticketId + " added successfully.",
+        title: t("toast.successtitle"),
+        description: t("toast.solution_added"),
       });
       setIsLoading(false);
       setOpen(false);

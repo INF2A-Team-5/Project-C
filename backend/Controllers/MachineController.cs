@@ -17,12 +17,11 @@ namespace Backend.Controllers
             _machineService = machineService;
         }
         [HttpGet] public async Task<ActionResult<IEnumerable<Machine>>> GetAllMachines() => await _machineService.GetAllMachines();
-        [HttpGet("{id}")] public async Task<ActionResult<Machine>> GetMachineById(int id) => await _machineService.GetMachineById(id);
+        [HttpGet("{id}")] public async Task<ActionResult<MachineInfoDto>> GetMachineById(int id) => await _machineService.GetMachineById(id);
         [HttpGet("/GetMachinesPerAccount")] public async Task<ActionResult<IEnumerable<MachineInfoDto>>> GetMachinePerAccountId(int accountId) => await _machineService.GetMachinePerAccountId(accountId);
-        [HttpGet("Archived/{archived}")] public async Task<ActionResult<IEnumerable<Machine>>> GetMachinesByArchived(bool archived) => await _machineService.GetMachinesByArchived(archived);
-        [HttpPut("{id}")] public async Task<IActionResult> UpdateMachine(int id, Machine machine) => await _machineService.UpdateMachine(id, machine);
-        [HttpPut("ArchiveByDepartment/{id}")] public async Task<IActionResult> ArchiveMachineByDepartmentId(int id) => await _machineService.ArchiveMachineByDepartmentId(id);
-        [HttpPost] public async Task<ActionResult<Machine>> AddMachine(MachineDto newMachine) => await _machineService.AddMachine(newMachine);
+        [HttpGet("/GetMachinesByArchived")] public async Task<ActionResult<IEnumerable<MachineInfoDto>>> GetMachinesByArchived(bool archived, int AccountId) => await _machineService.GetMachinesByArchived(archived, AccountId);
+        [HttpPut("/ArchiveByDepartment")] public async Task<IActionResult> ArchiveMachineByDepartmentId(int id) => await _machineService.ArchiveMachineByDepartmentId(id);
+        [HttpPost] public async Task<ActionResult<Machine>> AddMachine(MachineModelDto machine, int Customer_Id) => await _machineService.AddMachine(machine, Customer_Id);
         [HttpDelete("{id}")] public async Task<IActionResult> DeleteMachine(int id) => await _machineService.DeleteMachine(id);
     }
 }

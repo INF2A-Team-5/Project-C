@@ -28,13 +28,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CaretDownIcon, CheckIcon } from "@radix-ui/react-icons";
+import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
-import { Machine } from "@/types/Machine";
 import Layout from "../layout";
-import { Account } from "@/types/Account";
 import { MachineInfoDto } from "@/types/MachineInfo";
+import { Customer } from "@/types/Customer";
 
 function CreateTickets() {
   useAuthenticated();
@@ -43,6 +42,10 @@ function CreateTickets() {
   const [mustBeDoing, setMustBeDoing] = useState("");
   const [haveTried, setHaveTried] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+
+
+ const [customers, setCustomers] = useState<Customer[]>([]);
+ const [machines, setMachines] = useState<MachineInfoDto[]>([]);
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
   const [isChecked, setChecked] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -50,7 +53,7 @@ function CreateTickets() {
   const [open2, setOpen2] = useState(false);
   const [CustomerID, setCustomerID] = useState("");
   const [accountID, setAccountID] = useState("");
-  const [value2, setValue2] = useState("");
+  const [value, setValue] = useState("");
   const [isClient, setIsClient] = useState<boolean>(false);
   const customerSelectedRef = useRef(false);
   const navigate = useNavigate();
@@ -64,7 +67,6 @@ function CreateTickets() {
   }, []);
 
   useEffect(() => {
-    console.log(accountID);
     GetCustomer();
     if (!customerSelectedRef.current) {
       customerSelectedRef.current = true;
@@ -85,7 +87,7 @@ function CreateTickets() {
     }
   };
 
-  const { t, i18n } = useTranslation();
+  const { t, } = useTranslation();
 
   const handleRemove = (indexToRemove: number) => {
     const updatedPreview = [...preview];
@@ -94,13 +96,11 @@ function CreateTickets() {
   };
 
   async function GetCustomer() {
-    console.log("getting customer")
     if (accountID) {
       let Customer = await fetch(
         API_BASE_URL + "/api/Customers/getCustomer?AccountId=" + accountID,
         getBaseQueryRequest(),
       ).then((data) => data.json());
-      console.log(Customer)
       setCustomerID(Customer.customerId);
     }
   }
@@ -108,16 +108,14 @@ function CreateTickets() {
   async function getCustomers() {
     let customerlist = await fetch(
       API_BASE_URL +
-      "/api/Accounts/GetAccountsByClass?classname=Client",
+      "/api/Customers",
       getBaseQueryRequest(),
     ).then((data) => data.json());
-
     console.log(customerlist);
     setCustomers(customerlist);
   }
 
   async function getMachines() {
-    console.log("Getting machines")
     if (CustomerID) {
       let machinelist = await fetch(
         API_BASE_URL +
@@ -125,7 +123,6 @@ function CreateTickets() {
         CustomerID,
         getBaseQueryRequest(),
       ).then((data) => data.json());
-      console.log(machinelist);
       setMachines(machinelist);
     }
   }
@@ -181,17 +178,13 @@ function CreateTickets() {
       title.length != 0
     ) {
       let machine = machines.find(
-
-//        (machine: Machine) => machine.name.toLowerCase() == value2,
-
-//        (machine: MachineInfoDto) => machine.name.toLowerCase() == value,
-
+       (machine: MachineInfoDto) => machine.name.toLowerCase() == value,
       );
       if (machine == undefined) {
         toast({
           variant: "destructive",
-          title: t("ticket.error"),
-          description: t("ticket.machinealert"),
+          title: t("toast.ticket.error"),
+          description: t("toast.ticket.machinealert"),
         });
         setIsLoading(false);
       } else if (
@@ -200,20 +193,21 @@ function CreateTickets() {
       ) {
         toast({
           variant: "destructive",
-          title: t("ticket.error"),
-          description: t("ticket.wordsalert"),
+          title: t("toast.ticket.error"),
+          description: t("toast.ticket.wordsalert"),
         });
         setIsLoading(false);
       } else if (phoneNumber == "" || phoneNumber == null) {
         toast({
           variant: "destructive",
-          title: t("ticket.error"),
-          description: t("ticket.phonealert"),
+          title: t("toast.ticket.error"),
+          description: t("toast.ticket.phonealert"),
         });
         setIsLoading(false);
       } else {
         var currentTicket = {
-          Machine_Id: machine?.machineId,
+          machine_Id: machine?.machineId,
+          ModelId: machine?.modelId,
           Customer_Id: CustomerID,
           Title: title,
           Priority: "Not Set",
@@ -244,8 +238,8 @@ function CreateTickets() {
         );
         toast({
           variant: "default",
-          title: "Succes!",
-          description: t("ticket.submitalert"),
+          title: t("toast.successtitle"),
+          description: t("toast.ticket.submitalert"),
         });
         setIsLoading(false);
         navigate("/tickets");
@@ -254,8 +248,8 @@ function CreateTickets() {
     } else {
       toast({
         variant: "destructive",
-        title: t("ticket.error"),
-        description: t("ticket.emptyalert"),
+        title: t("toast.ticket.error"),
+        description: t("toast.ticket.emptyalert"),
       });
       setIsLoading(false);
     }
@@ -288,10 +282,10 @@ function CreateTickets() {
                       >
                         {accountID
                           ? customers.find(
-                            (account: any) => account.accountId == accountID,
-                          )?.accountId
-                          : "Select customer..."}
-                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            (account: Customer) => account.accountId.toString() == accountID,
+                          )?.customerId
+                          : t("selectcustomer")}
+                        <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-[200px] p-0">
@@ -308,14 +302,14 @@ function CreateTickets() {
                                 setOpen1(false);
                               }}
                             >
-                              <Check
+                              <CheckIcon
                                 className={cn(
                                   "mr-2 h-4 w-4",
                                   accountID === customer.accountId.toString()
                                     ? "opacity-100"
                                     : "opacity-0"
                                 )} />
-                              {customer.name}
+                              {customer.customerId}
                             </CommandItem>
                           ))}
                         </CommandGroup>
@@ -334,12 +328,12 @@ function CreateTickets() {
                           className="w-[200px] justify-between"
                           onClick={getMachines}
                         >
-                          {value2
+                          {value
                             ? machines.find(
-                              (machine: any) => machine.name.toLowerCase() == value2
+                              (machine: any) => machine.name.toLowerCase() == value
                             )?.name
-                            : "Select machine..."}
-                          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            : t("selectmachine")}
+                          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent className="w-[200px] p-0">
@@ -349,19 +343,19 @@ function CreateTickets() {
                           <CommandGroup>
                             {machines.map((machine) => (
                               <CommandItem
-                                key={machine.name}
+                                key={machine.name + machine.machineId}
                                 value={machine.name}
                                 onSelect={(currentValue) => {
-                                  setValue2(
-                                    currentValue === value2 ? "" : currentValue
+                                  setValue(
+                                    currentValue === value ? "" : currentValue
                                   );
                                   setOpen2(false);
                                 }}
                               >
-                                <Check
+                                <CheckIcon
                                   className={cn(
                                     "mr-2 h-4 w-4",
-                                    value2 === machine.name
+                                    value === machine.name
                                       ? "opacity-100"
                                       : "opacity-0"
                                   )} />
@@ -385,12 +379,12 @@ function CreateTickets() {
                       aria-expanded={open2}
                       className="w-[200px] justify-between"
                     >
-                      {value2
+                      {value
                         ? machines.find(
-                          (machine: any) => machine.name.toLowerCase() == value2
+                          (machine: any) => machine.name.toLowerCase() == value
                         )?.name
-                        : "Select machine..."}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        : t("selectmachine")}
+                      <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-[200px] p-0">
@@ -403,16 +397,16 @@ function CreateTickets() {
                             key={machine.name}
                             value={machine.name}
                             onSelect={(currentValue) => {
-                              setValue2(
-                                currentValue === value2 ? "" : currentValue
+                              setValue(
+                                currentValue === value ? "" : currentValue
                               );
                               setOpen2(false);
                             }}
                           >
-                            <Check
+                            <CheckIcon
                               className={cn(
                                 "mr-2 h-4 w-4",
-                                value2 === machine.name
+                                value === machine.name
                                   ? "opacity-100"
                                   : "opacity-0"
                               )} />

@@ -54,27 +54,27 @@ namespace Backend.Controllers
                 return Ok(false);
             }
             var tokenHandler = new JwtSecurityTokenHandler(); 
-            var DecodedToken = tokenHandler.ReadJwtToken(token);
-            string name = DecodedToken.Claims.First(claim => claim.Type == "unique_name").Value;
-            string role = DecodedToken.Claims.First(claim => claim.Type == "role").Value;
-            AccountType Class = new();
+            var decodedToken = tokenHandler.ReadJwtToken(token);
+            string name = decodedToken.Claims.First(claim => claim.Type == "unique_name").Value;
+            string role = decodedToken.Claims.First(claim => claim.Type == "role").Value;
+            AccountType type = new();
             switch (role)
             {
                 case "Admin":
-                Class = AccountType.Admin;
+                type = AccountType.Admin;
                 break;
                 case "Client":
-                Class = AccountType.Client;
+                type = AccountType.Client;
                 break;
                 case "ServiceEmployee":
-                Class = AccountType.ServiceEmployee;
+                type = AccountType.ServiceEmployee;
                 break;
             }
             if (_dataContext.Accounts == null)
             {
                 return Ok(false);
             }
-            var account = (from accs in _dataContext.Accounts where accs.Name == name && accs.Class == Class select accs).FirstOrDefaultAsync();
+            var account = (from accs in _dataContext.Accounts where accs.Name == name && accs.Class == type select accs).FirstOrDefaultAsync();
             if (account != null)
             {
                 return Ok(true);

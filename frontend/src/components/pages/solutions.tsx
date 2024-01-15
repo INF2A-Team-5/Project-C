@@ -17,23 +17,22 @@ import Layout from "../layout";
 import TableSkeleton from "../foundations/table-skeleton";
 import { Solution } from "@/types/solution";
 import AddTicketSolution from "../foundations/add-solution";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 function Solutions() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
-  const { data, isFetching } = useQuery<Solution[]>("/api/solutions", {
+  const { data, isFetching } = useQuery<Solution[]>("/api/Solutions", {
     onError: () => {
       toast({
         variant: "destructive",
-        title: "Whomp whomp:(",
-        description: "U get no data",
+        title: t("toast.errortitle"),
+        description: t("toast.no_data_error"),
       });
     },
   });
-
   return (
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">

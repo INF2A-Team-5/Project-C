@@ -23,7 +23,7 @@ namespace Backend.MachineService
             return await _context.Machines.ToListAsync();
         }
 
-        public async Task<ActionResult<Machine>> GetMachineById(int id)
+        public async Task<ActionResult<MachineInfoDto>> GetMachineById(int id)
         {
             if (_context.Machines == null)
             {
@@ -34,17 +34,24 @@ namespace Backend.MachineService
             {
                 return NotFound("No machines under this ID");
             }
-            return machine;
+            var model = await _context.Models.Where(model => model.ModelId == machine.ModelId).FirstOrDefaultAsync();
+            MachineInfoDto machine_info = new() { MachineId = machine.MachineId, ModelId = machine.ModelId, DepartmentId = model.DepartmentId, Description = model.Description, Name = model.Name, Customer_Id = (int)machine.Customer_Id!};
+            return machine_info;
         }
 
-        public async Task<ActionResult<IEnumerable<MachineInfoDto>>> GetMachinePerAccountId(int id)
+        public async Task<ActionResult<IEnumerable<MachineInfoDto>>> GetMachinePerAccountId(int AccountId)
         {
             if (_context.Machines == null || _context.Models == null || _context.Accounts == null || _context.Customers == null)
             {
                 return NotFound("Insufficient data in db");
             }
+            var customer = await _context.Customers.Where(cust => cust.AccountId == AccountId).FirstOrDefaultAsync();
+            if (customer == null)
+            {
+                return NotFound();
+            }
             List<MachineInfoDto> details = new();
-            var machines = await _context.Machines.Where(machine => machine.Customer_Id == id).ToListAsync();
+            var machines = await _context.Machines.Where(machine => machine.Customer_Id == customer.CustomerId).ToListAsync();
             foreach (var machine in machines)
             {
                 var model = _context.Models.Where(x => x.ModelId == machine.ModelId).FirstOrDefault();
@@ -52,7 +59,7 @@ namespace Backend.MachineService
                 {
                     return NotFound("No model found");
                 }
-                details.Add(new MachineInfoDto() { Customer_Id = id, DepartmentId = model.DepartmentId, Description = model.Description, MachineId = machine.MachineId, ModelId = machine.ModelId, Name = model.Name });
+                details.Add(new MachineInfoDto() { Customer_Id = customer.CustomerId, DepartmentId = model.DepartmentId, Description = model.Description, MachineId = machine.MachineId, ModelId = machine.ModelId, Name = model.Name });
             }
             if (machines == null)
             {
@@ -60,19 +67,33 @@ namespace Backend.MachineService
             }
             return details;
         }
-        
-        public async Task<ActionResult<IEnumerable<Machine>>> GetMachinesByArchived(bool archived)
+        public async Task<ActionResult<IEnumerable<MachineInfoDto>>> GetMachinesByArchived(bool archived, int AccountId)
         {
-            if (_context.Machines == null)
+            if (_context.Machines == null || _context.Models == null || _context.Accounts == null || _context.Customers == null)
+            {
+                return NotFound("Insufficient data in db");
+            }
+            var customer = await _context.Customers.Where(cust => cust.AccountId == AccountId).FirstOrDefaultAsync();
+            if (customer == null)
             {
                 return NotFound();
             }
-            var machines = await _context.Machines.Where(m => m.Archived == archived).ToListAsync();
+            List<MachineInfoDto> details = new();
+            var machines = await _context.Machines.Where(machine => machine.Customer_Id == customer.CustomerId && machine.Archived == archived).ToListAsync();
+            foreach (var machine in machines)
+            {
+                var model = _context.Models.Where(x => x.ModelId == machine.ModelId).FirstOrDefault();
+                if (model == null)
+                {
+                    return NotFound("No model found");
+                }
+                details.Add(new MachineInfoDto() { Customer_Id = customer.CustomerId, DepartmentId = model.DepartmentId, Description = model.Description, MachineId = machine.MachineId, ModelId = machine.ModelId, Name = model.Name });
+            }
             if (machines == null)
             {
-                return NotFound();
+                return NotFound("No machines under this ID");
             }
-            return machines;
+            return details;
         }
 
         public async Task<IActionResult> ArchiveMachineByDepartmentId(int id)
@@ -81,7 +102,7 @@ namespace Backend.MachineService
             {
                 return NotFound();
             }
-            var machines = await _context.Machines.Where(m => m.DepartmentId == id).ToListAsync();
+            var machines = await _context.Models.Where(m => m.DepartmentId == id).ToListAsync();
             if (machines == null)
             {
                 return NotFound();
@@ -94,13 +115,21 @@ namespace Backend.MachineService
             return NoContent();
         }
 
-        public async Task<ActionResult<Machine>> AddMachine(MachineDto machine)
+        public async Task<ActionResult<Machine>> AddMachine(MachineModelDto machine, int Customer_Id)
         {
-            if (_context.Models == null)
+            if (_context.Models == null || _context.Customers == null)
             {
-                return Problem("Entity set 'DataContext.Machines'  is null.");
+                return Problem("Entity set is null.");
             }
-            return Ok();
+            Machine new_machine = new() { Customer_Id = Customer_Id, ModelId = machine.ModelId, Archived = false };
+            var customer = await _context.Customers.Where(cus => cus.CustomerId == Customer_Id).FirstOrDefaultAsync();
+            if (customer == null)
+            {
+                return NotFound();
+            }
+            customer.Machines.Add(new_machine);
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
 
         public async Task<IActionResult> DeleteMachine(int id)

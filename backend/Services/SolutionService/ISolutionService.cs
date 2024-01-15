@@ -7,7 +7,7 @@ namespace Backend.SolutionService
         {
                 Task<ActionResult<IEnumerable<Solution>>> GetAllSolutions();
                 Task<ActionResult<Solution>> GetSolutionById(int id);
-                Task<ActionResult<IEnumerable<Solution>>> GetSolutionsBymachineId(int id);
+                Task<ActionResult<IEnumerable<Solution>>> GetSolutionsBymodelId(int id);
                 Task<ActionResult<IEnumerable<Solution>>> GetSolutionsByArchived(bool archived);
                 Task<IActionResult> UpdateSolution(int id, Solution solution);
                 Task<IActionResult> ArchiveSolutionByTicketId(int ticketId);

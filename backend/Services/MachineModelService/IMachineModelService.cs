@@ -6,10 +6,11 @@ namespace Backend.MachineModelService
 {
     public interface IMachineModelService
     {
-        Task<ActionResult<IEnumerable<MachineModel>>> GetAllMachineModels(int AccountId);
+        Task<ActionResult<IEnumerable<MachineModel>>> GetAllModels();
+        Task<ActionResult<IEnumerable<MachineModel>>> GetAllMachineModels(int AccountId, bool archived);
         Task<ActionResult<MachineModel>> GetMachineModelById(int id);
         Task<IActionResult> UpdateMachineModel(int id, MachineModel machine);
         Task<ActionResult<MachineModel>> AddMachineModel(MachineModelDto machine);
-        Task<IActionResult> DeleteMachineModel(int id);
+        Task<IActionResult> ArchiveMachineModel(int id);
     }
 }

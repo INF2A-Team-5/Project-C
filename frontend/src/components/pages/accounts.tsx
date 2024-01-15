@@ -16,19 +16,19 @@ import { TextareaHint } from "../ui/textarea";
 import Layout from "../layout";
 import AddAccount from "../foundations/add-account";
 import TableSkeleton from "../foundations/table-skeleton";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 function Accounts() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
   const { data, isFetching } = useQuery<Account[]>(`/api/accounts/archived/${false}`, {
     onError: () => {
       toast({
         variant: "destructive",
-        title: "Whomp whomp:(",
-        description: "U get no data",
+        title: t("toast.errortitle"),
+        description: t("toast.no_data_error"),
       });
     },
   });

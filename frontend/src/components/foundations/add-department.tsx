@@ -29,15 +29,15 @@ function AddDepartment({ setOpen }: { setOpen: (_: boolean) => void }) {
     if (department !== undefined) {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Department already exists",
+        title: t("toast.errortitle"),
+        description: t("toast.department_exists_error"),
       });
       setIsLoading(false);
     } else if (name == "") {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Enter a department name",
+        title: t("toast.errortitle"),
+        description: t("toast.choose_department_error"),
       });
       setIsLoading(false);
     } else {
@@ -48,16 +48,16 @@ function AddDepartment({ setOpen }: { setOpen: (_: boolean) => void }) {
         );
         toast({
           variant: "default",
-          title: "Succes!",
-          description: "Department: " + name + " added successfully.",
+          title: t("toast.successtitle"),
+          description: t("toast.department_added"),
         });
         setIsLoading(false);
         setOpen(false);
       } catch {
         toast({
           variant: "destructive",
-          title: "Error!",
-          description: "Something went wrong.",
+          title: t("toast.errortitle"),
+          description: t("toast.something_wrong_error"),
         });
         setIsLoading(false);
       }

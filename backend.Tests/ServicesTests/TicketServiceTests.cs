@@ -1,6 +1,5 @@
 using Backend.TicketService;
 using Xunit;
-using FakeItEasy;
 using Backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Data;
@@ -12,14 +11,17 @@ namespace backend.Tests.ServicesTests
         private readonly DataContext _db = new();
         public TicketServiceTests() { }
 
-        [Fact]
-        public async void TicketService_GetAllTickets_ReturnsAllTickets()
+        [Theory]
+        [InlineData(1, false)]
+        [InlineData(2, false)]
+        [InlineData(3, false)]
+        public async void TicketService_GetAllTickets_ReturnsAllTickets(int id, bool archived)
         {
             // Arrange
             var service = new TicketService(_db);
 
             // Act
-            var result = await service.GetAllTickets();
+            var result = await service.GetAllTickets(id, archived);
 
             // Assert
             Assert.NotNull(result);
@@ -73,7 +75,7 @@ namespace backend.Tests.ServicesTests
             Ticket updatedTicket = new()
             {
                 TicketId = ticketId,
-                Machine_Id = machineId,
+                ModelId = machineId,
                 Customer_Id = customerId,
                 Employee_Id = employee_Id,
                 Title = title,
@@ -109,7 +111,7 @@ namespace backend.Tests.ServicesTests
             Ticket updatedTicket = new()
             {
                 TicketId = ticketId,
-                Machine_Id = machineId,
+                ModelId = machineId,
                 Customer_Id = customerId,
                 Employee_Id = employee_Id,
                 Title = title,
@@ -145,7 +147,7 @@ namespace backend.Tests.ServicesTests
             var service = new TicketService(_db);
             Ticket newTicket = new()
             {
-                Machine_Id = machineId,
+                ModelId = machineId,
                 Customer_Id = customerId,
                 Employee_Id = employee_Id,
                 Title = title,

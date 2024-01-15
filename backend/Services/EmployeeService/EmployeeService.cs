@@ -20,7 +20,7 @@ namespace Backend.EmployeeService
             }
             return await _context.Employees.ToListAsync();
         }
-        public async Task<ActionResult<Employee>> GetEmployeeById(int id)
+        public async Task<ActionResult<Employee>> GetEmployeeByAccountId(int id)
         {
             if (_context.Accounts == null || _context.Employees == null)
             {
@@ -54,7 +54,7 @@ namespace Backend.EmployeeService
 
             _context.Employees.Add(emp);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetEmployeeById), new { id = emp.EmployeeId }, emp);
+            return CreatedAtAction(nameof(GetEmployeeByAccountId), new { id = emp.EmployeeId }, emp);
         }
     }
 }

@@ -43,8 +43,8 @@ function LogIn() {
     if (username === "" || password === "") {
       toast({
         variant: "destructive",
-        title: "Error! Something went wrong.",
-        description: "Fill in all fields before logging in.",
+        title: t("toast.errortitle"),
+        description: t("toast.fill_in_fields_login_error"),
       });
       setIsLoading(false);
     } else {
@@ -68,9 +68,8 @@ function LogIn() {
       } catch {
         toast({
           variant: "destructive",
-          title: "Error! Something went wrong.",
-          description:
-            "Please ensure your username and password are entered correctly and try again.",
+          title: t("toast.errortitle"),
+          description: t("toast.wrong_credentials_error"),
         });
       } finally {
         setIsLoading(false);

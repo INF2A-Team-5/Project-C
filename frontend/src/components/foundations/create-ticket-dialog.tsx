@@ -1,12 +1,10 @@
-import { t } from "i18next";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
 
 function CreateTicketDialog ( {isFetching}: {isFetching: boolean}) {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
 
     return(
         <Dialog>
@@ -28,6 +26,8 @@ function CreateTicketDialog ( {isFetching}: {isFetching: boolean}) {
                 {t("ticket.dialog2")} 
                 <br />
                 {t("ticket.dialog3")} 
+                <br />
+                {t("ticket.dialog4")}
                 <br />
               </DialogDescription>
               <DialogFooter>

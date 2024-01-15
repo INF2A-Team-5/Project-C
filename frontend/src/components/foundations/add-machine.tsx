@@ -39,8 +39,8 @@ function AddMachine({ setOpen }: { setOpen: (_: boolean) => void }) {
     onError: () => {
       toast({
         variant: "destructive",
-        title: "Whomp whomp:(",
-        description: "U get no data",
+        title: t("toast.errortitle"),
+        description: t("toast.no_data_error"),
       });
     },
   });
@@ -66,36 +66,36 @@ function AddMachine({ setOpen }: { setOpen: (_: boolean) => void }) {
     if (machine !== undefined) {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Machine already exists.",
+        title: t("toast.errortitle"),
+        description: t("toast.machine_exists_error"),
       });
       setIsLoading(false);
     } else if (name == "") {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Enter a name.",
+        title: t("toast.errortitle"),
+        description: t("toast.enter_name_error"),
       });
       setIsLoading(false);
     } else if (dep == undefined) {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Choose a department.",
+        title: t("toast.errortitle"),
+        description: t("toast.choose_department_error"),
       });
       setIsLoading(false);
     } else if (department == undefined) {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Department does not exist.",
+        title: t("toast.errortitle"),
+        description: t("toast.department_does_not_exist_error"),
       });
       setIsLoading(false);
     } else if (description == "") {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Enter a description.",
+        title: t("toast.errortitle"),
+        description: t("toast.enter_description"),
       });
       setIsLoading(false);
     } else {
@@ -112,8 +112,8 @@ function AddMachine({ setOpen }: { setOpen: (_: boolean) => void }) {
 
       toast({
         variant: "default",
-        title: "Succes!",
-        description: "Machine: " + name + " added successfully.",
+        title: t("toast.successtitle"),
+        description: t("toast.machine_added"),
       });
       setIsLoading(false);
       setOpen(false);

@@ -1,10 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import Settings from "./settings";
 import { useTranslation } from "react-i18next";
-import { useEffect } from "react";
 
 function Navbar() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const location = useLocation();
   let navItems = [
@@ -20,7 +19,6 @@ function Navbar() {
     navItems.push(
       { label: t("navbar.assigned"), path: ["/assigned-tickets"] },
       { label: t("navbar.unassigned"), path: ["/unassigned-tickets"] },
-      { label: t("navbar.closed"), path: ["/closed-tickets"] },
     );
   }
   navItems.push({ label: "Machines", path: ["/machines"] }

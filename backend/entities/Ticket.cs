@@ -1,9 +1,15 @@
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+
 namespace Backend.Entities;
 
 public class Ticket
 {
     public int TicketId { get; set; }
+    public Machine Machine {get; set; } = null!;
     public int Machine_Id { get; set; }
+    public MachineModel Model {get; set; } = null!;
+    public int ModelId { get; set; }
+    public Customer Customer {get; set; } = null!;
     public int Customer_Id { get; set; }
     public int? Employee_Id { get; set; }
     public string Title { get; set; } = null!;

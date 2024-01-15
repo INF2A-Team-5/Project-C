@@ -16,11 +16,11 @@ import { TextareaHint } from "../ui/textarea";
 import Layout from "../layout";
 import AddDepartment from "../foundations/add-department";
 import TableSkeleton from "../foundations/table-skeleton";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 function Departments() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
   const { data, isFetching } = useQuery<Department[]>(`/api/departments/archived/${false}`, {
@@ -28,8 +28,8 @@ function Departments() {
     onError: () => {
       toast({
         variant: "destructive",
-        title: "Whomp whomp:(",
-        description: "U get no data",
+        title: t("toast.errortitle"),
+        description: t("toast.no_data_error"),
       });
     },
   });
