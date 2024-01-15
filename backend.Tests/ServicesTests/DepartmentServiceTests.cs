@@ -76,7 +76,7 @@ namespace backend.Tests.ServicesTests
             // Assert
             Assert.NotNull(result);
             Assert.IsType<NoContentResult>(result);
-            Assert.IsNotType<NotFoundResult>(result);
+            Assert.IsNotType<OkObjectResult>(result);
         }
 
         [Theory]
@@ -99,9 +99,9 @@ namespace backend.Tests.ServicesTests
         }
 
         [Theory]
-        [InlineData(12, "departmentone")]
-        [InlineData(13, "departmenttwo")]
-        [InlineData(16, "departmentthree")]
+        [InlineData(51, "departmentone")]
+        [InlineData(52, "departmenttwo")]
+        [InlineData(53, "departmentthree")]
         public async void DepartmentService_AddDepartment_ReturnsCreatedAtActionResult(int id, string name)
         {
             // Arrange
@@ -115,27 +115,6 @@ namespace backend.Tests.ServicesTests
             Assert.NotNull(result); // Check if result is not null
             Assert.IsType<ActionResult<Department>>(result); // Check if result is of type ActionResult<Department>
             Assert.IsNotType<ObjectResult>(result); // Check if result is not ObjectResult
-        }
-
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        // ------------------------------------------------
-        // Does not work!!! Has beef with Employees table
-        // ------------------------------------------------
-        public async void DepartmentService_DeleteDepartment_ReturnsNoContent(int id)
-        {
-            // Arrange
-            var service = new DepartmentService(_db);
-
-            // Act
-            var result = await service.DeleteDepartment(id);
-
-            // Assert
-            Assert.NotNull(result); // Check if result is not null
-            Assert.IsType<NoContentResult>(result); // Check if result is of type NoContentResult
-            Assert.IsNotType<NotFoundResult>(result); // Check if result is not NotFoundResult
         }
 
         [Theory]

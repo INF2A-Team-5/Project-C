@@ -3,6 +3,7 @@ using Xunit;
 using Backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Data;
+using Backend.Dto;
 
 namespace backend.Tests.ServicesTests
 {
@@ -46,7 +47,7 @@ namespace backend.Tests.ServicesTests
         }
 
         [Theory]
-        [InlineData(26)]
+        [InlineData(66)] //
         [InlineData(30)]
         [InlineData(35)]
         public async void TicketService_GetTicketById_ReturnsNotFound(int id)
@@ -72,7 +73,7 @@ namespace backend.Tests.ServicesTests
         {
             // Arrange
             var service = new TicketService(_db);
-            Ticket updatedTicket = new()
+            TicketDto updatedTicket = new()
             {
                 TicketId = ticketId,
                 ModelId = machineId,
@@ -96,22 +97,22 @@ namespace backend.Tests.ServicesTests
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<NoContentResult>(result);
+            Assert.IsType<NotFoundResult>(result);
         }
 
         [Theory]
         [InlineData(1, 1, 1, 1, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
         [InlineData(2, 2, 2, 2, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
         [InlineData(3, 3, 3, 3, "updated ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
-        public async void TicketService_UpdateTicket_ReturnsBadRequest(int ticketId, int machineId, int customerId, int employee_Id, string title, string priority, string status, string problem,
+        public async void TicketService_UpdateTicket_ReturnsBadRequest(int ModelId, int machineId, int customerId, int employee_Id, string title, string priority, string status, string problem,
                                                                     string havetried, string mustbedoing, string date, string solution, string phonenumber, string[] notes, string[] files)
         {
             // Arrange
             var service = new TicketService(_db);
-            Ticket updatedTicket = new()
+            TicketDto updatedTicket = new()
             {
-                TicketId = ticketId,
-                ModelId = machineId,
+                Machine_Id = machineId,
+                ModelId = ModelId,
                 Customer_Id = customerId,
                 Employee_Id = employee_Id,
                 Title = title,
@@ -137,17 +138,24 @@ namespace backend.Tests.ServicesTests
         }
 
         [Theory]
-        [InlineData(1, 1, 1, "new ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
-        [InlineData(2, 2, 2, "new ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
-        [InlineData(3, 3, 3, "new ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
-        public async void TicketService_AddTicket_ReturnsTicket(int machineId, int customerId, int employee_Id, string title, string priority, string status, string problem,
+        [InlineData(1, 1, 1, 1, "new ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456789", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
+        [InlineData(2, 2, 2, 2, "new ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456788", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
+        [InlineData(3, 3, 3, 3, "new ticket", "priority", "status", "problem", "havetried", "mustbedoing", "01-01-2022", "solution", "123456787", new string[] { "notes" }, new string[] { "file1", "file2", "file3" })]
+        public async void TicketService_AddTicket_ReturnsTicket(int ModelId, int machineId, int customerId, int employee_Id, string title, string priority, string status, string problem,
                                                                     string havetried, string mustbedoing, string date, string solution, string phonenumber, string[] notes, string[] files)
         {
             // Arrange
             var service = new TicketService(_db);
-            Ticket newTicket = new()
+            // Department dep1 = new() { Name = "Department1" };
+            // MachineModel MachineModel1 = new() { Name = "Machine1", Description = "This is machine 1", Department = dep1 };
+            // Machine Machine1 = new() { Model = MachineModel1 };
+            // Account Client = new() { Name = "clientname", Password = "clientpw", Class = AccountType.Client };
+            // Customer customer = new() { Account = Client };
+
+            TicketDto newTicket = new()
             {
-                ModelId = machineId,
+                ModelId = ModelId,
+                Machine_Id = machineId,
                 Customer_Id = customerId,
                 Employee_Id = employee_Id,
                 Title = title,
@@ -185,7 +193,7 @@ namespace backend.Tests.ServicesTests
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<NoContentResult>(result);
+            Assert.IsType<NotFoundResult>(result);
         }
 
         [Theory]

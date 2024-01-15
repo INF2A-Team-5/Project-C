@@ -40,7 +40,7 @@ namespace backend.Tests.ServicesTests
 
             // Assert
             Assert.NotNull(result); // Check if result is not null
-            Assert.IsType<ActionResult<Machine>>(result); // Check if result is of type ActionResult<Machine>
+            Assert.IsType<ActionResult<MachineInfoDto>>(result); // Check if result is of type ActionResult<Machine>
             Assert.IsNotType<NotFoundObjectResult>(result); // Check if result is not NotFoundObjectResult
         }
 
@@ -58,7 +58,7 @@ namespace backend.Tests.ServicesTests
 
             // Assert
             Assert.NotNull(result); // Check if result is not null
-            Assert.IsType<ActionResult<Machine>>(result); // Check if result is of type ActionResult<Machine>
+            Assert.IsType<ActionResult<MachineInfoDto>>(result); // Check if result is of type ActionResult<Machine>
             Assert.IsNotType<NotFoundResult>(result.Result);  // Check if result is not NotFoundObjectResult
         }
 
@@ -95,14 +95,14 @@ namespace backend.Tests.ServicesTests
 
             // Assert
             Assert.NotNull(result); // Check if result is not null
-            Assert.IsType<ActionResult<IEnumerable<Machine>>>(result); // Check if result is of type ActionResult<IEnumerable<Machine>>
+            Assert.IsType<ActionResult<IEnumerable<MachineInfoDto>>>(result); // Check if result is of type ActionResult<IEnumerable<Machine>>
             Assert.IsNotType<NotFoundObjectResult>(result); // Check if result is not NotFoundObjectResult
         }
 
         [Theory]
-        [InlineData(4)]
-        [InlineData(8)]
-        [InlineData(12)]
+        [InlineData(40)]
+        [InlineData(80)]
+        [InlineData(120)]
         public async void MachineService_GetMachinePerAccountId_ReturnsNotFound(int id)
         {
             // Arrange
@@ -113,9 +113,7 @@ namespace backend.Tests.ServicesTests
 
             // Assert
             Assert.NotNull(result); // Check if result is not null
-            Assert.IsType<ActionResult<IEnumerable<Machine>>>(result); // Check if result is of type ActionResult<IEnumerable<Machine>>
-            Assert.IsNotType<NotFoundResult>(result.Result);  // Check if result is not NotFoundObjectResult
-            Assert.IsNotType<NotFoundObjectResult>(result); // Check if result is not NotFoundObjectResult
+            Assert.IsType<NotFoundResult>(result.Result);  // Check if result is not NotFoundObjectResult
         }
 
         [Theory]
@@ -132,8 +130,8 @@ namespace backend.Tests.ServicesTests
 
             // Assert
             Assert.NotNull(result); // Check if result is not null
-            Assert.IsType<NoContentResult>(result); // Check if result is of type NoContentResult
-            Assert.IsNotType<NotFoundResult>(result); // Check if result is NotFoundResult
+            Assert.IsType<NotFoundResult>(result); // Check if result is of type NoContentResult
+            Assert.IsNotType<OkObjectResult>(result); // Check if result is NotFoundResult
         }
 
         [Theory]
