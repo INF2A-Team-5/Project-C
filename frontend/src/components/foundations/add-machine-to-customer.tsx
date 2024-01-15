@@ -59,7 +59,6 @@ function AddMachineToCustomer({ setOpen }: { setOpen: (_: boolean) => void }) {
       setIsLoading(false);
       setOpen(false);
     } catch (error) {
-      console.log(error);
       toast({
         variant: "destructive",
         title: t("toast.errortitle"),

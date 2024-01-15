@@ -187,14 +187,12 @@ function ViewTicket() {
         try {
           currentTicket.status = "Closed";
           currentTicket.solution = solution;
-          console.log(currentTicket)
           var newSolution = {
             problemDescription: currentTicket.problem,
             solutionDescription: solution,
             machineId: currentTicket.machine_Id,
             ticketId: currentTicket.ticketId
           }
-          console.log(newSolution)
           await fetch(
             API_BASE_URL + "/api/Solutions",
             postBaseMutateRequest(JSON.stringify(newSolution)),

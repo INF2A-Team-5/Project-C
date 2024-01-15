@@ -122,13 +122,14 @@ i18n
             details:
               "Give details of the error and we will try to help you as soon as possible",
             selectmachine: "Select a machine",
-            selectmachinedes: "Select the machine related to the ticket*",
+            selectmachines: "Select the machine related to the ticket*",
+            phonenumberwithstar: "Phone number",
             title: "Add title*",
             titledes: "Error machine 1",
             place1: "shit broken...",
             place2: "Pack in stuff...",
             place3: "Restarted the machine...",
-            place4: "Enter phonenumber",
+            place4: "Enter phone number",
             problem: "What do you see?*",
             problemdes:
               "Give us a detailed description on any visible defects (Atleast 20 words)",
@@ -277,6 +278,9 @@ i18n
             reopen_ticket: "Reopen ticket",
             reopen_ticket_why: "Why do you want to reopen the ticket?",
             give_description_reopen: "Give us a detailed description on why you want to reopen your ticket",
+            enter_ticket_title: "Enter the title for the ticket (visible in the tickets table)...",
+            no_customers_found: "No customers found",
+            no_machines_found: "No machines found",
           },
         },
       },
@@ -380,8 +384,9 @@ i18n
             details:
               "Geef alle details van de foutmelding en we zullen je zo snel mogelijk helpen",
             selectmachine: "Selecteer Machine",
-            selectmachinedes:
+            selectmachines:
               "Selecteer de machine waar je een melding van wilt maken*",
+            phonenumberwithstar: "Telefoonnummer",
             title: "Voeg titel toe*",
             titledes: "Foutmelding machine 1",
             place1: "Er zijn dingen kapot...",
@@ -536,6 +541,8 @@ i18n
             reopen_ticket: "Heropen ticket",
             reopen_ticket_why: "Waarom wil je de ticket heropenen?",
             give_description_reopen: "Geef ons een gedetailleerde beschrijving waarom je de ticket wilt heropenen",
+            enter_ticket_title: "Vul een titel in voor de ticket (zichbaar bij Tickets)...",
+            no_customers_found: "Geen klanten gevonden",
           },
         },
       },

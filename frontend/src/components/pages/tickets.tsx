@@ -19,7 +19,6 @@ function Tickets() {
       getTickets();
     }
   });
-  console.log(tickets);
   async function getTickets() {
     try{
     setTickets(

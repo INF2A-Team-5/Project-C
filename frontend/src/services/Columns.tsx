@@ -32,7 +32,6 @@ import { MachineInfoDto } from "@/types/MachineInfo";
 import { TFunction, t } from "i18next";
 
 async function Claimticket(ticket: any) {
-  console.log(localStorage.getItem("Id"));
   try {
     let employee = await fetch(
       "http://localhost:5119/GetEmployeeById?id=" + localStorage.getItem("Id"),

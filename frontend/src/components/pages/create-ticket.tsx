@@ -83,7 +83,7 @@ function CreateTickets() {
     const accountClass = localStorage.getItem("Class");
     setIsClient(accountClass == "Client");
     if (isClient) {
-      setCustomerID(localStorage.getItem("Id")!);
+      setAccountID(localStorage.getItem("Id")!);
     }
   };
 
@@ -111,16 +111,15 @@ function CreateTickets() {
       "/api/Customers",
       getBaseQueryRequest(),
     ).then((data) => data.json());
-    console.log(customerlist);
     setCustomers(customerlist);
   }
 
   async function getMachines() {
-    if (CustomerID) {
+    if (accountID) {
       let machinelist = await fetch(
         API_BASE_URL +
         "/GetMachinesPerAccount?accountId=" +
-        CustomerID,
+        accountID,
         getBaseQueryRequest(),
       ).then((data) => data.json());
       setMachines(machinelist);
@@ -284,14 +283,14 @@ function CreateTickets() {
                           ? customers.find(
                             (account: Customer) => account.accountId.toString() == accountID,
                           )?.customerId
-                          : t("selectcustomer")}
+                          : t("table.selectcustomer")}
                         <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-[200px] p-0">
                       <Command>
                         <CommandInput placeholder="Search customer..." />
-                        <CommandEmpty>No customer found.</CommandEmpty>
+                        <CommandEmpty>{t("misc.no_customers_found")}</CommandEmpty>
                         <CommandGroup>
                           {customers.map((customer) => (
                             <CommandItem
@@ -299,6 +298,7 @@ function CreateTickets() {
                               value={customer.accountId.toString()}
                               onSelect={(currentValue) => {
                                 setAccountID(currentValue);
+                                GetCustomer();
                                 setOpen1(false);
                               }}
                             >
@@ -318,7 +318,7 @@ function CreateTickets() {
                   </Popover>
                 </div>
                 {CustomerID && machines ? (
-                  <><Label>{t("ticket.selectmachinedes")}</Label><div className="w-1/6">
+                  <><Label>{t("ticket.selectmachines")}</Label><div className="w-1/6">
                     <Popover open={open2} onOpenChange={setOpen2}>
                       <PopoverTrigger asChild>
                         <Button
@@ -332,14 +332,14 @@ function CreateTickets() {
                             ? machines.find(
                               (machine: any) => machine.name.toLowerCase() == value
                             )?.name
-                            : t("selectmachine")}
+                            : t("ticket.selectmachine")}
                           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent className="w-[200px] p-0">
                         <Command>
                           <CommandInput placeholder="Search machine..." />
-                          <CommandEmpty>No machine found.</CommandEmpty>
+                          <CommandEmpty>{t("misc.no_machines_found")}</CommandEmpty>
                           <CommandGroup>
                             {machines.map((machine) => (
                               <CommandItem
@@ -390,7 +390,7 @@ function CreateTickets() {
                   <PopoverContent className="w-[200px] p-0">
                     <Command>
                       <CommandInput placeholder="Search machine..." />
-                      <CommandEmpty>No machine found.</CommandEmpty>
+                      <CommandEmpty>{t("misc.no_machines_found")}</CommandEmpty>
                       <CommandGroup>
                         {machines.map((machine) => (
                           <CommandItem
@@ -429,7 +429,7 @@ function CreateTickets() {
               onChange={(e) => setTitle(e.currentTarget.value)}
             />
             <TextareaHint>
-              Enter the title for the ticket (visible in the tickets table)...
+              {t("misc.enter_ticket_title")}
             </TextareaHint>
           </div>
 
@@ -486,7 +486,7 @@ function CreateTickets() {
             ) : 
               <>
                 <div>
-                  <Label>{t("ticket.phonenumwithstar")}</Label>
+                  <Label>{t("ticket.phonenumberwithstar")}</Label>
                 </div>
                 <div className="pt-2">
                   <Input
