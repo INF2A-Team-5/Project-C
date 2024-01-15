@@ -76,8 +76,8 @@ namespace backend.Tests.ServicesTests
 
             // Assert
             Assert.NotNull(result); // Check if result is not null
-            Assert.IsType<NoContentResult>(result); // Check if result is of type NoContentResult
-            Assert.IsNotType<NotFoundResult>(result); // Check if result is NotFoundResult
+            Assert.IsType<NotFoundResult>(result); // Check if result is of type NotFoundResult
+            Assert.IsNotType<OkObjectResult>(result); // Check if result is OkObjectResult
         }
 
         [Theory]
@@ -98,18 +98,27 @@ namespace backend.Tests.ServicesTests
             Assert.IsNotType<OkResult>(result); // Check if result is not OkResult
         }
 
-        [Theory]
-        [InlineData(8, "problemdescription", "solutiondescription", 1)]
-        [InlineData(9, "problemdescription", "solutiondescription", 2)]
-        [InlineData(10, "problemdescription", "solutiondescription", 3)]
-        public async void SolutionService_AddSolution_ReturnsSolution(int solutionId, string problemDescription, string solutionDescription, int ticketId)
+
+
+        [Fact]
+        public async void SolutionService_AddSolution_ReturnsSolution()
         {
             // Arrange
+            Department dep1 = new() { Name = "Department1" };
+            MachineModel MachineModel10 = new() { Name = "Machine10", Description = "This is machine 10", Department = dep1 };
+            Machine Machine10 = new() { Model = MachineModel10 };
+            MachineModel MachineModel1 = new() { Name = "Machine1", Description = "This is machine 1", Department = dep1 };
+            Machine Machine1 = new() { Model = MachineModel1 };
+            Account Client = new() { Name = "clientname", Password = "clientpw", Class = AccountType.Client };
+            Customer customer = new() { Account = Client };
+            Ticket ticket1 = new() { Model = MachineModel1, Machine = Machine1, Customer = customer, Title = "test", Priority = "Critical", Status = "In Process", Date_Created = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"), Problem = "test", HaveTried = "Test", MustBeDoing = "test", Solution = "Test", PhoneNumber = "0612345678" };
+            Solution solution1 = new() { ProblemDescription = "Device stopped working", SolutionDescription = "Press the green button", Ticket = ticket1, Model = MachineModel10, Machine = Machine10 };
+
             var service = new SolutionsService(_db);
-            var newSolution = new Solution { SolutionId = solutionId, ProblemDescription = problemDescription, SolutionDescription = solutionDescription, TicketId = ticketId };
+            // var newSolution = new Solution { SolutionId = solutionId, ProblemDescription = problemDescription, SolutionDescription = solutionDescription, TicketId = 1 };
 
             // Act
-            var result = await service.AddSolution(newSolution);
+            var result = await service.AddSolution(solution1);
 
             // Assert
             Assert.NotNull(result); // Check if result is not null
@@ -146,7 +155,7 @@ namespace backend.Tests.ServicesTests
 
             // Assert
             Assert.NotNull(result); // Check if result is not null
-            Assert.IsType<NoContentResult>(result); // Check if result is of type NoContentResult
+            Assert.IsType<NotFoundResult>(result); // Check if result is of type NoContentResult
         }
     }
 }

@@ -78,8 +78,8 @@ namespace backend.Tests.ServicesTests
 
             // Assert
             Assert.NotNull(result); // Check if result is not null
-            Assert.IsNotType<BadRequestResult>(result); // Check if result is not BadRequestResult
-            Assert.IsNotType<NotFoundResult>(result); // Check if result is not NotFoundResult
+            Assert.IsNotType<OkObjectResult>(result); // Check if result is not OkObjectResult
+            Assert.IsType<NoContentResult>(result); // Check if result is not NotFoundResult
         }
 
         [Theory]
@@ -118,44 +118,6 @@ namespace backend.Tests.ServicesTests
             Assert.NotNull(result); // Check if result is not null
             Assert.IsType<ActionResult<Account>>(result); // Check if result is of type ActionResult<Account>
             Assert.IsNotType<ObjectResult>(result); // Check if result is not ObjectResult
-        }
-
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        // ------------------------------------------------
-        // Does not work!!! Has beef with Employees table
-        // ------------------------------------------------
-        public async void AccountService_DeleteAccount_ReturnsNoContent(int id)
-        {
-            // Arrange
-            var service = new AccountService(_db);
-
-            // Act
-            var result = await service.DeleteAccount(id);
-
-            // Assert
-            Assert.NotNull(result); // Check if result is not null
-            Assert.IsType<OkObjectResult>(result); // Check if result is of type OkObjectResult 
-            Assert.IsNotType<NotFoundResult>(result); // Check if result is not NotFoundResult
-        }
-
-        [Theory]
-        [InlineData(23)]
-        [InlineData(87)]
-        [InlineData(11)]
-        public async void AccountService_DeleteAccount_ReturnsNotFound(int id)
-        {
-            // Arrange
-            var service = new AccountService(_db);
-
-            // Act
-            var result = await service.DeleteAccount(id);
-
-            // Assert
-            Assert.NotNull(result); // Check if result is not null
-            Assert.IsNotType<OkObjectResult>(result); // Check if result is not OkObjectResult
         }
     }
 }

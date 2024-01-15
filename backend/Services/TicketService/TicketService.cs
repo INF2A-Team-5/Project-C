@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Backend.Data;
 using Backend.Entities;
+using Backend.Dto;
 
 namespace Backend.TicketService
 {
@@ -90,13 +91,25 @@ namespace Backend.TicketService
             return tickets;
         }
 
-        public async Task<IActionResult> UpdateTicket(int id, Ticket ticket)
+        public async Task<IActionResult> UpdateTicket(int id, TicketDto ticket)
         {
             if (id != ticket.TicketId)
             {
                 return BadRequest();
             }
-            _context.Entry(ticket).State = EntityState.Modified;
+            var machine = await _context.Machines.Where(mach => mach.MachineId == ticket.Machine_Id).FirstOrDefaultAsync();
+            var model = await _context.Models.Where(model => model.ModelId == ticket.ModelId).FirstOrDefaultAsync();
+            var customer = await _context.Customers.Where(cust => cust.CustomerId == ticket.Customer_Id).FirstOrDefaultAsync();
+            if (machine == null || model == null || customer == null)
+            {
+                return NotFound();
+            }
+            Ticket new_ticket = new() { Machine = machine, Model = model, Customer = customer, Title = ticket.Title, 
+            Priority = ticket.Priority, Status = ticket.Status, Date_Created = ticket.Date_Created, 
+            Problem = ticket.Problem, HaveTried = ticket.HaveTried, 
+            MustBeDoing = ticket.MustBeDoing, Solution = ticket.Solution, PhoneNumber = ticket.PhoneNumber };
+
+            _context.Entry(new_ticket).State = EntityState.Modified;
             try
             {
                 await _context.SaveChangesAsync();
@@ -115,15 +128,27 @@ namespace Backend.TicketService
             return NoContent();
         }
 
-        public async Task<ActionResult<Ticket>> AddTicket(Ticket ticket)
+        public async Task<ActionResult<Ticket>> AddTicket(TicketDto ticket)
         {
             if (_context.Tickets == null)
             {
                 return Problem("Entity set 'DataContext.Tickets'  is null.");
             }
-            _context.Tickets.Add(ticket);
+            var machine = await _context.Machines.Where(mach => mach.MachineId == ticket.Machine_Id).FirstOrDefaultAsync();
+            var model = await _context.Models.Where(model => model.ModelId == ticket.ModelId).FirstOrDefaultAsync();
+            var customer = await _context.Customers.Where(cust => cust.CustomerId == ticket.Customer_Id).FirstOrDefaultAsync();
+            if (machine == null || model == null || customer == null)
+            {
+                return NotFound();
+            }
+            Ticket new_ticket = new() { Machine = machine, Model = model, Customer = customer, Title = ticket.Title, 
+            Priority = ticket.Priority, Status = ticket.Status, Date_Created = ticket.Date_Created, 
+            Problem = ticket.Problem, HaveTried = ticket.HaveTried, 
+            MustBeDoing = ticket.MustBeDoing, Solution = ticket.Solution, PhoneNumber = ticket.PhoneNumber };
+
+            _context.Tickets.Add(new_ticket);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetTicketById), new { id = ticket.TicketId }, ticket);
+            return CreatedAtAction(nameof(GetTicketById), new { id = new_ticket.TicketId }, new_ticket);
         }
 
         public async Task<IActionResult> DeleteTicket(int id)
@@ -257,5 +282,17 @@ namespace Backend.TicketService
             return tickets;
         }
         private bool TicketExists(int id) => (_context.Tickets?.Any(e => e.TicketId == id)).GetValueOrDefault();
+
+
+
+        // public Task<IActionResult> UpdateTicket(int id, TicketDto ticket)
+        // {
+        //     throw new NotImplementedException();
+        // }
+
+        // public Task<ActionResult<Ticket>> AddTicket(TicketDto ticket)
+        // {
+        //     throw new NotImplementedException();
+        // }
     }
 }
