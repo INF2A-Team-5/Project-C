@@ -2,15 +2,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { Textarea } from "../ui/textarea";
 import { toast } from "../ui/use-toast";
 import { Icons } from "./icons";
 import { API_BASE_URL, postBaseMutateRequest } from "@/lib/api";
 import { DialogClose, DialogFooter } from "../ui/dialog";
+import { useTranslation } from "react-i18next";
 
 function AddSolution({ setOpen }: { setOpen: (_: boolean) => void }) {
-  useAuthenticated();
+  const { t } = useTranslation();
 
   const [problemDescription, setProblemDescription] = useState("");
   const [solutionDescription, setSolutionDescription] = useState("");
@@ -23,22 +23,22 @@ function AddSolution({ setOpen }: { setOpen: (_: boolean) => void }) {
     if (problemDescription == "") {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Enter description of the problem.",
+        title: t("errortitle"),
+        description: t("enter_problem_description"),
       });
       setIsLoading(false);
     } else if (solutionDescription == "") {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Enter a description of the solution.",
+        title: t("errortitle"),
+        description: t("enter_solution_description"),
       });
       setIsLoading(false);
     } else if (!ticketId || ticketId === "") {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Enter a valid ticket ID.",
+        title: t("errortitle"),
+        description: t("enter_valid_ticketId"),
       });
       setIsLoading(false);
     } else {
@@ -55,8 +55,8 @@ function AddSolution({ setOpen }: { setOpen: (_: boolean) => void }) {
 
       toast({
         variant: "default",
-        title: "Succes!",
-        description: "Solution added successfully.",
+        title: t("successtitle"),
+        description: t("solution_added"),
       });
       setIsLoading(false);
       setOpen(false);
@@ -70,29 +70,29 @@ function AddSolution({ setOpen }: { setOpen: (_: boolean) => void }) {
   return (
     <div className="grid gap-2">
       <Textarea
-        placeholder="Enter Description of the Problem"
+        placeholder={t("solution.description")}
         onChange={(e) => setProblemDescription(e.currentTarget.value)}
         value={problemDescription}
       ></Textarea>
       <Textarea
-        placeholder="Enter a Description of the Solution"
+        placeholder={t("solution.solution")}
         onChange={(e) => setSolutionDescription(e.currentTarget.value)}
         value={solutionDescription}
       ></Textarea>
       <Input
-        placeholder="Enter Ticket ID"
+        placeholder={t("solution.id")}
         onChange={(e) => setTicketId(parseInt(e.currentTarget.value))}
         value={ticketId}
       />
       <DialogFooter>
         <DialogClose>
-          <Button variant="outline">Close</Button>
+          <Button variant="outline">{t("solution.close")}</Button>
         </DialogClose>
         <Button className="w-fit" onClick={handleSubmit} disabled={isLoading}>
           {isLoading ? (
             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
           ) : null}
-          Add Solution
+          {t("solution.add")}
         </Button>
       </DialogFooter>
     </div>

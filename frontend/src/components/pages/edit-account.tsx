@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
-import Settings from "../foundations/settings";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { useNavigate } from "react-router-dom";
-import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
-import Header from "../foundations/header";
-import { Separator } from "../ui/separator";
 import { Label } from "../ui/label";
 import { Icons } from "../foundations/icons";
 import {
@@ -21,7 +17,6 @@ import { useTranslation } from "react-i18next";
 import { Checkbox } from "../ui/checkbox";
 
 function EditAccount() {
-  // useAuthenticated();
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
@@ -87,14 +82,14 @@ function EditAccount() {
 
       toast({
         variant: "default",
-        title: "Succes!",
+        title: t("successtitle"),
         description: t("editaccount.changedsuccess"),
       });
       setIsLoading(false);
     } else {
       toast({
         variant: "destructive",
-        title: "Error!",
+        title: t("errortitle"),
         description: t("editaccount.changedinvalid"),
       });
       setIsLoading(false);
@@ -111,7 +106,7 @@ function EditAccount() {
     if (password !== confirmPass || oldPassword != currentaccount.password) {
       toast({
         variant: "destructive",
-        title: "Error!",
+        title: t("errortitle"),
         description:
           t("editaccount.passincorrect"),
       });
@@ -124,7 +119,7 @@ function EditAccount() {
       );
       toast({
         variant: "default",
-        title: "Succes!",
+        title: t("successtitle"),
         description: t("editaccount.passsuccess"),
       });
       setIsLoading(false);

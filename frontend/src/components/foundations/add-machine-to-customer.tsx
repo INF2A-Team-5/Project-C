@@ -19,6 +19,7 @@ import {
 import { CaretDownIcon, CheckIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
 import { DialogClose, DialogFooter } from "../ui/dialog";
+import { t } from "i18next";
 
 function AddMachineToCustomer({ setOpen }: { setOpen: (_: boolean) => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -30,8 +31,8 @@ function AddMachineToCustomer({ setOpen }: { setOpen: (_: boolean) => void }) {
     onError: () => {
       toast({
         variant: "destructive",
-        title: "Whomp whomp:(",
-        description: "U get no data",
+        title: t("errortitle"),
+        description: t("no_data_error"),
       });
     },
   });
@@ -52,8 +53,8 @@ function AddMachineToCustomer({ setOpen }: { setOpen: (_: boolean) => void }) {
       );
       toast({
         variant: "default",
-        title: "Succes!",
-        description: "Machine added successfully.",
+        title: t("successtitle"),
+        description: t("machine_added"),
       });
       setIsLoading(false);
       setOpen(false);
@@ -61,8 +62,8 @@ function AddMachineToCustomer({ setOpen }: { setOpen: (_: boolean) => void }) {
       console.log(error);
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Something went wrong!",
+        title: t("errortitle"),
+        description: t("something_wrong_error"),
       });
       setIsLoading(false);
     }

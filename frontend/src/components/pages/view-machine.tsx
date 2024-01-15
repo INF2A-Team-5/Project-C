@@ -9,6 +9,7 @@ import { Solution } from "@/types/solution";
 import { MachineModel } from "@/types/MachineModel";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
+import { t } from "i18next";
 
 function ViewMachine() {
   const machineID = localStorage.getItem("currentmachineID");
@@ -21,8 +22,8 @@ function ViewMachine() {
       onError: () => {
         toast({
           variant: "destructive",
-          title: "Whomp whomp:(",
-          description: "U get no data",
+          title: t("errortitle"),
+          description: t("no_data_error"),
         });
       },
     },
@@ -78,7 +79,7 @@ function ViewMachine() {
                     </p>
                     <div className="grid gap-12">
                       {data ? (
-                        <Table data={data} columns={solutionColumns} />
+                        <Table data={data} columns={solutionColumns(t)} />
                       ) : (
                         <TableSkeleton />
                       )}

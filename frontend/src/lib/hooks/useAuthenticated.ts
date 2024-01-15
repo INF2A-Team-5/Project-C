@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../api";
 import { toast } from "@/components/ui/use-toast";
+import { t } from "i18next";
 
 export async function useAuthenticated() {
   const navigate = useNavigate();
@@ -46,8 +47,8 @@ export async function useAuthenticated() {
     navigate("/auth/login");
     toast({
       variant: "destructive",
-      title: "Error! Something went wrong.",
-      description: "Unauthorized",
+      title: t("errortitle"),
+      description: t("unauthorized_error"),
     });
   }
 

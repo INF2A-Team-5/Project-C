@@ -18,10 +18,12 @@ const DROPDOWN_ICON_CLASSES = "w-5 mr-2";
 
 function toggleThemeLight() {
   document.documentElement.classList.remove("dark");
+  localStorage.setItem("theme", "");
 }
 
 function toggleThemeDark() {
   document.documentElement.classList.add("dark");
+  localStorage.setItem("theme", "dark");
 }
 
 function logOut() {
@@ -30,6 +32,8 @@ function logOut() {
 
 const changeLanguage = (lng: string) => {
   i18next.changeLanguage(lng);
+  localStorage.setItem("language", lng);
+  document.documentElement.lang = lng;
 };
 
 function Settings() {
@@ -43,7 +47,7 @@ function Settings() {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="mt-2">
-        <DropdownMenuLabel>Options</DropdownMenuLabel>
+        <DropdownMenuLabel>{i18next.t("table.option")}</DropdownMenuLabel>
 
         <DropdownMenuSeparator />
 

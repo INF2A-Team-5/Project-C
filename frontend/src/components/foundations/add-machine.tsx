@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
@@ -24,8 +24,11 @@ import { Department } from "@/types/Department";
 import { Machine } from "@/types/Machine";
 import { DialogClose, DialogFooter } from "../ui/dialog";
 import { CaretDownIcon, CheckIcon } from "@radix-ui/react-icons";
+import { useTranslation } from "react-i18next";
 
 function AddMachine({ setOpen }: { setOpen: (_: boolean) => void }) {
+  const { t, i18n } = useTranslation();
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [department, setDepartment] = useState("");
@@ -36,8 +39,8 @@ function AddMachine({ setOpen }: { setOpen: (_: boolean) => void }) {
     onError: () => {
       toast({
         variant: "destructive",
-        title: "Whomp whomp:(",
-        description: "U get no data",
+        title: t("errortitle"),
+        description: t("no_data_error"),
       });
     },
   });
@@ -63,36 +66,36 @@ function AddMachine({ setOpen }: { setOpen: (_: boolean) => void }) {
     if (machine !== undefined) {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Machine already exists.",
+        title: t("errortitle"),
+        description: t("machine_exists_error"),
       });
       setIsLoading(false);
     } else if (name == "") {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Enter a name.",
+        title: t("errortitle"),
+        description: t("enter_name_error"),
       });
       setIsLoading(false);
     } else if (dep == undefined) {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Choose a department.",
+        title: t("errortitle"),
+        description: t("choose_department_error"),
       });
       setIsLoading(false);
     } else if (department == undefined) {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Department does not exist.",
+        title: t("errortitle"),
+        description: t("department_does_not_exist_error"),
       });
       setIsLoading(false);
     } else if (description == "") {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Enter a description.",
+        title: t("errortitle"),
+        description: t("enter_description"),
       });
       setIsLoading(false);
     } else {
@@ -109,8 +112,8 @@ function AddMachine({ setOpen }: { setOpen: (_: boolean) => void }) {
 
       toast({
         variant: "default",
-        title: "Succes!",
-        description: "Machine added successfully.",
+        title: t("successtitle"),
+        description: t("machine_added"),
       });
       setIsLoading(false);
       setOpen(false);
@@ -122,7 +125,7 @@ function AddMachine({ setOpen }: { setOpen: (_: boolean) => void }) {
   return (
     <div className="grid gap-2">
       <Input
-        placeholder="Enter Machine Name"
+        placeholder={t("machine.inputname")}
         onChange={(e) => setName(e.currentTarget.value)}
         value={name}
       />
@@ -139,15 +142,15 @@ function AddMachine({ setOpen }: { setOpen: (_: boolean) => void }) {
                 ? data.find(
                     (dep: Department) => dep.name.toLowerCase() == department,
                   )?.name
-                : "Select department..."
+                : t("machine.select")
               : null}
             <CaretDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0">
           <Command>
-            <CommandInput placeholder="Search department..." />
-            <CommandEmpty>No departments found.</CommandEmpty>
+            <CommandInput placeholder={t("machine.search")} />
+            <CommandEmpty>{t("machine.empty")}</CommandEmpty>
             <CommandGroup>
               {data
                 ? data.map((dep) => (
@@ -176,19 +179,19 @@ function AddMachine({ setOpen }: { setOpen: (_: boolean) => void }) {
         </PopoverContent>
       </Popover>
       <Textarea
-        placeholder="Enter Description"
+        placeholder={t("machine.description")}
         value={description}
         onChange={(e) => setDescription(e.currentTarget.value)}
       ></Textarea>
       <DialogFooter>
         <DialogClose>
-          <Button variant="outline">Close</Button>
+          <Button variant="outline">{t("machine.close")}</Button>
         </DialogClose>
         <Button className="w-fit" onClick={handleSubmit} disabled={isLoading}>
           {isLoading ? (
             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
           ) : null}
-          Add Machine
+          {t("machine.add")}
         </Button>
       </DialogFooter>
     </div>

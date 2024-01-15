@@ -1,6 +1,6 @@
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icons } from "./icons";
 import {
   API_BASE_URL,
@@ -9,8 +9,11 @@ import {
 } from "@/lib/api";
 import { toast } from "../ui/use-toast";
 import { DialogClose, DialogFooter } from "../ui/dialog";
+import { useTranslation } from "react-i18next";
 
 function AddDepartment({ setOpen }: { setOpen: (_: boolean) => void }) {
+  const { t, i18n } = useTranslation();
+
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -26,15 +29,15 @@ function AddDepartment({ setOpen }: { setOpen: (_: boolean) => void }) {
     if (department !== undefined) {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Department already exists",
+        title: t("errortitle"),
+        description: t("department_exists_error"),
       });
       setIsLoading(false);
     } else if (name == "") {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Enter a department name",
+        title: t("errortitle"),
+        description: t("choose_department_error"),
       });
       setIsLoading(false);
     } else {
@@ -45,16 +48,16 @@ function AddDepartment({ setOpen }: { setOpen: (_: boolean) => void }) {
         );
         toast({
           variant: "default",
-          title: "Succes!",
-          description: "Account added successfully.",
+          title: t("successtitle"),
+          description: t("department_added"),
         });
         setIsLoading(false);
         setOpen(false);
       } catch {
         toast({
           variant: "destructive",
-          title: "Error!",
-          description: "Something went wrong.",
+          title: t("errortitle"),
+          description: t("something_wrong_error"),
         });
         setIsLoading(false);
       }
@@ -63,12 +66,12 @@ function AddDepartment({ setOpen }: { setOpen: (_: boolean) => void }) {
   return (
     <div className="grid gap-2">
       <Input
-        placeholder="Enter Department Name"
+        placeholder={t("department.inputname")}
         onChange={(e) => setName(e.currentTarget.value)}
       />
       <DialogFooter>
         <DialogClose>
-          <Button variant="outline">Close</Button>
+          <Button variant="outline">{t("department.close")}</Button>
         </DialogClose>
         <Button
           className="w-fit"
@@ -79,7 +82,7 @@ function AddDepartment({ setOpen }: { setOpen: (_: boolean) => void }) {
           {isLoading ? (
             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
           ) : null}
-          Add Department
+          {t("department.add")}
         </Button>
       </DialogFooter>
     </div>

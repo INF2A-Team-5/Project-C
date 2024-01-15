@@ -1,6 +1,6 @@
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Select,
@@ -35,8 +35,11 @@ import { CaretDownIcon, CheckIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
 import React from "react";
 import { DialogClose, DialogFooter } from "../ui/dialog";
+import { useTranslation } from "react-i18next";
 
 function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
+  const { t, i18n } = useTranslation();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -51,8 +54,8 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
     onError: () => {
       toast({
         variant: "destructive",
-        title: "Whomp whomp:(",
-        description: "U get no data",
+        title: t("errortitle"),
+        description: t("no_data_error"),
       });
     },
   });
@@ -69,36 +72,36 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
     if (account !== undefined) {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Username already exists.",
+        title: t("errortitle"),
+        description: t("username_exists_error"),
       });
       setIsLoading(false);
     } else if (username == "") {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Enter a username.",
+        title: t("errortitle"),
+        description: t("choose_username_error"),
       });
       setIsLoading(false);
     } else if (password == "") {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Enter a password.",
+        title: t("errortitle"),
+        description: t("choose_password_error"),
       });
       setIsLoading(false);
     } else if (password != confirmPassword) {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Password and confirmed password need to match.",
+        title: t("errortitle"),
+        description: t("passwords_dont_match_errors"),
       });
       setIsLoading(false);
     } else if (userType == "") {
       toast({
         variant: "destructive",
-        title: "Error!",
-        description: "Please select a user type.",
+        title: t("errortitle"),
+        description: t("choose_type_error"),
       });
       setIsLoading(false);
     }
@@ -118,8 +121,8 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
         console.log(error);
         toast({
           variant: "destructive",
-          title: "Error!",
-          description: "Something went wrong!",
+          title: t("errortitle"),
+          description: t("something_wrong_error"),
         });
         setIsLoading(false);
       }
@@ -155,8 +158,8 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
           );
           toast({
             variant: "default",
-            title: "Succes!",
-            description: "Account added successfully.",
+            title: t("successtitle"),
+            description: t("account_added"),
           });
           setIsLoading(false);
           setOpen(false);
@@ -164,8 +167,8 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
           console.log(error);
           toast({
             variant: "destructive",
-            title: "Error!",
-            description: "Something went wrong!",
+            title: t("errortitle"),
+            description: t("something_wrong_error"),
           });
           setIsLoading(false);
         }
@@ -177,14 +180,14 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
   return (
     <div className="grid gap-2">
       <Input
-        placeholder="Enter Username"
+        placeholder={t("account.username")}
         onChange={(e) => setUsername(e.currentTarget.value)}
       />
       <Input
         id="new password"
         ref={passwordRef}
         name="password"
-        placeholder="Enter password"
+        placeholder={t("account.password")}
         type="password"
         // ●●●●●●●● als je circels wilt
         onChange={(e) => setPassword(e.currentTarget.value)}
@@ -193,14 +196,14 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
         id="confirmed password"
         ref={passwordRef}
         name="password"
-        placeholder="Confirm password"
+        placeholder={t("account.passwordconfirm")}
         type="password"
         // ●●●●●●●● als je circels wilt
         onChange={(e) => setConfirmPassword(e.currentTarget.value)}
       />
       <Select onValueChange={(value) => setUserType(value)}>
         <SelectTrigger>
-          <SelectValue placeholder="Select a User Type" />
+          <SelectValue placeholder={t("account.typeselect")} />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="Admin">Admin</SelectItem>
@@ -221,14 +224,14 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
                 ? data!.find(
                     (dep: Department) => dep.name.toLowerCase() == department,
                   )?.name
-                : "Select department..."}
+                : t("account.selectdepartment")}
               <CaretDownIcon className="ml-2 h-5 w-5 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-[200px] p-0">
             <Command>
-              <CommandInput placeholder="Search department..." />
-              <CommandEmpty>No departments found.</CommandEmpty>
+              <CommandInput placeholder={t("account.searchdepartment")} />
+              <CommandEmpty>{t("account.nodepartment")}</CommandEmpty>
               <CommandGroup>
                 {data!.map((dep) => (
                   <CommandItem
@@ -257,7 +260,7 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
       ) : null}
       <DialogFooter>
         <DialogClose>
-          <Button variant="outline">Close</Button>
+          <Button variant="outline">{t("account.close")}</Button>
         </DialogClose>
         <Button
           className="w-fit"
@@ -268,7 +271,7 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
           {isLoading ? (
             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
           ) : null}
-          Add account
+          {t("account.add")}
         </Button>
       </DialogFooter>
     </div>

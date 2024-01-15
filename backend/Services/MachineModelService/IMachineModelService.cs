@@ -11,6 +11,6 @@ namespace Backend.MachineModelService
         Task<ActionResult<MachineModel>> GetMachineModelById(int id);
         Task<IActionResult> UpdateMachineModel(int id, MachineModel machine);
         Task<ActionResult<MachineModel>> AddMachineModel(MachineModelDto machine);
-        Task<IActionResult> DeleteMachineModel(int id);
+        Task<IActionResult> ArchiveMachineModel(int id);
     }
 }

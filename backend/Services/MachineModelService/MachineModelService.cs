@@ -126,7 +126,7 @@ namespace Backend.MachineModelService
                 return CreatedAtAction(nameof(GetMachineModelById), new { id = newMachine.ModelId }, newMachine);
             }
 
-            public async Task<IActionResult> DeleteMachineModel(int id)
+            public async Task<IActionResult> ArchiveMachineModel(int id)
             {
                 if (_context.Models == null)
                 {

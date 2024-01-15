@@ -34,10 +34,8 @@ import { Ticket } from "@/types/Ticket";
 import Layout from "../layout";
 
 function ViewTicket() {
-  const { t, i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(navigator.language);
-  }, []);
+  const { t } = useTranslation();
+
 
   const navigate = useNavigate();
   const [notes, setNotes] = useState("");
@@ -176,9 +174,8 @@ function ViewTicket() {
       } else {
         toast({
           variant: "destructive",
-          title: "Error! Something went wrong.",
-          description:
-            "You need to enter a reason why you want to reopen the ticket",
+          title: t("errortitle"),
+          description: t("reopen_reason_error"),
         });
       }
     }
@@ -204,7 +201,7 @@ function ViewTicket() {
           );
           toast({
             variant: "default",
-            title: "Succes!",
+            title: t("successtitle"),
             description: t("ticket.submitalert"),
           });
           sendTicket(currentTicket);
@@ -213,9 +210,8 @@ function ViewTicket() {
         catch {
           toast({
             variant: "destructive",
-            title: "Error! Something went wrong.",
-            description:
-              "You need to enter a solution if you want to close the ticket",
+            title: t("errortitle"),
+            description: t("enter_solution_description"),
           });
         }
       } else {

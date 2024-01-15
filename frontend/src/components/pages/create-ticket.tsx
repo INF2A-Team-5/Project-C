@@ -87,10 +87,7 @@ function CreateTickets() {
     }
   };
 
-  const { t, i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(navigator.language);
-  }, []);
+  const { t, } = useTranslation();
 
   const handleRemove = (indexToRemove: number) => {
     const updatedPreview = [...preview];
@@ -240,7 +237,7 @@ function CreateTickets() {
         );
         toast({
           variant: "default",
-          title: "Succes!",
+          title: t("successtitle"),
           description: t("ticket.submitalert"),
         });
         setIsLoading(false);
@@ -286,7 +283,7 @@ function CreateTickets() {
                           ? customers.find(
                             (account: Customer) => account.accountId.toString() == accountID,
                           )?.customerId
-                          : "Select customer..."}
+                          : t("selectcustomer")}
                         <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </PopoverTrigger>
@@ -334,7 +331,7 @@ function CreateTickets() {
                             ? machines.find(
                               (machine: any) => machine.name.toLowerCase() == value
                             )?.name
-                            : "Select machine..."}
+                            : t("selectmachine")}
                           <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
                       </PopoverTrigger>
@@ -385,7 +382,7 @@ function CreateTickets() {
                         ? machines.find(
                           (machine: any) => machine.name.toLowerCase() == value
                         )?.name
-                        : "Select machine..."}
+                        : t("selectmachine")}
                       <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>

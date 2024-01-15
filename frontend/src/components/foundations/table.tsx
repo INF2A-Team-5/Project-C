@@ -27,6 +27,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Command, CommandGroup,  CommandItem } from "../ui/command";
 import { useLocation } from "react-router-dom";
 import { CaretSortIcon, Cross2Icon } from "@radix-ui/react-icons";
+import { useTranslation } from "react-i18next";
 
 interface TableProps<TData, TValue> {
   data: TData[];
@@ -37,18 +38,16 @@ function DataTable<TData, TValue>({
   data,
   columns,
 }: TableProps<TData, TValue>) {
+  const { t } = useTranslation();
+
   const [currentPage, setCurrentPage] = useState(1);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [openStatus, setOpenStatus] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
   const [value, setValue] = useState("")
-
-
   const location = useLocation();
-
   const totalPages = Math.ceil(data.length / 10);
-
   const table = useReactTable({
     data,
     columns,
@@ -63,49 +62,60 @@ function DataTable<TData, TValue>({
       columnFilters,
     },
   });
-
   let column = "";
   let columnplaceholder = "";
   if (table.getAllColumns().find((el) => el.id == "title") != undefined) {
     column = "title";
-    columnplaceholder = "Title";
+    columnplaceholder = t("table.title");
   } else if (table.getAllColumns().find((el) => el.id == "name") != undefined) {
     column = "name";
-    columnplaceholder = "Name";
+    columnplaceholder = t("table.name");
   } else if (
     table.getAllColumns().find((el) => el.id == "problemDescription") !=
     undefined
   ) {
     column = "problemDescription";
-    columnplaceholder = "Problem Description";
+    columnplaceholder = t("table.problemdescription");
   }
 
   const statuses = [
     {
       value: "open",
-      label: "Open",
+      label: t("table.open"),
     },
     {
       value: "in process",
-      label: "In Process",
+      label: t("table.inprocess"),
     },
     {
       value: "closed",
-      label: "Closed",
+      label: t("table.closed"),
     },
   ];
-
   return (
     <div className="grid gap-4">
       <div className="flex items-center">
         <Input
-          placeholder={"Search for " + columnplaceholder + "..."}
+          placeholder={t("table.searchfor") + columnplaceholder + "..."}
           value={(table.getColumn(column)?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn(column)?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
+
+        {location.pathname === "/tickets" ? (
+          <Input
+            type="number"
+            placeholder="Search for employee..."
+            value={(table.getColumn("employee_Id")?.getFilterValue() as number) ?? ""}
+            onChange={(event) => {
+              console.log(table.getAllColumns());
+              table.getColumn("employee_Id")?.setFilterValue(event.target.value);
+            }}
+            className="w-110 ml-4"
+          />
+        ) : null}
         {location.pathname === "/tickets" ?
           (<Popover open={openStatus} onOpenChange={setOpenStatus}>
             <div className="pl-5">
@@ -114,9 +124,9 @@ function DataTable<TData, TValue>({
                   variant="outline"
                   role="combobox"
                   aria-expanded={openStatus}
-                  className="w-[120px] justify-between"
-                  >
-                  {value ? statuses.find((status) => status.value === value)?.label : "Status"}
+                  className="w-min justify-between "
+                >
+                  {value ? statuses.find((status) => status.value === value)?.label : t("table.status")}
                   <CaretSortIcon className="h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
@@ -145,8 +155,6 @@ function DataTable<TData, TValue>({
             </PopoverContent>
           </Popover>
           ) : null}
-
-
         {isFiltered ? (
           <div className="pl-3">
             <Button
@@ -157,7 +165,7 @@ function DataTable<TData, TValue>({
               }}
               className=""
             >
-              Reset
+              {t("table.reset")}
               <Cross2Icon className="ml-2 h-4 w-4" />
             </Button>
           </div>
@@ -201,7 +209,7 @@ function DataTable<TData, TValue>({
                       ) : (
                         <TableCell className="max-w-sm">
                           <div className="ml-4 text-muted-foreground">
-                            Unknown
+                            {t("table.unknown")}
                           </div>
                         </TableCell>
                       )
@@ -210,12 +218,6 @@ function DataTable<TData, TValue>({
                 ))
               ) : (
                 <TableRow>
-                  {/* <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                    >
-                    No results.
-                  </TableCell> */}
                   <Skeleton className="my-6 ml-4 h-4" />
                 </TableRow>
               )}
@@ -233,9 +235,9 @@ function DataTable<TData, TValue>({
             }}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            {t("table.previous")}
           </Button>
-          <span>{`Page ${currentPage} of ${totalPages}`}</span>
+          <span>{`${t("table.page")} ${currentPage} ${t("table.of")} ${totalPages}`}</span>
           <Button
             variant="outline"
             size="sm"
@@ -245,7 +247,7 @@ function DataTable<TData, TValue>({
             }}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            {t("table.next")}
           </Button>
         </footer>
       </Card>

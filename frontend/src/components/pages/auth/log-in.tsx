@@ -16,9 +16,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 function LogIn() {
   const { t, i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(navigator.language);
-  }, []);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -46,8 +43,8 @@ function LogIn() {
     if (username === "" || password === "") {
       toast({
         variant: "destructive",
-        title: "Error! Something went wrong.",
-        description: "Fill in all fields before logging in.",
+        title: t("errortitle"),
+        description: t("fill_in_fields_login_error"),
       });
       setIsLoading(false);
     } else {
@@ -71,9 +68,8 @@ function LogIn() {
       } catch {
         toast({
           variant: "destructive",
-          title: "Error! Something went wrong.",
-          description:
-            "Please ensure your username and password are entered correctly and try again.",
+          title: t("errortitle"),
+          description: t("wrong_credentials_error"),
         });
       } finally {
         setIsLoading(false);
