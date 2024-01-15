@@ -14,13 +14,14 @@ import {
 import { Account } from "@/types/Account";
 import { Employee } from "@/types/Employee";
 import { MachineInfoDto } from "@/types/MachineInfo";
-import { Separator } from "@/components/ui/separator";
 import { Button } from "../ui/button";
 import { Department } from "@/types/Department";
 import { useNavigate } from "react-router-dom";
 import { TextareaHint } from "../ui/textarea";
 import AddMachineToCustomer from "../foundations/add-machine-to-customer";
-import { ScrollArea, ScrollBar } from "../ui/ScrollArea";
+import { infoColumns } from "@/services/Columns";
+import Table from "../foundations/table";
+import TableSkeleton from "../foundations/table-skeleton";
 
 function ViewAccount() {
   const [open, setOpen] = useState(false);
@@ -102,99 +103,85 @@ function ViewAccount() {
                     Class: {currentAccount.class}
                   </p>
                 </div>
-                <div className="mt-6 border-t border-gray-100">
-                  <dl className="divide-y divide-gray-100">
+                <div className="mt-6">
+                  <div className="grid grid-cols-2 gap-2 px-0 px-4 py-6">
+                    <p className="text-xl font-medium leading-6 text-foreground">
+                      Name
+                    </p>
+                    <p className="col-span-2 mt-0 mt-1 text-lg leading-6 text-foreground">
+                      {currentAccount.name}
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 px-0 px-4 py-6">
+                    <p className="text-xl font-medium leading-6 text-foreground">
+                      Password
+                    </p>
+                    <p className="col-span-2 mt-0 mt-1 text-lg leading-6 text-foreground">
+                      {currentAccount.password}
+                    </p>
+                  </div>
+                  {employee ? (
                     <div className="grid grid-cols-2 gap-2 px-0 px-4 py-6">
                       <p className="text-xl font-medium leading-6 text-foreground">
-                        Name
+                        Department
                       </p>
                       <p className="col-span-2 mt-0 mt-1 text-lg leading-6 text-foreground">
-                        {currentAccount.name}
+                        {department?.name}
                       </p>
                     </div>
-                    <div className="grid grid-cols-2 gap-2 px-0 px-4 py-6">
-                      <p className="text-xl font-medium leading-6 text-foreground">
-                        Password
-                      </p>
+                  ) : null}
+                  <div className="grid grid-cols-2 gap-2 px-0 px-4 py-6">
+                    <p className="text-xl font-medium leading-6 text-foreground">
+                      Phone number
+                    </p>
+                    {currentAccount.phoneNumber ? (
                       <p className="col-span-2 mt-0 mt-1 text-lg leading-6 text-foreground">
-                        {currentAccount.password}
+                        {currentAccount.phoneNumber}
                       </p>
-                    </div>
-
+                    ) : (
+                      <p className="col-span-2 mt-0 mt-1 text-lg leading-6 text-foreground">
+                        There is no phone number connected to this account
+                      </p>
+                    )}
                     {isCustomer ? (
-                      <div className="grid grid-cols-2 gap-2 px-0 px-4 py-6">
+                      <div className="grid gap-2 px-0 px-4 py-6">
                         <p className="text-xl font-medium leading-6 text-foreground">
                           Machines
                         </p>
-                        <h4 className="mb-4 text-sm font-medium leading-none"></h4>
-                        <ScrollArea className="h-72 w-25 rounded-md border">
-                          <div className="p-4">
-                            {customerMachines.length == 0
-                              ? ""
-                              : customerMachines.map((machine) => (
-                                  <>
-                                    <div
-                                      key={"Model name: " +    machine.name +  ", MachineId: " +   machine.machineId       }          className="text-sm">
-                                      {"Model name: " +
-                                        machine.name +
-                                        ", MachineId: " +
-                                        machine.machineId}
-                                    </div>
-                                    <Separator className="my-2" />
-                                  </>
-                                ))}
-                          </div>
-                        </ScrollArea>
-                        <div></div>
-                        <Dialog
-                          open={open}
-                          onOpenChange={(open) => setOpen(open)}
-                        >
-                          <DialogTrigger asChild>
-                            <Button variant="default" size="sm">
-                              Add machine to this customer
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent>
-                            <DialogHeader>
-                              <DialogTitle>Add Machine</DialogTitle>
-                              <TextareaHint>
-                                Add new machine to customer
-                              </TextareaHint>
-                            </DialogHeader>
-                            <DialogDescription className="grid gap-2">
-                              <AddMachineToCustomer setOpen={setOpen}/>
-                            </DialogDescription>
-                          </DialogContent>
-                        </Dialog>
-                      </div>
-                      
-                    ) : null}
-                    {employee ? (
-                      <div className="grid grid-cols-2 gap-2 px-0 px-4 py-6">
-                        <p className="text-xl font-medium leading-6 text-foreground">
-                          Department
-                        </p>
-                        <p className="col-span-2 mt-0 mt-1 text-lg leading-6 text-foreground">
-                          {department?.name}
-                        </p>
+                        {customerMachines.length == 0 ? (
+                          <TableSkeleton />
+                        ) : (
+                          <Table
+                            data={customerMachines}
+                            columns={infoColumns}
+                          />
+                        )}
+                        <div className="h-44">
+                          <Dialog
+                            open={open}
+                            onOpenChange={(open) => setOpen(open)}
+                          >
+                            <DialogTrigger asChild>
+                              <Button variant="default" size="sm">
+                                Add machine to this customer
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                              <DialogHeader>
+                                <DialogTitle>Add Machine</DialogTitle>
+                                <TextareaHint>
+                                  Add new machine to customer
+                                </TextareaHint>
+                              </DialogHeader>
+                              <DialogDescription className="grid gap-2">
+                                <AddMachineToCustomer setOpen={setOpen} />
+                              </DialogDescription>
+                            </DialogContent>
+                          </Dialog>
+                        </div>
                       </div>
                     ) : null}
-                    <div className="grid grid-cols-2 gap-2 px-0 px-4 py-6">
-                      <p className="text-xl font-medium leading-6 text-foreground">
-                        Phone number
-                      </p>
-                      {currentAccount.phoneNumber ? (
-                        <p className="col-span-2 mt-0 mt-1 text-lg leading-6 text-foreground">
-                          {currentAccount.phoneNumber}
-                        </p>
-                      ) : (
-                        <p className="col-span-2 mt-0 mt-1 text-lg leading-6 text-foreground">
-                          There is no phone number connected to this account
-                        </p>
-                      )}
-                    </div>
-                  </dl>
+                  </div>
                 </div>
                 <Button variant="default" size="sm" onClick={handleCancel}>
                   Go back

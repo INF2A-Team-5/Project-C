@@ -1,6 +1,6 @@
 import { Ticket } from "../../types/Ticket";
 import Table from "../foundations/table";
-import { useQuery } from "@/lib/api";
+import { API_BASE_URL, getBaseQueryRequest, useQuery } from "@/lib/api";
 import { ticketColumns } from "@/services/Columns";
 import {
   Dialog,
@@ -17,22 +17,38 @@ import { Link } from "react-router-dom";
 import Layout from "../layout";
 import { toast } from "../ui/use-toast";
 import TableSkeleton from "../foundations/table-skeleton";
+import { useEffect, useState } from "react";
 
 function Tickets() {
-  const { data, isFetching } = useQuery<Ticket[]>(
-    "/api/tickets?AccountId=" +
-      window.localStorage.getItem("Id") +
-      "&archived=false",
-    {
-      onError: () => {
+  const [tickets, setTickets] = useState<Ticket[]>()
+  const Id = localStorage.getItem("Id");
+
+  useEffect(() => {
+    if (tickets == undefined) {
+      getTickets();
+    }
+  });
+
+  async function getTickets() {
+    try{
+    setTickets(
+      await fetch(
+        API_BASE_URL + "/api/tickets?AccountId=" + Id +
+        "&archived=false",
+        getBaseQueryRequest(),
+      ).then((data) => data.json()),
+    );
+      }
+      catch
+      {
         toast({
           variant: "destructive",
           title: "Whomp whomp:(",
           description: "U get no data",
         });
-      },
-    },
-  );
+      }
+  }
+
   return (
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
@@ -40,7 +56,7 @@ function Tickets() {
           <h1 className="text-3xl font-medium">Tickets</h1>
           <Dialog>
             <DialogTrigger asChild>
-              <Button size="sm" disabled={isFetching} variant="default">
+              <Button size="sm" variant="default">
                 Create ticket
               </Button>
             </DialogTrigger>
@@ -70,8 +86,8 @@ function Tickets() {
           </Dialog>
         </div>
         <div className="grid gap-12">
-          {data ? (
-            <Table data={data} columns={ticketColumns} />
+          {tickets ? (
+            <Table data={tickets} columns={ticketColumns} />
           ) : (
             <TableSkeleton />
           )}

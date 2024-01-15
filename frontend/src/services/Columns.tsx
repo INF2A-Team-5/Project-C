@@ -28,6 +28,7 @@ import { Solution } from "@/types/solution";
 import { Account } from "@/types/Account";
 import { Department } from "@/types/Department";
 import { MachineModel } from "@/types/MachineModel";
+import { MachineInfoDto } from "@/types/MachineInfo";
 
 async function Claimticket(ticket: any) {
   console.log(localStorage.getItem("Id"));
@@ -371,46 +372,6 @@ export const machineColumns: ColumnDef<Machine>[] = [
       );
     },
   },
-  // {
-  //   accessorKey: "name",
-  //   header: ({ column }) => {
-  //     return (
-  //       <Button
-  //         variant="ghost"
-  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  //       >
-  //         Name
-  //         {column.getIsSorted() === "desc" ? (
-  //           <ArrowDownIcon className="ml-2 h-4 w-4" />
-  //         ) : column.getIsSorted() === "asc" ? (
-  //           <ArrowUpIcon className="ml-2 h-4 w-4" />
-  //         ) : (
-  //           <CaretSortIcon className="ml-2 h-4 w-4" />
-  //         )}
-  //       </Button>
-  //     );
-  //   },
-  // },
-  // {
-  //   accessorKey: "description",
-  //   header: ({ column }) => {
-  //     return (
-  //       <Button
-  //         variant="ghost"
-  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  //       >
-  //         Description
-  //         {column.getIsSorted() === "desc" ? (
-  //           <ArrowDownIcon className="ml-2 h-4 w-4" />
-  //         ) : column.getIsSorted() === "asc" ? (
-  //           <ArrowUpIcon className="ml-2 h-4 w-4" />
-  //         ) : (
-  //           <CaretSortIcon className="ml-2 h-4 w-4" />
-  //         )}
-  //       </Button>
-  //     );
-  //   },
-  // },
   {
     id: "actions",
     header: "Options",
@@ -543,18 +504,173 @@ export const modelColums: ColumnDef<MachineModel>[] = [
             >
               View machine
             </DropdownMenuItem>
-            {/* {localStorage.getItem("Class") == "ServiceEmployee" ||
-            localStorage.getItem("Class") == "Admin" ? (
-              <DropdownMenuItem onClick={() => AssignTicket(ticket)}>
-                Assign Ticket
-              </DropdownMenuItem>
-            ) : null} */}
-            {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
             {localStorage.getItem("Class") == "Admin" ? (
               <DropdownMenuItem onClick={() => ArchiveMachine(machine)}>
                 Archive machine
               </DropdownMenuItem>
             ) : null}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
+];
+
+export const infoColumns: ColumnDef<MachineInfoDto>[] = [
+  {
+    accessorKey: "modelId",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          ID
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "machineId",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          MachineID
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Name
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "description",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Description
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "customer_Id",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          CustomerId
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
+        </Button>
+      );
+    }
+  },
+  {
+    accessorKey: "departmentId",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          DepartmentId
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
+        </Button>
+      );
+    }
+  },
+  {
+    id: "actions",
+    header: "Options",
+    cell: ({ row }) => {
+      const machine = row.original;
+      const navigate = useNavigate();
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <DotsHorizontalIcon className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => {
+                localStorage.setItem(
+                  "currentmachineID",
+                  machine.modelId.toString(),
+                );
+                navigate(`/view-machine`);
+              }}
+            >
+              View machine
+            </DropdownMenuItem>
+            {/* {localStorage.getItem("Class") == "Admin" ? (
+              <DropdownMenuItem onClick={() => ArchiveMachine(machine)}>
+                Archive machine
+              </DropdownMenuItem>
+            ) : null} */}
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -652,13 +768,6 @@ export const accountColumns: ColumnDef<Account>[] = [
             >
               View account
             </DropdownMenuItem>
-            {/* {localStorage.getItem("Class") == "ServiceEmployee" ||
-            localStorage.getItem("Class") == "Admin" ? (
-              <DropdownMenuItem onClick={() => AssignTicket(ticket)}>
-                Assign Ticket
-              </DropdownMenuItem>
-            ) : null} */}
-            {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
             {localStorage.getItem("Class") == "Admin" ? (
               <DropdownMenuItem onClick={() => ArchiveAccount(account)}>
                 Archive account
@@ -731,23 +840,9 @@ export const departmentColumns: ColumnDef<Department>[] = [
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-            // onClick={() => {
-            //   localStorage.setItem(
-            //     "currentticketID",
-            //     department.departmentId.toString(),
-            //   );
-            //   navigate(`/view-ticket`);
-            // }}
             >
               View department
             </DropdownMenuItem>
-            {/* {localStorage.getItem("Class") == "ServiceEmployee" ||
-            localStorage.getItem("Class") == "Admin" ? (
-              <DropdownMenuItem onClick={() => AssignTicket(ticket)}>
-                Assign Ticket
-              </DropdownMenuItem>
-            ) : null} */}
-            {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
             {localStorage.getItem("Class") == "Admin" ? (
               <DropdownMenuItem onClick={() => ArchiveDepartment(department)}>
                 Archive department
@@ -841,45 +936,4 @@ export const solutionColumns: ColumnDef<Solution>[] = [
       );
     },
   },
-  // {
-  //   id: "ticketId",
-  //   header: "Options",
-  //   cell: ({ row }) => {
-  //     const solution = row.original;
-  //     const navigate = useNavigate();
-
-  //     return (
-  //       <DropdownMenu>
-  //         <DropdownMenuTrigger asChild>
-  //           <Button variant="ghost" className="h-8 w-8 p-0">
-  //             <span className="sr-only">Open menu</span>
-  //             <MoreHorizontal className="h-4 w-4" />
-  //           </Button>
-  //         </DropdownMenuTrigger>
-  //         <DropdownMenuContent align="end">
-  //           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-  //           <DropdownMenuSeparator />
-  //           <DropdownMenuItem
-  //           // onClick={() => {
-  //           //   localStorage.setItem(
-  //           //     "currentticketID",
-  //           //     machine.machineId.toString(),
-  //           //   );
-  //           //   navigate(`/view-ticket`);
-  //           // }}
-  //           >
-  //             View machine
-  //           </DropdownMenuItem>
-  //           {/* {localStorage.getItem("Class") == "ServiceEmployee" ||
-  //           localStorage.getItem("Class") == "Admin" ? (
-  //             <DropdownMenuItem onClick={() => AssignTicket(ticket)}>
-  //               Assign Ticket
-  //             </DropdownMenuItem>
-  //           ) : null} */}
-  //           {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
-  //         </DropdownMenuContent>
-  //       </DropdownMenu>
-  //     );
-  //   },
-  // },
 ];
