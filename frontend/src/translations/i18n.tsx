@@ -40,7 +40,8 @@ i18n
             txt_rotation3: "poultry",
             txt_rotation4: "insect farming",
             txt_rotation5: "intralogistics",
-            showpass: "Show password"
+            showpass: "Show password",
+            enter_details: "Enter login details to access your account"
           },
           toast: {
             errortitle: "Error!",
@@ -303,7 +304,8 @@ i18n
             txt_rotation3: "gevogelte",
             txt_rotation4: "insecten kweken",
             txt_rotation5: "intralogistiek",
-            showpass: "Wachtwoord weergeven"
+            showpass: "Wachtwoord weergeven",
+            enter_details: "Voer uw logingegevens in om toegang te krijgen tot uw account",
           },
           toast: {
             errortitle: "Error!",

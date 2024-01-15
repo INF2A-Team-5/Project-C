@@ -115,7 +115,7 @@ function LogIn() {
           <div>
             <h2 className="text-2xl font-medium">{t("login.login")}</h2>
             <TextareaHint>
-              Enter login details to access your account.
+              {t("login.enter_details")}
             </TextareaHint>
           </div>
           <div className="grid gap-2">
@@ -151,15 +151,6 @@ function LogIn() {
               </label>
             </div>
           </div>
-          {/* <div className="mx-auto flex items-center space-x-2">
-            <Checkbox id="terms" />
-            <label
-              htmlFor="terms"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Remember me
-            </label>
-          </div> */}
           <div>
             <Button
               className="w-full"
