@@ -27,8 +27,8 @@ function Accounts() {
     onError: () => {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("no_data_error"),
+        title: t("toast.errortitle"),
+        description: t("toast.no_data_error"),
       });
     },
   });

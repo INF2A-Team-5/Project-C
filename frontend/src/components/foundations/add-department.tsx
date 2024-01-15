@@ -29,15 +29,15 @@ function AddDepartment({ setOpen }: { setOpen: (_: boolean) => void }) {
     if (department !== undefined) {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("department_exists_error"),
+        title: t("toast.errortitle"),
+        description: t("toast.department_exists_error"),
       });
       setIsLoading(false);
     } else if (name == "") {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("choose_department_error"),
+        title: t("toast.errortitle"),
+        description: t("toast.choose_department_error"),
       });
       setIsLoading(false);
     } else {
@@ -48,16 +48,16 @@ function AddDepartment({ setOpen }: { setOpen: (_: boolean) => void }) {
         );
         toast({
           variant: "default",
-          title: t("successtitle"),
-          description: t("department_added"),
+          title: t("toast.successtitle"),
+          description: t("toast.department_added"),
         });
         setIsLoading(false);
         setOpen(false);
       } catch {
         toast({
           variant: "destructive",
-          title: t("errortitle"),
-          description: t("something_wrong_error"),
+          title: t("toast.errortitle"),
+          description: t("toast.something_wrong_error"),
         });
         setIsLoading(false);
       }

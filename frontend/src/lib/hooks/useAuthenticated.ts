@@ -47,8 +47,8 @@ export async function useAuthenticated() {
     navigate("/auth/login");
     toast({
       variant: "destructive",
-      title: t("errortitle"),
-      description: t("unauthorized_error"),
+      title: t("toast.errortitle"),
+      description: t("toast.unauthorized_error"),
     });
   }
 

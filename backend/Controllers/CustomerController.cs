@@ -17,5 +17,6 @@ namespace Backend.Controllers
         }
         [HttpGet] public async Task<ActionResult<IEnumerable<Customer>>> GetAllCustomers() => await _customerService.GetAllCustomers();
         [HttpGet("getCustomer")] public async Task<ActionResult<Customer>> GetCustomerByAccountId(int AccountId) => await _customerService.GetCustomerByAccountId(AccountId);
+        [HttpGet("{modelId}")] public async Task<ActionResult<IEnumerable<Customer>>> GetCustomersPerModel(int ModelId) => await _customerService.GetCustomersPerModel(ModelId);
     }
 }

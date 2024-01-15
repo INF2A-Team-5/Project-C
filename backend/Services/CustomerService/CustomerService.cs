@@ -33,5 +33,13 @@ namespace Backend.CustomerService
             }
             return customer;
         }
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomersPerModel(int ModelId)
+        {
+            if (_context.Customers == null || _context.Models == null)
+            {
+                return NotFound();
+            }
+            return NotFound();
+        }
     }
 }

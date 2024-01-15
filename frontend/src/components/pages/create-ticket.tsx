@@ -183,8 +183,8 @@ function CreateTickets() {
       if (machine == undefined) {
         toast({
           variant: "destructive",
-          title: t("ticket.error"),
-          description: t("ticket.machinealert"),
+          title: t("toast.ticket.error"),
+          description: t("toast.ticket.machinealert"),
         });
         setIsLoading(false);
       } else if (
@@ -193,20 +193,21 @@ function CreateTickets() {
       ) {
         toast({
           variant: "destructive",
-          title: t("ticket.error"),
-          description: t("ticket.wordsalert"),
+          title: t("toast.ticket.error"),
+          description: t("toast.ticket.wordsalert"),
         });
         setIsLoading(false);
       } else if (phoneNumber == "" || phoneNumber == null) {
         toast({
           variant: "destructive",
-          title: t("ticket.error"),
-          description: t("ticket.phonealert"),
+          title: t("toast.ticket.error"),
+          description: t("toast.ticket.phonealert"),
         });
         setIsLoading(false);
       } else {
         var currentTicket = {
-          Machine_Id: machine?.machineId,
+          machine_Id: machine?.machineId,
+          ModelId: machine?.modelId,
           Customer_Id: CustomerID,
           Title: title,
           Priority: "Not Set",
@@ -237,8 +238,8 @@ function CreateTickets() {
         );
         toast({
           variant: "default",
-          title: t("successtitle"),
-          description: t("ticket.submitalert"),
+          title: t("toast.successtitle"),
+          description: t("toast.ticket.submitalert"),
         });
         setIsLoading(false);
         navigate("/tickets");
@@ -247,8 +248,8 @@ function CreateTickets() {
     } else {
       toast({
         variant: "destructive",
-        title: t("ticket.error"),
-        description: t("ticket.emptyalert"),
+        title: t("toast.ticket.error"),
+        description: t("toast.ticket.emptyalert"),
       });
       setIsLoading(false);
     }

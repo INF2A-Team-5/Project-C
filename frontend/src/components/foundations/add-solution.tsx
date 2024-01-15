@@ -23,22 +23,22 @@ function AddSolution({ setOpen }: { setOpen: (_: boolean) => void }) {
     if (problemDescription == "") {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("enter_problem_description"),
+        title: t("toast.errortitle"),
+        description: t("toast.enter_problem_description"),
       });
       setIsLoading(false);
     } else if (solutionDescription == "") {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("enter_solution_description"),
+        title: t("toast.errortitle"),
+        description: t("toast.enter_solution_description"),
       });
       setIsLoading(false);
     } else if (!ticketId || ticketId === "") {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("enter_valid_ticketId"),
+        title: t("toast.errortitle"),
+        description: t("toast.enter_valid_ticketId"),
       });
       setIsLoading(false);
     } else {
@@ -55,8 +55,8 @@ function AddSolution({ setOpen }: { setOpen: (_: boolean) => void }) {
 
       toast({
         variant: "default",
-        title: t("successtitle"),
-        description: t("solution_added"),
+        title: t("toast.successtitle"),
+        description: t("toast.solution_added"),
       });
       setIsLoading(false);
       setOpen(false);

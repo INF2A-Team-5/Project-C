@@ -39,8 +39,8 @@ function AddMachine({ setOpen }: { setOpen: (_: boolean) => void }) {
     onError: () => {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("no_data_error"),
+        title: t("toast.errortitle"),
+        description: t("toast.no_data_error"),
       });
     },
   });
@@ -66,36 +66,36 @@ function AddMachine({ setOpen }: { setOpen: (_: boolean) => void }) {
     if (machine !== undefined) {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("machine_exists_error"),
+        title: t("toast.errortitle"),
+        description: t("toast.machine_exists_error"),
       });
       setIsLoading(false);
     } else if (name == "") {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("enter_name_error"),
+        title: t("toast.errortitle"),
+        description: t("toast.enter_name_error"),
       });
       setIsLoading(false);
     } else if (dep == undefined) {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("choose_department_error"),
+        title: t("toast.errortitle"),
+        description: t("toast.choose_department_error"),
       });
       setIsLoading(false);
     } else if (department == undefined) {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("department_does_not_exist_error"),
+        title: t("toast.errortitle"),
+        description: t("toast.department_does_not_exist_error"),
       });
       setIsLoading(false);
     } else if (description == "") {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("enter_description"),
+        title: t("toast.errortitle"),
+        description: t("toast.enter_description"),
       });
       setIsLoading(false);
     } else {
@@ -112,8 +112,8 @@ function AddMachine({ setOpen }: { setOpen: (_: boolean) => void }) {
 
       toast({
         variant: "default",
-        title: t("successtitle"),
-        description: t("machine_added"),
+        title: t("toast.successtitle"),
+        description: t("toast.machine_added"),
       });
       setIsLoading(false);
       setOpen(false);

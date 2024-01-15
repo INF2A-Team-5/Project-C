@@ -22,6 +22,7 @@ import AddMachineToCustomer from "../foundations/add-machine-to-customer";
 import { infoColumns } from "@/services/Columns";
 import Table from "../foundations/table";
 import TableSkeleton from "../foundations/table-skeleton";
+import { t } from "i18next";
 
 function ViewAccount() {
   const [open, setOpen] = useState(false);
@@ -97,16 +98,16 @@ function ViewAccount() {
               <div className="border-left-width: 1px; border-gray-100">
                 <div className="px-0 px-4">
                   <h1 className="text-3xl font-medium">
-                    AccountID: {currentAccount.accountId}
+                    Account ID: {currentAccount.accountId}
                   </h1>
                   <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">
-                    Class: {currentAccount.class}
+                  {t("misc.account_type")}: {currentAccount.class}
                   </p>
                 </div>
                 <div className="mt-6">
                   <div className="grid grid-cols-2 gap-2 px-0 px-4 py-6">
                     <p className="text-xl font-medium leading-6 text-foreground">
-                      Name
+                      {t("table.name")}
                     </p>
                     <p className="col-span-2 mt-0 mt-1 text-lg leading-6 text-foreground">
                       {currentAccount.name}
@@ -114,7 +115,7 @@ function ViewAccount() {
                   </div>
                   <div className="grid grid-cols-2 gap-2 px-0 px-4 py-6">
                     <p className="text-xl font-medium leading-6 text-foreground">
-                      Password
+                    {t("misc.password")}
                     </p>
                     <p className="col-span-2 mt-0 mt-1 text-lg leading-6 text-foreground">
                       {currentAccount.password}
@@ -123,7 +124,7 @@ function ViewAccount() {
                   {employee ? (
                     <div className="grid grid-cols-2 gap-2 px-0 px-4 py-6">
                       <p className="text-xl font-medium leading-6 text-foreground">
-                        Department
+                        {t("misc.department")}
                       </p>
                       <p className="col-span-2 mt-0 mt-1 text-lg leading-6 text-foreground">
                         {department?.name}
@@ -132,7 +133,7 @@ function ViewAccount() {
                   ) : null}
                   <div className="grid grid-cols-2 gap-2 px-0 px-4 py-6">
                     <p className="text-xl font-medium leading-6 text-foreground">
-                      Phone number
+                    {t("misc.phone")}
                     </p>
                     {currentAccount.phoneNumber ? (
                       <p className="col-span-2 mt-0 mt-1 text-lg leading-6 text-foreground">
@@ -140,7 +141,7 @@ function ViewAccount() {
                       </p>
                     ) : (
                       <p className="col-span-2 mt-0 mt-1 text-lg leading-6 text-foreground">
-                        There is no phone number connected to this account
+                        {t("misc.no_phone_connected")}
                       </p>
                     )}
                     {isCustomer ? (
@@ -163,14 +164,14 @@ function ViewAccount() {
                           >
                             <DialogTrigger asChild>
                               <Button variant="default" size="sm">
-                                Add machine to this customer
+                              {t("misc.add_machine_to_customer")}
                               </Button>
                             </DialogTrigger>
                             <DialogContent>
                               <DialogHeader>
-                                <DialogTitle>Add Machine</DialogTitle>
+                                <DialogTitle>{t("misc.add_machine")}</DialogTitle>
                                 <TextareaHint>
-                                  Add new machine to customer
+                                  {t("misc.add_machine_to_customer")}
                                 </TextareaHint>
                               </DialogHeader>
                               <DialogDescription className="grid gap-2">
@@ -184,7 +185,7 @@ function ViewAccount() {
                   </div>
                 </div>
                 <Button variant="default" size="sm" onClick={handleCancel}>
-                  Go back
+                {t("misc.go_back")}
                 </Button>
               </div>
             </div>

@@ -45,14 +45,14 @@ async function Claimticket(ticket: any) {
     );
     toast({
       variant: "default",
-      title: t("successtitle"),
-      description: t("employee_assigned"),
+      title: t("toast.successtitle"),
+      description: t("toast.employee_assigned"),
     });
   } catch (error) {
     toast({
       variant: "destructive",
-      title: t("errortitle"),
-      description: t("unknown_user_error"),
+      title: t("toast.errortitle"),
+      description: t("toast.unknown_user_error"),
     });
   }
 }
@@ -70,14 +70,14 @@ async function ArchiveTicket(ticket: Ticket) {
     );
     toast({
       variant: "default",
-      title: t("successtitle"),
-      description: t("ticket_archived"),
+      title: t("toast.successtitle"),
+      description: t("toast.ticket_archived"),
     });
   } catch (error) {
     toast({
       variant: "destructive",
-      title: t("errortitle"),
-      description: t("something_wrong_error"),
+      title: t("toast.errortitle"),
+      description: t("toast.something_wrong_error"),
     });
   }
 }
@@ -91,14 +91,14 @@ async function ArchiveMachine(machine: MachineModel) {
     );
     toast({
       variant: "default",
-      title: t("successtitle"),
-      description: t("machine_archived"),
+      title: t("toast.successtitle"),
+      description: t("toast.machine_archived"),
     });
   } catch (error) {
     toast({
       variant: "destructive",
-      title: t("errortitle"),
-      description: t("something_wrong_error"),
+      title: t("toast.errortitle"),
+      description: t("toast.something_wrong_error"),
     });
   }
 }
@@ -124,14 +124,14 @@ async function ArchiveDepartment(department: Department) {
     );
     toast({
       variant: "default",
-      title: t("successtitle"),
-      description: t("department_archived"),
+      title: t("toast.successtitle"),
+      description: t("toast.department_archived"),
     });
   } catch (error) {
     toast({
       variant: "destructive",
-      title: t("errortitle"),
-      description: t("something_wrong_error"),
+      title: t("toast.errortitle"),
+      description: t("toast.something_wrong_error"),
     });
   }
 }
@@ -147,21 +147,21 @@ async function ArchiveAccount(account: Account) {
       );
       toast({
         variant: "default",
-        title: t("successtitle"),
-        description: t("account_archived"),
+        title: t("toast.successtitle"),
+        description: t("toast.account_archived"),
       });
     } catch (error) {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("something_wrong_error"),
+        title: t("toast.errortitle"),
+        description: t("toast.something_wrong_error"),
       });
     }
   } else {
     toast({
       variant: "destructive",
-      title: t("errortitle"),
-      description: t("archive_yourself_error"),
+      title: t("toast.errortitle"),
+      description: t("toast.archive_yourself_error"),
     });
   }
 }
@@ -175,7 +175,7 @@ export const ticketColumns = (t: TFunction<"translation", undefined> ): ColumnDe
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {t("table.id")}
+          TicketID
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -345,7 +345,7 @@ export const machineColumns = (t: TFunction<"translation", undefined> ): ColumnD
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          modelID
+          model ID
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -365,7 +365,7 @@ export const machineColumns = (t: TFunction<"translation", undefined> ): ColumnD
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          MachineID
+          Machine ID
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -412,7 +412,7 @@ export const modelColums = (t: TFunction<"translation", undefined> ): ColumnDef<
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {t("table.id")}
+          Model ID
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -514,7 +514,7 @@ export const infoColums = (t: TFunction<"translation", undefined> ): ColumnDef<M
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {t("table.id")}
+          Model ID
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -534,7 +534,7 @@ export const infoColums = (t: TFunction<"translation", undefined> ): ColumnDef<M
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          MachineID
+          Machine ID
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -594,7 +594,7 @@ export const infoColums = (t: TFunction<"translation", undefined> ): ColumnDef<M
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          CustomerId
+          {t("customerID")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -614,7 +614,7 @@ export const infoColums = (t: TFunction<"translation", undefined> ): ColumnDef<M
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          DepartmentId
+          {t("departmentID")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -676,7 +676,7 @@ export const infoColumns: ColumnDef<MachineInfoDto>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          ID
+          Model ID
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -696,7 +696,7 @@ export const infoColumns: ColumnDef<MachineInfoDto>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          MachineID
+          Machine ID
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -716,7 +716,7 @@ export const infoColumns: ColumnDef<MachineInfoDto>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Name
+          {t("table.name")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -736,7 +736,7 @@ export const infoColumns: ColumnDef<MachineInfoDto>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Description
+          {t("description")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -756,7 +756,7 @@ export const infoColumns: ColumnDef<MachineInfoDto>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          CustomerId
+          {t("customerID")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -776,7 +776,7 @@ export const infoColumns: ColumnDef<MachineInfoDto>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          DepartmentId
+          {t("departmentID")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -838,7 +838,7 @@ export const accountColumns = (t: TFunction<"translation", undefined> ): ColumnD
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {t("table.id")}
+          Account ID
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -940,7 +940,7 @@ export const departmentColumns = (t: TFunction<"translation", undefined> ): Colu
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {t("table.id")}
+          {t("table.departmentID")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -1014,7 +1014,7 @@ export const solutionColumns = (t: TFunction<"translation", undefined> ): Column
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Solution ID
+          {t("solutionID")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -1034,7 +1034,27 @@ export const solutionColumns = (t: TFunction<"translation", undefined> ): Column
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          ModelID
+          Model ID
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "machineId",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Machine ID
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (

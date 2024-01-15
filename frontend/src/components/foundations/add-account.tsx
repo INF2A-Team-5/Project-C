@@ -54,7 +54,7 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
     onError: () => {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
+        title: t("toast.errortitle"),
         description: t("no_data_error"),
       });
     },
@@ -72,36 +72,36 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
     if (account !== undefined) {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("username_exists_error"),
+        title: t("toast.errortitle"),
+        description: t("toast.username_exists_error"),
       });
       setIsLoading(false);
     } else if (username == "") {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("choose_username_error"),
+        title: t("toast.errortitle"),
+        description: t("toast.choose_username_error"),
       });
       setIsLoading(false);
     } else if (password == "") {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("choose_password_error"),
+        title: t("toast.errortitle"),
+        description: t("toast.choose_password_error"),
       });
       setIsLoading(false);
     } else if (password != confirmPassword) {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("passwords_dont_match_errors"),
+        title: t("toast.errortitle"),
+        description: t("toast.passwords_dont_match_errors"),
       });
       setIsLoading(false);
     } else if (userType == "") {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("choose_type_error"),
+        title: t("toast.errortitle"),
+        description: t("toast.choose_type_error"),
       });
       setIsLoading(false);
     }
@@ -121,8 +121,8 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
         console.log(error);
         toast({
           variant: "destructive",
-          title: t("errortitle"),
-          description: t("something_wrong_error"),
+          title: t("toast.errortitle"),
+          description: t("toast.something_wrong_error"),
         });
         setIsLoading(false);
       }
@@ -158,8 +158,8 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
           );
           toast({
             variant: "default",
-            title: t("successtitle"),
-            description: t("account_added"),
+            title: t("toast.successtitle"),
+            description: t("toast.account_added"),
           });
           setIsLoading(false);
           setOpen(false);
@@ -167,8 +167,8 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
           console.log(error);
           toast({
             variant: "destructive",
-            title: t("errortitle"),
-            description: t("something_wrong_error"),
+            title: t("toast.errortitle"),
+            description: t("toast.something_wrong_error"),
           });
           setIsLoading(false);
         }

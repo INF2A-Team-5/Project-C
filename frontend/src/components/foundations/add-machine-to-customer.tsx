@@ -31,8 +31,8 @@ function AddMachineToCustomer({ setOpen }: { setOpen: (_: boolean) => void }) {
     onError: () => {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("no_data_error"),
+        title: t("toast.errortitle"),
+        description: t("toast.no_data_error"),
       });
     },
   });
@@ -53,8 +53,8 @@ function AddMachineToCustomer({ setOpen }: { setOpen: (_: boolean) => void }) {
       );
       toast({
         variant: "default",
-        title: t("successtitle"),
-        description: t("machine_added"),
+        title: t("toast.successtitle"),
+        description: t("toast.machine_added"),
       });
       setIsLoading(false);
       setOpen(false);
@@ -62,8 +62,8 @@ function AddMachineToCustomer({ setOpen }: { setOpen: (_: boolean) => void }) {
       console.log(error);
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("something_wrong_error"),
+        title: t("toast.errortitle"),
+        description: t("toast.something_wrong_error"),
       });
       setIsLoading(false);
     }

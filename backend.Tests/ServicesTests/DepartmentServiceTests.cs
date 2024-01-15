@@ -1,6 +1,5 @@
 using Backend.DepartmentService;
 using Xunit;
-using FakeItEasy;
 using Backend.Entities;
 using Backend.Data;
 using Microsoft.AspNetCore.Mvc;

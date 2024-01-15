@@ -6,29 +6,27 @@ import { solutionColumns } from "@/services/Columns";
 import Table from "../foundations/table";
 import TableSkeleton from "../foundations/table-skeleton";
 import { Solution } from "@/types/solution";
-import { MachineModel } from "@/types/MachineModel";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
 import { t } from "i18next";
+import { MachineInfoDto } from "@/types/MachineInfo";
 
 function ViewMachine() {
   const machineID = localStorage.getItem("currentmachineID");
-  const [currentMachine, setCurrentMachine] = useState<MachineModel>();
+  const [currentMachine, setCurrentMachine] = useState<MachineInfoDto>();
   const navigate = useNavigate();
-
   const { data } = useQuery<Solution[]>(
     "/GetsolutionsPerMachine?id=" + machineID,
     {
       onError: () => {
         toast({
           variant: "destructive",
-          title: t("errortitle"),
-          description: t("no_data_error"),
+          title: t("toast.errortitle"),
+          description: t("toast.no_data_error"),
         });
       },
     },
   );
-
   useEffect(() => {
     getMachine();
   }, []);
@@ -52,30 +50,29 @@ function ViewMachine() {
               <div className="px-0 px-4">
                 <h1 className="text-3xl font-medium">{currentMachine.name}</h1>
                 <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">
-                  Machine information
+                  {t("machine.machine_info")}
                 </p>
                 <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">
-                  Machine ID: {currentMachine.modelId}
+                  Model ID: {currentMachine.modelId}
+                </p>
+              
+                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">
+                  Machine ID: {currentMachine.machineId}
                 </p>
               </div>
               <div className="mt-6 border-t border-gray-100">
                 <dl className="divide-y divide-gray-100">
                   <div className="grid grid-cols-2 gap-2 px-0 px-4 py-6">
                     <p className="text-xl font-medium leading-6 text-foreground">
-                      Description
+                      {t("table.description")}
                     </p>
                     <p className="col-span-2 mt-0 mt-1 text-lg leading-6 text-foreground">
                       {currentMachine.description}
                     </p>
                   </div>
-                  <div className="grid grid-cols-2 gap-2 px-0 px-4 py-6">
-                    <p className="text-xl font-medium leading-6 text-foreground">
-                      Customer
-                    </p>
-                  </div>
                   <div className="grid-cols-2 gap-2  px-0 px-4 py-6">
                     <p className="text-xl font-medium leading-6 text-foreground">
-                      Solutions of this machines
+                      {t("machine.solution")}
                     </p>
                     <div className="grid gap-12">
                       {data ? (
@@ -88,7 +85,7 @@ function ViewMachine() {
                   </div>
                 </dl>
                 <Button variant="default" size="sm" onClick={handleCancel}>
-                  Go back
+                  {t("misc.go_back")}
                 </Button>
               </div>
             </div>

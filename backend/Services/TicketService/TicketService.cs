@@ -33,7 +33,7 @@ namespace Backend.TicketService
                     {
                         return NotFound();
                     }
-                    var empTickets = await (from ticket in _context.Tickets from machinemodel in _context.Models where ticket.Machine_Id == machinemodel.ModelId && machinemodel.DepartmentId == departmentId && ticket.Archived == archived select ticket).ToListAsync();
+                    var empTickets = await (from ticket in _context.Tickets from machinemodel in _context.Models where ticket.ModelId == machinemodel.ModelId && machinemodel.DepartmentId == departmentId && ticket.Archived == archived select ticket).ToListAsync();
                     if (empTickets == null || empTickets.Count == 0)
                     {
                         return NotFound("No tickets under this department");
@@ -45,7 +45,7 @@ namespace Backend.TicketService
                     {
                         return NotFound("Customer does not exist");
                     }
-                    var cusTickets = await (from ticket in _context.Tickets where ticket.Customer_Id == customer.AccountId && ticket.Archived == archived select ticket).ToListAsync();
+                    var cusTickets = await (from ticket in _context.Tickets where ticket.Customer_Id == customer.CustomerId && ticket.Archived == archived select ticket).ToListAsync();
                     if (cusTickets == null || cusTickets.Count == 0)
                     {
                         return NotFound("No tickets found");
@@ -158,7 +158,7 @@ namespace Backend.TicketService
             {
                 return NotFound("No tickets found");
             }
-            var empTickets = await (from ticket in _context.Tickets from machinemodel in _context.Models where ticket.Machine_Id == machinemodel.ModelId && machinemodel.DepartmentId == departmentId && ticket.Employee_Id == employee.EmployeeId select ticket).ToListAsync();
+            var empTickets = await (from ticket in _context.Tickets from machinemodel in _context.Models where ticket.ModelId == machinemodel.ModelId && machinemodel.DepartmentId == departmentId && ticket.Employee_Id == employee.EmployeeId select ticket).ToListAsync();
             if (empTickets == null || empTickets.Count == 0)
             {
                 return NotFound("No tickets found");
@@ -176,14 +176,24 @@ namespace Backend.TicketService
             {
                 return NotFound();
             }
-            var employee = await (from accs in _context.Employees where accs.AccountId == account.AccountId select accs).FirstOrDefaultAsync();
-            int departmentId = await (from employees in _context.Employees where employees.AccountId == AccountId select employees.DepartmentId).FirstOrDefaultAsync();
-            if (employee == null)
+            if (account.Class == AccountType.ServiceEmployee)
             {
-                return NotFound();
+                var employee = await (from accs in _context.Employees where accs.AccountId == account.AccountId select accs).FirstOrDefaultAsync();
+                int departmentId = await (from employees in _context.Employees where employees.AccountId == AccountId select employees.DepartmentId).FirstOrDefaultAsync();
+                if (employee == null)
+                {
+                    return NotFound();
+                }
+                var empTickets = await (from ticket in _context.Tickets from machinemodel in _context.Models where ticket.ModelId == machinemodel.ModelId && machinemodel.DepartmentId == departmentId && ticket.Employee_Id == null select ticket).ToListAsync();
+                return empTickets;
             }
-            var empTickets = await (from ticket in _context.Tickets from machinemodel in _context.Models where ticket.Machine_Id == machinemodel.ModelId && machinemodel.DepartmentId == departmentId && ticket.Employee_Id == null select ticket).ToListAsync();
-            return empTickets;
+            if (account.Class == AccountType.Admin)
+            {
+                var tickets = await (from ticket in _context.Tickets where ticket.Employee_Id == null select ticket).ToListAsync();
+                return tickets;
+            }
+            return NotFound();
+
         }
         public async Task<ActionResult<IEnumerable<Ticket>>> GetClosedTickets(int AccountId)
         {
@@ -205,7 +215,7 @@ namespace Backend.TicketService
                     {
                         return NotFound();
                     }
-                    var empTickets = await (from ticket in _context.Tickets from machinemodel in _context.Models where ticket.Machine_Id == machinemodel.ModelId && machinemodel.DepartmentId == departmentId && ticket.Status == "Closed" select ticket).ToListAsync();
+                    var empTickets = await (from ticket in _context.Tickets from machinemodel in _context.Models where ticket.ModelId == machinemodel.ModelId && machinemodel.DepartmentId == departmentId && ticket.Status == "Closed" select ticket).ToListAsync();
                     if (empTickets == null || empTickets.Count == 0)
                     {
                         return NotFound("No tickets under this department");

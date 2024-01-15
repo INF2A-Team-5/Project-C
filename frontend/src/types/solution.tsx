@@ -3,5 +3,6 @@ export type Solution = {
   problemDescription: string;
   solutionDescription: string;
   modelId: number;
+  machineId: number;
   ticketId: number;
 };

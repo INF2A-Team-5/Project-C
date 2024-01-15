@@ -82,15 +82,15 @@ function EditAccount() {
 
       toast({
         variant: "default",
-        title: t("successtitle"),
-        description: t("editaccount.changedsuccess"),
+        title: t("toast.successtitle"),
+        description: t("toast.editaccount.changedsuccess"),
       });
       setIsLoading(false);
     } else {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("editaccount.changedinvalid"),
+        title: t("toast.errortitle"),
+        description: t("toast.editaccount.changedinvalid"),
       });
       setIsLoading(false);
     }
@@ -106,9 +106,9 @@ function EditAccount() {
     if (password !== confirmPass || oldPassword != currentaccount.password) {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
+        title: t("toast.errortitle"),
         description:
-          t("editaccount.passincorrect"),
+          t("toast.editaccount.passincorrect"),
       });
       setIsLoading(false);
     } else {
@@ -119,8 +119,8 @@ function EditAccount() {
       );
       toast({
         variant: "default",
-        title: t("successtitle"),
-        description: t("editaccount.passsuccess"),
+        title: t("toast.successtitle"),
+        description: t("toast.editaccount.passsuccess"),
       });
       setIsLoading(false);
     }

@@ -28,12 +28,11 @@ function Solutions() {
     onError: () => {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("no_data_error"),
+        title: t("toast.errortitle"),
+        description: t("toast.no_data_error"),
       });
     },
   });
-
   return (
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">

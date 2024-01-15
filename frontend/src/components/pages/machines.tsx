@@ -25,17 +25,18 @@ function Machines() {
   const [open, setOpen] = useState(false);
   const isClient = localStorage.getItem("Class") == "Client";
   const apiUrl = isClient
-    ? `/GetMachinesByArchived?archived=${false}&AccountId=${localStorage.getItem("Id")}`
+    ? `/GetMachinesByArchived?archived=false&AccountId=${localStorage.getItem("Id")}`
     : `/api/MachineModels?accountId=${localStorage.getItem("Id")}&archived=false`;
   const { data, isFetching } = useQuery<any[]>(apiUrl, {
     onError: () => {
       toast({
         variant: "destructive",
-        title: t("errortitle"),
-        description: t("no_data_error"),
+        title: t("toast.errortitle"),
+        description: t("toast.no_data_error"),
       });
     },
   });
+  console.log(data);
   return (
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">

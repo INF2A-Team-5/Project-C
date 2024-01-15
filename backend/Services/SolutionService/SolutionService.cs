@@ -36,7 +36,7 @@ namespace Backend.SolutionService
             return solution;
         }
 
-        public async Task<ActionResult<IEnumerable<Solution>>> GetSolutionsBymachineId(int id)
+        public async Task<ActionResult<IEnumerable<Solution>>> GetSolutionsBymodelId(int id)
         {
             if (_context.Solutions == null)
             {

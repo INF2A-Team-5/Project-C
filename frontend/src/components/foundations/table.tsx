@@ -104,19 +104,7 @@ function DataTable<TData, TValue>({
           className="max-w-sm"
         />
 
-        {location.pathname === "/tickets" ? (
-          <Input
-            type="number"
-            placeholder="Search for employee..."
-            value={(table.getColumn("employee_Id")?.getFilterValue() as number) ?? ""}
-            onChange={(event) => {
-              console.log(table.getAllColumns());
-              table.getColumn("employee_Id")?.setFilterValue(event.target.value);
-            }}
-            className="w-110 ml-4"
-          />
-        ) : null}
-        {location.pathname === "/tickets" ?
+        {location.pathname === "/tickets" || location.pathname === "/assigned-tickets" ?
           (<Popover open={openStatus} onOpenChange={setOpenStatus}>
             <div className="pl-5">
               <PopoverTrigger asChild>

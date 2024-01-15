@@ -19,7 +19,7 @@ function Tickets() {
       getTickets();
     }
   });
-
+  console.log(tickets);
   async function getTickets() {
     try{
     setTickets(
@@ -34,8 +34,8 @@ function Tickets() {
       {
         toast({
           variant: "destructive",
-          title: t("errortitle"),
-          description: t("no_data_error"),
+          title: t("toast.errortitle"),
+          description: t("toast.no_data_error"),
         });
       }
   }

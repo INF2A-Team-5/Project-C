@@ -42,7 +42,7 @@ function ViewTicket() {
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
   const [showPicturesinfo, setShowPictures] = useState<boolean>(false);
   const [pictures, setPictures] = useState<string[]>([]);
-  const [ticketInfo, setTicketInfo] = useState<any>(null);
+  const [ticketInfo, setTicketInfo] = useState<Ticket>();
   const ticketId = localStorage.getItem("currentticketID");
   const [showTicketInfo, setShowTicketInfo] = useState(false);
   const [isClient, setIsClient] = useState<boolean>(false);
@@ -174,8 +174,8 @@ function ViewTicket() {
       } else {
         toast({
           variant: "destructive",
-          title: t("errortitle"),
-          description: t("reopen_reason_error"),
+          title: t("toast.errortitle"),
+          description: t("toast.reopen_reason_error"),
         });
       }
     }
@@ -201,8 +201,8 @@ function ViewTicket() {
           );
           toast({
             variant: "default",
-            title: t("successtitle"),
-            description: t("ticket.submitalert"),
+            title: t("toast.successtitle"),
+            description: t("toast.ticket.submitalert"),
           });
           sendTicket(currentTicket);
           navigate(0);
@@ -210,8 +210,8 @@ function ViewTicket() {
         catch {
           toast({
             variant: "destructive",
-            title: t("errortitle"),
-            description: t("enter_solution_description"),
+            title: t("toast.errortitle"),
+            description: t("toast.enter_solution_description"),
           });
         }
       } else {
@@ -245,32 +245,33 @@ function ViewTicket() {
           {showTicketInfo && (
             <div>
               <div className="px-4 px-0">
-                <p className="text-3xl font-medium">{ticketInfo.title}</p>
-                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">ID: {ticketInfo.ticketId}</p>
-                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">Machine ID: {ticketInfo.machine_Id}</p>
-                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">Customer ID: {ticketInfo.customerId}</p>
+                <p className="text-3xl font-medium">{ticketInfo?.title}</p>
+                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">ID: {ticketInfo?.ticketId}</p>
+                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">Model ID: {ticketInfo?.modelId}</p>
+                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">Machine ID: {ticketInfo?.machine_Id}</p>
+                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">{t("table.customerID")}: {ticketInfo?.customerId}</p>
               </div>
               <div className="mt-6 border-t border-gray-100">
                 <dl className="divide-y divide-gray-100">
                   <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
-                    <p className="text-xl font-medium leading-6 text-foreground">What is the problem?</p>
-                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{ticketInfo.problem}</p>
+                    <p className="text-xl font-medium leading-6 text-foreground">{t("misc.what_is_problem")}</p>
+                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{ticketInfo?.problem}</p>
                   </div>
                   <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
-                    <p className="text-xl font-medium leading-6 text-foreground">What have you tried?</p>
-                    <p className="mt-1 text-lg leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.haveTried}</p>
+                    <p className="text-xl font-medium leading-6 text-foreground">{t("misc.what_have_u_tried")}</p>
+                    <p className="mt-1 text-lg leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo?.haveTried}</p>
                   </div>
                   <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
-                    <p className="text-xl font-medium leading-6 text-foreground">What should it be doing?</p>
-                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{ticketInfo.mustBeDoing}</p>
+                    <p className="text-xl font-medium leading-6 text-foreground">{t("misc.what_should_it_be_doing")}</p>
+                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{ticketInfo?.mustBeDoing}</p>
                   </div>
                   <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
                     <p className="text-xl font-medium leading-6 text-foreground">Contact</p>
-                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{ticketInfo.phoneNumber}</p>
+                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{ticketInfo?.phoneNumber}</p>
                   </div>
                   <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
-                    <p className="text-xl font-medium leading-6 text-foreground">Notes</p>
-                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{ticketInfo.notes &&
+                    <p className="text-xl font-medium leading-6 text-foreground">{t("misc.notes")}</p>
+                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{ticketInfo?.notes &&
                       ticketInfo.notes.map(
                         (
                           note:
@@ -295,7 +296,7 @@ function ViewTicket() {
                       )}</p>
                   </div>
                   <div className="px-4 py-6 grid grid-cols-3 gap-4 px-0">
-                    <Button onClick={showPictures}>Show pictures</Button>
+                    <Button onClick={showPictures}>{t("misc.show_pictures")}</Button>
                     {showPicturesinfo ? (
                       <div className="sm:col-span-3">
                         {pictures.length > 0 ? (
@@ -329,14 +330,14 @@ function ViewTicket() {
                   <>
 
                     <p className="mt-1 text-lg leading-6 text-bold sm:col-span-2 sm:mt-0 font-bold">Priority at the moment</p>
-                    <p className="mt-1 text-md leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo.priority}</p>
+                    <p className="mt-1 text-md leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo?.priority}</p>
 
                     <Button
                       className="w-fit"
                       variant="default"
                       onClick={changePriority}
                     >
-                      Change priority
+                      {t("misc.change_priority")}
                     </Button>
                   </>
                 ) : null}
@@ -344,17 +345,17 @@ function ViewTicket() {
                   <DialogTrigger asChild>
                     {isClient ? null : (
                       <Button className="w-fit" variant="destructive">
-                        Close ticket
+                        {t("misc.close_ticket")}
                       </Button>
                     )}
                   </DialogTrigger>
 
                   <DialogContent>
                     <DialogHeader>
-                      <DialogTitle>Fill in solution</DialogTitle>
+                      <DialogTitle>{t("misc.fill_solution")}</DialogTitle>
                     </DialogHeader>
                     <DialogDescription>
-                      <h2 className="text-lg font-medium">Add solution</h2>
+                      <h2 className="text-lg font-medium">{t("solution.add")}</h2>
                       <Textarea
                         placeholder="Fixed this and this"
                         onChange={(e: any) =>
@@ -362,8 +363,7 @@ function ViewTicket() {
                         }
                       ></Textarea>
                       <TextareaHint>
-                        Give us a detailed description on what was the solution
-                        of fixing the ticket
+                      {t("misc.give_description_solution")}
                       </TextareaHint>
                     </DialogDescription>
                     <DialogFooter>
@@ -372,10 +372,10 @@ function ViewTicket() {
                           variant="ghost"
                           onClick={() => navigate(`/view-ticket`)}
                         >
-                          Cancel
+                          {t("ticket.cancel")}
                         </Button>
                         <Button variant="secondary" onClick={closeTicket}>
-                          Submit
+                        {t("ticket.submit")}
                         </Button>
                       </DialogClose>
                     </DialogFooter>
@@ -384,14 +384,13 @@ function ViewTicket() {
                 <Toaster />
               </div>
               <div>
-                <h2 className="text-lg font-medium">Add notes</h2>
+                <h2 className="text-lg font-medium">{t("editticket.notes")}</h2>
                 <Textarea
                   placeholder="Still does not work because..."
                   onChange={(e: any) => setNotes(e.currentTarget.value)}
                 ></Textarea>
                 <TextareaHint>
-                  Give us a detailed description on what you want to update the
-                  ticket with
+                {t("misc.give_description_update")}
                 </TextareaHint>
               </div>
 
@@ -430,41 +429,40 @@ function ViewTicket() {
               </div>
               <div>
                 <Button variant="default" onClick={handleSubmit}>
-                  Submit
+                {t("ticket.submit")}
                 </Button>
                 <Button variant="destructive" onClick={handleCancel}>
-                  Go back
+                {t("misc.go_back")}
                 </Button>
               </div>
             </>
           ) : (
             <div>
-              <label>Ticket is closed</label>
+              <label>{t("misc.ticket_is_closed")}</label>
               <br></br>
               <Dialog>
                 <DialogTrigger asChild>
                   {isClient ? null : (
                     <Button className="w-fit" variant="default">
-                      Reopen ticket
+                      {t("misc.reopen_ticket")}
                     </Button>
                   )}
                 </DialogTrigger>
 
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>Reopen ticket</DialogTitle>
+                    <DialogTitle>{t("misc.reopen_ticket")}</DialogTitle>
                   </DialogHeader>
                   <DialogDescription>
                     <h2 className="text-lg font-medium">
-                      Why do you want to reopen the ticket?
+                    {t("misc.reopen_ticket_why")}
                     </h2>
                     <Textarea
                       placeholder="The error is not solved because..."
                       onChange={(e: any) => setReopen(e.currentTarget.value)}
                     ></Textarea>
                     <TextareaHint>
-                      Give us a detailed description on why you want to reopen
-                      your ticket
+                      {t("misc.give_description_reopen")}
                     </TextareaHint>
                   </DialogDescription>
                   <DialogFooter>
@@ -473,10 +471,10 @@ function ViewTicket() {
                         variant="ghost"
                         onClick={() => navigate(`/view-ticket`)}
                       >
-                        Cancel
+                        {t("ticket.cancel")}
                       </Button>
                       <Button variant="secondary" onClick={reopenTicket}>
-                        Submit
+                      {t("ticket.submit")}
                       </Button>
                     </DialogClose>
                   </DialogFooter>
@@ -484,7 +482,7 @@ function ViewTicket() {
               </Dialog>
               <Toaster />
               <Button variant="destructive" onClick={handleCancel}>
-                Go back
+                {t("misc.go_back")}
               </Button>
             </div>
           )}
