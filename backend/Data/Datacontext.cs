@@ -20,8 +20,8 @@ public class DataContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
     {
 
-        builder.UseNpgsql(@"Host=localhost:5432;Username=postgres;Password=123;Database=ProjectC_Database;Maximum Pool Size=200");
-        // builder.UseNpgsql(@"Host=localhost:5432;Username=postgres;Password=1234;Database=ProjectC_Database;Maximum Pool Size=200;Include Error Detail=true");
+        // builder.UseNpgsql(@"Host=localhost:5432;Username=postgres;Password=123;Database=ProjectC_Database;Maximum Pool Size=200");
+        builder.UseNpgsql(@"Host=localhost:5432;Username=postgres;Password=1234;Database=ProjectC_Database;Maximum Pool Size=200;Include Error Detail=true");
         builder.LogTo(Console.WriteLine, Microsoft.Extensions.Logging.LogLevel.Debug);
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)

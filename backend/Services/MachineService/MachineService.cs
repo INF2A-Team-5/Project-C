@@ -81,7 +81,7 @@ namespace Backend.MachineService
             {
                 return NotFound();
             }
-            var machines = await _context.Machines.Where(m => m.Customer_Id == id).ToListAsync();
+            var machines = await _context.Machines.Where(m => m.DepartmentId == id).ToListAsync();
             if (machines == null)
             {
                 return NotFound();
