@@ -12,6 +12,7 @@ import { TextareaHint } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import React from "react";
 import { API_BASE_URL } from "@/lib/api";
+import { Checkbox } from "@/components/ui/checkbox";
 
 function LogIn() {
   const { t, i18n } = useTranslation();
@@ -19,6 +20,7 @@ function LogIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const usernameRef = React.useRef<HTMLInputElement>(null);
@@ -118,29 +120,37 @@ function LogIn() {
             </TextareaHint>
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="username">{t("login.username")}</Label>
             {/* <Label htmlFor="username">Voer gegevens in</Label> */}
             <Input
               id="username"
               ref={usernameRef}
               name="username"
-              placeholder="Client123"
+              placeholder={t("login.username")}
               onKeyDown={handleEnter}
               onChange={(e) => setUsername(e.currentTarget.value)}
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="password">{t("login.password")}</Label>
             <Input
               id="password"
               ref={passwordRef}
               name="password"
-              placeholder="*******"
-              type="password"
+              placeholder={t("login.password")}
+              type={visible ? "text" : "password"}
               onKeyDown={handleEnter}
               // ●●●●●●●● als je circels wilt
               onChange={(e) => setPassword(e.currentTarget.value)}
             />
+            <div className="flex items-center justify-start space-x-1">
+              <Checkbox
+                  onClick={() => setVisible(!visible)}
+                  />
+              <label
+              htmlFor="showpassword"
+              className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                {t("login.showpass")}
+              </label>
+            </div>
           </div>
           {/* <div className="mx-auto flex items-center space-x-2">
             <Checkbox id="terms" />
