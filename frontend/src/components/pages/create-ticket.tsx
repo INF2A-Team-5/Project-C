@@ -28,13 +28,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CaretDownIcon, CheckIcon } from "@radix-ui/react-icons";
-
+import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Machine } from "@/types/Machine";
 import Layout from "../layout";
 import { Account } from "@/types/Account";
-import { MachineInfoDto } from "@/types/MachineInfo";
 
 function CreateTickets() {
   useAuthenticated();
@@ -43,6 +41,8 @@ function CreateTickets() {
   const [mustBeDoing, setMustBeDoing] = useState("");
   const [haveTried, setHaveTried] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [machines, setMachines] = useState<Machine[]>([]);
+  const [customers, setCustomers] = useState<Account[]>([]);
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
   const [isChecked, setChecked] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -56,11 +56,11 @@ function CreateTickets() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getPhone();
     checkAccount();
     getCustomers();
     getMachines();
     GetCustomer();
+    getPhone();
   }, []);
 
   useEffect(() => {
@@ -74,7 +74,6 @@ function CreateTickets() {
 
   const handleCheckbox = () => {
     setChecked(!isChecked);
-    isChecked ? getPhone() : null;
   };
 
   const checkAccount = () => {
@@ -86,6 +85,9 @@ function CreateTickets() {
   };
 
   const { t, i18n } = useTranslation();
+  useEffect(() => {
+    i18n.changeLanguage(navigator.language);
+  }, []);
 
   const handleRemove = (indexToRemove: number) => {
     const updatedPreview = [...preview];
@@ -181,11 +183,7 @@ function CreateTickets() {
       title.length != 0
     ) {
       let machine = machines.find(
-
-//        (machine: Machine) => machine.name.toLowerCase() == value2,
-
-//        (machine: MachineInfoDto) => machine.name.toLowerCase() == value,
-
+        (machine: Machine) => machine.name.toLowerCase() == value2,
       );
       if (machine == undefined) {
         toast({
@@ -398,6 +396,7 @@ function CreateTickets() {
                       <CommandInput placeholder="Search machine..." />
                       <CommandEmpty>No machine found.</CommandEmpty>
                       <CommandGroup>
+
                         {machines.map((machine) => (
                           <CommandItem
                             key={machine.name}
@@ -470,17 +469,15 @@ function CreateTickets() {
             <TextareaHint>{t("ticket.havetrieddes")}</TextareaHint>
           </div>
 
-          <div>
-
-            {Boolean(phoneNumber) ? (
-              <div className="mx-auto flex flex-col items-start space-y-2">
+          {Boolean(phoneNumber) ? (
+            <div className="mx-auto flex flex-col items-start space-y-2">
 
               <div className="w-full flex items-center">
-              <Label>{t("ticket.currentphonenum")}</Label>
-              <Label className="m-1">{phoneNumber}</Label>
+                <Label>{t("ticket.currentphonenum")}</Label>
+                <Label className="m-1">{phoneNumber}</Label>
               </div>
               <div className="w-full flex items-center">
-                <Checkbox id="" onClick={handleCheckbox} className=""/>
+                <Checkbox id="" onClick={handleCheckbox} className="" />
                 <label
                   htmlFor="terms"
                   className="p-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -489,87 +486,87 @@ function CreateTickets() {
                 </label>
               </div>
             </div>
-            ) : 
-              <>
-                <div>
-                  <Label>{t("ticket.phonenumwithstar")}</Label>
-                </div>
-                <div className="pt-2">
-                  <Input
-                    placeholder={t("ticket.place4")}
-                    onChange={(e) => setPhoneNumber(e.currentTarget.value)}
-                  />
-                </div>
-              </>
-            }
-            {isChecked ? (
-              <>
-                <div className="pt-2">
-                  <Input
-                    placeholder={t("ticket.place4")}
-                    onChange={(e) => setPhoneNumber(e.currentTarget.value)}
-                  />
-                </div>
-              </>
-            ) : null}
-          </div>
-          <div className="grid gap-2">
-            <div className="">
-              <Label>{t("ticket.files")}</Label>
-              <Input
-                className="w-2/6"
-                name="image"
-                multiple={true}
-                onChange={handleFileUpload}
-                accept="image/png, image/jpeg"
-                id="picture"
-                type="file"
-              />
-            </div>
-            <div className="flex max-w-screen flex-wrap">
-              {preview.map((previewItem, index) => (
-                <div key={index} className="m-4 flex items-center">
-                  <img
-                    src={previewItem as string}
-                    alt={`Preview ${index}`}
-                    style={{ maxWidth: "500px", maxHeight: "400px" }}
-                  />
-                  <Button
-                    variant={"destructive"}
-                    onClick={() => handleRemove(index)}
-                    className="ml-2"
-                  >
-                    {t("ticket.remove")}
-                  </Button>{" "}
-                  {/* Button to remove uploaded picture */}
-                </div>
-              ))}
-            </div>
-          </div>
-          <div>
-            <Button
-              className="w-1/6"
-              variant="default"
-              onClick={handleSubmit}
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-              ) : null}
-              {t("ticket.submit")}
-            </Button>
-            <Button
-              className="w-1/6"
-              variant={"destructive"}
-              onClick={handleCancel}
-            >
-              {t("ticket.cancel")}
-            </Button>
-          </div>
-          <Toaster />
+          ) :
+            <>
+              <div>
+                <Label>{t("ticket.phonenumwithstar")}</Label>
+              </div>
+              <div className="pt-2">
+                <Input
+                  placeholder={t("ticket.place4")}
+                  onChange={(e) => setPhoneNumber(e.currentTarget.value)}
+                />
+              </div>
+            </>
+          }
+          {isChecked ? (
+            <>
+              <div className="pt-2">
+                <Input
+                  placeholder={t("ticket.place4")}
+                  onChange={(e) => setPhoneNumber(e.currentTarget.value)}
+                />
+              </div>
+            </>
+          ) : null}
         </div>
+        <div className="grid gap-2">
+          <div className="">
+            <Label>{t("ticket.files")}</Label>
+            <Input
+              className="w-2/6"
+              name="image"
+              multiple={true}
+              onChange={handleFileUpload}
+              accept="image/png, image/jpeg"
+              id="picture"
+              type="file"
+            />
+          </div>
+          <div className="flex max-w-screen flex-wrap">
+            {preview.map((previewItem, index) => (
+              <div key={index} className="m-4 flex items-center">
+                <img
+                  src={previewItem as string}
+                  alt={`Preview ${index}`}
+                  style={{ maxWidth: "500px", maxHeight: "400px" }}
+                />
+                <Button
+                  variant={"destructive"}
+                  onClick={() => handleRemove(index)}
+                  className="ml-2"
+                >
+                  {t("ticket.remove")}
+                </Button>{" "}
+                {/* Button to remove uploaded picture */}
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <Button
+            className="w-1/6"
+            variant="default"
+            onClick={handleSubmit}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+            ) : null}
+            {t("ticket.submit")}
+          </Button>
+          <Button
+            className="w-1/6"
+            variant={"destructive"}
+            onClick={handleCancel}
+          >
+            {t("ticket.cancel")}
+          </Button>
+        </div>
+        <Toaster />
       </div>
-    </Layout>
+    </div>
+    </Layout >
   );
 }
 
