@@ -39,9 +39,7 @@ import { useTranslation } from "react-i18next";
 
 function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
   const { t, i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(navigator.language);
-  }, []);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

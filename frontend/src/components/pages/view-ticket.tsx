@@ -35,9 +35,7 @@ import Layout from "../layout";
 
 function ViewTicket() {
   const { t, i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(navigator.language);
-  }, []);
+
 
   const navigate = useNavigate();
   const [notes, setNotes] = useState("");

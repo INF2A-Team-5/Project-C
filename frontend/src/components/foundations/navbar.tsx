@@ -5,9 +5,7 @@ import { useEffect } from "react";
 
 function Navbar() {
   const { t, i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(navigator.language);
-  }, []);
+
   const location = useLocation();
   let navItems = [
     {

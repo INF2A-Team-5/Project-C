@@ -21,9 +21,7 @@ import { useTranslation } from "react-i18next";
 
 function Departments() {
   const { t, i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(navigator.language);
-  }, []);
+
   const [open, setOpen] = useState(false);
   const { data, isFetching } = useQuery<Department[]>(`/api/departments/archived/${false}`, {
 
@@ -60,7 +58,7 @@ function Departments() {
         </div>
         <div className="grid gap-12">
           {data ? (
-            <Table data={data} columns={departmentColumns} />
+            <Table data={data} columns={departmentColumns(t)} />
           ) : (
             <TableSkeleton />
           )}

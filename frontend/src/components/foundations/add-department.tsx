@@ -13,9 +13,7 @@ import { useTranslation } from "react-i18next";
 
 function AddDepartment({ setOpen }: { setOpen: (_: boolean) => void }) {
   const { t, i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(navigator.language);
-  }, []);
+
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

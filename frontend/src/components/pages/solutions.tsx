@@ -22,9 +22,7 @@ import { useTranslation } from "react-i18next";
 
 function Solutions() {
   const { t, i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(navigator.language);
-  }, []);
+
   const [open, setOpen] = useState(false);
   const { data, isFetching } = useQuery<Solution[]>("/api/solutions", {
     onError: () => {
@@ -63,7 +61,7 @@ function Solutions() {
         </div>
         <div className="grid gap-12">
           {data ? (
-            <Table data={data} columns={solutionColumns} />
+            <Table data={data} columns={solutionColumns(t)} />
           ) : (
             <TableSkeleton />
           )}

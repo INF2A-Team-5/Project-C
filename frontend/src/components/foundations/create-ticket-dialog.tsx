@@ -7,9 +7,6 @@ import { useEffect } from "react";
 
 function CreateTicketDialog ( {isFetching}: {isFetching: boolean}) {
     const { t, i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(navigator.language);
-  }, []);
 
     return(
         <Dialog>

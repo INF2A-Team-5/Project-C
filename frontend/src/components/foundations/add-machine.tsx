@@ -28,9 +28,7 @@ import { useTranslation } from "react-i18next";
 
 function AddMachine({ setOpen }: { setOpen: (_: boolean) => void }) {
   const { t, i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(navigator.language);
-  }, []);
+
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [department, setDepartment] = useState("");

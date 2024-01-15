@@ -11,9 +11,7 @@ import { useTranslation } from "react-i18next";
 
 function AddSolution({ setOpen }: { setOpen: (_: boolean) => void }) {
   const { t, i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(navigator.language);
-  }, []);
+
   const [problemDescription, setProblemDescription] = useState("");
   const [solutionDescription, setSolutionDescription] = useState("");
   const [ticketId, setTicketId] = useState<number | string>();

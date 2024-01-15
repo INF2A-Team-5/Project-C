@@ -15,9 +15,6 @@ import { API_BASE_URL } from "@/lib/api";
 
 function LogIn() {
   const { t, i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(navigator.language);
-  }, []);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

@@ -18,8 +18,11 @@ import Layout from "../layout";
 import { toast } from "../ui/use-toast";
 import TableSkeleton from "../foundations/table-skeleton";
 import CreateTicketDialog from "../foundations/create-ticket-dialog";
+import { useTranslation } from "react-i18next";
 
 function UnassignedTickets() {
+  const { t } = useTranslation()
+
   const { data, isFetching } = useQuery<Ticket[]>("/GetUnassignedTickets?AccountId=" + localStorage.getItem("Id"), {
     onError: () => {
       toast({
@@ -38,7 +41,7 @@ function UnassignedTickets() {
         </div>
         <div className="grid gap-12">
           {data ? (
-            <Table data={data} columns={ticketColumns} />
+            <Table data={data} columns={ticketColumns(t)} />
           ) : (
             <TableSkeleton />
           )}

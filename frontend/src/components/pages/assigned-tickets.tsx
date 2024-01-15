@@ -23,9 +23,7 @@ import CreateTicketDialog from "../foundations/create-ticket-dialog";
 
 function AssignedTickets() {
   const { t, i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(navigator.language);
-  }, []);
+
   const { data, isFetching } = useQuery<Ticket[]>("/GetAssignedTickets?AccountId=" + localStorage.getItem("Id"), {
     onError: () => {
       toast({
@@ -44,7 +42,7 @@ function AssignedTickets() {
         </div>
         <div className="grid gap-12">
           {data ? (
-            <Table data={data} columns={ticketColumns} />
+            <Table data={data} columns={ticketColumns(t)} />
           ) : (
             <TableSkeleton />
           )}

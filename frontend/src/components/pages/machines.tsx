@@ -21,9 +21,7 @@ import { useTranslation } from "react-i18next";
 
 function Machines() {
   const { t, i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(navigator.language);
-  }, []);
+
   const [open, setOpen] = useState(false);
   const isClient = localStorage.getItem("Class") == "Client";
   const apiUrl = isClient
@@ -70,7 +68,7 @@ function Machines() {
         </div>
         <div className="grid gap-12">
           {data ? (
-            <Table data={data} columns={modelColums} />
+            <Table data={data} columns={modelColums(t)} />
           ) : (
             <TableSkeleton />
           )}

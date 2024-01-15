@@ -21,9 +21,7 @@ import { useTranslation } from "react-i18next";
 
 function Accounts() {
   const { t, i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(navigator.language);
-  }, []);
+
   const [open, setOpen] = useState(false);
   const { data, isFetching } = useQuery<Account[]>(`/api/accounts/archived/${false}`, {
     onError: () => {
@@ -59,7 +57,7 @@ function Accounts() {
         </div>
         <div className="grid gap-12">
           {data ? (
-            <Table data={data} columns={accountColumns} />
+            <Table data={data} columns={accountColumns(t)} />
           ) : (
             <TableSkeleton />
           )}
