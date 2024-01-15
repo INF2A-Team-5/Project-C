@@ -28,6 +28,7 @@ import { Solution } from "@/types/solution";
 import { Account } from "@/types/Account";
 import { Department } from "@/types/Department";
 import { MachineModel } from "@/types/MachineModel";
+import { TFunction } from "i18next";
 
 async function Claimticket(ticket: any) {
   console.log(localStorage.getItem("Id"));
@@ -109,11 +110,15 @@ async function ArchiveDepartment(department: Department) {
       putBaseMutateRequest(JSON.stringify(department)),
     );
     await fetch(
-      API_BASE_URL + "/api/Accounts/ArchiveByDepartment/" + department.departmentId,
+      API_BASE_URL +
+        "/api/Accounts/ArchiveByDepartment/" +
+        department.departmentId,
       putBaseMutateRequest(JSON.stringify(department)),
     );
     await fetch(
-      API_BASE_URL + "/api/Machines/ArchiveByDepartment/" + department.departmentId,
+      API_BASE_URL +
+        "/api/Machines/ArchiveByDepartment/" +
+        department.departmentId,
       putBaseMutateRequest(JSON.stringify(department)),
     );
     toast({
@@ -160,7 +165,7 @@ async function ArchiveAccount(account: Account) {
   }
 }
 
-export const ticketColumns: ColumnDef<Ticket>[] = [
+export const ticketColumns = (t: TFunction<"translation", undefined> ): ColumnDef<Ticket>[] => [
   {
     accessorKey: "ticketId",
     header: ({ column }) => {
@@ -169,7 +174,7 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          ID
+          {t("table.id")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -189,7 +194,7 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Title
+          {t("table.title")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -209,7 +214,7 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Priority
+          {t("table.priority")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -229,7 +234,7 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Date
+          {t("table.date")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -249,7 +254,7 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Employee
+          {t("table.employee")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -259,7 +264,7 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
           )}
         </Button>
       );
-    }
+    },
   },
   {
     accessorKey: "status",
@@ -269,7 +274,7 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Status
+          {t("table.status")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -283,7 +288,7 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
   },
   {
     id: "actions",
-    header: "Options",
+    header: t("table.option"),
     cell: ({ row }) => {
       const ticket = row.original;
       const navigate = useNavigate();
@@ -292,12 +297,12 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
+              <span className="sr-only">{t("table.openmenu")}</span>
               <DotsHorizontalIcon className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>{t("table.actions")}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
@@ -308,19 +313,19 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
                 navigate(`/view-ticket`);
               }}
             >
-              View ticket
+              {t("table.viewticket")}
             </DropdownMenuItem>
             {/* <DropdownMenuItem>View customer</DropdownMenuItem> */}
             {localStorage.getItem("Class") == "ServiceEmployee" ||
-              localStorage.getItem("Class") == "Admin" ? (
+            localStorage.getItem("Class") == "Admin" ? (
               <DropdownMenuItem onClick={() => Claimticket(ticket)}>
-                Claim ticket
+                {t("table.claimticket")}
               </DropdownMenuItem>
             ) : null}
             {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
             {localStorage.getItem("Class") == "Admin" ? (
               <DropdownMenuItem onClick={() => ArchiveTicket(ticket)}>
-                Archive ticket
+                {t("table.archiveticket")}
               </DropdownMenuItem>
             ) : null}
           </DropdownMenuContent>
@@ -330,7 +335,7 @@ export const ticketColumns: ColumnDef<Ticket>[] = [
   },
 ];
 
-export const machineColumns: ColumnDef<Machine>[] = [
+export const machineColumns = (t: TFunction<"translation", undefined> ): ColumnDef<Machine>[] => [
   {
     accessorKey: "modelId",
     header: ({ column }) => {
@@ -453,7 +458,7 @@ export const machineColumns: ColumnDef<Machine>[] = [
     },
   },
 ];
-export const modelColums: ColumnDef<MachineModel>[] = [
+export const modelColums = (t: TFunction<"translation", undefined> ): ColumnDef<MachineModel>[] => [
   {
     accessorKey: "modelId",
     header: ({ column }) => {
@@ -462,7 +467,7 @@ export const modelColums: ColumnDef<MachineModel>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          ID
+          {t("table.id")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -482,7 +487,7 @@ export const modelColums: ColumnDef<MachineModel>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Name
+          {t("table.name")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -502,7 +507,7 @@ export const modelColums: ColumnDef<MachineModel>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Description
+          {t("table.description")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -516,7 +521,7 @@ export const modelColums: ColumnDef<MachineModel>[] = [
   },
   {
     id: "actions",
-    header: "Options",
+    header: t("table.option"),
     cell: ({ row }) => {
       const machine = row.original;
       const navigate = useNavigate();
@@ -525,12 +530,12 @@ export const modelColums: ColumnDef<MachineModel>[] = [
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
+              <span className="sr-only">{t("table.openmenu")}</span>
               <DotsHorizontalIcon className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>{t("table.actions")}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
@@ -541,7 +546,7 @@ export const modelColums: ColumnDef<MachineModel>[] = [
                 navigate(`/view-machine`);
               }}
             >
-              View machine
+              {t("table.viewmachine")}
             </DropdownMenuItem>
             {/* {localStorage.getItem("Class") == "ServiceEmployee" ||
             localStorage.getItem("Class") == "Admin" ? (
@@ -552,7 +557,7 @@ export const modelColums: ColumnDef<MachineModel>[] = [
             {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
             {localStorage.getItem("Class") == "Admin" ? (
               <DropdownMenuItem onClick={() => ArchiveMachine(machine)}>
-                Archive machine
+                {t("table.archivemachine")}
               </DropdownMenuItem>
             ) : null}
           </DropdownMenuContent>
@@ -562,7 +567,7 @@ export const modelColums: ColumnDef<MachineModel>[] = [
   },
 ];
 
-export const accountColumns: ColumnDef<Account>[] = [
+export const accountColumns = (t: TFunction<"translation", undefined> ): ColumnDef<Account>[] => [
   {
     accessorKey: "accountId",
     header: ({ column }) => {
@@ -571,7 +576,7 @@ export const accountColumns: ColumnDef<Account>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          ID
+          {t("table.id")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -591,7 +596,7 @@ export const accountColumns: ColumnDef<Account>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Name
+          {t("table.name")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -611,7 +616,7 @@ export const accountColumns: ColumnDef<Account>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Phone number
+          {t("table.phonenumber")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -625,7 +630,7 @@ export const accountColumns: ColumnDef<Account>[] = [
   },
   {
     id: "actions",
-    header: "Options",
+    header: t("table.option"),
     cell: ({ row }) => {
       const account = row.original;
       const navigate = useNavigate();
@@ -634,12 +639,12 @@ export const accountColumns: ColumnDef<Account>[] = [
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
+              <span className="sr-only">{t("table.openmenu")}</span>
               <DotsHorizontalIcon className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>{t("table.actions")}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => {
@@ -650,7 +655,7 @@ export const accountColumns: ColumnDef<Account>[] = [
                 navigate(`/view-account`);
               }}
             >
-              View account
+              {t("table.viewaccount")}
             </DropdownMenuItem>
             {/* {localStorage.getItem("Class") == "ServiceEmployee" ||
             localStorage.getItem("Class") == "Admin" ? (
@@ -661,7 +666,7 @@ export const accountColumns: ColumnDef<Account>[] = [
             {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
             {localStorage.getItem("Class") == "Admin" ? (
               <DropdownMenuItem onClick={() => ArchiveAccount(account)}>
-                Archive account
+                {t("table.archiveaccount")}
               </DropdownMenuItem>
             ) : null}
           </DropdownMenuContent>
@@ -671,7 +676,7 @@ export const accountColumns: ColumnDef<Account>[] = [
   },
 ];
 
-export const departmentColumns: ColumnDef<Department>[] = [
+export const departmentColumns = (t: TFunction<"translation", undefined> ): ColumnDef<Department>[] => [
   {
     accessorKey: "departmentId",
     header: ({ column }) => {
@@ -680,7 +685,7 @@ export const departmentColumns: ColumnDef<Department>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          ID
+          {t("table.id")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -700,7 +705,7 @@ export const departmentColumns: ColumnDef<Department>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Name
+          {t("table.name")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -714,7 +719,7 @@ export const departmentColumns: ColumnDef<Department>[] = [
   },
   {
     id: "actions",
-    header: "Options",
+    header: t("table.option"),
     cell: ({ row }) => {
       const department = row.original;
       const navigate = useNavigate();
@@ -723,12 +728,12 @@ export const departmentColumns: ColumnDef<Department>[] = [
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
+              <span className="sr-only">{t("table.openmenu")}</span>
               <DotsHorizontalIcon className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel>{t("table.actions")}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem
             // onClick={() => {
@@ -739,7 +744,7 @@ export const departmentColumns: ColumnDef<Department>[] = [
             //   navigate(`/view-ticket`);
             // }}
             >
-              View department
+              {t("table.viewdepartment")}
             </DropdownMenuItem>
             {/* {localStorage.getItem("Class") == "ServiceEmployee" ||
             localStorage.getItem("Class") == "Admin" ? (
@@ -750,7 +755,7 @@ export const departmentColumns: ColumnDef<Department>[] = [
             {/* <DropdownMenuItem onClick={() => viewticket(currentData.[findIndex(]rowIndex))}>View ticket </DropdownMenuItem> */}
             {localStorage.getItem("Class") == "Admin" ? (
               <DropdownMenuItem onClick={() => ArchiveDepartment(department)}>
-                Archive department
+                {t("table.archivedepartment")}
               </DropdownMenuItem>
             ) : null}
           </DropdownMenuContent>
@@ -760,7 +765,7 @@ export const departmentColumns: ColumnDef<Department>[] = [
   },
 ];
 
-export const solutionColumns: ColumnDef<Solution>[] = [
+export const solutionColumns = (t: TFunction<"translation", undefined> ): ColumnDef<Solution>[] => [
   {
     accessorKey: "solutionId",
     header: ({ column }) => {
@@ -769,7 +774,7 @@ export const solutionColumns: ColumnDef<Solution>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          ID
+          {t("table.id")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -789,7 +794,7 @@ export const solutionColumns: ColumnDef<Solution>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Problem Description
+          {t("table.problemdescription")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -809,7 +814,7 @@ export const solutionColumns: ColumnDef<Solution>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Solution Description
+          {t("table.solutiondescription")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (

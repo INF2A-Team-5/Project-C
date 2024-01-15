@@ -17,9 +17,12 @@ import Layout from "../layout";
 import TableSkeleton from "../foundations/table-skeleton";
 import { Solution } from "@/types/solution";
 import AddTicketSolution from "../foundations/add-solution";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 function Solutions() {
+  const { t, i18n } = useTranslation();
+
   const [open, setOpen] = useState(false);
   const { data, isFetching } = useQuery<Solution[]>("/api/solutions", {
     onError: () => {
@@ -35,19 +38,19 @@ function Solutions() {
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-medium">Solutions</h1>
+          <h1 className="text-3xl font-medium">{t("solution.h1")}</h1>
           {localStorage.getItem("Class") == "Admin" ? (
             <Dialog open={open} onOpenChange={(open) => setOpen(open)}>
               <DialogTrigger asChild>
                 <Button variant="default" size="sm" disabled={isFetching}>
-                  Add solution
+                  {t("solution.add")}
                 </Button>
               </DialogTrigger>
 
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Add solution</DialogTitle>
-                  <TextareaHint>Create new solutions</TextareaHint>
+                  <DialogTitle>{t("solution.add")}</DialogTitle>
+                  <TextareaHint>{t("solution.create")}</TextareaHint>
                 </DialogHeader>
                 <DialogDescription>
                   <AddTicketSolution setOpen={setOpen} />
@@ -58,7 +61,7 @@ function Solutions() {
         </div>
         <div className="grid gap-12">
           {data ? (
-            <Table data={data} columns={solutionColumns} />
+            <Table data={data} columns={solutionColumns(t)} />
           ) : (
             <TableSkeleton />
           )}

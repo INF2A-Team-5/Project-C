@@ -86,9 +86,6 @@ function CreateTickets() {
   };
 
   const { t, i18n } = useTranslation();
-  useEffect(() => {
-    i18n.changeLanguage(navigator.language);
-  }, []);
 
   const handleRemove = (indexToRemove: number) => {
     const updatedPreview = [...preview];
