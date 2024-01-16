@@ -22,7 +22,7 @@ import AddMachineToCustomer from "../foundations/add-machine-to-customer";
 import { infoColumns } from "@/services/Columns";
 import Table from "../foundations/table";
 import TableSkeleton from "../foundations/table-skeleton";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 function ViewAccount() {
   const [open, setOpen] = useState(false);
@@ -35,7 +35,8 @@ function ViewAccount() {
   const Id = localStorage.getItem("currentaccountID");
   const [isCustomer, setisCustomer] = useState<boolean>(false);
   const navigate = useNavigate();
-
+  const { t, } = useTranslation();
+  
   useEffect(() => {
     if (currentAccount == undefined) {
       getAccount();

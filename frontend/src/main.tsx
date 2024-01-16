@@ -17,6 +17,7 @@ import Solutions from "./components/pages/solutions";
 import ViewAccount from "./components/pages/view-account";
 import AssignedTickets from "./components/pages/assigned-tickets";
 import UnassignedTickets from "./components/pages/unassigned-tickets";
+import ViewDepartment from "./components/pages/view-department";
 
 
 const router = createBrowserRouter([
@@ -80,6 +81,10 @@ const router = createBrowserRouter([
     path: "edit-account",
     element: <EditAccount />,
   },
+  {
+    path: "view-department",
+    element: <ViewDepartment />,
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

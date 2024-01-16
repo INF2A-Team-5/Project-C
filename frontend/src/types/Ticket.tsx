@@ -2,7 +2,7 @@ export type Ticket = {
   ticketId: number;
   modelId: number;
   machine_Id: number;
-  customerId: number;
+  customer_Id: number;
   employeeId: number;
   title: string;
   priority: string;

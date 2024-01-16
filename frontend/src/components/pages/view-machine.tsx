@@ -8,12 +8,13 @@ import TableSkeleton from "../foundations/table-skeleton";
 import { Solution } from "@/types/solution";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
-import { t } from "i18next";
 import { MachineInfoDto } from "@/types/MachineInfo";
+import { useTranslation } from "react-i18next";
 
 function ViewMachine() {
   const machineID = localStorage.getItem("currentmachineID");
   const [currentMachine, setCurrentMachine] = useState<MachineInfoDto>();
+  const { t, } = useTranslation();
   const navigate = useNavigate();
   const { data } = useQuery<Solution[]>(
     "/GetsolutionsPerMachine?id=" + machineID,

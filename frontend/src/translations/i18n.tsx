@@ -144,6 +144,7 @@ i18n
             files: "Upload files",
             cancel: "Cancel",
             remove: "Remove",
+            phonenumber: "Phone number",
           },
           editaccount: {
             editaccount: "Edit Account",
@@ -180,6 +181,7 @@ i18n
             create:"Create new department",
             inputname:"Enter department name",
             close:"Close",
+            department_name: "Department name",
           },
           account: {
             h1: "Accounts",
@@ -193,6 +195,7 @@ i18n
             searchdepartment: "Search department...",
             nodepartment: "No departments found.",
             close: "Close",
+            id: "Account ID"
           },
           solution: {
             h1: "Solutions",
@@ -277,6 +280,7 @@ i18n
             give_description_update: "Give us a detailed description on what you want to update the ticket with",
             ticked_is_closed: "Ticket is closed",
             reopen_ticket: "Reopen ticket",
+            reopened_ticket: "Reopened ticket",
             reopen_ticket_why: "Why do you want to reopen the ticket?",
             give_description_reopen: "Give us a detailed description on why you want to reopen your ticket",
             enter_ticket_title: "Enter the title for the ticket (visible in the tickets table)...",
@@ -286,6 +290,8 @@ i18n
             changed_priority: "Changed priority ",
             ticket_updated: "Ticket has been updated",
             ticket_is_closed: "The ticket is currently closed",
+            employee_id: "Employee ID",
+            employees: "Employees",
           },
         },
       },
@@ -412,6 +418,7 @@ i18n
             files: "Upload bestanden",
             cancel: "Annuleer",
             remove: "Verwijder",
+            phonenumber: "Telefoonnummer",
           },
           editaccount:{
             editaccount: "Account aanpassen",
@@ -448,6 +455,7 @@ i18n
             create:"Maak nieuwe afdeling",
             inputname:"Voer afdeling naam in",
             close:"Sluit",
+            department_name: "Afdelingsnaam"
           },
           account: {
             h1: "Accounts",
@@ -545,6 +553,7 @@ i18n
             give_description_update: "Geef ons een gedetailleerde beschrijving hoe je de ticket wilt updaten",
             ticked_is_closed: "Ticket is gesloten",
             reopen_ticket: "Heropen ticket",
+            reopened_ticketed: "Ticket heropend",
             reopen_ticket_why: "Waarom wil je de ticket heropenen?",
             give_description_reopen: "Geef ons een gedetailleerde beschrijving waarom je de ticket wilt heropenen",
             enter_ticket_title: "Vul een titel in voor de ticket (zichbaar bij Tickets)...",
@@ -553,6 +562,8 @@ i18n
             changed_priority: "Prioriteit is veranderd",
             ticket_updated: "Ticket is geupdate",
             ticket_is_closed: "De ticket is momenteel gesloten",
+            employee_id: "Werknemer ID",
+            employees: "Werknemers",
           },
         },
       },

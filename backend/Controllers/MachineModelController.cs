@@ -22,5 +22,6 @@ namespace Backend.Controllers
         [HttpPut("{id}")] public async Task<IActionResult> UpdateMachineModel(int id, MachineModel model) => await _machineModelService.UpdateMachineModel(id, model);
         [HttpPost] public async Task<ActionResult<MachineModel>> AddMachine(MachineModelDto newMachine) => await _machineModelService.AddMachineModel(newMachine);
         [HttpPut("ArchiveModel")] public async Task<IActionResult> ArchiveMachineModel(int id) => await _machineModelService.ArchiveMachineModel(id);
+        [HttpGet("/GetModelByDepartmentId")] public async Task<ActionResult<IEnumerable<MachineModel>>> GetMachineModelsByDepartmentId(int DepartmentId) => await _machineModelService.GetMachineModelsByDepartmentId(DepartmentId);
     }
 }
