@@ -48,7 +48,7 @@ function ViewTicket() {
   const [isClient, setIsClient] = useState<boolean>(false);
   const [solution, setSolution] = useState("");
   const [reopen, setReopen] = useState("");
-  const [currentTicket, setCurrentTicket] = useState<any>();
+  const [currentTicket, setCurrentTicket] = useState<Ticket>();
 
   useEffect(() => {
     checkAccount();
@@ -68,7 +68,7 @@ function ViewTicket() {
   });
 
   async function handleCancel() {
-    navigate(-1);
+    navigate("/tickets");
   }
 
   const checkAccount = () => {
@@ -157,7 +157,11 @@ function ViewTicket() {
         currentTicket.priority = "Critical";
       }
       sendTicket(currentTicket);
-      alert("Changed priority");
+      toast({
+        variant: "default",
+        title: t("toast.successtitle"),
+        description: t("misc.changed_priority"),
+      });
       navigate("/view-ticket");
     }
   }
@@ -170,7 +174,7 @@ function ViewTicket() {
           : [reopen];
         currentTicket.status = "Open";
         sendTicket(currentTicket);
-        navigate(0);
+        navigate("/view-ticket");
       } else {
         toast({
           variant: "destructive",
@@ -191,6 +195,7 @@ function ViewTicket() {
             problemDescription: currentTicket.problem,
             solutionDescription: solution,
             machineId: currentTicket.machine_Id,
+            modelId: currentTicket.modelId,
             ticketId: currentTicket.ticketId
           }
           await fetch(
@@ -203,7 +208,7 @@ function ViewTicket() {
             description: t("ticket.submitalert"),
           });
           sendTicket(currentTicket);
-          navigate(0);
+          
         }
         catch {
           toast({
@@ -230,8 +235,12 @@ function ViewTicket() {
         ? [...currentTicket.files, ...filteredPreview]
         : [...filteredPreview];
       sendTicket(currentTicket);
-      alert("Ticket updated");
-      navigate(0);
+      toast({
+        variant: "default",
+        title: t("toast.successtitle"),
+        description: t("misc.ticket_updated"),
+      });
+      navigate("/view-ticket");
     }
   }
 
