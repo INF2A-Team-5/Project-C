@@ -292,6 +292,7 @@ i18n
             ticket_is_closed: "The ticket is currently closed",
             employee_id: "Employee ID",
             employees: "Employees",
+            search_customer: "Search customer..."
           },
         },
       },
@@ -564,6 +565,7 @@ i18n
             ticket_is_closed: "De ticket is momenteel gesloten",
             employee_id: "Werknemer ID",
             employees: "Werknemers",
+            search_customer: "Zoek een klant..."
           },
         },
       },

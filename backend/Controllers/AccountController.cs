@@ -5,7 +5,7 @@ using Backend.AccountService;
 
 namespace Backend.Controllers
 {
-    // [Authorize]
+    [Authorize]
     [Route("api/Accounts")]
     [ApiController]
     public class AccountController

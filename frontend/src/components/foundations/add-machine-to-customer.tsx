@@ -1,7 +1,7 @@
 import { MachineModel } from "../../types/MachineModel";
-import { API_BASE_URL, postBaseMutateRequest, useQuery } from "../../lib/api";
+import { API_BASE_URL, getBaseQueryRequest, postBaseMutateRequest, useQuery } from "../../lib/api";
 import { toast } from "../ui/use-toast";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Icons } from "./icons";
 import {
@@ -20,12 +20,31 @@ import { CaretDownIcon, CheckIcon } from "@radix-ui/react-icons";
 import { cn } from "@/lib/utils";
 import { DialogClose, DialogFooter } from "../ui/dialog";
 import { t } from "i18next";
+import { useNavigate } from "react-router-dom";
 
 function AddMachineToCustomer({ setOpen }: { setOpen: (_: boolean) => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const Id = localStorage.getItem("currentaccountID");
   const [machine, setMachine] = useState("");
+  const [cusomterId, setCustomerID] = useState<number>();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (cusomterId == undefined)
+    {
+      getCustomerId();
+    }
+  })
+  async function getCustomerId() {
+    var cust = await fetch(
+      API_BASE_URL + "/api/Customers/getCustomer?AccountId=" + Id, getBaseQueryRequest(),
+    ).then((data) => data.json());
+    console.log(cust.customerId);
+    setCustomerID(cust.customerId);
+
+  }
 
   const { data } = useQuery<MachineModel[]>("/GetAllModels", {
     onError: () => {
@@ -37,11 +56,15 @@ function AddMachineToCustomer({ setOpen }: { setOpen: (_: boolean) => void }) {
     },
   });
   async function HandleSubmit() {
+    if (cusomterId == undefined)
+    {
+      getCustomerId();
+    }
     setIsLoading(true);
     var model = data?.find((mach) => mach.name.toLowerCase() === machine);
     try {
       await fetch(
-        API_BASE_URL + "/api/Machines?Customer_Id=" + Id,
+        API_BASE_URL + "/api/Machines?Customer_Id=" + cusomterId,
         postBaseMutateRequest(
           JSON.stringify({
             modelId: model?.modelId,

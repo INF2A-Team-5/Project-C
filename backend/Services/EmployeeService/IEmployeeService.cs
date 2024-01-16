@@ -9,6 +9,6 @@ namespace Backend.EmployeeService
         Task<ActionResult<IEnumerable<Employee>>> GetAllEmployees();
         Task<ActionResult<Employee>> GetEmployeeByAccountId(int id);
         Task<ActionResult<Employee>> AddEmployee(AddEmployeeDto newEmployee);
-        Task<ActionResult<IEnumerable<Employee>>> GetEmployeesByDepartmentId(int DepartmentId);
+        Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployeesByDepartmentId(int DepartmentId);
     }
 }

@@ -51,6 +51,7 @@ function CreateTickets() {
   const [open2, setOpen2] = useState(false);
   const [CustomerID, setCustomerID] = useState("");
   const [accountID, setAccountID] = useState("");
+  const [accountName, setAccountName] = useState("");
   const [value, setValue] = useState("");
   const [isClient, setIsClient] = useState<boolean>(false);
   const customerSelectedRef = useRef(false);
@@ -82,7 +83,7 @@ function CreateTickets() {
     setChecked(!isChecked);
     isChecked ? getPhone() : null;
   };
-
+  
   const checkAccount = () => {
     const accountClass = localStorage.getItem("Class");
     setIsClient(accountClass == "Client");
@@ -283,25 +284,26 @@ function CreateTickets() {
                         aria-expanded={open1}
                         className="w-[200px] justify-between"
                       >
-                        {accountID
+                        {accountName
                           ? customers.find(
-                            (account: Customer) => account.accountId.toString() == accountID,
-                          )?.customerId
+                            (account: Customer) => account.name == accountName,
+                          )?.name
                           : t("table.selectcustomer")}
                         <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-[200px] p-0">
                       <Command>
-                        <CommandInput placeholder="Search customer..." />
+                        <CommandInput placeholder={t("misc.search_customer")} />
                         <CommandEmpty>{t("misc.no_customers_found")}</CommandEmpty>
                         <CommandGroup>
-                          {customers.map((customer) => (
+                          {customers.map((customer: Customer) => (
                             <CommandItem
-                              key={customer.accountId.toString()}
-                              value={customer.accountId.toString()}
+                              key={customer.name}
+                              value={customer.name}
                               onSelect={(currentValue) => {
-                                setAccountID(currentValue);
+                                setAccountID(customer.accountId.toString());
+                                setAccountName(currentValue);
                                 GetCustomer();
                                 setOpen1(false);
                               }}
@@ -309,11 +311,11 @@ function CreateTickets() {
                               <CheckIcon
                                 className={cn(
                                   "mr-2 h-4 w-4",
-                                  accountID === customer.accountId.toString()
+                                  accountName === customer.name
                                     ? "opacity-100"
                                     : "opacity-0"
                                 )} />
-                              {customer.customerId}
+                              {customer.name}
                             </CommandItem>
                           ))}
                         </CommandGroup>
@@ -374,7 +376,7 @@ function CreateTickets() {
 
                 ) : null}</>
             ) :
-              <><Label>{t("ticket.selectmachinedes")}</Label><div className="w-1/6">
+              <><Label>{t("ticket.selectmachines")}</Label><div className="w-1/6">
                 <Popover open={open2} onOpenChange={setOpen2}>
                   <PopoverTrigger asChild>
                     <Button
@@ -387,7 +389,7 @@ function CreateTickets() {
                         ? machines.find(
                           (machine: any) => machine.name.toLowerCase() == value
                         )?.name
-                        : t("selectmachine")}
+                        : t("ticket.selectmachine")}
                       <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </PopoverTrigger>

@@ -175,7 +175,7 @@ export const ticketColumns = (t: TFunction<"translation", undefined> ): ColumnDe
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          TicketID
+          Ticket ID
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -736,7 +736,7 @@ export const infoColumns: ColumnDef<MachineInfoDto>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {t("description")}
+          {t("table.description")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -756,7 +756,7 @@ export const infoColumns: ColumnDef<MachineInfoDto>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {t("customerID")}
+          {t("table.customerID")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -776,7 +776,7 @@ export const infoColumns: ColumnDef<MachineInfoDto>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {t("departmentID")}
+          {t("table.departmentID")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -1154,43 +1154,24 @@ export const employeeColumns = (t: TFunction<"translation", undefined> ): Column
       );
     },
   },
-  // {
-  //   id: "actions",
-  //   header: t("table.option"),
-  //   cell: ({ row }) => {
-  //     const account = row.original;
-  //     const navigate = useNavigate();
-
-  //     return (
-  //       <DropdownMenu>
-  //         <DropdownMenuTrigger asChild>
-  //           <Button variant="ghost" className="h-8 w-8 p-0">
-  //             <span className="sr-only">{t("table.openmenu")}</span>
-  //             <DotsHorizontalIcon className="h-4 w-4" />
-  //           </Button>
-  //         </DropdownMenuTrigger>
-  //         <DropdownMenuContent align="end">
-  //           <DropdownMenuLabel>{t("table.actions")}</DropdownMenuLabel>
-  //           <DropdownMenuSeparator />
-  //           <DropdownMenuItem
-  //             onClick={() => {
-  //               localStorage.setItem(
-  //                 "currentaccountID",
-  //                 account.accountId.toString(),
-  //               );
-  //               navigate(`/view-account`);
-  //             }}
-  //           >
-  //             {t("table.viewaccount")}
-  //           </DropdownMenuItem>
-  //           {localStorage.getItem("Class") == "Admin" ? (
-  //             <DropdownMenuItem onClick={() => ArchiveAccount(account)}>
-  //               {t("table.archiveaccount")}
-  //             </DropdownMenuItem>
-  //           ) : null}
-  //         </DropdownMenuContent>
-  //       </DropdownMenu>
-  //     );
-  //   },
-  // },
+  {
+    accessorKey: "name",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          {t("table.name")}
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
+        </Button>
+      );
+    },
+  },
 ];

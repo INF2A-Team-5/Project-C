@@ -95,7 +95,6 @@ function ViewAccount() {
       <div className="mt-16 flex w-full max-w-screen flex-col">
         <div className="grid gap-8">
           {currentAccount && (
-            <div>
               <div className="border-left-width: 1px; border-gray-100">
                 <div className="px-0 px-4">
                   <h1 className="text-3xl font-medium">
@@ -146,7 +145,7 @@ function ViewAccount() {
                       </p>
                     )}
                     {isCustomer ? (
-                      <div className="grid gap-2 px-0 px-4 py-6">
+                      <div className="grid gap-2 px-0 py-6">
                         <p className="text-xl font-medium leading-6 text-foreground">
                           Machines
                         </p>
@@ -185,11 +184,12 @@ function ViewAccount() {
                     ) : null}
                   </div>
                 </div>
+                <div className="py-3.5">
                 <Button variant="default" size="sm" onClick={handleCancel}>
                 {t("misc.go_back")}
                 </Button>
+                </div>
               </div>
-            </div>
           )}
         </div>
       </div>

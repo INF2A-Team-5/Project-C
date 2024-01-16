@@ -6,7 +6,7 @@ using Backend.Dto;
 
 namespace Backend.Controllers
 {
-    [Authorize]
+    // [Authorize]
     [Route("api/Machines")]
     [ApiController]
     public class MachineController

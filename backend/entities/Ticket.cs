@@ -11,6 +11,7 @@ public class Ticket
     public int ModelId { get; set; }
     public Customer Customer {get; set; } = null!;
     public int Customer_Id { get; set; }
+    
     public int? Employee_Id { get; set; }
     public string Title { get; set; } = null!;
     public string Priority { get; set; } = null!;

@@ -73,7 +73,7 @@ function ViewDepartment() {
           )}
         </div>
         <div className="grip gap-12">
-          <p className="text-xl font-medium leading-4 text-foreground">
+          <p className="text-xl font-medium leading-10 text-foreground">
             {t("misc.employees")}
           </p>
           {employees ? (
