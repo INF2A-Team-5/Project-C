@@ -56,5 +56,18 @@ namespace Backend.EmployeeService
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetEmployeeByAccountId), new { id = emp.EmployeeId }, emp);
         }
+        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployeesByDepartmentId(int DepartmentId)
+        {
+            if (_context.Employees == null || _context.Departments == null)
+            {
+                return NotFound();
+            }
+            var employees = await _context.Employees.Where(emp => emp.DepartmentId == DepartmentId).ToListAsync();
+            if (employees == null)
+            {
+                return NotFound();
+            }
+            return employees;
+        }
     }
 }

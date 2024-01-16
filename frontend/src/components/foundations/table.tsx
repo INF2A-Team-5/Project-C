@@ -76,7 +76,13 @@ function DataTable<TData, TValue>({
   ) {
     column = "problemDescription";
     columnplaceholder = t("table.problemdescription");
-  }
+   } 
+  //  else if (
+  //   table.getAllColumns().find((el) => el.id == "employeeId") != undefined) {
+  //     column = "employeeID"
+  //   }
+   
+
 
   const statuses = [
     {
@@ -95,6 +101,7 @@ function DataTable<TData, TValue>({
   return (
     <div className="grid gap-4">
       <div className="flex items-center">
+        {column != "" ?
         <Input
           placeholder={t("table.searchfor") + columnplaceholder + "..."}
           value={(table.getColumn(column)?.getFilterValue() as string) ?? ""}
@@ -103,7 +110,7 @@ function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-
+          : null }
         {location.pathname === "/tickets" || location.pathname === "/assigned-tickets" ?
           (<Popover open={openStatus} onOpenChange={setOpenStatus}>
             <div className="pl-5">

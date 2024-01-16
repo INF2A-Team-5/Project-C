@@ -49,7 +49,6 @@ function ViewTicket() {
   const [solution, setSolution] = useState("");
   const [reopen, setReopen] = useState("");
   const [currentTicket, setCurrentTicket] = useState<Ticket>();
-
   useEffect(() => {
     checkAccount();
     getTicket();
@@ -174,6 +173,11 @@ function ViewTicket() {
           : [reopen];
         currentTicket.status = "Open";
         sendTicket(currentTicket);
+        toast({
+          variant: "default",
+          title: t("toast.successtitle"),
+          description: t("misc.reopened_ticket"),
+        });
         navigate("/view-ticket");
       } else {
         toast({
@@ -202,12 +206,13 @@ function ViewTicket() {
             API_BASE_URL + "/api/Solutions",
             postBaseMutateRequest(JSON.stringify(newSolution)),
           );
+          sendTicket(currentTicket);
           toast({
             variant: "default",
             title: t("toast.successtitle"),
-            description: t("ticket.submitalert"),
+            description: t("toast.solution_added"),
           });
-          sendTicket(currentTicket);
+          navigate("/view-ticket");
           
         }
         catch {
@@ -216,6 +221,7 @@ function ViewTicket() {
             title: t("toast.errortitle"),
             description: t("enter_solution_description"),
           });
+          navigate("/view-ticket");
         }
       } else {
 
@@ -256,7 +262,7 @@ function ViewTicket() {
                 <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">ID: {ticketInfo?.ticketId}</p>
                 <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">Model ID: {ticketInfo?.modelId}</p>
                 <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">Machine ID: {ticketInfo?.machine_Id}</p>
-                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">{t("table.customerID")}: {ticketInfo?.customerId}</p>
+                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">{t("table.customerID")}: {ticketInfo?.customer_Id}</p>
               </div>
               <div className="mt-6 border-t border-gray-100">
                 <dl className="divide-y divide-gray-100">

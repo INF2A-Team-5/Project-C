@@ -474,7 +474,7 @@ function CreateTickets() {
               <div className="mx-auto flex flex-col items-start space-y-2">
 
               <div className="w-full flex items-center">
-              <Label>{t("ticket.currentphonenum")}</Label>
+              <Label>{t("ticket.phonenumber")}:</Label>
               <Label className="m-1">{phoneNumber}</Label>
               </div>
               <div className="w-full flex items-center">

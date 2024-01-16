@@ -12,5 +12,6 @@ namespace Backend.MachineModelService
         Task<IActionResult> UpdateMachineModel(int id, MachineModel machine);
         Task<ActionResult<MachineModel>> AddMachineModel(MachineModelDto machine);
         Task<IActionResult> ArchiveMachineModel(int id);
+        Task<ActionResult<IEnumerable<MachineModel>>> GetMachineModelsByDepartmentId(int DepartmentId);
     }
 }

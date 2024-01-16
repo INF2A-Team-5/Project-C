@@ -30,6 +30,7 @@ import { Department } from "@/types/Department";
 import { MachineModel } from "@/types/MachineModel";
 import { MachineInfoDto } from "@/types/MachineInfo";
 import { TFunction, t } from "i18next";
+import { Employee } from "@/types/Employee";
 
 async function Claimticket(ticket: any) {
   try {
@@ -976,7 +977,7 @@ export const departmentColumns = (t: TFunction<"translation", undefined> ): Colu
     header: t("table.option"),
     cell: ({ row }) => {
       const department = row.original;
-
+      const navigate = useNavigate();
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -988,7 +989,12 @@ export const departmentColumns = (t: TFunction<"translation", undefined> ): Colu
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>{t("table.actions")}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
+            <DropdownMenuItem onClick={() => {
+             localStorage.setItem(
+              "currentdepartmentID",
+              department.departmentId.toString(),
+            );
+            navigate(`/view-department`);}}
             >
               {t("table.viewdepartment")}
             </DropdownMenuItem>
@@ -1013,7 +1019,7 @@ export const solutionColumns = (t: TFunction<"translation", undefined> ): Column
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          {t("solutionID")}
+          {t("table.solutionID")}
           {column.getIsSorted() === "desc" ? (
             <ArrowDownIcon className="ml-2 h-4 w-4" />
           ) : column.getIsSorted() === "asc" ? (
@@ -1105,4 +1111,86 @@ export const solutionColumns = (t: TFunction<"translation", undefined> ): Column
       );
     },
   },
+];
+
+export const employeeColumns = (t: TFunction<"translation", undefined> ): ColumnDef<Employee>[] => [
+  {
+    accessorKey: "employeeId",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          {t("misc.employee_id")}
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}{" "}
+        </Button>
+      );
+    },
+  },
+  {
+    accessorKey: "accountId",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Account ID
+          {column.getIsSorted() === "desc" ? (
+            <ArrowDownIcon className="ml-2 h-4 w-4" />
+          ) : column.getIsSorted() === "asc" ? (
+            <ArrowUpIcon className="ml-2 h-4 w-4" />
+          ) : (
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          )}
+        </Button>
+      );
+    },
+  },
+  // {
+  //   id: "actions",
+  //   header: t("table.option"),
+  //   cell: ({ row }) => {
+  //     const account = row.original;
+  //     const navigate = useNavigate();
+
+  //     return (
+  //       <DropdownMenu>
+  //         <DropdownMenuTrigger asChild>
+  //           <Button variant="ghost" className="h-8 w-8 p-0">
+  //             <span className="sr-only">{t("table.openmenu")}</span>
+  //             <DotsHorizontalIcon className="h-4 w-4" />
+  //           </Button>
+  //         </DropdownMenuTrigger>
+  //         <DropdownMenuContent align="end">
+  //           <DropdownMenuLabel>{t("table.actions")}</DropdownMenuLabel>
+  //           <DropdownMenuSeparator />
+  //           <DropdownMenuItem
+  //             onClick={() => {
+  //               localStorage.setItem(
+  //                 "currentaccountID",
+  //                 account.accountId.toString(),
+  //               );
+  //               navigate(`/view-account`);
+  //             }}
+  //           >
+  //             {t("table.viewaccount")}
+  //           </DropdownMenuItem>
+  //           {localStorage.getItem("Class") == "Admin" ? (
+  //             <DropdownMenuItem onClick={() => ArchiveAccount(account)}>
+  //               {t("table.archiveaccount")}
+  //             </DropdownMenuItem>
+  //           ) : null}
+  //         </DropdownMenuContent>
+  //       </DropdownMenu>
+  //     );
+  //   },
+  // },
 ];

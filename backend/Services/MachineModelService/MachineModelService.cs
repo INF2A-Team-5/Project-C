@@ -141,7 +141,19 @@ namespace Backend.MachineModelService
                 await _context.SaveChangesAsync();
                 return NoContent();
             }
-
+            public async Task<ActionResult<IEnumerable<MachineModel>>> GetMachineModelsByDepartmentId(int DepartmentId)
+            {
+                if (_context.Departments == null | _context.Models == null)
+                {
+                    return NotFound();
+                }
+                var machines = await _context.Models.Where(model => model.DepartmentId == DepartmentId).ToListAsync();
+                if (machines == null)
+                {
+                    return NotFound();
+                }
+                return machines;
+            }
             private bool MachineExists(int id) => (_context.Models?.Any(e => e.ModelId == id)).GetValueOrDefault();
         }
     }
