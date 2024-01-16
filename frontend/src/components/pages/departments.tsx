@@ -23,16 +23,18 @@ function Departments() {
   const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
-  const { data, isFetching } = useQuery<Department[]>(`/api/departments/archived/${false}`, {
-
-    onError: () => {
-      toast({
-        variant: "destructive",
-        title: t("toast.errortitle"),
-        description: t("toast.no_data_error"),
-      });
+  const { data, isFetching } = useQuery<Department[]>(
+    `/api/departments/archived/${false}`,
+    {
+      onError: () => {
+        toast({
+          variant: "destructive",
+          title: t("toast.errortitle"),
+          description: t("toast.no_data_error"),
+        });
+      },
     },
-  });
+  );
 
   return (
     <Layout>
@@ -42,7 +44,7 @@ function Departments() {
           <Dialog open={open} onOpenChange={(open) => setOpen(open)}>
             <DialogTrigger asChild>
               <Button variant="default" size="sm" disabled={isFetching}>
-              {t("department.add")}
+                {t("department.add")}
               </Button>
             </DialogTrigger>
             <DialogContent>
@@ -51,7 +53,7 @@ function Departments() {
                 <TextareaHint>{t("department.create")}</TextareaHint>
               </DialogHeader>
               <DialogDescription>
-                <AddDepartment  setOpen={setOpen}/>
+                <AddDepartment setOpen={setOpen} />
               </DialogDescription>
             </DialogContent>
           </Dialog>

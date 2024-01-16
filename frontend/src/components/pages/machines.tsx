@@ -25,8 +25,12 @@ function Machines() {
   const [open, setOpen] = useState(false);
   const isClient = localStorage.getItem("Class") == "Client";
   const apiUrl = isClient
-    ? `/GetMachinesByArchived?archived=false&AccountId=${localStorage.getItem("Id")}`
-    : `/api/MachineModels?accountId=${localStorage.getItem("Id")}&archived=false`;
+    ? `/GetMachinesByArchived?archived=false&AccountId=${localStorage.getItem(
+        "Id",
+      )}`
+    : `/api/MachineModels?accountId=${localStorage.getItem(
+        "Id",
+      )}&archived=false`;
   const { data, isFetching } = useQuery<any[]>(apiUrl, {
     onError: () => {
       toast({
@@ -45,7 +49,7 @@ function Machines() {
             <Dialog open={open} onOpenChange={(open) => setOpen(open)}>
               <DialogTrigger asChild>
                 <Button variant="default" size="sm" disabled={isFetching}>
-                {t("machine.add")}
+                  {t("machine.add")}
                 </Button>
               </DialogTrigger>
 

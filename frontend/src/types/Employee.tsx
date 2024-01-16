@@ -1,9 +1,6 @@
-import { Department } from "./Department"
-
-export type Employee =
-    {
-        employeeId: number
-        accountId: number
-        department: Department
-        departmentId: number
-    }
+export type Employee = {
+  employeeId: number;
+  accountId: number;
+  departmentId: number;
+  name: string;
+};

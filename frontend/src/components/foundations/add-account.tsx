@@ -38,7 +38,7 @@ import { DialogClose, DialogFooter } from "../ui/dialog";
 import { useTranslation } from "react-i18next";
 
 function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -104,8 +104,7 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
         description: t("toast.choose_type_error"),
       });
       setIsLoading(false);
-    }
-    else {
+    } else {
       try {
         await fetch(
           API_BASE_URL + "/api/accounts",
@@ -204,9 +203,9 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
           <SelectValue placeholder={t("account.typeselect")} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="Admin">Admin</SelectItem>
-          <SelectItem value="Client">Client</SelectItem>
-          <SelectItem value="ServiceEmployee">Service Employee</SelectItem>
+          <SelectItem value="Admin">{t("misc.admin")}</SelectItem>
+          <SelectItem value="Client">{t("misc.customer")}</SelectItem>
+          <SelectItem value="ServiceEmployee">{t("misc.employee")}</SelectItem>
         </SelectContent>
       </Select>
       {userType == "ServiceEmployee" ? (

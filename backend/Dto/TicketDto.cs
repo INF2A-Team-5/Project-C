@@ -12,6 +12,7 @@ namespace Backend.Dto
     public int ModelId { get; set; }
     public int Customer_Id { get; set; }
     public int? Employee_Id { get; set; }
+    public string? Employee_Name {get; set; }
     public string Title { get; set; } = null!;
     public string Priority { get; set; } = null!;
     public string Status { get; set; } = null!;

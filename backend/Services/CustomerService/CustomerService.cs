@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Backend.Data;
 using Backend.Entities;
+using Backend.Dto;
 
 namespace Backend.CustomerService
 {
@@ -12,34 +13,39 @@ namespace Backend.CustomerService
         {
             _context = context;
         }
-            public async Task<ActionResult<IEnumerable<Customer>>> GetAllCustomers()
+            public async Task<ActionResult<IEnumerable<CustomerInfoDto>>> GetAllCustomers()
             {
                 if (_context.Customers == null)
                 {
                     return NotFound();
                 }
-                return await _context.Customers.ToListAsync();
+                List<CustomerInfoDto> details = new();
+                var customers = await _context.Customers.ToListAsync();
+                foreach (var cus in customers)
+                {
+                    var name = await (from acc in _context.Accounts where acc.AccountId == cus.AccountId select acc.Name).FirstOrDefaultAsync();
+                    if (name == null)
+                    {
+                        return NotFound();
+                    }
+                    details.Add( new CustomerInfoDto() { AccountId = cus.AccountId, CustomerId = cus.CustomerId, Name = name});
+                }
+                return details;
             }
-        public async Task<ActionResult<Customer>> GetCustomerByAccountId(int AccountId)
+        public async Task<ActionResult<CustomerInfoDto>> GetCustomerByAccountId(int AccountId)
         {
             if (_context.Customers == null)
             {
                 return NotFound();
             }
             var customer = await _context.Customers.Where(customer => customer.AccountId == AccountId).FirstOrDefaultAsync();
-            if (customer == null)
+            var name = (from acc in _context.Accounts where acc.AccountId == AccountId select acc.Name).FirstOrDefaultAsync().ToString();
+            if (customer == null || name == null)
             {
                 return NotFound();
             }
-            return customer;
-        }
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomersPerModel(int ModelId)
-        {
-            if (_context.Customers == null || _context.Models == null)
-            {
-                return NotFound();
-            }
-            return NotFound();
+            CustomerInfoDto cust = new() { AccountId = customer.AccountId, CustomerId = customer.CustomerId, Name = name };
+            return cust;
         }
     }
 }

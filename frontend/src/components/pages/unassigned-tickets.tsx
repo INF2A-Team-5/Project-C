@@ -9,23 +9,26 @@ import CreateTicketDialog from "../foundations/create-ticket-dialog";
 import { useTranslation } from "react-i18next";
 
 function UnassignedTickets() {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
-  const { data, isFetching } = useQuery<Ticket[]>("/GetUnassignedTickets?AccountId=" + localStorage.getItem("Id"), {
-    onError: () => {
-      toast({
-        variant: "destructive",
-        title: t("toast.errortitle"),
-        description: t("toast.no_data_error"),
-      });
+  const { data, isFetching } = useQuery<Ticket[]>(
+    "/GetUnassignedTickets?AccountId=" + localStorage.getItem("Id"),
+    {
+      onError: () => {
+        toast({
+          variant: "destructive",
+          title: t("toast.errortitle"),
+          description: t("toast.no_data_error"),
+        });
+      },
     },
-  });
+  );
   return (
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-medium">Tickets</h1>
-          <CreateTicketDialog isFetching={isFetching}/>
+          <CreateTicketDialog isFetching={isFetching} />
         </div>
         <div className="grid gap-12">
           {data ? (

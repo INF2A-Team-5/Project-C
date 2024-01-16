@@ -56,18 +56,39 @@ namespace Backend.EmployeeService
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetEmployeeByAccountId), new { id = emp.EmployeeId }, emp);
         }
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployeesByDepartmentId(int DepartmentId)
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployeesByDepartmentId(int DepartmentId)
         {
             if (_context.Employees == null || _context.Departments == null)
             {
                 return NotFound();
             }
+            List<EmployeeDto> employeeswithname = new();
             var employees = await _context.Employees.Where(emp => emp.DepartmentId == DepartmentId).ToListAsync();
-            if (employees == null)
+            if (employees == null || employees.Count == 0)
             {
                 return NotFound();
             }
-            return employees;
+            foreach (var employee in employees)
+            {
+                var name = await (from accounts in _context.Accounts where accounts.AccountId == employee.AccountId select accounts.Name).FirstOrDefaultAsync();
+                if (name == null)
+                {
+                    return NotFound();
+                }
+                var emp = new EmployeeDto()
+                {
+                    EmployeeId = employee.EmployeeId,
+                    Name = name,
+                    AccountId = employee.AccountId,
+                    DepartmentId = employee.DepartmentId
+                };
+                employeeswithname.Add(emp);
+            }
+            if (employeeswithname == null)
+            {
+                return NotFound();
+            }
+            return employeeswithname;
         }
     }
 }

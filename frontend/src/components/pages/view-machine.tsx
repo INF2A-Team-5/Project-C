@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 function ViewMachine() {
   const machineID = localStorage.getItem("currentmachineID");
   const [currentMachine, setCurrentMachine] = useState<MachineInfoDto>();
-  const { t, } = useTranslation();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { data } = useQuery<Solution[]>(
     "/GetsolutionsPerMachine?id=" + machineID,
@@ -30,6 +30,9 @@ function ViewMachine() {
   );
   useEffect(() => {
     getMachine();
+    if (localStorage.getItem("currentmachineID") == undefined) {
+      navigate("/machines");
+    }
   }, []);
 
   async function getMachine() {
@@ -56,7 +59,7 @@ function ViewMachine() {
                 <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">
                   Model ID: {currentMachine.modelId}
                 </p>
-              
+
                 <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">
                   Machine ID: {currentMachine.machineId}
                 </p>
