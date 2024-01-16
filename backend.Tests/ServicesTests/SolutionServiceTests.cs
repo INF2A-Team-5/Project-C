@@ -3,6 +3,7 @@ using Xunit;
 using Backend.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Backend.Data;
+using Backend.Dto;
 
 namespace backend.Tests.ServicesTests
 {
@@ -62,21 +63,21 @@ namespace backend.Tests.ServicesTests
         }
 
         [Theory]
-        [InlineData(1, "problemdescription", "solutiondescription", 10)]
-        [InlineData(2, "problemdescription", "solutiondescription", 12)]
-        [InlineData(3, "problemdescription", "solutiondescription", 13)]
-        public async void SolutionService_UpdateSolution_ReturnsNoContent(int id, string problemDescription, string solutionDescription, int ticketId)
+        [InlineData(4, "problemdescription", "solutiondescription", 10, 4, 4)]
+        [InlineData(5, "problemdescription", "solutiondescription", 12, 4, 4)]
+        [InlineData(10, "problemdescription", "solutiondescription", 13, 4, 4)]
+        public async void SolutionService_UpdateSolution_ReturnsNoContent(int id, string problemDescription, string solutionDescription, int ticketId, int modelId, int machineId)
         {
             // Arrange
             var service = new SolutionsService(_db);
-            var updatedSolution = new Solution { SolutionId = id, ProblemDescription = problemDescription, SolutionDescription = solutionDescription, TicketId = ticketId };
+            var updatedSolution = new SolutionDto { SolutionId = id, ProblemDescription = problemDescription, SolutionDescription = solutionDescription, TicketId = ticketId, MachineId = machineId, ModelId = modelId };
 
             // Act
             var result = await service.UpdateSolution(id, updatedSolution);
 
             // Assert
             Assert.NotNull(result); // Check if result is not null
-            Assert.IsType<NotFoundResult>(result); // Check if result is of type NotFoundResult
+            Assert.IsType<NoContentResult>(result); // Check if result is of type NotFoundResult
             Assert.IsNotType<OkObjectResult>(result); // Check if result is OkObjectResult
         }
 
@@ -88,7 +89,7 @@ namespace backend.Tests.ServicesTests
         {
             // Arrange
             var service = new SolutionsService(_db);
-            var updatedSolution = new Solution { SolutionId = id, ProblemDescription = problemDescription, SolutionDescription = solutionDescription, TicketId = ticketId };
+            var updatedSolution = new SolutionDto { SolutionId = id, ProblemDescription = problemDescription, SolutionDescription = solutionDescription, TicketId = ticketId };
 
             // Act
             var result = await service.UpdateSolution(9, updatedSolution);
@@ -112,7 +113,7 @@ namespace backend.Tests.ServicesTests
             Account Client = new() { Name = "clientname", Password = "clientpw", Class = AccountType.Client };
             Customer customer = new() { Account = Client };
             Ticket ticket1 = new() { Model = MachineModel1, Machine = Machine1, Customer = customer, Title = "test", Priority = "Critical", Status = "In Process", Date_Created = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss"), Problem = "test", HaveTried = "Test", MustBeDoing = "test", Solution = "Test", PhoneNumber = "0612345678" };
-            Solution solution1 = new() { ProblemDescription = "Device stopped working", SolutionDescription = "Press the green button", Ticket = ticket1, Model = MachineModel10, Machine = Machine10 };
+            SolutionDto solution1 = new() { ProblemDescription = "Device stopped working", SolutionDescription = "Press the green button", TicketId = ticket1.TicketId, ModelId = MachineModel10.ModelId, MachineId = Machine10.MachineId };
 
             var service = new SolutionsService(_db);
             // var newSolution = new Solution { SolutionId = solutionId, ProblemDescription = problemDescription, SolutionDescription = solutionDescription, TicketId = 1 };
