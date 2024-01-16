@@ -42,16 +42,16 @@ public static class DBSeeding
         Machine Machine15 = new() { Model = MachineModel15 };
         List<MachineModel> machines = new() { MachineModel1, MachineModel2, MachineModel3, MachineModel4, MachineModel5, MachineModel6, MachineModel7, MachineModel8, MachineModel9, MachineModel10, MachineModel11, MachineModel12, MachineModel13, MachineModel14, MachineModel15 };
 
-        Account Client = new() { Name = "clientname", Password = "clientpw", Class = AccountType.Client };
-        Account Client1 = new() { Name = "clientname1", Password = "clientpw1", Class = AccountType.Client };
-        Account Client2 = new() { Name = "clientname2", Password = "clientpw2", Class = AccountType.Client };
-        Account employee1 = new() { Name = "empname", Password = "emppw", Class = AccountType.ServiceEmployee };
-        Account employee2 = new() { Name = "empname2", Password = "emppw2", Class = AccountType.ServiceEmployee };
-        Account employee3 = new() { Name = "empname3", Password = "emppw3", Class = AccountType.ServiceEmployee };
-        Account employee4 = new() { Name = "empname4", Password = "emppw4", Class = AccountType.ServiceEmployee };
-        Account employee5 = new() { Name = "empname5", Password = "emppw5", Class = AccountType.ServiceEmployee };
-        Account employee6 = new() { Name = "empname6", Password = "emppw6", Class = AccountType.ServiceEmployee };
-        Account Admin = new() { Name = "adminname", Password = "adminpw", Class = AccountType.Admin };
+        Account Client = new() { Name = "clientname", Password = "clientpw", PhoneNumber = "0612345678", Class = AccountType.Client };
+        Account Client1 = new() { Name = "clientname1", Password = "clientpw1", PhoneNumber = "06123945278", Class = AccountType.Client };
+        Account Client2 = new() { Name = "clientname2", Password = "clientpw2", PhoneNumber = "0605245678", Class = AccountType.Client };
+        Account employee1 = new() { Name = "empname", Password = "emppw", PhoneNumber = "0612340276", Class = AccountType.ServiceEmployee };
+        Account employee2 = new() { Name = "empname2", Password = "emppw2", PhoneNumber = "0691245678", Class = AccountType.ServiceEmployee };
+        Account employee3 = new() { Name = "empname3", Password = "emppw3", PhoneNumber = "0612051778", Class = AccountType.ServiceEmployee };
+        Account employee4 = new() { Name = "empname4", Password = "emppw4", PhoneNumber = "0612345078", Class = AccountType.ServiceEmployee };
+        Account employee5 = new() { Name = "empname5", Password = "emppw5", PhoneNumber = "0697345678", Class = AccountType.ServiceEmployee };
+        Account employee6 = new() { Name = "empname6", Password = "emppw6", PhoneNumber = "0612435678", Class = AccountType.ServiceEmployee };
+        Account Admin = new() { Name = "adminname", Password = "adminpw", PhoneNumber = "0618956785", Class = AccountType.Admin };
 
         Employee emp1 = new() { Account = employee1 };
         Employee emp2 = new() { Account = employee2 };
