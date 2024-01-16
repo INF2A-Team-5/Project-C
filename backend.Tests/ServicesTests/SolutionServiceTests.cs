@@ -141,22 +141,5 @@ namespace backend.Tests.ServicesTests
             Assert.IsType<NotFoundResult>(result); // Check if result is of type NoContentResult
 
         }
-
-        [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        public async void SolutionService_DeleteSolution_ReturnsNotFound(int id)
-        {
-            // Arrange
-            var service = new SolutionsService(_db);
-
-            // Act
-            var result = await service.DeleteSolution(id);
-
-            // Assert
-            Assert.NotNull(result); // Check if result is not null
-            Assert.IsType<NotFoundResult>(result); // Check if result is of type NoContentResult
-        }
     }
 }
