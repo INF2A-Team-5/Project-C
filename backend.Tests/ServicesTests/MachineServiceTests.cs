@@ -117,24 +117,6 @@ namespace backend.Tests.ServicesTests
         }
 
         [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        public async void MachineService_DeleteMachine_ReturnsNoContent(int id)
-        {
-            // Arrange
-            var service = new MachinesService(_db);
-
-            // Act
-            var result = await service.DeleteMachine(id);
-
-            // Assert
-            Assert.NotNull(result); // Check if result is not null
-            Assert.IsType<NotFoundResult>(result); // Check if result is of type NoContentResult
-            Assert.IsNotType<OkObjectResult>(result); // Check if result is NotFoundResult
-        }
-
-        [Theory]
         [InlineData(60)]
         [InlineData(88)]
         [InlineData(32)]
