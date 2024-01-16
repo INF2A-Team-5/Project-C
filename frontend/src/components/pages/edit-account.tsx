@@ -59,9 +59,9 @@ function EditAccount() {
       }
   }
 
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
+
   useEffect(() => {
-    i18n.changeLanguage(navigator.language);
     getPhone();
   }, []);
 
@@ -83,14 +83,14 @@ function EditAccount() {
       toast({
         variant: "default",
         title: t("toast.successtitle"),
-        description: t("toast.editaccount.changedsuccess"),
+        description: t("editaccount.changedsuccess"),
       });
       setIsLoading(false);
     } else {
       toast({
         variant: "destructive",
         title: t("toast.errortitle"),
-        description: t("toast.editaccount.changedinvalid"),
+        description: t("editaccount.changedinvalid"),
       });
       setIsLoading(false);
     }
@@ -108,7 +108,7 @@ function EditAccount() {
         variant: "destructive",
         title: t("toast.errortitle"),
         description:
-          t("toast.editaccount.passincorrect"),
+          t("editaccount.passincorrect"),
       });
       setIsLoading(false);
     } else {
@@ -120,7 +120,7 @@ function EditAccount() {
       toast({
         variant: "default",
         title: t("toast.successtitle"),
-        description: t("toast.editaccount.passsuccess"),
+        description: t("editaccount.passsuccess"),
       });
       setIsLoading(false);
     }

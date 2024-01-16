@@ -200,7 +200,7 @@ function ViewTicket() {
           toast({
             variant: "default",
             title: t("toast.successtitle"),
-            description: t("toast.ticket.submitalert"),
+            description: t("ticket.submitalert"),
           });
           sendTicket(currentTicket);
           navigate(0);
@@ -209,7 +209,7 @@ function ViewTicket() {
           toast({
             variant: "destructive",
             title: t("toast.errortitle"),
-            description: t("toast.enter_solution_description"),
+            description: t("enter_solution_description"),
           });
         }
       } else {

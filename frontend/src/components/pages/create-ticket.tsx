@@ -42,10 +42,8 @@ function CreateTickets() {
   const [mustBeDoing, setMustBeDoing] = useState("");
   const [haveTried, setHaveTried] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-
-
- const [customers, setCustomers] = useState<Customer[]>([]);
- const [machines, setMachines] = useState<MachineInfoDto[]>([]);
+  const [customers, setCustomers] = useState<Customer[]>([]);
+  const [machines, setMachines] = useState<MachineInfoDto[]>([]);
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
   const [isChecked, setChecked] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -73,6 +71,12 @@ function CreateTickets() {
     }
   }, [accountID]);
 
+  const phoneRegex: RegExp =
+    /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+
+  function validatePhone() {
+    return phoneRegex.test(phoneNumber);
+  }
 
   const handleCheckbox = () => {
     setChecked(!isChecked);
@@ -182,8 +186,8 @@ function CreateTickets() {
       if (machine == undefined) {
         toast({
           variant: "destructive",
-          title: t("toast.ticket.error"),
-          description: t("toast.ticket.machinealert"),
+          title: t("ticket.error"),
+          description: t("ticket.machinealert"),
         });
         setIsLoading(false);
       } else if (
@@ -192,15 +196,15 @@ function CreateTickets() {
       ) {
         toast({
           variant: "destructive",
-          title: t("toast.ticket.error"),
-          description: t("toast.ticket.wordsalert"),
+          title: t("ticket.error"),
+          description: t("ticket.wordsalert"),
         });
         setIsLoading(false);
-      } else if (phoneNumber == "" || phoneNumber == null) {
+      } else if (phoneNumber == "" || phoneNumber == null || validatePhone() == false) {
         toast({
           variant: "destructive",
-          title: t("toast.ticket.error"),
-          description: t("toast.ticket.phonealert"),
+          title: t("ticket.error"),
+          description: t("ticket.phonealert"),
         });
         setIsLoading(false);
       } else {
@@ -238,7 +242,7 @@ function CreateTickets() {
         toast({
           variant: "default",
           title: t("toast.successtitle"),
-          description: t("toast.ticket.submitalert"),
+          description: t("ticket.submitalert"),
         });
         setIsLoading(false);
         navigate("/tickets");
@@ -247,8 +251,8 @@ function CreateTickets() {
     } else {
       toast({
         variant: "destructive",
-        title: t("toast.ticket.error"),
-        description: t("toast.ticket.emptyalert"),
+        title: t("ticket.error"),
+        description: t("ticket.emptyalert"),
       });
       setIsLoading(false);
     }
@@ -269,7 +273,7 @@ function CreateTickets() {
           <div className="grid gap-2">
             {!isClient ? (
               <>
-                <Label>Select CustomerID</Label>
+                <Label>{t("misc.select_customerid")}</Label>
                 <div className="w-1/6">
                   <Popover open={open1} onOpenChange={setOpen1}>
                     <PopoverTrigger asChild>
