@@ -42,7 +42,7 @@ function LogIn() {
     setIsLoading(true);
     if (username === "" || password === "") {
       toast({
-        variant: "destructive",
+        variant: "destructive",w
         title: t("toast.errortitle"),
         description: t("toast.fill_in_fields_login_error"),
       });
