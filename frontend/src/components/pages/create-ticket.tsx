@@ -83,7 +83,7 @@ function CreateTickets() {
     setChecked(!isChecked);
     isChecked ? getPhone() : null;
   };
-  
+
   const checkAccount = () => {
     const accountClass = localStorage.getItem("Class");
     setIsClient(accountClass == "Client");
@@ -92,7 +92,7 @@ function CreateTickets() {
     }
   };
 
-  const { t, } = useTranslation();
+  const { t } = useTranslation();
 
   const handleRemove = (indexToRemove: number) => {
     const updatedPreview = [...preview];
@@ -112,8 +112,7 @@ function CreateTickets() {
 
   async function getCustomers() {
     let customerlist = await fetch(
-      API_BASE_URL +
-      "/api/Customers",
+      API_BASE_URL + "/api/Customers",
       getBaseQueryRequest(),
     ).then((data) => data.json());
     setCustomers(customerlist);
@@ -122,9 +121,7 @@ function CreateTickets() {
   async function getMachines() {
     if (accountID) {
       let machinelist = await fetch(
-        API_BASE_URL +
-        "/GetMachinesPerAccount?accountId=" +
-        accountID,
+        API_BASE_URL + "/GetMachinesPerAccount?accountId=" + accountID,
         getBaseQueryRequest(),
       ).then((data) => data.json());
       setMachines(machinelist);
@@ -182,7 +179,7 @@ function CreateTickets() {
       title.length != 0
     ) {
       let machine = machines.find(
-       (machine: MachineInfoDto) => machine.name.toLowerCase() == value,
+        (machine: MachineInfoDto) => machine.name.toLowerCase() == value,
       );
       if (machine == undefined) {
         toast({
@@ -201,7 +198,11 @@ function CreateTickets() {
           description: t("ticket.wordsalert"),
         });
         setIsLoading(false);
-      } else if (phoneNumber == "" || phoneNumber == null || validatePhone() == false) {
+      } else if (
+        phoneNumber == "" ||
+        phoneNumber == null ||
+        validatePhone() == false
+      ) {
         toast({
           variant: "destructive",
           title: t("ticket.error"),
@@ -247,7 +248,6 @@ function CreateTickets() {
         });
         setIsLoading(false);
         navigate("/tickets");
-
       }
     } else {
       toast({
@@ -286,8 +286,9 @@ function CreateTickets() {
                       >
                         {accountName
                           ? customers.find(
-                            (account: Customer) => account.name == accountName,
-                          )?.name
+                              (account: Customer) =>
+                                account.name == accountName,
+                            )?.name
                           : t("table.selectcustomer")}
                         <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
@@ -295,7 +296,9 @@ function CreateTickets() {
                     <PopoverContent className="w-[200px] p-0">
                       <Command>
                         <CommandInput placeholder={t("misc.search_customer")} />
-                        <CommandEmpty>{t("misc.no_customers_found")}</CommandEmpty>
+                        <CommandEmpty>
+                          {t("misc.no_customers_found")}
+                        </CommandEmpty>
                         <CommandGroup>
                           {customers.map((customer: Customer) => (
                             <CommandItem
@@ -313,8 +316,9 @@ function CreateTickets() {
                                   "mr-2 h-4 w-4",
                                   accountName === customer.name
                                     ? "opacity-100"
-                                    : "opacity-0"
-                                )} />
+                                    : "opacity-0",
+                                )}
+                              />
                               {customer.name}
                             </CommandItem>
                           ))}
@@ -324,107 +328,123 @@ function CreateTickets() {
                   </Popover>
                 </div>
                 {CustomerID && machines ? (
-                  <><Label>{t("ticket.selectmachines")}</Label><div className="w-1/6">
-                    <Popover open={open2} onOpenChange={setOpen2}>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          role="combobox"
-                          aria-expanded={open2}
-                          className="w-[200px] justify-between"
-                          onClick={getMachines}
-                        >
-                          {value
-                            ? machines.find(
-                              (machine: any) => machine.name.toLowerCase() == value
-                            )?.name
-                            : t("ticket.selectmachine")}
-                          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-[200px] p-0">
-                        <Command>
-                          <CommandInput placeholder="Search machine..." />
-                          <CommandEmpty>{t("misc.no_machines_found")}</CommandEmpty>
-                          <CommandGroup>
-                            {machines.map((machine) => (
-                              <CommandItem
-                                key={machine.name + machine.machineId}
-                                value={machine.name}
-                                onSelect={(currentValue) => {
-                                  setValue(
-                                    currentValue === value ? "" : currentValue
-                                  );
-                                  setOpen2(false);
-                                }}
-                              >
-                                <CheckIcon
-                                  className={cn(
-                                    "mr-2 h-4 w-4",
-                                    value === machine.name
-                                      ? "opacity-100"
-                                      : "opacity-0"
-                                  )} />
-                                {machine.name}
-                              </CommandItem>
-                            ))}
-                          </CommandGroup>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
-                  </div></>
-
-                ) : null}</>
-            ) :
-              <><Label>{t("ticket.selectmachines")}</Label><div className="w-1/6">
-                <Popover open={open2} onOpenChange={setOpen2}>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      aria-expanded={open2}
-                      className="w-[200px] justify-between"
-                    >
-                      {value
-                        ? machines.find(
-                          (machine: any) => machine.name.toLowerCase() == value
-                        )?.name
-                        : t("ticket.selectmachine")}
-                      <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[200px] p-0">
-                    <Command>
-                      <CommandInput placeholder="Search machine..." />
-                      <CommandEmpty>{t("misc.no_machines_found")}</CommandEmpty>
-                      <CommandGroup>
-                        {machines.map((machine) => (
-                          <CommandItem
-                            key={machine.name}
-                            value={machine.name}
-                            onSelect={(currentValue) => {
-                              setValue(
-                                currentValue === value ? "" : currentValue
-                              );
-                              setOpen2(false);
-                            }}
+                  <>
+                    <Label>{t("ticket.selectmachines")}</Label>
+                    <div className="w-1/6">
+                      <Popover open={open2} onOpenChange={setOpen2}>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={open2}
+                            className="w-[200px] justify-between"
+                            onClick={getMachines}
                           >
-                            <CheckIcon
-                              className={cn(
-                                "mr-2 h-4 w-4",
-                                value === machine.name
-                                  ? "opacity-100"
-                                  : "opacity-0"
-                              )} />
-                            {machine.name}
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-              </div></>
-            }
+                            {value
+                              ? machines.find(
+                                  (machine: any) =>
+                                    machine.name.toLowerCase() == value,
+                                )?.name
+                              : t("ticket.selectmachine")}
+                            <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-[200px] p-0">
+                          <Command>
+                            <CommandInput placeholder="Search machine..." />
+                            <CommandEmpty>
+                              {t("misc.no_machines_found")}
+                            </CommandEmpty>
+                            <CommandGroup>
+                              {machines.map((machine) => (
+                                <CommandItem
+                                  key={machine.name + machine.machineId}
+                                  value={machine.name}
+                                  onSelect={(currentValue) => {
+                                    setValue(
+                                      currentValue === value
+                                        ? ""
+                                        : currentValue,
+                                    );
+                                    setOpen2(false);
+                                  }}
+                                >
+                                  <CheckIcon
+                                    className={cn(
+                                      "mr-2 h-4 w-4",
+                                      value === machine.name
+                                        ? "opacity-100"
+                                        : "opacity-0",
+                                    )}
+                                  />
+                                  {machine.name}
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                  </>
+                ) : null}
+              </>
+            ) : (
+              <>
+                <Label>{t("ticket.selectmachines")}</Label>
+                <div className="w-1/6">
+                  <Popover open={open2} onOpenChange={setOpen2}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={open2}
+                        className="w-[200px] justify-between"
+                      >
+                        {value
+                          ? machines.find(
+                              (machine: any) =>
+                                machine.name.toLowerCase() == value,
+                            )?.name
+                          : t("ticket.selectmachine")}
+                        <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[200px] p-0">
+                      <Command>
+                        <CommandInput placeholder="Search machine..." />
+                        <CommandEmpty>
+                          {t("misc.no_machines_found")}
+                        </CommandEmpty>
+                        <CommandGroup>
+                          {machines.map((machine) => (
+                            <CommandItem
+                              key={machine.name}
+                              value={machine.name}
+                              onSelect={(currentValue) => {
+                                setValue(
+                                  currentValue === value ? "" : currentValue,
+                                );
+                                setOpen2(false);
+                              }}
+                            >
+                              <CheckIcon
+                                className={cn(
+                                  "mr-2 h-4 w-4",
+                                  value === machine.name
+                                    ? "opacity-100"
+                                    : "opacity-0",
+                                )}
+                              />
+                              {machine.name}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              </>
+            )}
           </div>
           <div className="grid gap-2">
             <Label>{t("ticket.title")}</Label>
@@ -434,9 +454,7 @@ function CreateTickets() {
               placeholder={t("ticket.titledes")}
               onChange={(e) => setTitle(e.currentTarget.value)}
             />
-            <TextareaHint>
-              {t("misc.enter_ticket_title")}
-            </TextareaHint>
+            <TextareaHint>{t("misc.enter_ticket_title")}</TextareaHint>
           </div>
 
           <div className="grid gap-2">
@@ -471,25 +489,23 @@ function CreateTickets() {
           </div>
 
           <div>
-
             {Boolean(phoneNumber) ? (
               <div className="mx-auto flex flex-col items-start space-y-2">
-
-              <div className="w-full flex items-center">
-              <Label>{t("ticket.phonenumber")}:</Label>
-              <Label className="m-1">{phoneNumber}</Label>
+                <div className="flex w-full items-center">
+                  <Label>{t("ticket.phonenumber")}:</Label>
+                  <Label className="m-1">{phoneNumber}</Label>
+                </div>
+                <div className="flex w-full items-center">
+                  <Checkbox id="" onClick={handleCheckbox} className="" />
+                  <label
+                    htmlFor="terms"
+                    className="p-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    {t("ticket.phonenum")}
+                  </label>
+                </div>
               </div>
-              <div className="w-full flex items-center">
-                <Checkbox id="" onClick={handleCheckbox} className=""/>
-                <label
-                  htmlFor="terms"
-                  className="p-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  {t("ticket.phonenum")}
-                </label>
-              </div>
-            </div>
-            ) : 
+            ) : (
               <>
                 <div>
                   <Label>{t("ticket.phonenumberwithstar")}</Label>
@@ -501,7 +517,7 @@ function CreateTickets() {
                   />
                 </div>
               </>
-            }
+            )}
             {isChecked ? (
               <>
                 <div className="pt-2">

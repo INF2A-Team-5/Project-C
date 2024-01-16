@@ -1,5 +1,10 @@
 import { MachineModel } from "../../types/MachineModel";
-import { API_BASE_URL, getBaseQueryRequest, postBaseMutateRequest, useQuery } from "../../lib/api";
+import {
+  API_BASE_URL,
+  getBaseQueryRequest,
+  postBaseMutateRequest,
+  useQuery,
+} from "../../lib/api";
 import { toast } from "../ui/use-toast";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
@@ -32,18 +37,17 @@ function AddMachineToCustomer({ setOpen }: { setOpen: (_: boolean) => void }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (cusomterId == undefined)
-    {
+    if (cusomterId == undefined) {
       getCustomerId();
     }
-  })
+  });
   async function getCustomerId() {
     var cust = await fetch(
-      API_BASE_URL + "/api/Customers/getCustomer?AccountId=" + Id, getBaseQueryRequest(),
+      API_BASE_URL + "/api/Customers/getCustomer?AccountId=" + Id,
+      getBaseQueryRequest(),
     ).then((data) => data.json());
     console.log(cust.customerId);
     setCustomerID(cust.customerId);
-
   }
 
   const { data } = useQuery<MachineModel[]>("/GetAllModels", {
@@ -56,8 +60,7 @@ function AddMachineToCustomer({ setOpen }: { setOpen: (_: boolean) => void }) {
     },
   });
   async function HandleSubmit() {
-    if (cusomterId == undefined)
-    {
+    if (cusomterId == undefined) {
       getCustomerId();
     }
     setIsLoading(true);
@@ -111,7 +114,7 @@ function AddMachineToCustomer({ setOpen }: { setOpen: (_: boolean) => void }) {
         <PopoverContent className="w-[200px] p-0">
           <Command>
             <CommandInput placeholder="Search machine..." />
-            <CommandEmpty>No departments found.</CommandEmpty>
+            <CommandEmpty>{t("machine.empty")}</CommandEmpty>
             <CommandGroup>
               {data
                 ? data!.map((mach) => (
@@ -141,7 +144,7 @@ function AddMachineToCustomer({ setOpen }: { setOpen: (_: boolean) => void }) {
       </Popover>
       <DialogFooter>
         <DialogClose>
-          <Button variant="outline">Close</Button>
+          <Button variant="outline">{t("machine.close")}</Button>
         </DialogClose>
         <Button
           className="w-fit"
@@ -152,7 +155,7 @@ function AddMachineToCustomer({ setOpen }: { setOpen: (_: boolean) => void }) {
           {isLoading ? (
             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
           ) : null}
-          Add machine
+          {t("misc.add_machine")}
         </Button>
       </DialogFooter>
     </div>

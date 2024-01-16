@@ -51,12 +51,12 @@ function EditAccount() {
           (acc: any) => acc.accountId == localStorage.getItem("Id"),
         ),
       );
-      
-      if (currentaccount.phoneNumber == null) {
-        setPhonePlaceholder(t("editaccount.changephonenumberdes"));
-      } else {
-        setPhonePlaceholder(currentaccount.phoneNumber);
-      }
+
+    if (currentaccount.phoneNumber == null) {
+      setPhonePlaceholder(t("editaccount.changephonenumberdes"));
+    } else {
+      setPhonePlaceholder(currentaccount.phoneNumber);
+    }
   }
 
   const { t } = useTranslation();
@@ -107,8 +107,7 @@ function EditAccount() {
       toast({
         variant: "destructive",
         title: t("toast.errortitle"),
-        description:
-          t("editaccount.passincorrect"),
+        description: t("editaccount.passincorrect"),
       });
       setIsLoading(false);
     } else {
@@ -130,7 +129,9 @@ function EditAccount() {
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
         <div>
-          <h1 className="text-3xl font-medium">{t("editaccount.editaccount")}</h1>
+          <h1 className="text-3xl font-medium">
+            {t("editaccount.editaccount")}
+          </h1>
           <Label>{t("editaccount.editaccountdes")}</Label>
         </div>
         <div className="grid gap-2">
@@ -154,25 +155,24 @@ function EditAccount() {
         <div className="grid gap-2">
           <h2>{t("editaccount.changepassword")}</h2>
           <div className="grid gap-2">
-          <Input
-            id="password"
-            ref={passwordRef}
-            name="password"
-            placeholder={t("editaccount.oldpass")}
-            type={visibleNewPass ? "text" : "password"}
-            onChange={(e) => setPassword(e.currentTarget.value)}
-          />
-          <div className="flex items-center justify-start space-x-1">
-            <Checkbox
-                onClick={() => setVisibleOldPass(!visibleOldPass)}
-                />
-            <label
-            htmlFor="showpassword"
-            className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-              {t("editaccount.showpass")}
-            </label>
+            <Input
+              id="password"
+              ref={passwordRef}
+              name="password"
+              placeholder={t("editaccount.oldpass")}
+              type={visibleNewPass ? "text" : "password"}
+              onChange={(e) => setPassword(e.currentTarget.value)}
+            />
+            <div className="flex items-center justify-start space-x-1">
+              <Checkbox onClick={() => setVisibleOldPass(!visibleOldPass)} />
+              <label
+                htmlFor="showpassword"
+                className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                {t("editaccount.showpass")}
+              </label>
+            </div>
           </div>
-        </div>
           <div className="grid gap-2">
             <Input
               id="oldpassword"
@@ -183,36 +183,34 @@ function EditAccount() {
               onChange={(e) => setOldPassword(e.currentTarget.value)}
             />
             <div className="flex items-center justify-start space-x-1">
-              <Checkbox
-                  onClick={() => setVisibleNewPass(!visibleNewPass)}
-                  />
+              <Checkbox onClick={() => setVisibleNewPass(!visibleNewPass)} />
               <label
-              htmlFor="showpassword"
-              className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                htmlFor="showpassword"
+                className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
                 {t("editaccount.showpass")}
               </label>
             </div>
           </div>
           <div className="grid gap-2">
-          <Input
-            id="confirmpassword"
-            ref={passwordRef}
-            name="password"
-            placeholder={t("editaccount.newpassconf")}
-            type={visibleNewPass ? "text" : "password"}
-            onChange={(e) => setConfirmPass(e.currentTarget.value)}
-          />
-          <div className="flex items-center justify-start space-x-1">
-            <Checkbox
-                onClick={() => setVisibleConfPass(!visibleConfPass)}
-                />
-            <label
-            htmlFor="showpassword"
-            className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-              {t("editaccount.showpass")}
-            </label>
+            <Input
+              id="confirmpassword"
+              ref={passwordRef}
+              name="password"
+              placeholder={t("editaccount.newpassconf")}
+              type={visibleNewPass ? "text" : "password"}
+              onChange={(e) => setConfirmPass(e.currentTarget.value)}
+            />
+            <div className="flex items-center justify-start space-x-1">
+              <Checkbox onClick={() => setVisibleConfPass(!visibleConfPass)} />
+              <label
+                htmlFor="showpassword"
+                className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                {t("editaccount.showpass")}
+              </label>
+            </div>
           </div>
-        </div>
           <Button
             className="w-fit"
             onClick={handleSubmitPass}

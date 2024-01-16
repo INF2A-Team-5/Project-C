@@ -30,6 +30,9 @@ function ViewDepartment() {
     getDepartment();
     getMachines();
     getEmployees();
+    if (localStorage.getItem("currentdepartmentID") == undefined) {
+      navigate("/departments");
+    }
   }, []);
 
   async function getDepartment() {
@@ -61,7 +64,12 @@ function ViewDepartment() {
   return (
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
-        <h1 className="text-3xl font-medium">{department?.name}</h1>
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-medium">{department?.name}</h1>
+          <Button variant="default" size="default" onClick={handleCancel}>
+            {t("misc.go_back")}
+          </Button>
+        </div>
         <div className="grid gap-3">
           <p className="text-xl font-medium leading-4 text-foreground">
             Machines
@@ -81,11 +89,7 @@ function ViewDepartment() {
           ) : (
             <TableSkeleton />
           )}
-          <div className="py-3.5">
-          <Button variant="default" size="sm" onClick={handleCancel}>
-                {t("misc.go_back")}
-                </Button>
-          </div>
+          <div className="py-3.5"></div>
         </div>
       </div>
     </Layout>

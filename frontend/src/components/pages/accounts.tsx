@@ -23,15 +23,18 @@ function Accounts() {
   const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
-  const { data, isFetching } = useQuery<Account[]>(`/api/accounts/archived/${false}`, {
-    onError: () => {
-      toast({
-        variant: "destructive",
-        title: t("toast.errortitle"),
-        description: t("toast.no_data_error"),
-      });
+  const { data, isFetching } = useQuery<Account[]>(
+    `/api/accounts/archived/${false}`,
+    {
+      onError: () => {
+        toast({
+          variant: "destructive",
+          title: t("toast.errortitle"),
+          description: t("toast.no_data_error"),
+        });
+      },
     },
-  });
+  );
 
   return (
     <Layout>
@@ -41,7 +44,7 @@ function Accounts() {
           <Dialog open={open} onOpenChange={(open) => setOpen(open)}>
             <DialogTrigger asChild>
               <Button variant="default" size="sm" disabled={isFetching}>
-              {t("account.add")}
+                {t("account.add")}
               </Button>
             </DialogTrigger>
             <DialogContent>
@@ -50,7 +53,7 @@ function Accounts() {
                 <TextareaHint>{t("account.create")}</TextareaHint>
               </DialogHeader>
               <DialogDescription className="grid gap-2">
-                <AddAccount setOpen={setOpen}/>
+                <AddAccount setOpen={setOpen} />
               </DialogDescription>
             </DialogContent>
           </Dialog>

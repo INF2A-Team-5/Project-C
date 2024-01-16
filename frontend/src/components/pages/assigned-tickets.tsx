@@ -11,21 +11,24 @@ import CreateTicketDialog from "../foundations/create-ticket-dialog";
 function AssignedTickets() {
   const { t } = useTranslation();
 
-  const { data, isFetching } = useQuery<Ticket[]>("/GetAssignedTickets?AccountId=" + localStorage.getItem("Id"), {
-    onError: () => {
-      toast({
-        variant: "destructive",
-        title: t("toast.errortitle"),
-        description: t("toast.no_data_error"),
-      });
+  const { data, isFetching } = useQuery<Ticket[]>(
+    "/GetAssignedTickets?AccountId=" + localStorage.getItem("Id"),
+    {
+      onError: () => {
+        toast({
+          variant: "destructive",
+          title: t("toast.errortitle"),
+          description: t("toast.no_data_error"),
+        });
+      },
     },
-  });
+  );
   return (
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">
         <div className="flex items-center justify-between">
           <h1 className="text-3xl font-medium">{t("ticket.h1")}</h1>
-          <CreateTicketDialog isFetching={isFetching}/>
+          <CreateTicketDialog isFetching={isFetching} />
         </div>
         <div className="grid gap-12">
           {data ? (

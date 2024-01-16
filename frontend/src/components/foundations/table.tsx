@@ -24,7 +24,7 @@ import { Separator } from "../ui/separator";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "../ui/skeleton";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Command, CommandGroup,  CommandItem } from "../ui/command";
+import { Command, CommandGroup, CommandItem } from "../ui/command";
 import { useLocation } from "react-router-dom";
 import { CaretSortIcon, Cross2Icon } from "@radix-ui/react-icons";
 import { useTranslation } from "react-i18next";
@@ -45,7 +45,7 @@ function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [openStatus, setOpenStatus] = useState(false);
   const [isFiltered, setIsFiltered] = useState(false);
-  const [value, setValue] = useState("")
+  const [value, setValue] = useState("");
   const location = useLocation();
   const totalPages = Math.ceil(data.length / 10);
   const table = useReactTable({
@@ -76,13 +76,11 @@ function DataTable<TData, TValue>({
   ) {
     column = "problemDescription";
     columnplaceholder = t("table.problemdescription");
-   } 
+  }
   //  else if (
   //   table.getAllColumns().find((el) => el.id == "employeeId") != undefined) {
   //     column = "employeeID"
   //   }
-   
-
 
   const statuses = [
     {
@@ -101,18 +99,19 @@ function DataTable<TData, TValue>({
   return (
     <div className="grid gap-4">
       <div className="flex items-center">
-        {column != "" ?
-        <Input
-          placeholder={t("table.searchfor") + columnplaceholder + "..."}
-          value={(table.getColumn(column)?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn(column)?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-          : null }
-        {location.pathname === "/tickets" || location.pathname === "/assigned-tickets" ?
-          (<Popover open={openStatus} onOpenChange={setOpenStatus}>
+        {column != "" ? (
+          <Input
+            placeholder={t("table.searchfor") + columnplaceholder + "..."}
+            value={(table.getColumn(column)?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn(column)?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        ) : null}
+        {location.pathname === "/tickets" ||
+        location.pathname === "/assigned-tickets" ? (
+          <Popover open={openStatus} onOpenChange={setOpenStatus}>
             <div className="pl-5">
               <PopoverTrigger asChild>
                 <Button
@@ -121,7 +120,9 @@ function DataTable<TData, TValue>({
                   aria-expanded={openStatus}
                   className="w-min justify-between "
                 >
-                  {value ? statuses.find((status) => status.value === value)?.label : t("table.status")}
+                  {value
+                    ? statuses.find((status) => status.value === value)?.label
+                    : t("table.status")}
                   <CaretSortIcon className="h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </PopoverTrigger>
@@ -134,10 +135,8 @@ function DataTable<TData, TValue>({
                       key={status.label}
                       value={status.value}
                       onSelect={(currentValue) => {
-                        table
-                          .getColumn("status")
-                          ?.setFilterValue(currentValue);
-                        setValue(currentValue === value ? "" : currentValue)
+                        table.getColumn("status")?.setFilterValue(currentValue);
+                        setValue(currentValue === value ? "" : currentValue);
                         setOpenStatus(false);
                         setIsFiltered(true);
                       }}
@@ -149,7 +148,7 @@ function DataTable<TData, TValue>({
               </Command>
             </PopoverContent>
           </Popover>
-          ) : null}
+        ) : null}
         {isFiltered ? (
           <div className="pl-3">
             <Button
@@ -178,9 +177,9 @@ function DataTable<TData, TValue>({
                         {header.isPlaceholder
                           ? null
                           : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
                       </TableHead>
                     );
                   })}
@@ -191,8 +190,9 @@ function DataTable<TData, TValue>({
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
                   <TableRow data-state={row.getIsSelected() && "selected"}>
-                    {row.getVisibleCells().map((cell) => (
-                      cell.column.columnDef.id == "actions" || cell.renderValue() !== null ? (
+                    {row.getVisibleCells().map((cell) =>
+                      cell.column.columnDef.id == "actions" ||
+                      cell.renderValue() !== null ? (
                         <TableCell className="max-w-sm">
                           <div className="ml-4">
                             {flexRender(
@@ -207,8 +207,8 @@ function DataTable<TData, TValue>({
                             {t("table.unknown")}
                           </div>
                         </TableCell>
-                      )
-                    ))}
+                      ),
+                    )}
                   </TableRow>
                 ))
               ) : (
@@ -232,7 +232,9 @@ function DataTable<TData, TValue>({
           >
             {t("table.previous")}
           </Button>
-          <span>{`${t("table.page")} ${currentPage} ${t("table.of")} ${totalPages}`}</span>
+          <span>{`${t("table.page")} ${currentPage} ${t(
+            "table.of",
+          )} ${totalPages}`}</span>
           <Button
             variant="outline"
             size="sm"

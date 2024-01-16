@@ -166,7 +166,9 @@ async function ArchiveAccount(account: Account) {
   }
 }
 
-export const ticketColumns = (t: TFunction<"translation", undefined> ): ColumnDef<Ticket>[] => [
+export const ticketColumns = (
+  t: TFunction<"translation", undefined>,
+): ColumnDef<Ticket>[] => [
   {
     accessorKey: "ticketId",
     header: ({ column }) => {
@@ -336,7 +338,9 @@ export const ticketColumns = (t: TFunction<"translation", undefined> ): ColumnDe
   },
 ];
 
-export const machineColumns = (t: TFunction<"translation", undefined> ): ColumnDef<Machine>[] => [
+export const machineColumns = (
+  t: TFunction<"translation", undefined>,
+): ColumnDef<Machine>[] => [
   {
     accessorKey: "modelId",
     header: ({ column }) => {
@@ -381,7 +385,6 @@ export const machineColumns = (t: TFunction<"translation", undefined> ): ColumnD
     id: "actions",
     header: "Options",
     cell: () => {
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -393,17 +396,16 @@ export const machineColumns = (t: TFunction<"translation", undefined> ): ColumnD
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-            >
-              {t("table.viewmachine")}
-            </DropdownMenuItem>
+            <DropdownMenuItem>{t("table.viewmachine")}</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
     },
   },
 ];
-export const modelColums = (t: TFunction<"translation", undefined> ): ColumnDef<MachineModel>[] => [
+export const modelColums = (
+  t: TFunction<"translation", undefined>,
+): ColumnDef<MachineModel>[] => [
   {
     accessorKey: "modelId",
     header: ({ column }) => {
@@ -505,7 +507,9 @@ export const modelColums = (t: TFunction<"translation", undefined> ): ColumnDef<
   },
 ];
 
-export const infoColums = (t: TFunction<"translation", undefined> ): ColumnDef<MachineInfoDto>[] => [
+export const infoColums = (
+  t: TFunction<"translation", undefined>,
+): ColumnDef<MachineInfoDto>[] => [
   {
     accessorKey: "modelId",
     header: ({ column }) => {
@@ -604,7 +608,7 @@ export const infoColums = (t: TFunction<"translation", undefined> ): ColumnDef<M
           )}
         </Button>
       );
-    }
+    },
   },
   {
     accessorKey: "departmentId",
@@ -624,7 +628,7 @@ export const infoColums = (t: TFunction<"translation", undefined> ): ColumnDef<M
           )}
         </Button>
       );
-    }
+    },
   },
   {
     id: "actions",
@@ -766,7 +770,7 @@ export const infoColumns: ColumnDef<MachineInfoDto>[] = [
           )}
         </Button>
       );
-    }
+    },
   },
   {
     accessorKey: "departmentId",
@@ -786,7 +790,7 @@ export const infoColumns: ColumnDef<MachineInfoDto>[] = [
           )}
         </Button>
       );
-    }
+    },
   },
   {
     id: "actions",
@@ -829,7 +833,9 @@ export const infoColumns: ColumnDef<MachineInfoDto>[] = [
   },
 ];
 
-export const accountColumns = (t: TFunction<"translation", undefined> ): ColumnDef<Account>[] => [
+export const accountColumns = (
+  t: TFunction<"translation", undefined>,
+): ColumnDef<Account>[] => [
   {
     accessorKey: "accountId",
     header: ({ column }) => {
@@ -931,7 +937,9 @@ export const accountColumns = (t: TFunction<"translation", undefined> ): ColumnD
   },
 ];
 
-export const departmentColumns = (t: TFunction<"translation", undefined> ): ColumnDef<Department>[] => [
+export const departmentColumns = (
+  t: TFunction<"translation", undefined>,
+): ColumnDef<Department>[] => [
   {
     accessorKey: "departmentId",
     header: ({ column }) => {
@@ -989,12 +997,14 @@ export const departmentColumns = (t: TFunction<"translation", undefined> ): Colu
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>{t("table.actions")}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => {
-             localStorage.setItem(
-              "currentdepartmentID",
-              department.departmentId.toString(),
-            );
-            navigate(`/view-department`);}}
+            <DropdownMenuItem
+              onClick={() => {
+                localStorage.setItem(
+                  "currentdepartmentID",
+                  department.departmentId.toString(),
+                );
+                navigate(`/view-department`);
+              }}
             >
               {t("table.viewdepartment")}
             </DropdownMenuItem>
@@ -1010,7 +1020,9 @@ export const departmentColumns = (t: TFunction<"translation", undefined> ): Colu
   },
 ];
 
-export const solutionColumns = (t: TFunction<"translation", undefined> ): ColumnDef<Solution>[] => [
+export const solutionColumns = (
+  t: TFunction<"translation", undefined>,
+): ColumnDef<Solution>[] => [
   {
     accessorKey: "solutionId",
     header: ({ column }) => {
@@ -1113,7 +1125,9 @@ export const solutionColumns = (t: TFunction<"translation", undefined> ): Column
   },
 ];
 
-export const employeeColumns = (t: TFunction<"translation", undefined> ): ColumnDef<Employee>[] => [
+export const employeeColumns = (
+  t: TFunction<"translation", undefined>,
+): ColumnDef<Employee>[] => [
   {
     accessorKey: "employeeId",
     header: ({ column }) => {

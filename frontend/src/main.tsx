@@ -19,7 +19,6 @@ import AssignedTickets from "./components/pages/assigned-tickets";
 import UnassignedTickets from "./components/pages/unassigned-tickets";
 import ViewDepartment from "./components/pages/view-department";
 
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -39,11 +38,11 @@ const router = createBrowserRouter([
   },
   {
     path: "assigned-tickets",
-    element: <AssignedTickets/>,
+    element: <AssignedTickets />,
   },
   {
     path: "unassigned-tickets",
-    element: <UnassignedTickets/>,
+    element: <UnassignedTickets />,
   },
   {
     path: "machines",
@@ -84,7 +83,7 @@ const router = createBrowserRouter([
   {
     path: "view-department",
     element: <ViewDepartment />,
-  }
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

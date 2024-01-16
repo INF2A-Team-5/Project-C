@@ -3,6 +3,6 @@ export type MachineInfoDto = {
   modelId: number;
   Customer_Id: number;
   name: string;
-  description : string;
+  description: string;
   departmentId: number;
 };

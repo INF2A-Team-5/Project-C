@@ -11,7 +11,7 @@ function Navbar() {
       label: t("navbar.tickets"),
       path: ["/tickets", "/create-ticket", "/view-ticket"],
     },
-  ];  
+  ];
   if (
     localStorage.getItem("Class") == "ServiceEmployee" ||
     localStorage.getItem("Class") == "Admin"
@@ -21,8 +21,7 @@ function Navbar() {
       { label: t("navbar.unassigned"), path: ["/unassigned-tickets"] },
     );
   }
-  navItems.push({ label: "Machines", path: ["/machines"] }
-  )
+  navItems.push({ label: "Machines", path: ["/machines"] });
   if (localStorage.getItem("Class") == "Admin") {
     navItems.push(
       { label: t("navbar.departments"), path: ["/departments"] },

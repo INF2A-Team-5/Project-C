@@ -1,10 +1,10 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import LanguageDetector from "i18next-browser-languagedetector"
+import LanguageDetector from "i18next-browser-languagedetector";
 
 const DETECTION_OPTIONS = {
-  order: ['localStorage', 'navigator'],
-  caches: ['localStorage']
+  order: ["localStorage", "navigator"],
+  caches: ["localStorage"],
 };
 
 i18n
@@ -14,8 +14,8 @@ i18n
     detection: DETECTION_OPTIONS,
     debug: true,
     fallbackLng: "en",
-     interpolation: {
-    escapeValue: false,
+    interpolation: {
+      escapeValue: false,
     },
     backend: {
       loadPath: `http://localhost:4000/locales/{{lng}}/{{ns}}.json`,
@@ -41,7 +41,7 @@ i18n
             txt_rotation4: "insect farming",
             txt_rotation5: "intralogistics",
             showpass: "Show password",
-            enter_details: "Enter login details to access your account"
+            enter_details: "Enter login details to access your account",
           },
           toast: {
             errortitle: "Error!",
@@ -66,9 +66,11 @@ i18n
             enter_solution_description: "Enter description of the solution",
             enter_valid_ticketId: "Please enter a valid ticket ID",
             solution_added: "Solution added successfully",
-            reopen_reason_error: "You need to enter a reason why you want to reopen the ticket",
+            reopen_reason_error:
+              "You need to enter a reason why you want to reopen the ticket",
             fill_in_fields_login_error: "Fill in all fields before logging in",
-            wrong_credentials_error: "Please ensure your credentials are entered correctly and try again.",
+            wrong_credentials_error:
+              "Please ensure your credentials are entered correctly and try again.",
             unauthorized_error: "Unauthorized",
             employee_assigned: "Assigned employee to ticket",
             unknown_user_error: "Unknown user identified",
@@ -108,11 +110,13 @@ i18n
             dialog1: "Restarting the machine?",
             dialog2: "Checking if the sensors are blocked?",
             dialog3: "Checking for any stuck items?",
-            dialog4: "Checking if the solution to your problem can be found under the option 'view machine' in the Machines tab?",
+            dialog4:
+              "Checking if the solution to your problem can be found under the option 'view machine' in the Machines tab?",
             dialogconfirm: "Yes, I have.",
             dialogcancel: "No, I haven't.",
             error: "Error! Something went wrong.",
-            phonealert: "Please enter a valid phone number for contact purposes.",
+            phonealert:
+              "Please enter a valid phone number for contact purposes.",
             wordsalert:
               "The initial two inputs have a minimum of 20 words each for comprehensive elaboration.",
             machinealert: "Please select the broken machine.",
@@ -155,32 +159,33 @@ i18n
             changedinvalid: "Phone number is not valid",
             changepassword: "Change Password",
             passsuccess: "Password changed succesfully",
-            passincorrect: "Either your old password is incorrect or new password and confirmed password do not match",
+            passincorrect:
+              "Either your old password is incorrect or new password and confirmed password do not match",
             oldpass: "Old password",
             newpass: "New password",
             newpassconf: "Confirm new password",
             back: "Back",
             showpass: "Show password",
           },
-          machine:{
+          machine: {
             h1: "Machines",
-            add:"Add machine",
-            create:"Create new machines",
-            inputname:"Enter Machine Name",
-            select:"Select department...",
-            search:"Search department...",
-            empty:"No departments found.",
-            description:"Enter Description",
-            close:"Close",
+            add: "Add machine",
+            create: "Create new machines",
+            inputname: "Enter Machine Name",
+            select: "Select department...",
+            search: "Search department...",
+            empty: "No departments found.",
+            description: "Enter Description",
+            close: "Close",
             machine_info: "Machine information",
             solution: "Solutions of this machine",
           },
-          department:{
+          department: {
             h1: "Departments",
-            add:"Add department",
-            create:"Create new department",
-            inputname:"Enter department name",
-            close:"Close",
+            add: "Add department",
+            create: "Create new department",
+            inputname: "Enter department name",
+            close: "Close",
             department_name: "Department name",
           },
           account: {
@@ -195,7 +200,7 @@ i18n
             searchdepartment: "Search department...",
             nodepartment: "No departments found.",
             close: "Close",
-            id: "Account ID"
+            id: "Account ID",
           },
           solution: {
             h1: "Solutions",
@@ -263,7 +268,8 @@ i18n
             password: "Password",
             department: "Department",
             phone: "Phone number",
-            no_phone_connected: "There is no phone number connected to this account",
+            no_phone_connected:
+              "There is no phone number connected to this account",
             add_machine_to_customer: "Add machine to this customer",
             add_machine: "Add machine",
             what_is_problem: "What is the problem?",
@@ -276,14 +282,18 @@ i18n
             change_priority: "Change priority",
             close_ticket: "Close ticket",
             fill_solution: "Fill in solution",
-            give_description_solution: "Give us a detailed description on what was the solution of fixing the ticket",
-            give_description_update: "Give us a detailed description on what you want to update the ticket with",
+            give_description_solution:
+              "Give us a detailed description on what was the solution of fixing the ticket",
+            give_description_update:
+              "Give us a detailed description on what you want to update the ticket with",
             ticked_is_closed: "Ticket is closed",
             reopen_ticket: "Reopen ticket",
             reopened_ticket: "Reopened ticket",
             reopen_ticket_why: "Why do you want to reopen the ticket?",
-            give_description_reopen: "Give us a detailed description on why you want to reopen your ticket",
-            enter_ticket_title: "Enter the title for the ticket (visible in the tickets table)...",
+            give_description_reopen:
+              "Give us a detailed description on why you want to reopen your ticket",
+            enter_ticket_title:
+              "Enter the title for the ticket (visible in the tickets table)...",
             no_customers_found: "No customers found",
             no_machines_found: "No machines found",
             select_customerid: "Select customer ID",
@@ -292,7 +302,10 @@ i18n
             ticket_is_closed: "The ticket is currently closed",
             employee_id: "Employee ID",
             employees: "Employees",
-            search_customer: "Search customer..."
+            search_customer: "Search customer...",
+            admin: "Admin",
+            employee: "Service medewerker",
+            customer: "Klant",
           },
         },
       },
@@ -316,7 +329,8 @@ i18n
             txt_rotation4: "insecten kweken",
             txt_rotation5: "intralogistiek",
             showpass: "Wachtwoord weergeven",
-            enter_details: "Voer uw logingegevens in om toegang te krijgen tot uw account",
+            enter_details:
+              "Voer uw logingegevens in om toegang te krijgen tot uw account",
           },
           toast: {
             errortitle: "Error!",
@@ -337,13 +351,18 @@ i18n
             machine_exists_error: "Machine bestaat al",
             machine_added: "Machine succesvol toegevoegd",
             enter_description: "Vul een beschrijving in",
-            enter_problem_description: "Vul de beschrijving van het probleem in",
-            enter_solution_description: "Vul de beschrijving van de oplossing in",
+            enter_problem_description:
+              "Vul de beschrijving van het probleem in",
+            enter_solution_description:
+              "Vul de beschrijving van de oplossing in",
             enter_valid_ticketId: "Vul een geldig ticket ID in",
             Solution_added: "Oplossing succesvol toegevoegd",
-            reopen_reason_error: "Je moet een rede invullen waarom je de ticket wilt heropenen",
-            fill_in_fields_login_error: "Vul alle velden in voordat je probeert in te loggen",
-            wrong_credentials_error: "Zorg ervoor dat je geldige gegevens invult voordat je opnieuw probeert in te loggen",
+            reopen_reason_error:
+              "Je moet een rede invullen waarom je de ticket wilt heropenen",
+            fill_in_fields_login_error:
+              "Vul alle velden in voordat je probeert in te loggen",
+            wrong_credentials_error:
+              "Zorg ervoor dat je geldige gegevens invult voordat je opnieuw probeert in te loggen",
             unauthorized_error: "Geen toegang",
             employee_assigned: "Werknemer toegewijzigd aan ticket",
             unknown_user_error: "Onbekende gebruiker geïdentificeerd",
@@ -383,7 +402,8 @@ i18n
             dialog1: "Machine opnieuw opstarten?",
             dialog2: "Controleren of de sensoren geblokkeerd zijn?",
             dialog3: "Controleren op vastzittende items?",
-            dialog4: "Gekeken of de oplossing naar je  probleem tussen de oplossingen staat onder 'bekijk machine' onder de Machines tab?",
+            dialog4:
+              "Gekeken of de oplossing naar je  probleem tussen de oplossingen staat onder 'bekijk machine' onder de Machines tab?",
             dialogconfirm: "Ja, dat heb ik.",
             dialogcancel: "Nee, dat heb ik niet.",
             error: "Error! Er ging iets fout.",
@@ -421,7 +441,7 @@ i18n
             remove: "Verwijder",
             phonenumber: "Telefoonnummer",
           },
-          editaccount:{
+          editaccount: {
             editaccount: "Account aanpassen",
             editaccountdes: "Pas je account aan",
             changephonenumber: "Verander telefoonnummer",
@@ -430,33 +450,34 @@ i18n
             changephonenumberdes: "Voer telefoonnummer in",
             changepassword: "Verander wachtwoord",
             passsuccess: "Wachtwoord succesvol veranderd",
-            passincorrect: "Je oude wachtwoord is incorrect of je nieuwe wachtwoord en bevestigde wachtwoord komen niet overeen",
+            passincorrect:
+              "Je oude wachtwoord is incorrect of je nieuwe wachtwoord en bevestigde wachtwoord komen niet overeen",
             oldpass: "Oud wachtwoord",
             newpass: "Nieuw wachtwoord",
             newpassconf: "Bevestig nieuw wachtwoord",
             back: "Terug",
             showpass: "Wachtwoord weergeven",
           },
-          machine:{
+          machine: {
             h1: "Machines",
-            add:"Voeg machine toe",
-            create:"Maak nieuwe machines",
-            inputname:"Voer machine naam in",
-            select:"Selecteer afdeling...",
-            search:"Zoek afdeling...",
-            empty:"Geen afdelingen gevonden.",
-            description:"Voer beschrijving in",
-            close:"Sluit",
+            add: "Voeg machine toe",
+            create: "Maak nieuwe machines",
+            inputname: "Voer machine naam in",
+            select: "Selecteer afdeling...",
+            search: "Zoek afdeling...",
+            empty: "Geen afdelingen gevonden.",
+            description: "Voer beschrijving in",
+            close: "Sluit",
             machine_info: "Machine informatie",
             solution: "Oplossingen voor de machine",
           },
-          department:{
+          department: {
             h1: "Afdelingen",
-            add:"Voeg afdeling toe",
-            create:"Maak nieuwe afdeling",
-            inputname:"Voer afdeling naam in",
-            close:"Sluit",
-            department_name: "Afdelingsnaam"
+            add: "Voeg afdeling toe",
+            create: "Maak nieuwe afdeling",
+            inputname: "Voer afdeling naam in",
+            close: "Sluit",
+            department_name: "Afdelingsnaam",
           },
           account: {
             h1: "Accounts",
@@ -537,7 +558,8 @@ i18n
             password: "Wachtwoord",
             department: "Afdeling",
             phone: "Telefoonnummber",
-            no_phone_connected: "Er is geen telefoonnummer verbonden met dit account",
+            no_phone_connected:
+              "Er is geen telefoonnummer verbonden met dit account",
             add_machine_to_customer: "Voeg een machine toe aan deze klant",
             add_machine: "Voeg machine toe",
             what_is_problem: "Wat is het problem?",
@@ -550,14 +572,18 @@ i18n
             change_priority: "Verander de prioriteit",
             close_ticket: "Sluit ticket",
             fill_solution: "Vul een oplossing in",
-            give_description_solution: "Geef ons een gedetailleerde beschrijving van de oplossing voor de ticket",
-            give_description_update: "Geef ons een gedetailleerde beschrijving hoe je de ticket wilt updaten",
+            give_description_solution:
+              "Geef ons een gedetailleerde beschrijving van de oplossing voor de ticket",
+            give_description_update:
+              "Geef ons een gedetailleerde beschrijving hoe je de ticket wilt updaten",
             ticked_is_closed: "Ticket is gesloten",
             reopen_ticket: "Heropen ticket",
             reopened_ticketed: "Ticket heropend",
             reopen_ticket_why: "Waarom wil je de ticket heropenen?",
-            give_description_reopen: "Geef ons een gedetailleerde beschrijving waarom je de ticket wilt heropenen",
-            enter_ticket_title: "Vul een titel in voor de ticket (zichbaar bij Tickets)...",
+            give_description_reopen:
+              "Geef ons een gedetailleerde beschrijving waarom je de ticket wilt heropenen",
+            enter_ticket_title:
+              "Vul een titel in voor de ticket (zichbaar bij Tickets)...",
             no_customers_found: "Geen klanten gevonden",
             select_customerid: "Selecteer klant ID",
             changed_priority: "Prioriteit is veranderd",
@@ -565,7 +591,10 @@ i18n
             ticket_is_closed: "De ticket is momenteel gesloten",
             employee_id: "Werknemer ID",
             employees: "Werknemers",
-            search_customer: "Zoek een klant..."
+            search_customer: "Zoek een klant...",
+            admin: "Admin",
+            employee: "Service employee",
+            customer: "Customer",
           },
         },
       },

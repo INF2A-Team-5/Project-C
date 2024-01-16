@@ -62,7 +62,6 @@ function LogIn() {
           localStorage.setItem("Token", account.token);
           localStorage.setItem("Class", account.class);
           document.cookie = `jwtToken=${account.token}`;
-          // Cookies.set('token', token, { expires: 1, secure: true })
           navigate("/tickets");
         }
       } catch {
@@ -114,9 +113,7 @@ function LogIn() {
         <div className="grid w-2/5 gap-4">
           <div>
             <h2 className="text-2xl font-medium">{t("login.login")}</h2>
-            <TextareaHint>
-              {t("login.enter_details")}
-            </TextareaHint>
+            <TextareaHint>{t("login.enter_details")}</TextareaHint>
           </div>
           <div className="grid gap-2">
             {/* <Label htmlFor="username">Voer gegevens in</Label> */}
@@ -141,12 +138,11 @@ function LogIn() {
               onChange={(e) => setPassword(e.currentTarget.value)}
             />
             <div className="flex items-center justify-start space-x-1">
-              <Checkbox
-                  onClick={() => setVisible(!visible)}
-                  />
+              <Checkbox onClick={() => setVisible(!visible)} />
               <label
-              htmlFor="showpassword"
-              className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                htmlFor="showpassword"
+                className="text-xs font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
                 {t("login.showpass")}
               </label>
             </div>

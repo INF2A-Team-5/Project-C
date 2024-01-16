@@ -36,7 +36,6 @@ import Layout from "../layout";
 function ViewTicket() {
   const { t } = useTranslation();
 
-
   const navigate = useNavigate();
   const [notes, setNotes] = useState("");
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
@@ -49,9 +48,18 @@ function ViewTicket() {
   const [solution, setSolution] = useState("");
   const [reopen, setReopen] = useState("");
   const [currentTicket, setCurrentTicket] = useState<Ticket>();
+
   useEffect(() => {
     checkAccount();
     getTicket();
+    if (localStorage.getItem("currentticketID") == undefined) {
+      navigate("/tickets");
+      toast({
+        variant: "destructive",
+        title: t("toast.errortitle"),
+        description: t("no_data_error"),
+      });
+    }
   }, []);
 
   async function getTicket() {
@@ -119,11 +127,12 @@ function ViewTicket() {
         if (!response.ok) {
           const errorResponse = await response.text(); // Capture response content
           throw new Error(
-            `HTTP error! Status: ${response.status
+            `HTTP error! Status: ${
+              response.status
             }. Error message: ${JSON.stringify(errorResponse)}`,
           );
         }
-      } catch (error) { }
+      } catch (error) {}
     }
   }
 
@@ -138,11 +147,10 @@ function ViewTicket() {
     if (currentTicket) {
       if (showPicturesinfo == true) {
         setShowPictures(false);
-      }
-      else {
-        setShowPictures(true)
+      } else {
+        setShowPictures(true);
         if (currentTicket.files.length != 0) {
-          setPictures(currentTicket.files)
+          setPictures(currentTicket.files);
         }
       }
     }
@@ -200,8 +208,8 @@ function ViewTicket() {
             solutionDescription: solution,
             machineId: currentTicket.machine_Id,
             modelId: currentTicket.modelId,
-            ticketId: currentTicket.ticketId
-          }
+            ticketId: currentTicket.ticketId,
+          };
           await fetch(
             API_BASE_URL + "/api/Solutions",
             postBaseMutateRequest(JSON.stringify(newSolution)),
@@ -213,18 +221,21 @@ function ViewTicket() {
             description: t("toast.solution_added"),
           });
           navigate("/view-ticket");
-          
-        }
-        catch {
+        } catch {
           toast({
             variant: "destructive",
             title: t("toast.errortitle"),
-            description: t("enter_solution_description"),
+            description: t("toast.enter_solution_description"),
           });
           navigate("/view-ticket");
         }
       } else {
-
+        toast({
+          variant: "destructive",
+          title: t("toast.errortitle"),
+          description: t("toast.enter_solution_description"),
+        });
+        navigate("/view-ticket");
       }
     }
   }
@@ -232,7 +243,7 @@ function ViewTicket() {
   async function handleSubmit() {
     if (currentTicket) {
       const filteredPreview: string[] = preview
-        .filter((item) => typeof item === 'string')
+        .filter((item) => typeof item === "string")
         .map((item) => item as string);
       currentTicket.notes = currentTicket.notes
         ? [...currentTicket.notes, notes]
@@ -254,78 +265,115 @@ function ViewTicket() {
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col">
         <div className="grid gap-8">
-
           {showTicketInfo && (
             <div>
-              <div className="px-4 px-0">
+              <div className="px-0 px-4">
                 <p className="text-3xl font-medium">{ticketInfo?.title}</p>
-                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">ID: {ticketInfo?.ticketId}</p>
-                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">Model ID: {ticketInfo?.modelId}</p>
-                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">Machine ID: {ticketInfo?.machine_Id}</p>
-                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">{t("table.customerID")}: {ticketInfo?.customer_Id}</p>
+                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">
+                  ID: {ticketInfo?.ticketId}
+                </p>
+                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">
+                  Model ID: {ticketInfo?.modelId}
+                </p>
+                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">
+                  Machine ID: {ticketInfo?.machine_Id}
+                </p>
+                <p className="mt-1 max-w-2xl text-lg leading-6 text-foreground">
+                  {t("table.customerID")}: {ticketInfo?.customer_Id}
+                </p>
               </div>
               <div className="mt-6 border-t border-gray-100">
                 <dl className="divide-y divide-gray-100">
-                  <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
-                    <p className="text-xl font-medium leading-6 text-foreground">{t("misc.what_is_problem")}</p>
-                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{ticketInfo?.problem}</p>
+                  <div className="grid grid-cols-2 gap-2 px-0 px-4 py-6">
+                    <p className="text-xl font-medium leading-6 text-foreground">
+                      {t("misc.what_is_problem")}
+                    </p>
+                    <p className="col-span-2 mt-0 mt-1 text-lg leading-6 text-foreground">
+                      {ticketInfo?.problem}
+                    </p>
                   </div>
-                  <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
-                    <p className="text-xl font-medium leading-6 text-foreground">{t("misc.what_have_u_tried")}</p>
-                    <p className="mt-1 text-lg leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo?.haveTried}</p>
+                  <div className="grid grid-cols-2 gap-2 px-0 px-4 py-6">
+                    <p className="text-xl font-medium leading-6 text-foreground">
+                      {t("misc.what_have_u_tried")}
+                    </p>
+                    <p className="mt-1 text-lg leading-6 text-foreground sm:col-span-2 sm:mt-0">
+                      {ticketInfo?.haveTried}
+                    </p>
                   </div>
-                  <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
-                    <p className="text-xl font-medium leading-6 text-foreground">{t("misc.what_should_it_be_doing")}</p>
-                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{ticketInfo?.mustBeDoing}</p>
+                  <div className="grid grid-cols-2 gap-2 px-0 px-4 py-6">
+                    <p className="text-xl font-medium leading-6 text-foreground">
+                      {t("misc.what_should_it_be_doing")}
+                    </p>
+                    <p className="col-span-2 mt-0 mt-1 text-lg leading-6 text-foreground">
+                      {ticketInfo?.mustBeDoing}
+                    </p>
                   </div>
-                  <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
-                    <p className="text-xl font-medium leading-6 text-foreground">Contact</p>
-                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{ticketInfo?.phoneNumber}</p>
+                  <div className="grid grid-cols-2 gap-2 px-0 px-4 py-6">
+                    <p className="text-xl font-medium leading-6 text-foreground">
+                      Contact
+                    </p>
+                    <p className="col-span-2 mt-0 mt-1 text-lg leading-6 text-foreground">
+                      {ticketInfo?.phoneNumber}
+                    </p>
                   </div>
-                  <div className="px-4 py-6 grid grid-cols-2 gap-2 px-0">
-                    <p className="text-xl font-medium leading-6 text-foreground">{t("misc.notes")}</p>
-                    <p className="mt-1 text-lg leading-6 text-foreground col-span-2 mt-0">{ticketInfo?.notes &&
-                      ticketInfo.notes.map(
-                        (
-                          note:
-                            | string
-                            | number
-                            | boolean
-                            | ReactElement<
-                              any,
-                              string | JSXElementConstructor<any>
-                            >
-                            | Iterable<ReactNode>
-                            | ReactPortal
-                            | Iterable<ReactNode>
-                            | null
-                            | undefined,
-                          index: Key | null | undefined,
-                        ) => (
-                          <p key={index} className="XL">
-                            {note}
-                          </p>
-                        ),
-                      )}</p>
+                  <div className="grid grid-cols-2 gap-2 px-0 px-4 py-6">
+                    <p className="text-xl font-medium leading-6 text-foreground">
+                      {t("misc.notes")}
+                    </p>
+                    <p className="col-span-2 mt-0 mt-1 text-lg leading-6 text-foreground">
+                      {ticketInfo?.notes &&
+                        ticketInfo.notes.map(
+                          (
+                            note:
+                              | string
+                              | number
+                              | boolean
+                              | ReactElement<
+                                  any,
+                                  string | JSXElementConstructor<any>
+                                >
+                              | Iterable<ReactNode>
+                              | ReactPortal
+                              | Iterable<ReactNode>
+                              | null
+                              | undefined,
+                            index: Key | null | undefined,
+                          ) => (
+                            <p key={index} className="XL">
+                              {note}
+                            </p>
+                          ),
+                        )}
+                    </p>
                   </div>
-                  <div className="px-4 py-6 grid grid-cols-3 gap-4 px-0">
-                    <Button onClick={showPictures}>{t("misc.show_pictures")}</Button>
+                  <div className="grid grid-cols-3 gap-4 px-0 px-4 py-6">
+                    <Button onClick={showPictures}>
+                      {t("misc.show_pictures")}
+                    </Button>
                     {showPicturesinfo ? (
                       <div className="sm:col-span-3">
                         {pictures.length > 0 ? (
                           <div className="grid grid-cols-1 grid-cols-2 grid-cols-3 gap-4">
                             {pictures.map((previewItem, index) => (
-                              <div key={index} className="m-4 flex items-center">
+                              <div
+                                key={index}
+                                className="m-4 flex items-center"
+                              >
                                 <img
                                   src={previewItem as string}
                                   alt={`Preview ${index}`}
-                                  style={{ maxWidth: "500px", maxHeight: "400px" }}
+                                  style={{
+                                    maxWidth: "500px",
+                                    maxHeight: "400px",
+                                  }}
                                 />
                               </div>
                             ))}
                           </div>
                         ) : (
-                          <p className="mt-1 text-lg leading-6 text-foreground sm:col-span-2 sm:mt-0">There are no pictures added to this ticket</p>
+                          <p className="mt-1 text-lg leading-6 text-foreground sm:col-span-2 sm:mt-0">
+                            {t("misc.no_pictures_added")}
+                          </p>
                         )}
                       </div>
                     ) : null}
@@ -336,14 +384,17 @@ function ViewTicket() {
           )}
           {/* Hij checkt hieronder eerst of de ticket open is, anders kan je namelijk niks meer toevoegen, dan krijg je wel de optie om hem te heropenen */}
           {currentTicket?.status === "Open" ||
-            currentTicket?.status === "In Process" ? (
+          currentTicket?.status === "In Process" ? (
             <>
               <div className="">
                 {!isClient && showTicketInfo ? (
                   <>
-
-                    <p className="mt-1 text-lg leading-6 text-bold sm:col-span-2 sm:mt-0 font-bold">Priority at the moment</p>
-                    <p className="mt-1 text-md leading-6 text-foreground sm:col-span-2 sm:mt-0">{ticketInfo?.priority}</p>
+                    <p className="text-bold mt-1 text-lg font-bold leading-6 sm:col-span-2 sm:mt-0">
+                      {t("misc.priority")}
+                    </p>
+                    <p className="text-md mt-1 leading-6 text-foreground sm:col-span-2 sm:mt-0">
+                      {ticketInfo?.priority}
+                    </p>
 
                     <Button
                       className="w-fit"
@@ -368,7 +419,9 @@ function ViewTicket() {
                       <DialogTitle>{t("misc.fill_solution")}</DialogTitle>
                     </DialogHeader>
                     <DialogDescription>
-                      <h2 className="text-lg font-medium">{t("solution.add")}</h2>
+                      <h2 className="text-lg font-medium">
+                        {t("solution.add")}
+                      </h2>
                       <Textarea
                         placeholder="Fixed this and this"
                         onChange={(e: any) =>
@@ -376,7 +429,7 @@ function ViewTicket() {
                         }
                       ></Textarea>
                       <TextareaHint>
-                      {t("misc.give_description_solution")}
+                        {t("misc.give_description_solution")}
                       </TextareaHint>
                     </DialogDescription>
                     <DialogFooter>
@@ -388,7 +441,7 @@ function ViewTicket() {
                           {t("ticket.cancel")}
                         </Button>
                         <Button variant="secondary" onClick={closeTicket}>
-                        {t("ticket.submit")}
+                          {t("ticket.submit")}
                         </Button>
                       </DialogClose>
                     </DialogFooter>
@@ -402,9 +455,7 @@ function ViewTicket() {
                   placeholder="Still does not work because..."
                   onChange={(e: any) => setNotes(e.currentTarget.value)}
                 ></Textarea>
-                <TextareaHint>
-                {t("misc.give_description_update")}
-                </TextareaHint>
+                <TextareaHint>{t("misc.give_description_update")}</TextareaHint>
               </div>
 
               <div className="grid gap-2">
@@ -442,10 +493,10 @@ function ViewTicket() {
               </div>
               <div>
                 <Button variant="default" onClick={handleSubmit}>
-                {t("ticket.submit")}
+                  {t("ticket.submit")}
                 </Button>
                 <Button variant="destructive" onClick={handleCancel}>
-                {t("misc.go_back")}
+                  {t("misc.go_back")}
                 </Button>
               </div>
             </>
@@ -468,7 +519,7 @@ function ViewTicket() {
                   </DialogHeader>
                   <DialogDescription>
                     <h2 className="text-lg font-medium">
-                    {t("misc.reopen_ticket_why")}
+                      {t("misc.reopen_ticket_why")}
                     </h2>
                     <Textarea
                       placeholder="The error is not solved because..."
@@ -487,7 +538,7 @@ function ViewTicket() {
                         {t("ticket.cancel")}
                       </Button>
                       <Button variant="secondary" onClick={reopenTicket}>
-                      {t("ticket.submit")}
+                        {t("ticket.submit")}
                       </Button>
                     </DialogClose>
                   </DialogFooter>
@@ -501,7 +552,7 @@ function ViewTicket() {
           )}
         </div>
       </div>
-    </Layout >
+    </Layout>
   );
 }
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "../api";
 import { toast } from "@/components/ui/use-toast";
@@ -31,19 +31,20 @@ export async function useAuthenticated() {
   if (isLoggedIn) {
     if (
       (location.pathname == "/accounts" ||
-        location.pathname == "/departments") &&
+        location.pathname == "/departments" ||
+        location.pathname == "/view-account" ||
+        location.pathname == "/view-department") &&
       (localStorage.getItem("Class") == "ServiceEmployee" ||
         localStorage.getItem("Class") == "Client")
     ) {
-      setTimeout(() => {
-        navigate("/auth/login");
-      }, 1000);
       navigate("/tickets");
+      toast({
+        variant: "destructive",
+        title: t("toast.errortitle"),
+        description: t("toast.unauthorized_error"),
+      });
     }
   } else {
-    setTimeout(() => {
-      navigate("/auth/login");
-    }, 1000);
     navigate("/auth/login");
     toast({
       variant: "destructive",
