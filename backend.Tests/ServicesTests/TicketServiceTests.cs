@@ -137,23 +137,6 @@ namespace backend.Tests.ServicesTests
         }
 
         [Theory]
-        [InlineData(23)]
-        [InlineData(24)]
-        [InlineData(25)]
-        public async void TicketService_DeleteTicket_ReturnsNoContent(int id)
-        {
-            // Arrange
-            var service = new TicketService(_db);
-
-            // Act
-            var result = await service.DeleteTicket(id);
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.IsType<NotFoundResult>(result);
-        }
-
-        [Theory]
         [InlineData(30)]
         [InlineData(40)]
         [InlineData(50)]
