@@ -143,10 +143,22 @@ namespace Backend.TicketService
             {
                 return NotFound();
             }
-            Ticket new_ticket = new() { Machine = machine, Model = model, Customer = customer, Title = ticket.Title, 
-            Priority = ticket.Priority, Status = ticket.Status, Date_Created = ticket.Date_Created, 
-            Problem = ticket.Problem, HaveTried = ticket.HaveTried, 
-            MustBeDoing = ticket.MustBeDoing, Solution = ticket.Solution, PhoneNumber = ticket.PhoneNumber };
+            Ticket new_ticket = new()
+            {
+                Machine = machine,
+                Model = model,
+                Customer = customer,
+                Title = ticket.Title,
+                Priority = ticket.Priority,
+                Status = ticket.Status,
+                Date_Created = ticket.Date_Created,
+                Problem = ticket.Problem,
+                HaveTried = ticket.HaveTried,
+                MustBeDoing = ticket.MustBeDoing,
+                Solution = ticket.Solution,
+                PhoneNumber = ticket.PhoneNumber,
+                Files = ticket.Files
+            };
 
             _context.Tickets.Add(new_ticket);
             await _context.SaveChangesAsync();

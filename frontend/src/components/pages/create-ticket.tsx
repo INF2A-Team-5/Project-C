@@ -1,12 +1,10 @@
-import React, { useEffect, useRef } from "react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "../ui/input";
 import { Textarea, TextareaHint } from "../ui/textarea";
 import { Label } from "../ui/label";
-import { useAuthenticated } from "@/lib/hooks/useAuthenticated";
 import { toast } from "@/components/ui/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import { Icons } from "../foundations/icons";
@@ -29,41 +27,43 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
-
 import { cn } from "@/lib/utils";
 import Layout from "../layout";
 import { MachineInfoDto } from "@/types/MachineInfo";
 import { Customer } from "@/types/Customer";
 
 function CreateTickets() {
-  useAuthenticated();
-  const [title, setTitle] = useState("");
-  const [problem, setProblem] = useState("");
-  const [mustBeDoing, setMustBeDoing] = useState("");
-  const [haveTried, setHaveTried] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [machines, setMachines] = useState<MachineInfoDto[]>([]);
   const [preview, setPreview] = useState<(string | ArrayBuffer)[]>([]);
   const [isChecked, setChecked] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [open1, setOpen1] = useState(false);
-  const [open2, setOpen2] = useState(false);
+  const [title, setTitle] = useState("");
+  const [problem, setProblem] = useState("");
+  const [mustBeDoing, setMustBeDoing] = useState("");
+  const [haveTried, setHaveTried] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [CustomerID, setCustomerID] = useState("");
   const [accountID, setAccountID] = useState("");
   const [accountName, setAccountName] = useState("");
   const [value, setValue] = useState("");
-  const [isClient, setIsClient] = useState<boolean>(false);
+  const [open1, setOpen1] = useState(false);
+  const [open2, setOpen2] = useState(false);
   const customerSelectedRef = useRef(false);
+  const accId = localStorage.getItem("Id");
+  const isClientCheck = localStorage.getItem("Class") === "Client";
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    getPhone();
     checkAccount();
-    getCustomers();
+    getPhone();
     getMachines();
-    GetCustomer();
-  }, []);
+    if (!isClientCheck) {
+      getCustomers();
+      GetCustomer();
+    }
+  },);
 
   useEffect(() => {
     GetCustomer();
@@ -85,14 +85,10 @@ function CreateTickets() {
   };
 
   const checkAccount = () => {
-    const accountClass = localStorage.getItem("Class");
-    setIsClient(accountClass == "Client");
-    if (isClient) {
-      setAccountID(localStorage.getItem("Id")!);
+    if (isClientCheck == true && accId != null) {
+      setAccountID(accId);
     }
-  };
-
-  const { t } = useTranslation();
+  }
 
   const handleRemove = (indexToRemove: number) => {
     const updatedPreview = [...preview];
@@ -151,7 +147,6 @@ function CreateTickets() {
 
       for (let i = 0; i < fileList.length; i++) {
         const file = fileList[i];
-
         const reader = new FileReader();
         reader.onload = () => {
           const result = reader.result;
@@ -210,6 +205,9 @@ function CreateTickets() {
         });
         setIsLoading(false);
       } else {
+        const filteredPreview: string[] = preview
+          .filter((item) => typeof item === "string")
+          .map((item) => item as string);
         var currentTicket = {
           machine_Id: machine?.machineId,
           ModelId: machine?.modelId,
@@ -233,10 +231,10 @@ function CreateTickets() {
           MustBeDoing: mustBeDoing,
           HaveTried: haveTried,
 
-          files: preview,
+          Files: filteredPreview,
           phoneNumber: phoneNumber,
         };
-
+        console.log(currentTicket)
         await fetch(
           API_BASE_URL + "/api/tickets/",
           postBaseMutateRequest(JSON.stringify(currentTicket)),
@@ -272,7 +270,7 @@ function CreateTickets() {
             <Label>{t("ticket.details")}</Label>
           </div>
           <div className="grid gap-2">
-            {!isClient ? (
+            {!isClientCheck ? (
               <>
                 <Label>{t("misc.select_customerid")}</Label>
                 <div className="w-1/6">
@@ -286,9 +284,9 @@ function CreateTickets() {
                       >
                         {accountName
                           ? customers.find(
-                              (account: Customer) =>
-                                account.name == accountName,
-                            )?.name
+                            (account: Customer) =>
+                              account.name == accountName,
+                          )?.name
                           : t("table.selectcustomer")}
                         <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
@@ -327,7 +325,7 @@ function CreateTickets() {
                     </PopoverContent>
                   </Popover>
                 </div>
-                {CustomerID && machines ? (
+                {accountID && machines ? (
                   <>
                     <Label>{t("ticket.selectmachines")}</Label>
                     <div className="w-1/6">
@@ -342,9 +340,9 @@ function CreateTickets() {
                           >
                             {value
                               ? machines.find(
-                                  (machine: any) =>
-                                    machine.name.toLowerCase() == value,
-                                )?.name
+                                (machine: any) =>
+                                  machine.name.toLowerCase() == value,
+                              )?.name
                               : t("ticket.selectmachine")}
                             <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                           </Button>
@@ -402,9 +400,9 @@ function CreateTickets() {
                       >
                         {value
                           ? machines.find(
-                              (machine: any) =>
-                                machine.name.toLowerCase() == value,
-                            )?.name
+                            (machine: any) =>
+                              machine.name.toLowerCase() == value,
+                          )?.name
                           : t("ticket.selectmachine")}
                         <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                       </Button>
