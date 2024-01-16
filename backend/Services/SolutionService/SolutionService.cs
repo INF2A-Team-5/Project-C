@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Backend.Data;
 using Backend.Entities;
+using Backend.Dto;
 
 namespace Backend.SolutionService
 {
@@ -59,13 +60,18 @@ namespace Backend.SolutionService
             return solutions;
         }
 
-        public async Task<IActionResult> UpdateSolution(int id, Solution solution)
+        public async Task<IActionResult> UpdateSolution(int id, SolutionDto solution)
         {
-            if (id != solution.SolutionId)
+            var correct_solution = await _context.Solutions.Where(sol => sol.SolutionId == id).FirstOrDefaultAsync();
+            if (id != solution.SolutionId || correct_solution == null)
             {
                 return BadRequest();
             }
-            _context.Entry(solution).State = EntityState.Modified;
+            correct_solution.ProblemDescription = solution.ProblemDescription;
+            correct_solution.SolutionDescription = solution.SolutionDescription;
+            correct_solution.Archived = solution.Archived;
+
+            _context.Entry(correct_solution).State = EntityState.Modified;
             try
             {
                 await _context.SaveChangesAsync();
@@ -103,15 +109,25 @@ namespace Backend.SolutionService
             return NoContent();
         }
 
-        public async Task<ActionResult<Solution>> AddSolution(Solution solution)
+        public async Task<ActionResult<Solution>> AddSolution(SolutionDto solution)
         {
             if (_context.Solutions == null)
             {
                 return Problem("Entity set 'DataContext.Solutions'  is null.");
             }
-            _context.Solutions.Add(solution);
+            var Model = await _context.Models.Where(model => model.ModelId == solution.ModelId).FirstOrDefaultAsync();
+            var Machine = await _context.Machines.Where(mach => mach.MachineId == solution.MachineId).FirstOrDefaultAsync();
+            var ticket = await _context.Tickets.Where(ticket => ticket.TicketId == solution.TicketId).FirstOrDefaultAsync();
+            if (Model == null || Machine == null || ticket == null)
+            {
+                return NotFound();
+            }
+            Solution new_solution = new() { ProblemDescription = solution.ProblemDescription, 
+            SolutionDescription = solution.SolutionDescription, Model = Model, Machine = Machine, Ticket = ticket, Archived = false };
+
+            _context.Solutions.Add(new_solution);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetSolutionById), new { id = solution.SolutionId }, solution);
+            return CreatedAtAction(nameof(GetSolutionById), new { id = new_solution.SolutionId }, new_solution);
         }
 
         public async Task<IActionResult> DeleteSolution(int id)

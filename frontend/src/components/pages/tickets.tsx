@@ -13,13 +13,12 @@ import { t } from "i18next";
 function Tickets() {
   const [tickets, setTickets] = useState<Ticket[]>()
   const Id = localStorage.getItem("Id");
-
+  
   useEffect(() => {
     if (tickets == undefined) {
       getTickets();
     }
   });
-  console.log(tickets);
   async function getTickets() {
     try{
     setTickets(

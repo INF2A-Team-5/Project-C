@@ -93,23 +93,25 @@ namespace Backend.TicketService
 
         public async Task<IActionResult> UpdateTicket(int id, TicketDto ticket)
         {
-            if (id != ticket.TicketId)
+            var correct_ticket = await _context.Tickets.Where(tickets => tickets.TicketId == id).FirstOrDefaultAsync();
+            if (id != correct_ticket.TicketId || correct_ticket == null)
             {
                 return BadRequest();
             }
-            var machine = await _context.Machines.Where(mach => mach.MachineId == ticket.Machine_Id).FirstOrDefaultAsync();
-            var model = await _context.Models.Where(model => model.ModelId == ticket.ModelId).FirstOrDefaultAsync();
-            var customer = await _context.Customers.Where(cust => cust.CustomerId == ticket.Customer_Id).FirstOrDefaultAsync();
-            if (machine == null || model == null || customer == null)
-            {
-                return NotFound();
-            }
-            Ticket new_ticket = new() { Machine = machine, Model = model, Customer = customer, Title = ticket.Title, 
-            Priority = ticket.Priority, Status = ticket.Status, Date_Created = ticket.Date_Created, 
-            Problem = ticket.Problem, HaveTried = ticket.HaveTried, 
-            MustBeDoing = ticket.MustBeDoing, Solution = ticket.Solution, PhoneNumber = ticket.PhoneNumber };
+            correct_ticket.Employee_Id = ticket.Employee_Id;
+            correct_ticket.Title = ticket.Title;
+            correct_ticket.Priority = ticket.Priority;
+            correct_ticket.Status = ticket.Status;
+            correct_ticket.Problem = ticket.Problem;
+            correct_ticket.HaveTried = ticket.HaveTried;
+            correct_ticket.MustBeDoing = ticket.MustBeDoing;
+            correct_ticket.Solution = ticket.Solution;
+            correct_ticket.Notes = ticket.Notes;
+            correct_ticket.Files = ticket.Files;
+            correct_ticket.PhoneNumber = ticket.PhoneNumber;
+            correct_ticket.Archived = ticket.Archived;
 
-            _context.Entry(new_ticket).State = EntityState.Modified;
+            _context.Entry(correct_ticket).State = EntityState.Modified;
             try
             {
                 await _context.SaveChangesAsync();
@@ -282,17 +284,5 @@ namespace Backend.TicketService
             return tickets;
         }
         private bool TicketExists(int id) => (_context.Tickets?.Any(e => e.TicketId == id)).GetValueOrDefault();
-
-
-
-        // public Task<IActionResult> UpdateTicket(int id, TicketDto ticket)
-        // {
-        //     throw new NotImplementedException();
-        // }
-
-        // public Task<ActionResult<Ticket>> AddTicket(TicketDto ticket)
-        // {
-        //     throw new NotImplementedException();
-        // }
     }
 }

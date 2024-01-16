@@ -36,7 +36,6 @@ function Machines() {
       });
     },
   });
-  console.log(data);
   return (
     <Layout>
       <div className="mt-16 flex w-full max-w-screen flex-col gap-8">

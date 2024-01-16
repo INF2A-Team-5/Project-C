@@ -118,7 +118,6 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
           ),
         ).then((response) => response.json());
       } catch (error) {
-        console.log(error);
         toast({
           variant: "destructive",
           title: t("toast.errortitle"),
@@ -164,7 +163,6 @@ function AddAccount({ setOpen }: { setOpen: (_: boolean) => void }) {
           setIsLoading(false);
           setOpen(false);
         } catch (error) {
-          console.log(error);
           toast({
             variant: "destructive",
             title: t("toast.errortitle"),

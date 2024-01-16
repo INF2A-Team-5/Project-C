@@ -40,7 +40,8 @@ i18n
             txt_rotation3: "poultry",
             txt_rotation4: "insect farming",
             txt_rotation5: "intralogistics",
-            showpass: "Show password"
+            showpass: "Show password",
+            enter_details: "Enter login details to access your account"
           },
           toast: {
             errortitle: "Error!",
@@ -111,7 +112,7 @@ i18n
             dialogconfirm: "Yes, I have.",
             dialogcancel: "No, I haven't.",
             error: "Error! Something went wrong.",
-            phonealert: "Please enter a phone number for contact purposes.",
+            phonealert: "Please enter a valid phone number for contact purposes.",
             wordsalert:
               "The initial two inputs have a minimum of 20 words each for comprehensive elaboration.",
             machinealert: "Please select the broken machine.",
@@ -122,13 +123,14 @@ i18n
             details:
               "Give details of the error and we will try to help you as soon as possible",
             selectmachine: "Select a machine",
-            selectmachinedes: "Select the machine related to the ticket*",
+            selectmachines: "Select the machine related to the ticket*",
+            phonenumberwithstar: "Phone number",
             title: "Add title*",
             titledes: "Error machine 1",
             place1: "shit broken...",
             place2: "Pack in stuff...",
             place3: "Restarted the machine...",
-            place4: "Enter phonenumber",
+            place4: "Enter phone number",
             problem: "What do you see?*",
             problemdes:
               "Give us a detailed description on any visible defects (Atleast 20 words)",
@@ -277,6 +279,13 @@ i18n
             reopen_ticket: "Reopen ticket",
             reopen_ticket_why: "Why do you want to reopen the ticket?",
             give_description_reopen: "Give us a detailed description on why you want to reopen your ticket",
+            enter_ticket_title: "Enter the title for the ticket (visible in the tickets table)...",
+            no_customers_found: "No customers found",
+            no_machines_found: "No machines found",
+            select_customerid: "Select customer ID",
+            changed_priority: "Changed priority ",
+            ticket_updated: "Ticket has been updated",
+            ticket_is_closed: "The ticket is currently closed",
           },
         },
       },
@@ -299,7 +308,8 @@ i18n
             txt_rotation3: "gevogelte",
             txt_rotation4: "insecten kweken",
             txt_rotation5: "intralogistiek",
-            showpass: "Wachtwoord weergeven"
+            showpass: "Wachtwoord weergeven",
+            enter_details: "Voer uw logingegevens in om toegang te krijgen tot uw account",
           },
           toast: {
             errortitle: "Error!",
@@ -370,7 +380,7 @@ i18n
             dialogconfirm: "Ja, dat heb ik.",
             dialogcancel: "Nee, dat heb ik niet.",
             error: "Error! Er ging iets fout.",
-            phonealert: "Vul AUB je telefoonnummer in",
+            phonealert: "Vul een geldig telefoonnummer in",
             wordsalert: "De eerste 2 antwoorden moeten 20 woorden bevatten",
             machinealert: "Kies AUB een machine",
             submitalert: "Ticket ingediend",
@@ -380,8 +390,9 @@ i18n
             details:
               "Geef alle details van de foutmelding en we zullen je zo snel mogelijk helpen",
             selectmachine: "Selecteer Machine",
-            selectmachinedes:
+            selectmachines:
               "Selecteer de machine waar je een melding van wilt maken*",
+            phonenumberwithstar: "Telefoonnummer",
             title: "Voeg titel toe*",
             titledes: "Foutmelding machine 1",
             place1: "Er zijn dingen kapot...",
@@ -536,6 +547,12 @@ i18n
             reopen_ticket: "Heropen ticket",
             reopen_ticket_why: "Waarom wil je de ticket heropenen?",
             give_description_reopen: "Geef ons een gedetailleerde beschrijving waarom je de ticket wilt heropenen",
+            enter_ticket_title: "Vul een titel in voor de ticket (zichbaar bij Tickets)...",
+            no_customers_found: "Geen klanten gevonden",
+            select_customerid: "Selecteer klant ID",
+            changed_priority: "Prioriteit is veranderd",
+            ticket_updated: "Ticket is geupdate",
+            ticket_is_closed: "De ticket is momenteel gesloten",
           },
         },
       },
